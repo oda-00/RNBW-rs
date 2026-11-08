@@ -1341,8 +1341,10 @@ mod x86_avx512 {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 2)
         };
-        tail.chunks_exact(2)
-            .any(|pair| u16::from_le_bytes([pair[0], pair[1]]) == target as u16)
+        tail.as_chunks::<2>()
+            .0
+            .iter()
+            .any(|pair| u16::from_le_bytes(*pair) == target as u16)
     }
 
     #[target_feature(enable = "avx512f")]
@@ -1360,8 +1362,10 @@ mod x86_avx512 {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 4)
         };
-        tail.chunks_exact(4)
-            .any(|word| u32::from_le_bytes([word[0], word[1], word[2], word[3]]) == target)
+        tail.as_chunks::<4>()
+            .0
+            .iter()
+            .any(|word| u32::from_le_bytes(*word) == target)
     }
 }
 
@@ -1398,8 +1402,10 @@ mod x86_avx2 {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 2)
         };
-        tail.chunks_exact(2)
-            .any(|pair| u16::from_le_bytes([pair[0], pair[1]]) == target as u16)
+        tail.as_chunks::<2>()
+            .0
+            .iter()
+            .any(|pair| u16::from_le_bytes(*pair) == target as u16)
     }
 
     #[target_feature(enable = "avx2")]
@@ -1417,8 +1423,10 @@ mod x86_avx2 {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 4)
         };
-        tail.chunks_exact(4)
-            .any(|word| u32::from_le_bytes([word[0], word[1], word[2], word[3]]) == target)
+        tail.as_chunks::<4>()
+            .0
+            .iter()
+            .any(|word| u32::from_le_bytes(*word) == target)
     }
 }
 
@@ -1455,8 +1463,10 @@ mod x86_sse2 {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 2)
         };
-        tail.chunks_exact(2)
-            .any(|pair| u16::from_le_bytes([pair[0], pair[1]]) == target as u16)
+        tail.as_chunks::<2>()
+            .0
+            .iter()
+            .any(|pair| u16::from_le_bytes(*pair) == target as u16)
     }
 
     #[target_feature(enable = "sse2")]
@@ -1474,8 +1484,10 @@ mod x86_sse2 {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 4)
         };
-        tail.chunks_exact(4)
-            .any(|word| u32::from_le_bytes([word[0], word[1], word[2], word[3]]) == target)
+        tail.as_chunks::<4>()
+            .0
+            .iter()
+            .any(|word| u32::from_le_bytes(*word) == target)
     }
 }
 
@@ -1512,8 +1524,10 @@ mod aarch64_neon {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 2)
         };
-        tail.chunks_exact(2)
-            .any(|pair| u16::from_le_bytes([pair[0], pair[1]]) == target as u16)
+        tail.as_chunks::<2>()
+            .0
+            .iter()
+            .any(|pair| u16::from_le_bytes(*pair) == target as u16)
     }
 
     pub unsafe fn scan_u32(bytes: &[u8], count: usize, target: u32) -> bool {
@@ -1530,8 +1544,10 @@ mod aarch64_neon {
         let tail = unsafe {
             std::slice::from_raw_parts(values.add(index).cast::<u8>(), (count - index) * 4)
         };
-        tail.chunks_exact(4)
-            .any(|word| u32::from_le_bytes([word[0], word[1], word[2], word[3]]) == target)
+        tail.as_chunks::<4>()
+            .0
+            .iter()
+            .any(|word| u32::from_le_bytes(*word) == target)
     }
 }
 
