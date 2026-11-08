@@ -1,0 +1,55 @@
+name: Rust codec
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - name: Format
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - name: Unit tests
+        run: cargo test --locked --lib --bins
+      - name: Compile Criterion benchmarks
+        run: cargo bench --locked --no-run
+      - name: Run Criterion measurements
+        run: cargo bench --locked --bench codec -- --sample-size 10 --warm-up-time 1 --measurement-time 1 --noplot
+      - uses: actions/upload-artifact@v4
+        with:
+          name: criterion-${{ runner.os }}
+          path: target/criterion/
+          if-no-files-found: error
+      - name: Verify codec and baselines
+        run: cargo run --locked --release -- bench --workload clustered --size 20000 --operation decode --engine all
+
+  profiling-tools:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Install Hyperfine and Valgrind
+        run: sudo apt-get update && sudo apt-get install --yes hyperfine valgrind
+      - name: Run Hyperfine comparison
+        run: bash scripts/hyperfine.sh clustered build 20000 3
+      - name: Run Valgrind profiling
+        run: bash scripts/valgrind.sh clustered 20000
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: codec-profiling-${{ runner.os }}
+          path: reports/
+          if-no-files-found: ignore
