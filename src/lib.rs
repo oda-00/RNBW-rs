@@ -9,6 +9,8 @@ use std::error::Error;
 use std::fmt;
 use std::sync::OnceLock;
 
+mod rans;
+
 const MAGIC: &[u8; 4] = b"RNBW";
 const VERSION: u16 = 2;
 const FIXED_HEADER: usize = 40;
@@ -195,6 +197,19 @@ impl Rnbw {
     #[inline]
     pub fn as_bytes(&self) -> &[u8] {
         &self.image
+    }
+
+    /// Serializes the masks, unary bucket vector, and low bits with four-state
+    /// order-0 rANS whenever the model and payload together reduce their size.
+    pub fn to_compressed_bytes(&self) -> Result<Vec<u8>, CodecError> {
+        rans::compress_image(&self.image)
+    }
+
+    /// Restores a validated directly queryable image from the entropy form.
+    pub fn from_compressed_bytes(bytes: &[u8]) -> Result<Self, CodecError> {
+        Ok(Self {
+            image: rans::decompress_image(bytes)?,
+        })
     }
 
     /// Query image has no separately allocated in-memory directory.

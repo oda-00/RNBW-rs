@@ -23,6 +23,8 @@ jobs:
         run: cargo clippy --locked --all-targets -- -D warnings
       - name: Unit tests
         run: cargo test --locked --lib --bins
+      - name: Deterministic mutation fuzz harness
+        run: cargo test --locked --test fuzz_codec
       - name: Compile Criterion benchmarks
         run: cargo bench --locked --no-run
       - name: Run Criterion measurements
