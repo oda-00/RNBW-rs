@@ -17,6 +17,10 @@ criterion = "=0.8.2"
 name = "codec"
 harness = false
 
+[[bench]]
+name = "trnmap"
+harness = false
+
 [[bin]]
 name = "rnbw"
 path = "src/main.rs"

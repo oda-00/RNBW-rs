@@ -10,6 +10,9 @@ use std::fmt;
 use std::sync::OnceLock;
 
 mod rans;
+pub mod trnmap;
+
+pub use trnmap::{TriWord, TrnMap, TrnMapError};
 
 const MAGIC: &[u8; 4] = b"RNBW";
 const VERSION: u16 = 2;
