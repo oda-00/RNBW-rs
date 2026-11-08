@@ -46,15 +46,12 @@ fn dense(count: usize) -> Vec<u32> {
 }
 
 fn ecs(count: usize) -> Vec<u32> {
-    const ARCHETYPES: u32 = 128;
-    const ARCHETYPE_STRIDE: u32 = 1 << 25;
-    const ENTITY_STRIDE: u32 = 4099;
-    (0..count)
-        .map(|i| {
-            let group = (i as u32) % ARCHETYPES;
-            let ordinal = (i as u32) / ARCHETYPES;
-            group * ARCHETYPE_STRIDE + ordinal * ENTITY_STRIDE
-        })
+    const BASE: u32 = 0x4000_0000;
+    let universe = count.saturating_add(count.div_ceil(9)).saturating_add(1);
+    (0..universe)
+        .filter(|id| id % 10 != 9)
+        .take(count)
+        .map(|id| BASE.wrapping_add(id as u32))
         .collect()
 }
 
@@ -111,6 +108,14 @@ mod tests {
                 assert_eq!(first.len(), 20_000, "{name}");
             }
         }
+    }
+
+    #[test]
+    fn ecs_workload_is_dense_with_ten_percent_holes() {
+        let values = super::make_dataset("ecs", 20_000).unwrap();
+        let span = (values.last().unwrap() - values[0] + 1) as usize;
+        let density = values.len() as f64 / span as f64;
+        assert!((0.899..=0.901).contains(&density), "density={density}");
     }
 
     #[test]

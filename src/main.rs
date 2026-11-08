@@ -1,8 +1,6 @@
 mod datasets;
 
-use lz4_flex::block::{compress_prepend_size, decompress_size_prepended};
 use rnbw::{PlainEf, Rnbw};
-use roaring::RoaringBitmap;
 use std::env;
 use std::error::Error;
 use std::hint::black_box;
@@ -55,7 +53,7 @@ fn run() -> Result<(), Box<dyn Error>> {
     );
 
     let engines: Vec<&str> = if engine == "all" {
-        vec!["rnbw", "plain-ef", "raw", "roaring", "lz4"]
+        vec!["rnbw", "plain-ef", "raw"]
     } else {
         vec![engine.as_str()]
     };
@@ -136,57 +134,8 @@ fn run_engine(engine: &str, operation: &str, values: &[u32]) -> Result<(), Box<d
             };
             (bytes, 0, hits, decoded)
         }
-        "roaring" => {
-            let mut roaring = RoaringBitmap::new();
-            roaring.extend(values.iter().copied());
-            let bytes = roaring.serialized_size();
-            let hits = if operation == "contains" {
-                Some(
-                    probes
-                        .iter()
-                        .filter(|&&p| black_box(roaring.contains(black_box(p))))
-                        .count(),
-                )
-            } else {
-                None
-            };
-            let decoded = if operation == "decode" {
-                Some(roaring.iter().collect())
-            } else {
-                None
-            };
-            (bytes, 0, hits, decoded)
-        }
-        "lz4" => {
-            let raw = to_le_bytes(values);
-            let compressed = compress_prepend_size(&raw);
-            let bytes = compressed.len();
-            let hits = if operation == "contains" {
-                let decoded = decompress_size_prepended(&compressed)?;
-                let decoded_values = from_le_bytes(&decoded)?;
-                Some(
-                    probes
-                        .iter()
-                        .filter(|&&p| {
-                            black_box(decoded_values.binary_search(&black_box(p)).is_ok())
-                        })
-                        .count(),
-                )
-            } else {
-                None
-            };
-            let decoded = if operation == "decode" {
-                Some(from_le_bytes(&decompress_size_prepended(&compressed)?)?)
-            } else {
-                None
-            };
-            (bytes, 0, hits, decoded)
-        }
         other => {
-            return Err(format!(
-                "unknown engine {other:?}; choose rnbw, plain-ef, raw, roaring, or lz4"
-            )
-            .into());
+            return Err(format!("unknown engine {other:?}; choose rnbw, plain-ef, or raw").into());
         }
     };
 
@@ -212,39 +161,28 @@ fn run_engine(engine: &str, operation: &str, values: &[u32]) -> Result<(), Box<d
 fn make_probes(values: &[u32]) -> Vec<u32> {
     let sample_count = values.len().min(4096);
     let mut probes = Vec::with_capacity(sample_count * 2);
-    let stride = values.len().div_ceil(sample_count);
-    probes.extend(values.iter().step_by(stride).take(sample_count).copied());
-    let mut candidate = 0u32;
+    let mut state = 0x9e37_79b9_7f4a_7c15u64;
+    for _ in 0..sample_count {
+        state ^= state << 13;
+        state ^= state >> 7;
+        state ^= state << 17;
+        probes.push(values[(state as usize) % values.len()]);
+    }
     while probes.len() < sample_count * 2 {
+        state ^= state << 13;
+        state ^= state >> 7;
+        state ^= state << 17;
+        let candidate = state as u32;
         if values.binary_search(&candidate).is_err() {
             probes.push(candidate);
         }
-        candidate = candidate.wrapping_add(1);
     }
     probes
 }
 
-fn to_le_bytes(values: &[u32]) -> Vec<u8> {
-    let mut bytes = Vec::with_capacity(values.len() * 4);
-    for value in values {
-        bytes.extend_from_slice(&value.to_le_bytes());
-    }
-    bytes
-}
-
-fn from_le_bytes(bytes: &[u8]) -> Result<Vec<u32>, Box<dyn Error>> {
-    if !bytes.len().is_multiple_of(4) {
-        return Err("decoded byte count is not divisible by four".into());
-    }
-    Ok(bytes
-        .chunks_exact(4)
-        .map(|chunk| u32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]))
-        .collect())
-}
-
 fn usage() -> Result<(), Box<dyn Error>> {
     println!(
-        "RNBW adaptive u32 set codec\n\nUsage:\n  rnbw bench [--workload uniform|clustered|dense|ecs|morton-shell] [--size N] [--engine all|rnbw|plain-ef|raw|roaring|lz4] [--operation build|contains|decode]\n  rnbw bench --quick\n\nThe CLI reports encoded size and verifies requested contains/decode work. Hyperfine measures full process time; Criterion isolates operations."
+        "RNBW adaptive u32 set codec\n\nUsage:\n  rnbw bench [--workload uniform|clustered|dense|ecs|morton-shell] [--size N] [--engine all|rnbw|plain-ef|raw] [--operation build|contains|decode]\n  rnbw bench --quick\n\nThe CLI reports encoded size and verifies requested contains/decode work. Hyperfine measures full process time; Criterion isolates operations. External codecs are benchmark-only."
     );
     Ok(())
 }

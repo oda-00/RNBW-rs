@@ -9,9 +9,11 @@ use std::error::Error;
 use std::fmt;
 use std::sync::OnceLock;
 
+pub mod lane_lz;
 mod rans;
 pub mod trnmap;
 
+pub use lane_lz::{LaneLz, LaneLzEncoder};
 pub use trnmap::{TriWord, TrnMap, TrnMapError};
 
 const MAGIC: &[u8; 4] = b"RNBW";
@@ -83,7 +85,7 @@ struct BucketOffsets {
 #[derive(Debug)]
 struct ImageOffsets {
     header_len: usize,
-    levels: Vec<LevelOffsets>,
+    levels: [LevelOffsets; 16],
     buckets: BucketOffsets,
     total_len: usize,
 }
@@ -101,15 +103,19 @@ impl Rnbw {
     pub fn encode_width(sorted_values: &[u32], width: u8) -> Result<Self, CodecError> {
         validate_input(sorted_values, width)?;
         let max_depth = (width / 2) as usize;
-        let mut nodes = Vec::with_capacity(max_depth + 1);
-        for depth in 0..=max_depth {
-            nodes.push(count_prefixes(sorted_values, width, depth));
-        }
+        let mut node_counts = [0usize; 17];
+        count_prefixes_by_level(
+            sorted_values,
+            width,
+            max_depth,
+            &mut node_counts[..=max_depth],
+        );
+        let nodes = &node_counts[..=max_depth];
 
         let mut best: Option<(usize, usize)> = None;
         for depth in 0..=max_depth {
             let leaves = nodes[depth];
-            let offsets = image_offsets(width, depth, sorted_values.len(), leaves, &nodes)?;
+            let offsets = image_offsets(width, depth, sorted_values.len(), leaves, nodes)?;
             let size = offsets.total_len;
             if best.is_none_or(|(best_size, best_depth)| {
                 size < best_size || (size == best_size && depth > best_depth)
@@ -119,7 +125,7 @@ impl Rnbw {
         }
         let (total_len, depth) = best.ok_or(CodecError::LengthOverflow)?;
         let leaves = nodes[depth];
-        let offsets = image_offsets(width, depth, sorted_values.len(), leaves, &nodes)?;
+        let offsets = image_offsets(width, depth, sorted_values.len(), leaves, nodes)?;
         if offsets.total_len != total_len {
             return Err(CodecError::InvalidFormat("unstable split cost"));
         }
@@ -130,35 +136,42 @@ impl Rnbw {
             depth,
             sorted_values.len(),
             leaves,
-            &nodes,
+            nodes,
             &offsets,
         )?;
 
+        let mut masks = Vec::new();
         for (level, &node_count) in nodes.iter().take(depth).enumerate() {
-            let masks = build_level_masks(sorted_values, width, level, node_count);
-            let rank = build_rank_directory(&masks, node_count);
+            build_level_masks(&mut masks, sorted_values, width, level, node_count);
             let offsets_for_level = offsets.levels[level];
             for (word_index, word) in masks.iter().enumerate() {
                 let at = offsets_for_level.mask + word_index * 8;
                 image[at..at + 8].copy_from_slice(&word.to_le_bytes());
             }
-            for (sample_index, count) in rank.iter().enumerate() {
-                let at = offsets_for_level.rank + sample_index * 4;
-                image[at..at + 4].copy_from_slice(&count.to_le_bytes());
-            }
+            let rank_bytes = offsets_for_level.rank_count * 4;
+            build_rank_directory(
+                &masks,
+                node_count,
+                &mut image[offsets_for_level.rank..offsets_for_level.rank + rank_bytes],
+            );
         }
 
-        let bucket_values =
-            build_bucket_stream(sorted_values, width, depth, leaves, offsets.buckets)?;
-        image[bucket_values.0..bucket_values.0 + bucket_values.1.len()]
-            .copy_from_slice(&bucket_values.1);
-        image[bucket_values.2..bucket_values.2 + bucket_values.3.len()]
-            .copy_from_slice(&bucket_values.3);
-        let low = build_low_stream(sorted_values, width - (depth as u8) * 2);
-        image[offsets.buckets.low..offsets.buckets.low + low.len()].copy_from_slice(&low);
+        build_bucket_stream(
+            &mut image,
+            sorted_values,
+            width,
+            depth,
+            leaves,
+            offsets.buckets,
+        )?;
+        build_low_stream(
+            &mut image[offsets.buckets.low..offsets.buckets.low + offsets.buckets.low_bytes],
+            sorted_values,
+            offsets.buckets.low_width,
+        );
 
-        let view = RnbwView { image: &image };
-        validate_image(view.image)?;
+        #[cfg(debug_assertions)]
+        validate_image(&image)?;
         Ok(Self { image })
     }
 
@@ -290,7 +303,7 @@ impl<'a> RnbwView<'a> {
         if leaves == 0 {
             return output;
         }
-        decode_node(self.image, 0, 0, 0, depth, &mut output);
+        decode_node(self.image, 0, 0, 0, depth, &mut [0; 17], &mut output);
         output
     }
 
@@ -327,24 +340,31 @@ fn validate_input(values: &[u32], width: u8) -> Result<(), CodecError> {
     Ok(())
 }
 
-fn count_prefixes(values: &[u32], width: u8, depth: usize) -> usize {
+fn count_prefixes_by_level(values: &[u32], width: u8, max_depth: usize, counts: &mut [usize]) {
+    counts.fill(0);
     if values.is_empty() {
-        return 0;
+        return;
     }
-    if depth == 0 {
-        return 1;
-    }
-    let shift = width as usize - depth * 2;
-    let mut previous = None;
-    let mut count = 0usize;
-    for &value in values {
-        let prefix = value >> shift;
-        if previous != Some(prefix) {
-            count += 1;
-            previous = Some(prefix);
+    counts[0] = 1;
+
+    // Each adjacent pair contributes one new prefix at every depth below its
+    // first differing 2-bit digit. A difference array counts all levels in a
+    // single pass instead of rescanning the input once per level.
+    let mut increments = [0usize; 17];
+    let width = width as usize;
+    for pair in values.windows(2) {
+        let differing_bits = (u32::BITS - (pair[0] ^ pair[1]).leading_zeros()) as usize;
+        let common_bits = width - differing_bits;
+        let first_distinct_depth = common_bits / 2 + 1;
+        if first_distinct_depth <= max_depth {
+            increments[first_distinct_depth] += 1;
         }
     }
-    count
+    let mut added = 0usize;
+    for depth in 1..=max_depth {
+        added += increments[depth];
+        counts[depth] = added + 1;
+    }
 }
 
 fn image_offsets(
@@ -372,8 +392,8 @@ fn image_offsets(
         return Err(CodecError::LengthOverflow);
     }
     let mut position = header_len;
-    let mut levels = Vec::with_capacity(depth);
-    for &node_count in node_counts.iter().take(depth) {
+    let mut levels = [LevelOffsets::default(); 16];
+    for (level, &node_count) in node_counts.iter().take(depth).enumerate() {
         position = align_up(position, 8).ok_or(CodecError::LengthOverflow)?;
         let mask_len = node_count
             .div_ceil(16)
@@ -393,11 +413,11 @@ fn image_offsets(
                     .ok_or(CodecError::LengthOverflow)?,
             )
             .ok_or(CodecError::LengthOverflow)?;
-        levels.push(LevelOffsets {
+        levels[level] = LevelOffsets {
             mask,
             rank,
             rank_count,
-        });
+        };
         position = align_up(position, 8).ok_or(CodecError::LengthOverflow)?;
     }
     position = align_up(position, 8).ok_or(CodecError::LengthOverflow)?;
@@ -561,8 +581,9 @@ fn complete_levels(node_counts: &[usize], depth: usize) -> usize {
     count
 }
 
-fn build_level_masks(values: &[u32], width: u8, level: usize, nodes: usize) -> Vec<u64> {
-    let mut words = vec![0u64; nodes.div_ceil(16)];
+fn build_level_masks(words: &mut Vec<u64>, values: &[u32], width: u8, level: usize, nodes: usize) {
+    words.clear();
+    words.resize(nodes.div_ceil(16), 0);
     let parent_shift = width as usize - level * 2;
     let digit_shift = parent_shift - 2;
     let mut previous_parent = None;
@@ -578,32 +599,33 @@ fn build_level_masks(values: &[u32], width: u8, level: usize, nodes: usize) -> V
         let digit = ((value >> digit_shift) & 3) as usize;
         words[node / 16] |= 1u64 << ((node % 16) * 4 + digit);
     }
-    words
 }
 
-fn build_rank_directory(masks: &[u64], node_count: usize) -> Vec<u32> {
-    let mut directory = Vec::with_capacity(node_count.div_ceil(RANK_STRIDE));
+fn build_rank_directory(masks: &[u64], node_count: usize, output: &mut [u8]) {
     let mut total = 0u32;
     for block in 0..node_count.div_ceil(RANK_STRIDE) {
-        directory.push(total);
+        let at = block * 4;
+        output[at..at + 4].copy_from_slice(&total.to_le_bytes());
         let first_word = block * (RANK_STRIDE / 16);
         let end_word = (first_word + RANK_STRIDE / 16).min(masks.len());
         for word in &masks[first_word..end_word] {
             total += word.count_ones();
         }
     }
-    directory
 }
 
 fn build_bucket_stream(
+    image: &mut [u8],
     values: &[u32],
     width: u8,
     depth: usize,
     leaves: usize,
     offsets: BucketOffsets,
-) -> Result<(usize, Vec<u8>, usize, Vec<u8>), CodecError> {
-    let mut bits = vec![0u8; offsets.bytes];
-    let mut samples = Vec::with_capacity(offsets.select_count);
+) -> Result<(), CodecError> {
+    let (before_select, after_select) = image.split_at_mut(offsets.select);
+    let bits = &mut before_select[offsets.bits..offsets.bits + offsets.bytes];
+    let samples = &mut after_select[..offsets.select_count * 4];
+    let mut sample_index = 0usize;
     let mut value_start = 0usize;
     let mut bit_position = 0usize;
     let mut leaf = 0usize;
@@ -614,12 +636,13 @@ fn build_bucket_stream(
         {
             value_end += 1;
         }
-        for position in bit_position..bit_position + (value_end - value_start) {
-            bits[position / 8] |= 1 << (position & 7);
-        }
+        set_bit_range(bits, bit_position, value_end - value_start);
         bit_position += value_end - value_start;
         if leaf.is_multiple_of(SELECT_STRIDE) {
-            samples.push(u32::try_from(bit_position).map_err(|_| CodecError::LengthOverflow)?);
+            let sample = u32::try_from(bit_position).map_err(|_| CodecError::LengthOverflow)?;
+            let at = sample_index * 4;
+            samples[at..at + 4].copy_from_slice(&sample.to_le_bytes());
+            sample_index += 1;
         }
         bit_position += 1;
         leaf += 1;
@@ -630,26 +653,46 @@ fn build_bucket_stream(
             "bucket sizing disagrees with split",
         ));
     }
-    let mut sample_bytes = vec![0u8; samples.len() * 4];
-    for (index, sample) in samples.into_iter().enumerate() {
-        sample_bytes[index * 4..index * 4 + 4].copy_from_slice(&sample.to_le_bytes());
+    if sample_index != offsets.select_count {
+        return Err(CodecError::InvalidFormat(
+            "select sample count disagrees with sizing",
+        ));
     }
-    Ok((offsets.bits, bits, offsets.select, sample_bytes))
+    Ok(())
 }
 
-fn build_low_stream(values: &[u32], low_width: u8) -> Vec<u8> {
-    let bit_len = values.len() * low_width as usize;
-    let mut low = vec![0u8; bit_len.div_ceil(8)];
-    let mask = low_mask(low_width as usize);
-    for (index, value) in values.iter().copied().enumerate() {
-        write_packed(
-            &mut low,
-            index * low_width as usize,
-            low_width as usize,
-            value & mask,
-        );
+fn set_bit_range(bytes: &mut [u8], mut start: usize, mut len: usize) {
+    if len == 0 {
+        return;
     }
-    low
+    let partial = if start & 7 == 0 {
+        0
+    } else {
+        (8 - (start & 7)).min(len)
+    };
+    if partial != 0 {
+        let mask = ((1u16 << partial) - 1) as u8;
+        bytes[start / 8] |= mask << (start & 7);
+        start += partial;
+        len -= partial;
+    }
+    let full_bytes = len / 8;
+    if full_bytes != 0 {
+        let first = start / 8;
+        bytes[first..first + full_bytes].fill(u8::MAX);
+        start += full_bytes * 8;
+        len -= full_bytes * 8;
+    }
+    if len != 0 {
+        bytes[start / 8] |= ((1u16 << len) - 1) as u8;
+    }
+}
+
+fn build_low_stream(low: &mut [u8], values: &[u32], low_width: usize) {
+    let mask = low_mask(low_width);
+    for (index, value) in values.iter().copied().enumerate() {
+        write_packed(low, index * low_width, low_width, value & mask);
+    }
 }
 
 #[inline]
@@ -1100,6 +1143,7 @@ fn decode_node(
     node: usize,
     prefix: u32,
     depth: usize,
+    next_child: &mut [usize; 17],
     output: &mut Vec<u32>,
 ) {
     if level == depth {
@@ -1113,18 +1157,22 @@ fn decode_node(
         return;
     }
     let mask = mask_at(image, level, node);
-    let first_child = rank_before(image, level, node);
+    let first_child = next_child[level + 1];
+    next_child[level + 1] += mask.count_ones() as usize;
+    let mut child_offset = 0usize;
     for digit in 0..4u8 {
         if mask & (1 << digit) == 0 {
             continue;
         }
-        let child = first_child + (mask & ((1 << digit) - 1)).count_ones() as usize;
+        let child = first_child + child_offset;
+        child_offset += 1;
         decode_node(
             image,
             level + 1,
             child,
             (prefix << 2) | digit as u32,
             depth,
+            next_child,
             output,
         );
     }
@@ -1551,10 +1599,11 @@ mod aarch64_neon {
     }
 }
 
-/// Plain whole-universe Elias–Fano reference used by the benchmark suite.
+/// Plain minimum-relative Elias–Fano reference used by the benchmark suite.
 #[derive(Debug)]
 pub struct PlainEf {
     len: usize,
+    base: u32,
     low_width: usize,
     high_bit_len: usize,
     high: Vec<u8>,
@@ -1568,6 +1617,7 @@ impl PlainEf {
         if sorted_values.is_empty() {
             return Ok(Self {
                 len: 0,
+                base: 0,
                 low_width: 0,
                 high_bit_len: 0,
                 high: Vec::new(),
@@ -1575,11 +1625,14 @@ impl PlainEf {
                 zero_samples: Vec::new(),
             });
         }
-        let ratio = (1u64 << 32) / sorted_values.len() as u64;
+        let base = sorted_values[0];
+        let universe =
+            u64::from(*sorted_values.last().expect("nonempty input")) - u64::from(base) + 1;
+        let ratio = universe / sorted_values.len() as u64;
         let low_width = (u64::BITS - 1 - ratio.leading_zeros()) as usize;
-        let bucket_count = 1usize
-            .checked_shl((32 - low_width) as u32)
-            .ok_or(CodecError::LengthOverflow)?;
+        let bucket_width = 1u64 << low_width;
+        let bucket_count = usize::try_from(universe.div_ceil(bucket_width))
+            .map_err(|_| CodecError::LengthOverflow)?;
         let high_bit_len = bucket_count
             .checked_add(sorted_values.len())
             .ok_or(CodecError::LengthOverflow)?;
@@ -1593,19 +1646,21 @@ impl PlainEf {
             .ok_or(CodecError::LengthOverflow)?;
         let mut low = vec![0u8; low_bit_len.div_ceil(8)];
         for (index, value) in sorted_values.iter().copied().enumerate() {
-            let high_value = (value as u64 >> low_width) as usize;
+            let offset = value - base;
+            let high_value = (u64::from(offset) >> low_width) as usize;
             let bit = high_value + index;
             high[bit / 8] |= 1 << (bit & 7);
             write_packed(
                 &mut low,
                 index * low_width,
                 low_width,
-                value & low_mask(low_width),
+                offset & low_mask(low_width),
             );
         }
         let zero_samples = sample_zero_positions(&high, high_bit_len);
         Ok(Self {
             len: sorted_values.len(),
+            base,
             low_width,
             high_bit_len,
             high,
@@ -1625,14 +1680,17 @@ impl PlainEf {
     }
 
     pub fn encoded_size(&self) -> usize {
-        9 + self.high.len() + self.low.len() + self.zero_samples.len() * 4
+        13 + self.high.len() + self.low.len() + self.zero_samples.len() * 4
     }
 
     pub fn contains(&self, value: u32) -> bool {
         if self.len == 0 {
             return false;
         }
-        let high_value = (value as u64 >> self.low_width) as usize;
+        let Some(offset) = value.checked_sub(self.base) else {
+            return false;
+        };
+        let high_value = (u64::from(offset) >> self.low_width) as usize;
         let bucket_count = self.high_bit_len - self.len;
         if high_value >= bucket_count {
             return false;
@@ -1654,7 +1712,7 @@ impl PlainEf {
             ) - (high_value - 1)
         };
         let end = end_zero - high_value;
-        let target = value & low_mask(self.low_width);
+        let target = offset & low_mask(self.low_width);
         let mut lo = start;
         let mut hi = end;
         while lo < hi {
@@ -1680,7 +1738,8 @@ impl PlainEf {
                 if position < self.high_bit_len {
                     let high_value = position - index;
                     let low = read_packed(&self.low, index * self.low_width, self.low_width);
-                    output.push((((high_value as u64) << self.low_width) as u32) | low);
+                    let offset = ((high_value as u64) << self.low_width) | u64::from(low);
+                    output.push((u64::from(self.base) + offset) as u32);
                     index += 1;
                 }
                 bits &= bits - 1;
@@ -1789,6 +1848,43 @@ mod tests {
     }
 
     #[test]
+    fn one_pass_prefix_counts_match_direct_prefix_sets() {
+        let mut seed = 0x9e37_79b9_7f4a_7c15u64;
+        for width in (2..=32).step_by(2) {
+            let mask = low_mask(width as usize);
+            for _ in 0..24 {
+                let mut values = Vec::with_capacity(512);
+                for _ in 0..1024 {
+                    seed ^= seed << 13;
+                    seed ^= seed >> 7;
+                    seed ^= seed << 17;
+                    values.push((seed as u32) & mask);
+                }
+                values.sort_unstable();
+                values.dedup();
+                let max_depth = (width / 2) as usize;
+                let mut counts = [0usize; 17];
+                count_prefixes_by_level(&values, width, max_depth, &mut counts[..=max_depth]);
+                for (depth, &count) in counts.iter().take(max_depth + 1).enumerate() {
+                    let shift = width as usize - 2 * depth;
+                    let expected = if values.is_empty() {
+                        0
+                    } else if depth == 0 {
+                        1
+                    } else {
+                        values
+                            .iter()
+                            .map(|value| value >> shift)
+                            .collect::<std::collections::BTreeSet<_>>()
+                            .len()
+                    };
+                    assert_eq!(count, expected, "width={width}, depth={depth}");
+                }
+            }
+        }
+    }
+
+    #[test]
     fn width_specific_chunks_roundtrip() {
         let values: Vec<u32> = (0..=u16::MAX as u32).step_by(7).collect();
         let encoded = Rnbw::encode_width(&values, 16).unwrap();
@@ -1835,6 +1931,24 @@ mod tests {
         let ef = PlainEf::encode(&values).unwrap();
         assert_eq!(ef.decode(), values);
         for value in [0, 2, 17, 18, 65_535, 65_536, u32::MAX] {
+            assert_eq!(ef.contains(value), values.binary_search(&value).is_ok());
+        }
+    }
+
+    #[test]
+    fn plain_ef_normalizes_high_offset_dense_ranges() {
+        let values: Vec<u32> = (0..100_000).map(|value| 0x6000_0000 + value).collect();
+        let ef = PlainEf::encode(&values).unwrap();
+        assert_eq!(ef.decode(), values);
+        assert!(ef.encoded_size() < values.len());
+        for value in [
+            0x5fff_ffff,
+            values[0],
+            values[1],
+            values[50_000],
+            *values.last().unwrap(),
+            0x6001_86a0,
+        ] {
             assert_eq!(ef.contains(value), values.binary_search(&value).is_ok());
         }
     }

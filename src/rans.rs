@@ -1,14 +1,21 @@
 //! Four-state, 12-bit order-0 rANS wrapper for the raw queryable image.
 
 use super::*;
+use std::cmp::Reverse;
+use std::collections::BinaryHeap;
 
-const RANS_VERSION: u16 = 3;
+const ENTROPY_VERSION: u16 = 4;
+const LEGACY_RANS_VERSION: u16 = 3;
 const RANS_HEADER: usize = 32;
 const STREAM_DESCRIPTOR: usize = 24;
 const RANS_SCALE_BITS: u32 = 12;
 const RANS_SCALE: u32 = 1 << RANS_SCALE_BITS;
 const RANS_LOWER_BOUND: u32 = 1 << 23;
 const RANS_MODEL_BYTES: usize = 256 * 2;
+const HUFFMAN_MODEL_BYTES: usize = 256;
+const METHOD_RAW: u8 = 0;
+const METHOD_RANS: u8 = 1;
+const METHOD_HUFFMAN: u8 = 2;
 
 #[derive(Clone, Copy)]
 struct RawStream {
@@ -21,7 +28,8 @@ struct RawStream {
 struct StoredStream {
     kind: u8,
     raw_len: usize,
-    model: Option<[u16; 256]>,
+    method: u8,
+    model: Vec<u8>,
     bytes: Vec<u8>,
 }
 
@@ -44,6 +52,72 @@ struct RawMetadata {
     streams: Vec<RawStream>,
 }
 
+pub(super) fn entropy_encode(input: &[u8]) -> Result<(u8, Vec<u8>, Vec<u8>), CodecError> {
+    if input.is_empty() {
+        return Ok((METHOD_RAW, Vec::new(), Vec::new()));
+    }
+    let mut selected_method = METHOD_RAW;
+    let mut selected_model = Vec::new();
+    let mut selected_bytes = input.to_vec();
+
+    let model = build_model(input);
+    let coded = rans_encode(input, &model)?;
+    if coded.len() + RANS_MODEL_BYTES < selected_bytes.len() {
+        selected_method = METHOD_RANS;
+        selected_model.reserve_exact(RANS_MODEL_BYTES);
+        for frequency in model {
+            selected_model.extend_from_slice(&frequency.to_le_bytes());
+        }
+        selected_bytes = coded;
+    }
+
+    if let Some((lengths, coded)) = huffman_encode(input)
+        && coded.len() + HUFFMAN_MODEL_BYTES < selected_model.len() + selected_bytes.len()
+    {
+        selected_method = METHOD_HUFFMAN;
+        selected_model = lengths.to_vec();
+        selected_bytes = coded;
+    }
+    Ok((selected_method, selected_model, selected_bytes))
+}
+
+pub(super) fn entropy_decode(
+    method: u8,
+    output_len: usize,
+    model_bytes: &[u8],
+    payload: &[u8],
+) -> Result<Vec<u8>, CodecError> {
+    match method {
+        METHOD_RAW => {
+            if !model_bytes.is_empty() || payload.len() != output_len {
+                return Err(CodecError::InvalidFormat("invalid raw entropy stream"));
+            }
+            Ok(payload.to_vec())
+        }
+        METHOD_RANS => {
+            if model_bytes.len() != RANS_MODEL_BYTES
+                || payload.len() + RANS_MODEL_BYTES >= output_len
+            {
+                return Err(CodecError::InvalidFormat("invalid rANS stream size"));
+            }
+            let model = read_model(model_bytes)?;
+            rans_decode(payload, output_len, &model)
+        }
+        METHOD_HUFFMAN => {
+            if model_bytes.len() != HUFFMAN_MODEL_BYTES
+                || payload.len() + HUFFMAN_MODEL_BYTES >= output_len
+            {
+                return Err(CodecError::InvalidFormat("invalid Huffman stream size"));
+            }
+            let lengths: &[u8; HUFFMAN_MODEL_BYTES] = model_bytes
+                .try_into()
+                .map_err(|_| CodecError::InvalidFormat("bad Huffman code lengths"))?;
+            huffman_decode(payload, output_len, lengths)
+        }
+        _ => Err(CodecError::InvalidFormat("unknown entropy method")),
+    }
+}
+
 pub(super) fn compress_image(image: &[u8]) -> Result<Vec<u8>, CodecError> {
     validate_image(image)?;
     let depth = image[9] as usize;
@@ -57,32 +131,22 @@ pub(super) fn compress_image(image: &[u8]) -> Result<Vec<u8>, CodecError> {
             streams.push(StoredStream {
                 kind: stream.kind,
                 raw_len: 0,
-                model: None,
+                method: METHOD_RAW,
+                model: Vec::new(),
                 bytes: Vec::new(),
             });
             continue;
         }
-        let model = build_model(raw);
-        let coded = rans_encode(raw, &model)?;
-        if coded
-            .len()
-            .checked_add(RANS_MODEL_BYTES)
-            .is_some_and(|size| size < raw.len())
-        {
-            streams.push(StoredStream {
-                kind: stream.kind,
-                raw_len: raw.len(),
-                model: Some(model),
-                bytes: coded,
-            });
-        } else {
-            streams.push(StoredStream {
-                kind: stream.kind,
-                raw_len: raw.len(),
-                model: None,
-                bytes: raw.to_vec(),
-            });
-        }
+
+        let (selected_method, selected_model, selected_bytes) = entropy_encode(raw)?;
+
+        streams.push(StoredStream {
+            kind: stream.kind,
+            raw_len: raw.len(),
+            method: selected_method,
+            model: selected_model,
+            bytes: selected_bytes,
+        });
     }
     let stream_count = streams.len();
     let prefix_offset = RANS_HEADER
@@ -97,11 +161,7 @@ pub(super) fn compress_image(image: &[u8]) -> Result<Vec<u8>, CodecError> {
         .ok_or(CodecError::LengthOverflow)?;
     let model_bytes = streams.iter().try_fold(0usize, |total, stream| {
         total
-            .checked_add(if stream.model.is_some() {
-                RANS_MODEL_BYTES
-            } else {
-                0
-            })
+            .checked_add(stream.model.len())
             .ok_or(CodecError::LengthOverflow)
     })?;
     let header_len = model_offset_start
@@ -111,12 +171,16 @@ pub(super) fn compress_image(image: &[u8]) -> Result<Vec<u8>, CodecError> {
     let mut model_position = model_offset_start;
     let mut descriptors = Vec::with_capacity(stream_count);
     for stream in &streams {
-        let method = u8::from(stream.model.is_some());
-        let model_offset = if method == 1 { model_position } else { 0 };
-        let model_len = if method == 1 { RANS_MODEL_BYTES } else { 0 };
-        if method == 1 {
+        let method = stream.method;
+        let model_len = stream.model.len();
+        let model_offset = if method == METHOD_RAW {
+            0
+        } else {
+            model_position
+        };
+        if method != METHOD_RAW {
             model_position = model_position
-                .checked_add(RANS_MODEL_BYTES)
+                .checked_add(model_len)
                 .ok_or(CodecError::LengthOverflow)?;
         }
         let offset = position;
@@ -142,7 +206,7 @@ pub(super) fn compress_image(image: &[u8]) -> Result<Vec<u8>, CodecError> {
     }
     let mut output = vec![0u8; position];
     output[0..4].copy_from_slice(MAGIC);
-    put_u16(&mut output, 4, RANS_VERSION)?;
+    put_u16(&mut output, 4, ENTROPY_VERSION)?;
     put_u16(&mut output, 6, header_len as u16)?;
     output[8] = key_width;
     output[9] = depth as u8;
@@ -197,12 +261,9 @@ pub(super) fn compress_image(image: &[u8]) -> Result<Vec<u8>, CodecError> {
             at + 20,
             u32::try_from(descriptor.model_len).map_err(|_| CodecError::LengthOverflow)?,
         )?;
-        if let Some(model) = &stream.model {
-            let mut cursor = descriptor.model_offset;
-            for frequency in model {
-                output[cursor..cursor + 2].copy_from_slice(&frequency.to_le_bytes());
-                cursor += 2;
-            }
+        if !stream.model.is_empty() {
+            let end = descriptor.model_offset + descriptor.model_len;
+            output[descriptor.model_offset..end].copy_from_slice(&stream.model);
         }
         output[descriptor.offset..descriptor.offset + descriptor.stored_len]
             .copy_from_slice(&stream.bytes);
@@ -216,7 +277,10 @@ pub(super) fn decompress_image(input: &[u8]) -> Result<Vec<u8>, CodecError> {
     if input.len() < RANS_HEADER {
         return Err(CodecError::Truncated);
     }
-    if input.get(0..4) != Some(MAGIC.as_slice()) || read_u16(input, 4)? != RANS_VERSION {
+    let version = read_u16(input, 4)?;
+    if input.get(0..4) != Some(MAGIC.as_slice())
+        || ![LEGACY_RANS_VERSION, ENTROPY_VERSION].contains(&version)
+    {
         return Err(CodecError::InvalidFormat(
             "bad entropy-coded RNBW signature",
         ));
@@ -276,7 +340,12 @@ pub(super) fn decompress_image(input: &[u8]) -> Result<Vec<u8>, CodecError> {
         let at = RANS_HEADER + index * STREAM_DESCRIPTOR;
         let kind = input[at];
         let method = input[at + 1];
-        if kind != stream.kind || method > 1 || read_u16(input, at + 2)? != 0 {
+        let max_method = if version == LEGACY_RANS_VERSION {
+            METHOD_RANS
+        } else {
+            METHOD_HUFFMAN
+        };
+        if kind != stream.kind || method > max_method || read_u16(input, at + 2)? != 0 {
             return Err(CodecError::InvalidFormat(
                 "invalid entropy stream descriptor",
             ));
@@ -295,23 +364,34 @@ pub(super) fn decompress_image(input: &[u8]) -> Result<Vec<u8>, CodecError> {
                 "entropy stream raw length mismatch",
             ));
         }
-        if descriptor.method == 1 {
-            if descriptor.model_offset != model_position
-                || descriptor.model_len != RANS_MODEL_BYTES
-                || descriptor.stored_len < 32
-            {
-                return Err(CodecError::InvalidFormat("invalid rANS model range"));
-            }
-            model_position = model_position
-                .checked_add(descriptor.model_len)
-                .ok_or(CodecError::LengthOverflow)?;
-        } else {
+        let expected_model_len = match descriptor.method {
+            METHOD_RAW => 0,
+            METHOD_RANS => RANS_MODEL_BYTES,
+            METHOD_HUFFMAN => HUFFMAN_MODEL_BYTES,
+            _ => return Err(CodecError::InvalidFormat("unknown entropy method")),
+        };
+        if descriptor.method == METHOD_RAW {
             if descriptor.model_offset != 0
                 || descriptor.model_len != 0
                 || descriptor.stored_len != descriptor.raw_len
             {
                 return Err(CodecError::InvalidFormat("invalid raw stream descriptor"));
             }
+        } else {
+            let minimum_payload = if descriptor.method == METHOD_RANS {
+                32
+            } else {
+                1
+            };
+            if descriptor.model_offset != model_position
+                || descriptor.model_len != expected_model_len
+                || descriptor.stored_len < minimum_payload
+            {
+                return Err(CodecError::InvalidFormat("invalid entropy model range"));
+            }
+            model_position = model_position
+                .checked_add(descriptor.model_len)
+                .ok_or(CodecError::LengthOverflow)?;
         }
         if descriptor.offset != position {
             return Err(CodecError::InvalidFormat("noncontiguous rANS payload"));
@@ -340,16 +420,30 @@ pub(super) fn decompress_image(input: &[u8]) -> Result<Vec<u8>, CodecError> {
     raw[..raw_header_len].copy_from_slice(raw_header);
     for (stream, descriptor) in metadata.streams.iter().zip(&descriptors) {
         let payload = &input[descriptor.offset..descriptor.offset + descriptor.stored_len];
-        let decoded = if descriptor.method == 0 {
-            payload.to_vec()
-        } else {
-            if descriptor.stored_len + RANS_MODEL_BYTES >= descriptor.raw_len {
-                return Err(CodecError::InvalidFormat("rANS stream does not save space"));
+        let decoded = match descriptor.method {
+            METHOD_RAW => payload.to_vec(),
+            METHOD_RANS => {
+                if descriptor.stored_len + RANS_MODEL_BYTES >= descriptor.raw_len {
+                    return Err(CodecError::InvalidFormat("rANS stream does not save space"));
+                }
+                let model = read_model(
+                    &input[descriptor.model_offset..descriptor.model_offset + descriptor.model_len],
+                )?;
+                rans_decode(payload, descriptor.raw_len, &model)?
             }
-            let model = read_model(
-                &input[descriptor.model_offset..descriptor.model_offset + descriptor.model_len],
-            )?;
-            rans_decode(payload, descriptor.raw_len, &model)?
+            METHOD_HUFFMAN => {
+                if descriptor.stored_len + HUFFMAN_MODEL_BYTES >= descriptor.raw_len {
+                    return Err(CodecError::InvalidFormat(
+                        "Huffman stream does not save space",
+                    ));
+                }
+                let lengths: [u8; HUFFMAN_MODEL_BYTES] = input
+                    [descriptor.model_offset..descriptor.model_offset + descriptor.model_len]
+                    .try_into()
+                    .map_err(|_| CodecError::InvalidFormat("bad Huffman code lengths"))?;
+                huffman_decode(payload, descriptor.raw_len, &lengths)?
+            }
+            _ => return Err(CodecError::InvalidFormat("unknown entropy method")),
         };
         if decoded.len() != stream.len {
             return Err(CodecError::InvalidFormat("decoded stream length mismatch"));
@@ -546,6 +640,208 @@ fn build_model(input: &[u8]) -> [u16; 256] {
         model[symbol] += 1;
     }
     model
+}
+
+#[derive(Clone)]
+struct HuffmanCodebook {
+    codes: [u64; 256],
+    counts: [u16; 33],
+    first_code: [u64; 33],
+    first_symbol: [usize; 33],
+    symbols: [u8; 256],
+    max_len: usize,
+}
+
+#[derive(Clone, Copy)]
+struct HuffmanNode {
+    left: Option<usize>,
+    right: Option<usize>,
+    symbol: Option<u8>,
+}
+
+fn huffman_encode(input: &[u8]) -> Option<([u8; HUFFMAN_MODEL_BYTES], Vec<u8>)> {
+    if input.is_empty() {
+        return None;
+    }
+    let mut frequencies = [0u64; 256];
+    for &symbol in input {
+        frequencies[symbol as usize] += 1;
+    }
+    let mut nodes = Vec::with_capacity(511);
+    let mut queue = BinaryHeap::new();
+    for (symbol, &frequency) in frequencies.iter().enumerate() {
+        if frequency != 0 {
+            let index = nodes.len();
+            nodes.push(HuffmanNode {
+                left: None,
+                right: None,
+                symbol: Some(symbol as u8),
+            });
+            queue.push(Reverse((frequency, symbol as u16, index)));
+        }
+    }
+    while queue.len() > 1 {
+        let Reverse((left_frequency, left_minimum, left)) = queue.pop()?;
+        let Reverse((right_frequency, right_minimum, right)) = queue.pop()?;
+        let frequency = left_frequency.checked_add(right_frequency)?;
+        let index = nodes.len();
+        nodes.push(HuffmanNode {
+            left: Some(left),
+            right: Some(right),
+            symbol: None,
+        });
+        queue.push(Reverse((frequency, left_minimum.min(right_minimum), index)));
+    }
+    let Reverse((_, _, root)) = queue.pop()?;
+
+    let mut lengths = [0u8; 256];
+    let mut stack = vec![(root, 0usize)];
+    while let Some((node_index, depth)) = stack.pop() {
+        let node = nodes[node_index];
+        if let Some(symbol) = node.symbol {
+            if depth > 32 {
+                return None;
+            }
+            lengths[symbol as usize] = depth.max(1) as u8;
+        } else {
+            let child_depth = depth.checked_add(1)?;
+            if child_depth > 32 {
+                return None;
+            }
+            stack.push((node.right?, child_depth));
+            stack.push((node.left?, child_depth));
+        }
+    }
+    let codebook = huffman_codebook(&lengths).ok()?;
+
+    let mut encoded = Vec::with_capacity(input.len());
+    let mut bits = 0u64;
+    let mut bit_count = 0usize;
+    for &symbol in input {
+        let index = symbol as usize;
+        let length = lengths[index] as usize;
+        bits = (bits << length) | codebook.codes[index];
+        bit_count += length;
+        while bit_count >= 8 {
+            bit_count -= 8;
+            encoded.push((bits >> bit_count) as u8);
+            bits &= (1u64 << bit_count) - 1;
+        }
+    }
+    if bit_count != 0 {
+        encoded.push((bits << (8 - bit_count)) as u8);
+    }
+    Some((lengths, encoded))
+}
+
+fn huffman_codebook(lengths: &[u8; HUFFMAN_MODEL_BYTES]) -> Result<HuffmanCodebook, CodecError> {
+    let mut counts = [0u16; 33];
+    let mut max_len = 0usize;
+    for &length in lengths {
+        if length > 32 {
+            return Err(CodecError::InvalidFormat("Huffman code exceeds 32 bits"));
+        }
+        if length != 0 {
+            counts[length as usize] = counts[length as usize]
+                .checked_add(1)
+                .ok_or(CodecError::LengthOverflow)?;
+            max_len = max_len.max(length as usize);
+        }
+    }
+    if max_len == 0 {
+        return Err(CodecError::InvalidFormat("empty Huffman model"));
+    }
+
+    let mut first_code = [0u64; 33];
+    let mut next_code = [0u64; 33];
+    let mut first_symbol = [0usize; 33];
+    let mut symbols = [0u8; 256];
+    let mut code = 0u64;
+    let mut symbol_offset = 0usize;
+    for length in 1..=max_len {
+        code = (code + counts[length - 1] as u64) << 1;
+        let limit = 1u64 << length;
+        if code + counts[length] as u64 > limit {
+            return Err(CodecError::InvalidFormat("oversubscribed Huffman model"));
+        }
+        first_code[length] = code;
+        next_code[length] = code;
+        first_symbol[length] = symbol_offset;
+        for (symbol, &symbol_length) in lengths.iter().enumerate() {
+            if symbol_length as usize == length {
+                symbols[symbol_offset] = symbol as u8;
+                symbol_offset += 1;
+            }
+        }
+    }
+
+    let mut codes = [0u64; 256];
+    for (symbol, &length) in lengths.iter().enumerate() {
+        if length != 0 {
+            let slot = length as usize;
+            codes[symbol] = next_code[slot];
+            next_code[slot] += 1;
+        }
+    }
+    Ok(HuffmanCodebook {
+        codes,
+        counts,
+        first_code,
+        first_symbol,
+        symbols,
+        max_len,
+    })
+}
+
+fn huffman_decode(
+    payload: &[u8],
+    output_len: usize,
+    lengths: &[u8; HUFFMAN_MODEL_BYTES],
+) -> Result<Vec<u8>, CodecError> {
+    let codebook = huffman_codebook(lengths)?;
+    let bit_len = payload
+        .len()
+        .checked_mul(8)
+        .ok_or(CodecError::LengthOverflow)?;
+    let mut bit_position = 0usize;
+    let mut output = Vec::new();
+    output
+        .try_reserve_exact(output_len)
+        .map_err(|_| CodecError::LengthOverflow)?;
+    for _ in 0..output_len {
+        let mut code = 0u64;
+        let mut found = None;
+        for length in 1..=codebook.max_len {
+            if bit_position >= bit_len {
+                return Err(CodecError::Truncated);
+            }
+            let byte = payload[bit_position / 8];
+            let bit = (byte >> (7 - (bit_position & 7))) & 1;
+            bit_position += 1;
+            code = (code << 1) | bit as u64;
+            let first = codebook.first_code[length];
+            let count = codebook.counts[length] as u64;
+            if code >= first && code - first < count {
+                let index = codebook.first_symbol[length] + (code - first) as usize;
+                found = Some(codebook.symbols[index]);
+                break;
+            }
+        }
+        output.push(found.ok_or(CodecError::InvalidFormat("invalid Huffman code"))?);
+    }
+
+    let expected_bytes = bit_position.div_ceil(8);
+    if expected_bytes != payload.len() {
+        return Err(CodecError::InvalidFormat("trailing Huffman payload"));
+    }
+    let padding = expected_bytes * 8 - bit_position;
+    if padding != 0 {
+        let mask = (1u8 << padding) - 1;
+        if payload.last().is_some_and(|byte| byte & mask != 0) {
+            return Err(CodecError::InvalidFormat("nonzero Huffman padding"));
+        }
+    }
+    Ok(output)
 }
 
 fn rans_encode(input: &[u8], frequencies: &[u16; 256]) -> Result<Vec<u8>, CodecError> {
@@ -746,6 +1042,26 @@ mod tests {
     }
 
     #[test]
+    fn canonical_huffman_roundtrips_skewed_and_full_alphabets() {
+        let mut skewed = vec![0u8; 20_000];
+        skewed.extend((0..256).map(|value| value as u8));
+        let mut full = Vec::with_capacity(8192);
+        for _ in 0..32 {
+            full.extend(0..=u8::MAX);
+        }
+        for input in [&skewed, &full] {
+            let (lengths, encoded) = huffman_encode(input).unwrap();
+            assert_eq!(
+                huffman_decode(&encoded, input.len(), &lengths).unwrap(),
+                *input
+            );
+        }
+        let mut invalid = [0u8; HUFFMAN_MODEL_BYTES];
+        invalid[..3].fill(1);
+        assert!(huffman_codebook(&invalid).is_err());
+    }
+
+    #[test]
     fn entropy_image_roundtrips_and_rejects_corruption() {
         let values: Vec<u32> = (0..=u16::MAX as u32).collect();
         let source = Rnbw::encode_width(&values, 16).unwrap();
@@ -755,19 +1071,34 @@ mod tests {
         let prefix_start = read_u32(&compressed, 28).unwrap() as usize;
         let prefix_end = prefix_start + read_u16(&compressed, 20).unwrap() as usize;
         let stream_count = compressed[10] as usize;
+        assert_eq!(read_u16(&compressed, 4).unwrap(), ENTROPY_VERSION);
         let mut model_count = 0;
+        let mut method_count = [0usize; 3];
         for index in 0..stream_count {
             let descriptor = RANS_HEADER + index * STREAM_DESCRIPTOR;
-            if compressed[descriptor + 1] == 1 {
+            let method = compressed[descriptor + 1] as usize;
+            method_count[method] += 1;
+            if method == METHOD_RANS as usize || method == METHOD_HUFFMAN as usize {
                 let model_start = read_u32(&compressed, descriptor + 16).unwrap() as usize;
                 let model_len = read_u32(&compressed, descriptor + 20).unwrap() as usize;
-                assert_eq!(model_len, RANS_MODEL_BYTES);
+                assert_eq!(
+                    model_len,
+                    if method == METHOD_RANS as usize {
+                        RANS_MODEL_BYTES
+                    } else {
+                        HUFFMAN_MODEL_BYTES
+                    }
+                );
                 assert!(model_start >= prefix_end);
                 assert!(model_start + model_len <= header_len);
                 model_count += 1;
             }
         }
         assert!(model_count > 0, "test image must exercise a stored model");
+        assert!(
+            method_count[METHOD_HUFFMAN as usize] > 0,
+            "test should select Huffman"
+        );
         let decoded = Rnbw::from_compressed_bytes(&compressed).unwrap();
         assert_eq!(decoded.as_bytes(), source.as_bytes());
         assert_eq!(decoded.decode(), values);
@@ -780,5 +1111,18 @@ mod tests {
         let mut corrupt = compressed;
         *corrupt.last_mut().unwrap() ^= 1;
         assert!(Rnbw::from_compressed_bytes(&corrupt).is_err());
+    }
+
+    #[test]
+    fn version_three_rans_streams_remain_readable() {
+        let source = Rnbw::encode(&[3, 0x1234_5678, u32::MAX]).unwrap();
+        let mut compressed = source.to_compressed_bytes().unwrap();
+        for index in 0..compressed[10] as usize {
+            let descriptor = RANS_HEADER + index * STREAM_DESCRIPTOR;
+            assert_ne!(compressed[descriptor + 1], METHOD_HUFFMAN);
+        }
+        put_u16(&mut compressed, 4, LEGACY_RANS_VERSION).unwrap();
+        let decoded = Rnbw::from_compressed_bytes(&compressed).unwrap();
+        assert_eq!(decoded.as_bytes(), source.as_bytes());
     }
 }

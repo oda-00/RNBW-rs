@@ -1,4 +1,4 @@
-use rnbw::{Rnbw, RnbwView};
+use rnbw::{LaneLz, Rnbw, RnbwView};
 
 const FUZZ_CASES: usize = 12_000;
 
@@ -71,6 +71,20 @@ fn deterministic_mutation_fuzzer_checks_raw_and_entropy_parsers() {
         );
     }
 
+    let interleaved: Vec<u8> = (0..4096)
+        .map(|index| ((index / 4) as u8).wrapping_add((index % 4) as u8))
+        .collect();
+    let lane_stream = LaneLz::encode_interleaved(&interleaved, 4).expect("lane fuzz seed encodes");
+    assert_eq!(lane_stream.decode_interleaved().unwrap(), interleaved);
+    corpus.push(lane_stream.as_bytes().to_vec());
+    let lane_stream = LaneLz::encode(&[&interleaved[..2048], &interleaved[2048..]])
+        .expect("multi-lane fuzz seed encodes");
+    assert_eq!(
+        lane_stream.decode_lanes().unwrap(),
+        [&interleaved[..2048], &interleaved[2048..]]
+    );
+    corpus.push(lane_stream.as_bytes().to_vec());
+
     let mut exercised = 0usize;
     let mut directed_header_mutations = 0usize;
     for seed in &corpus {
@@ -83,6 +97,17 @@ fn deterministic_mutation_fuzzer_checks_raw_and_entropy_parsers() {
         }
         if seed.len() >= 32 && seed.get(0..4) == Some(b"RNBW") {
             for offset in [6usize, 12, 16, 20, 28] {
+                let mut candidate = seed.clone();
+                if offset + 4 <= candidate.len() {
+                    candidate[offset..offset + 4].fill(u8::MAX);
+                    check_candidate(&candidate);
+                    exercised += 1;
+                    directed_header_mutations += 1;
+                }
+            }
+        }
+        if seed.len() >= 20 && seed.get(0..4) == Some(b"RNLZ") {
+            for offset in [8usize, 12, 16, 20, 24, 28, 32, 36] {
                 let mut candidate = seed.clone();
                 if offset + 4 <= candidate.len() {
                     candidate[offset..offset + 4].fill(u8::MAX);
@@ -109,7 +134,7 @@ fn deterministic_mutation_fuzzer_checks_raw_and_entropy_parsers() {
         corpus.len() * 193 + FUZZ_CASES + directed_header_mutations
     );
     println!(
-        "fuzzed {exercised} deterministic raw/compressed byte streams, including {directed_header_mutations} directed header mutations"
+        "fuzzed {exercised} deterministic raw, entropy, and multi-lane streams, including {directed_header_mutations} directed header mutations"
     );
 }
 
@@ -189,5 +214,15 @@ fn check_candidate(bytes: &[u8]) {
         }
         let raw = decoded.as_bytes().to_vec();
         assert_eq!(RnbwView::from_bytes(&raw).unwrap().decode(), values);
+    }
+
+    if let Ok(lanes) = LaneLz::from_bytes(bytes)
+        && lanes.raw_bytes() <= 1 << 20
+        && let Ok(decoded) = lanes.decode_lanes()
+    {
+        assert_eq!(
+            decoded.iter().map(Vec::len).sum::<usize>(),
+            lanes.raw_bytes()
+        );
     }
 }
