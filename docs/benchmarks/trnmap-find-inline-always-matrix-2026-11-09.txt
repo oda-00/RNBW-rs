@@ -1,0 +1,630 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.19s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/scenario/all-negative/64/find-hierarchical
+Benchmarking trnmap/scenario/all-negative/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-negative/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (33M iterations)
+Benchmarking trnmap/scenario/all-negative/64/find-hierarchical: Analyzing
+trnmap/scenario/all-negative/64/find-hierarchical
+                        time:   [3.0649 ns 3.2214 ns 3.4177 ns]
+                        thrpt:  [292.59 Melem/s 310.42 Melem/s 326.27 Melem/s]
+
+Benchmarking trnmap/random-starts/all-negative/64/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-negative/64/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-negative/64/find-hierarchical-1k: Collecting 10 samples in estimated 100.04 ms (38k iterations)
+Benchmarking trnmap/random-starts/all-negative/64/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-negative/64/find-hierarchical-1k
+                        time:   [2.5598 µs 2.6108 µs 2.6850 µs]
+                        thrpt:  [381.38 Melem/s 392.21 Melem/s 400.03 Melem/s]
+
+Benchmarking trnmap/absent/all-negative/64/find-hierarchical
+Benchmarking trnmap/absent/all-negative/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-negative/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (18M iterations)
+Benchmarking trnmap/absent/all-negative/64/find-hierarchical: Analyzing
+trnmap/absent/all-negative/64/find-hierarchical
+                        time:   [5.4294 ns 5.4563 ns 5.4835 ns]
+
+Benchmarking trnmap/scenario/all-zero/64/find-hierarchical
+Benchmarking trnmap/scenario/all-zero/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-zero/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (33M iterations)
+Benchmarking trnmap/scenario/all-zero/64/find-hierarchical: Analyzing
+trnmap/scenario/all-zero/64/find-hierarchical
+                        time:   [2.9807 ns 2.9877 ns 2.9929 ns]
+                        thrpt:  [334.12 Melem/s 334.71 Melem/s 335.49 Melem/s]
+
+Benchmarking trnmap/random-starts/all-zero/64/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-zero/64/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-zero/64/find-hierarchical-1k: Collecting 10 samples in estimated 100.14 ms (38k iterations)
+Benchmarking trnmap/random-starts/all-zero/64/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-zero/64/find-hierarchical-1k
+                        time:   [2.6659 µs 2.6805 µs 2.6908 µs]
+                        thrpt:  [380.56 Melem/s 382.01 Melem/s 384.11 Melem/s]
+
+Benchmarking trnmap/absent/all-zero/64/find-hierarchical
+Benchmarking trnmap/absent/all-zero/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-zero/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (16M iterations)
+Benchmarking trnmap/absent/all-zero/64/find-hierarchical: Analyzing
+trnmap/absent/all-zero/64/find-hierarchical
+                        time:   [9.0222 ns 9.7425 ns 10.915 ns]
+
+Benchmarking trnmap/scenario/uniform-ternary/64/find-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/uniform-ternary/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (16M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/64/find-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/64/find-hierarchical
+                        time:   [4.4534 ns 5.2033 ns 6.3074 ns]
+                        thrpt:  [158.54 Melem/s 192.18 Melem/s 224.55 Melem/s]
+
+Benchmarking trnmap/random-starts/uniform-ternary/64/find-hierarchical-1k
+Benchmarking trnmap/random-starts/uniform-ternary/64/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/uniform-ternary/64/find-hierarchical-1k: Collecting 10 samples in estimated 100.00 ms (33k iterations)
+Benchmarking trnmap/random-starts/uniform-ternary/64/find-hierarchical-1k: Analyzing
+trnmap/random-starts/uniform-ternary/64/find-hierarchical-1k
+                        time:   [2.7268 µs 2.7690 µs 2.8291 µs]
+                        thrpt:  [361.95 Melem/s 369.82 Melem/s 375.53 Melem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/64/find-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (31M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/64/find-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/64/find-hierarchical
+                        time:   [3.1938 ns 3.2691 ns 3.3190 ns]
+                        thrpt:  [301.30 Melem/s 305.90 Melem/s 313.11 Melem/s]
+
+Benchmarking trnmap/random-starts/alternating-negative-positive/64/find-hierarchical-1k
+Benchmarking trnmap/random-starts/alternating-negative-positive/64/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/alternating-negative-positive/64/find-hierarchical-1k: Collecting 10 samples in estimated 100.11 ms (36k iterations)
+Benchmarking trnmap/random-starts/alternating-negative-positive/64/find-hierarchical-1k: Analyzing
+trnmap/random-starts/alternating-negative-positive/64/find-hierarchical-1k
+                        time:   [2.5528 µs 2.5998 µs 2.6543 µs]
+                        thrpt:  [385.79 Melem/s 393.88 Melem/s 401.12 Melem/s]
+
+Benchmarking trnmap/absent/alternating-negative-positive/64/find-hierarchical
+Benchmarking trnmap/absent/alternating-negative-positive/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/alternating-negative-positive/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (11M iterations)
+Benchmarking trnmap/absent/alternating-negative-positive/64/find-hierarchical: Analyzing
+trnmap/absent/alternating-negative-positive/64/find-hierarchical
+                        time:   [8.6763 ns 9.0373 ns 9.4008 ns]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/64/find-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (13M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/64/find-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/64/find-hierarchical
+                        time:   [5.4116 ns 5.5013 ns 5.6563 ns]
+                        thrpt:  [176.80 Melem/s 181.77 Melem/s 184.79 Melem/s]
+
+Benchmarking trnmap/random-starts/4096-trit-clusters/64/find-hierarchical-1k
+Benchmarking trnmap/random-starts/4096-trit-clusters/64/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/4096-trit-clusters/64/find-hierarchical-1k: Collecting 10 samples in estimated 100.00 ms (19k iterations)
+Benchmarking trnmap/random-starts/4096-trit-clusters/64/find-hierarchical-1k: Analyzing
+trnmap/random-starts/4096-trit-clusters/64/find-hierarchical-1k
+                        time:   [5.1578 µs 5.2266 µs 5.2608 µs]
+                        thrpt:  [194.65 Melem/s 195.92 Melem/s 198.53 Melem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/64/find-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (17M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/64/find-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/64/find-hierarchical
+                        time:   [5.4874 ns 5.6340 ns 5.9266 ns]
+                        thrpt:  [168.73 Melem/s 177.49 Melem/s 182.24 Melem/s]
+
+Benchmarking trnmap/random-starts/positive-1-in-4096/64/find-hierarchical-1k
+Benchmarking trnmap/random-starts/positive-1-in-4096/64/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/positive-1-in-4096/64/find-hierarchical-1k: Collecting 10 samples in estimated 100.27 ms (19k iterations)
+Benchmarking trnmap/random-starts/positive-1-in-4096/64/find-hierarchical-1k: Analyzing
+trnmap/random-starts/positive-1-in-4096/64/find-hierarchical-1k
+                        time:   [5.4291 µs 5.6807 µs 5.8154 µs]
+                        thrpt:  [176.08 Melem/s 180.26 Melem/s 188.61 Melem/s]
+
+Benchmarking trnmap/absent/positive-1-in-4096/64/find-hierarchical
+Benchmarking trnmap/absent/positive-1-in-4096/64/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/positive-1-in-4096/64/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (16M iterations)
+Benchmarking trnmap/absent/positive-1-in-4096/64/find-hierarchical: Analyzing
+trnmap/absent/positive-1-in-4096/64/find-hierarchical
+                        time:   [5.5700 ns 5.7507 ns 5.8931 ns]
+
+Benchmarking trnmap/scenario/all-negative/4096/find-hierarchical
+Benchmarking trnmap/scenario/all-negative/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-negative/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (30M iterations)
+Benchmarking trnmap/scenario/all-negative/4096/find-hierarchical: Analyzing
+trnmap/scenario/all-negative/4096/find-hierarchical
+                        time:   [3.0951 ns 3.1561 ns 3.2520 ns]
+                        thrpt:  [307.50 Melem/s 316.85 Melem/s 323.09 Melem/s]
+
+Benchmarking trnmap/random-starts/all-negative/4096/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-negative/4096/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-negative/4096/find-hierarchical-1k: Collecting 10 samples in estimated 100.09 ms (35k iterations)
+Benchmarking trnmap/random-starts/all-negative/4096/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-negative/4096/find-hierarchical-1k
+                        time:   [3.7409 µs 3.9721 µs 4.1457 µs]
+                        thrpt:  [247.00 Melem/s 257.80 Melem/s 273.73 Melem/s]
+
+Benchmarking trnmap/absent/all-negative/4096/find-hierarchical
+Benchmarking trnmap/absent/all-negative/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-negative/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.8M iterations)
+Benchmarking trnmap/absent/all-negative/4096/find-hierarchical: Analyzing
+trnmap/absent/all-negative/4096/find-hierarchical
+                        time:   [7.9568 ns 9.1533 ns 11.636 ns]
+
+Benchmarking trnmap/scenario/all-zero/4096/find-hierarchical
+Benchmarking trnmap/scenario/all-zero/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-zero/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (30M iterations)
+Benchmarking trnmap/scenario/all-zero/4096/find-hierarchical: Analyzing
+trnmap/scenario/all-zero/4096/find-hierarchical
+                        time:   [3.0496 ns 3.1024 ns 3.1544 ns]
+                        thrpt:  [317.02 Melem/s 322.33 Melem/s 327.91 Melem/s]
+
+Benchmarking trnmap/random-starts/all-zero/4096/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-zero/4096/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-zero/4096/find-hierarchical-1k: Collecting 10 samples in estimated 100.10 ms (39k iterations)
+Benchmarking trnmap/random-starts/all-zero/4096/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-zero/4096/find-hierarchical-1k
+                        time:   [2.4821 µs 2.4922 µs 2.5060 µs]
+                        thrpt:  [408.62 Melem/s 410.89 Melem/s 412.55 Melem/s]
+
+Benchmarking trnmap/absent/all-zero/4096/find-hierarchical
+Benchmarking trnmap/absent/all-zero/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-zero/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (12M iterations)
+Benchmarking trnmap/absent/all-zero/4096/find-hierarchical: Analyzing
+trnmap/absent/all-zero/4096/find-hierarchical
+                        time:   [7.3387 ns 7.7376 ns 8.2727 ns]
+
+Benchmarking trnmap/scenario/uniform-ternary/4096/find-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/uniform-ternary/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (29M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/4096/find-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/4096/find-hierarchical
+                        time:   [3.1902 ns 3.2076 ns 3.2444 ns]
+                        thrpt:  [308.22 Melem/s 311.76 Melem/s 313.46 Melem/s]
+
+Benchmarking trnmap/random-starts/uniform-ternary/4096/find-hierarchical-1k
+Benchmarking trnmap/random-starts/uniform-ternary/4096/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/uniform-ternary/4096/find-hierarchical-1k: Collecting 10 samples in estimated 100.01 ms (36k iterations)
+Benchmarking trnmap/random-starts/uniform-ternary/4096/find-hierarchical-1k: Analyzing
+trnmap/random-starts/uniform-ternary/4096/find-hierarchical-1k
+                        time:   [2.9555 µs 2.9683 µs 2.9801 µs]
+                        thrpt:  [343.62 Melem/s 344.98 Melem/s 346.47 Melem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/find-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (32M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/find-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/4096/find-hierarchical
+                        time:   [4.2327 ns 4.6023 ns 4.8910 ns]
+                        thrpt:  [204.46 Melem/s 217.28 Melem/s 236.25 Melem/s]
+
+Benchmarking trnmap/random-starts/alternating-negative-positive/4096/find-hierarchical-1k
+Benchmarking trnmap/random-starts/alternating-negative-positive/4096/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/alternating-negative-positive/4096/find-hierarchical-1k: Collecting 10 samples in estimated 100.01 ms (25k iterations)
+Benchmarking trnmap/random-starts/alternating-negative-positive/4096/find-hierarchical-1k: Analyzing
+trnmap/random-starts/alternating-negative-positive/4096/find-hierarchical-1k
+                        time:   [3.1877 µs 3.6140 µs 4.1036 µs]
+                        thrpt:  [249.54 Melem/s 283.34 Melem/s 321.23 Melem/s]
+
+Benchmarking trnmap/absent/alternating-negative-positive/4096/find-hierarchical
+Benchmarking trnmap/absent/alternating-negative-positive/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/alternating-negative-positive/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (13M iterations)
+Benchmarking trnmap/absent/alternating-negative-positive/4096/find-hierarchical: Analyzing
+trnmap/absent/alternating-negative-positive/4096/find-hierarchical
+                        time:   [7.5160 ns 7.5325 ns 7.5594 ns]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/find-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (13M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/find-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/4096/find-hierarchical
+                        time:   [7.4762 ns 7.7621 ns 7.9400 ns]
+                        thrpt:  [125.94 Melem/s 128.83 Melem/s 133.76 Melem/s]
+
+Benchmarking trnmap/random-starts/4096-trit-clusters/4096/find-hierarchical-1k
+Benchmarking trnmap/random-starts/4096-trit-clusters/4096/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/4096-trit-clusters/4096/find-hierarchical-1k: Collecting 10 samples in estimated 100.40 ms (14k iterations)
+Benchmarking trnmap/random-starts/4096-trit-clusters/4096/find-hierarchical-1k: Analyzing
+trnmap/random-starts/4096-trit-clusters/4096/find-hierarchical-1k
+                        time:   [7.2747 µs 7.3602 µs 7.4362 µs]
+                        thrpt:  [137.70 Melem/s 139.13 Melem/s 140.76 Melem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/find-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (12M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/find-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/4096/find-hierarchical
+                        time:   [7.6025 ns 8.0697 ns 8.4068 ns]
+                        thrpt:  [118.95 Melem/s 123.92 Melem/s 131.54 Melem/s]
+
+Benchmarking trnmap/random-starts/positive-1-in-4096/4096/find-hierarchical-1k
+Benchmarking trnmap/random-starts/positive-1-in-4096/4096/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/positive-1-in-4096/4096/find-hierarchical-1k: Collecting 10 samples in estimated 100.08 ms (13k iterations)
+Benchmarking trnmap/random-starts/positive-1-in-4096/4096/find-hierarchical-1k: Analyzing
+trnmap/random-starts/positive-1-in-4096/4096/find-hierarchical-1k
+                        time:   [7.8366 µs 7.9945 µs 8.1925 µs]
+                        thrpt:  [124.99 Melem/s 128.09 Melem/s 130.67 Melem/s]
+
+Benchmarking trnmap/absent/positive-1-in-4096/4096/find-hierarchical
+Benchmarking trnmap/absent/positive-1-in-4096/4096/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/positive-1-in-4096/4096/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (13M iterations)
+Benchmarking trnmap/absent/positive-1-in-4096/4096/find-hierarchical: Analyzing
+trnmap/absent/positive-1-in-4096/4096/find-hierarchical
+                        time:   [7.4662 ns 7.5011 ns 7.5515 ns]
+
+Benchmarking trnmap/scenario/all-negative/65536/find-hierarchical
+Benchmarking trnmap/scenario/all-negative/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-negative/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (33M iterations)
+Benchmarking trnmap/scenario/all-negative/65536/find-hierarchical: Analyzing
+trnmap/scenario/all-negative/65536/find-hierarchical
+                        time:   [3.0218 ns 3.1016 ns 3.1525 ns]
+                        thrpt:  [317.21 Melem/s 322.41 Melem/s 330.93 Melem/s]
+
+Benchmarking trnmap/random-starts/all-negative/65536/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-negative/65536/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-negative/65536/find-hierarchical-1k: Collecting 10 samples in estimated 100.13 ms (39k iterations)
+Benchmarking trnmap/random-starts/all-negative/65536/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-negative/65536/find-hierarchical-1k
+                        time:   [2.5901 µs 2.7213 µs 2.8699 µs]
+                        thrpt:  [356.81 Melem/s 376.29 Melem/s 395.35 Melem/s]
+
+Benchmarking trnmap/absent/all-negative/65536/find-hierarchical
+Benchmarking trnmap/absent/all-negative/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-negative/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (11M iterations)
+Benchmarking trnmap/absent/all-negative/65536/find-hierarchical: Analyzing
+trnmap/absent/all-negative/65536/find-hierarchical
+                        time:   [9.2270 ns 9.5123 ns 9.6706 ns]
+
+Benchmarking trnmap/scenario/all-zero/65536/find-hierarchical
+Benchmarking trnmap/scenario/all-zero/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-zero/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (34M iterations)
+Benchmarking trnmap/scenario/all-zero/65536/find-hierarchical: Analyzing
+trnmap/scenario/all-zero/65536/find-hierarchical
+                        time:   [2.9707 ns 3.0043 ns 3.0592 ns]
+                        thrpt:  [326.88 Melem/s 332.86 Melem/s 336.62 Melem/s]
+
+Benchmarking trnmap/random-starts/all-zero/65536/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-zero/65536/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-zero/65536/find-hierarchical-1k: Collecting 10 samples in estimated 100.14 ms (39k iterations)
+Benchmarking trnmap/random-starts/all-zero/65536/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-zero/65536/find-hierarchical-1k
+                        time:   [2.6786 µs 2.7239 µs 2.7739 µs]
+                        thrpt:  [369.16 Melem/s 375.93 Melem/s 382.29 Melem/s]
+
+Benchmarking trnmap/absent/all-zero/65536/find-hierarchical
+Benchmarking trnmap/absent/all-zero/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-zero/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (11M iterations)
+Benchmarking trnmap/absent/all-zero/65536/find-hierarchical: Analyzing
+trnmap/absent/all-zero/65536/find-hierarchical
+                        time:   [9.0743 ns 9.0976 ns 9.1320 ns]
+
+Benchmarking trnmap/scenario/uniform-ternary/65536/find-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/uniform-ternary/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (29M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/65536/find-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/65536/find-hierarchical
+                        time:   [2.9762 ns 3.0405 ns 3.1376 ns]
+                        thrpt:  [318.71 Melem/s 328.89 Melem/s 336.00 Melem/s]
+
+Benchmarking trnmap/random-starts/uniform-ternary/65536/find-hierarchical-1k
+Benchmarking trnmap/random-starts/uniform-ternary/65536/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/uniform-ternary/65536/find-hierarchical-1k: Collecting 10 samples in estimated 100.15 ms (33k iterations)
+Benchmarking trnmap/random-starts/uniform-ternary/65536/find-hierarchical-1k: Analyzing
+trnmap/random-starts/uniform-ternary/65536/find-hierarchical-1k
+                        time:   [3.0615 µs 3.1284 µs 3.2027 µs]
+                        thrpt:  [319.73 Melem/s 327.33 Melem/s 334.47 Melem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/find-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (33M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/find-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/65536/find-hierarchical
+                        time:   [2.9088 ns 2.9196 ns 2.9285 ns]
+                        thrpt:  [341.47 Melem/s 342.52 Melem/s 343.78 Melem/s]
+
+Benchmarking trnmap/random-starts/alternating-negative-positive/65536/find-hierarchical-1k
+Benchmarking trnmap/random-starts/alternating-negative-positive/65536/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/alternating-negative-positive/65536/find-hierarchical-1k: Collecting 10 samples in estimated 100.11 ms (38k iterations)
+Benchmarking trnmap/random-starts/alternating-negative-positive/65536/find-hierarchical-1k: Analyzing
+trnmap/random-starts/alternating-negative-positive/65536/find-hierarchical-1k
+                        time:   [2.6198 µs 2.6602 µs 2.6850 µs]
+                        thrpt:  [381.38 Melem/s 384.93 Melem/s 390.87 Melem/s]
+
+Benchmarking trnmap/absent/alternating-negative-positive/65536/find-hierarchical
+Benchmarking trnmap/absent/alternating-negative-positive/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/alternating-negative-positive/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (11M iterations)
+Benchmarking trnmap/absent/alternating-negative-positive/65536/find-hierarchical: Analyzing
+trnmap/absent/alternating-negative-positive/65536/find-hierarchical
+                        time:   [9.3295 ns 9.5485 ns 9.7008 ns]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/find-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.2M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/find-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/65536/find-hierarchical
+                        time:   [11.718 ns 11.866 ns 11.966 ns]
+                        thrpt:  [83.568 Melem/s 84.275 Melem/s 85.341 Melem/s]
+
+Benchmarking trnmap/random-starts/4096-trit-clusters/65536/find-hierarchical-1k
+Benchmarking trnmap/random-starts/4096-trit-clusters/65536/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/4096-trit-clusters/65536/find-hierarchical-1k: Collecting 10 samples in estimated 100.41 ms (10k iterations)
+Benchmarking trnmap/random-starts/4096-trit-clusters/65536/find-hierarchical-1k: Analyzing
+trnmap/random-starts/4096-trit-clusters/65536/find-hierarchical-1k
+                        time:   [9.7939 µs 9.8584 µs 9.8851 µs]
+                        thrpt:  [103.59 Melem/s 103.87 Melem/s 104.56 Melem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/find-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.1M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/find-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/65536/find-hierarchical
+                        time:   [12.093 ns 12.131 ns 12.172 ns]
+                        thrpt:  [82.157 Melem/s 82.432 Melem/s 82.696 Melem/s]
+
+Benchmarking trnmap/random-starts/positive-1-in-4096/65536/find-hierarchical-1k
+Benchmarking trnmap/random-starts/positive-1-in-4096/65536/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/positive-1-in-4096/65536/find-hierarchical-1k: Collecting 10 samples in estimated 100.60 ms (8250 iterations)
+Benchmarking trnmap/random-starts/positive-1-in-4096/65536/find-hierarchical-1k: Analyzing
+trnmap/random-starts/positive-1-in-4096/65536/find-hierarchical-1k
+                        time:   [12.021 µs 12.088 µs 12.152 µs]
+                        thrpt:  [84.269 Melem/s 84.712 Melem/s 85.186 Melem/s]
+
+Benchmarking trnmap/absent/positive-1-in-4096/65536/find-hierarchical
+Benchmarking trnmap/absent/positive-1-in-4096/65536/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/positive-1-in-4096/65536/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (10M iterations)
+Benchmarking trnmap/absent/positive-1-in-4096/65536/find-hierarchical: Analyzing
+trnmap/absent/positive-1-in-4096/65536/find-hierarchical
+                        time:   [9.5012 ns 9.5679 ns 9.6217 ns]
+
+Benchmarking trnmap/scenario/all-negative/1000000/find-hierarchical
+Benchmarking trnmap/scenario/all-negative/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-negative/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (34M iterations)
+Benchmarking trnmap/scenario/all-negative/1000000/find-hierarchical: Analyzing
+trnmap/scenario/all-negative/1000000/find-hierarchical
+                        time:   [2.8998 ns 2.9117 ns 2.9271 ns]
+                        thrpt:  [341.64 Melem/s 343.44 Melem/s 344.86 Melem/s]
+
+Benchmarking trnmap/random-starts/all-negative/1000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-negative/1000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-negative/1000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.05 ms (34k iterations)
+Benchmarking trnmap/random-starts/all-negative/1000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-negative/1000000/find-hierarchical-1k
+                        time:   [2.8707 µs 2.8827 µs 2.9009 µs]
+                        thrpt:  [353.00 Melem/s 355.23 Melem/s 356.71 Melem/s]
+
+Benchmarking trnmap/absent/all-negative/1000000/find-hierarchical
+Benchmarking trnmap/absent/all-negative/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-negative/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.0M iterations)
+Benchmarking trnmap/absent/all-negative/1000000/find-hierarchical: Analyzing
+trnmap/absent/all-negative/1000000/find-hierarchical
+                        time:   [11.077 ns 11.133 ns 11.177 ns]
+
+Benchmarking trnmap/scenario/all-zero/1000000/find-hierarchical
+Benchmarking trnmap/scenario/all-zero/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-zero/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (33M iterations)
+Benchmarking trnmap/scenario/all-zero/1000000/find-hierarchical: Analyzing
+trnmap/scenario/all-zero/1000000/find-hierarchical
+                        time:   [2.9883 ns 2.9999 ns 3.0100 ns]
+                        thrpt:  [332.22 Melem/s 333.34 Melem/s 334.63 Melem/s]
+
+Benchmarking trnmap/random-starts/all-zero/1000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-zero/1000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-zero/1000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.09 ms (37k iterations)
+Benchmarking trnmap/random-starts/all-zero/1000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-zero/1000000/find-hierarchical-1k
+                        time:   [2.7324 µs 2.7565 µs 2.8096 µs]
+                        thrpt:  [364.46 Melem/s 371.48 Melem/s 374.76 Melem/s]
+
+Benchmarking trnmap/absent/all-zero/1000000/find-hierarchical
+Benchmarking trnmap/absent/all-zero/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-zero/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.8M iterations)
+Benchmarking trnmap/absent/all-zero/1000000/find-hierarchical: Analyzing
+trnmap/absent/all-zero/1000000/find-hierarchical
+                        time:   [11.221 ns 11.981 ns 12.716 ns]
+
+Benchmarking trnmap/scenario/uniform-ternary/1000000/find-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/uniform-ternary/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (34M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/1000000/find-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/1000000/find-hierarchical
+                        time:   [2.9279 ns 2.9456 ns 2.9681 ns]
+                        thrpt:  [336.91 Melem/s 339.49 Melem/s 341.55 Melem/s]
+
+Benchmarking trnmap/random-starts/uniform-ternary/1000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/uniform-ternary/1000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/uniform-ternary/1000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.15 ms (33k iterations)
+Benchmarking trnmap/random-starts/uniform-ternary/1000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/uniform-ternary/1000000/find-hierarchical-1k
+                        time:   [3.0137 µs 3.0685 µs 3.1009 µs]
+                        thrpt:  [330.23 Melem/s 333.71 Melem/s 339.78 Melem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/find-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (33M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/find-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/1000000/find-hierarchical
+                        time:   [2.9230 ns 2.9469 ns 2.9813 ns]
+                        thrpt:  [335.43 Melem/s 339.34 Melem/s 342.11 Melem/s]
+
+Benchmarking trnmap/random-starts/alternating-negative-positive/1000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/alternating-negative-positive/1000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/alternating-negative-positive/1000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.09 ms (34k iterations)
+Benchmarking trnmap/random-starts/alternating-negative-positive/1000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/alternating-negative-positive/1000000/find-hierarchical-1k
+                        time:   [2.9511 µs 2.9569 µs 2.9632 µs]
+                        thrpt:  [345.57 Melem/s 346.31 Melem/s 346.99 Melem/s]
+
+Benchmarking trnmap/absent/alternating-negative-positive/1000000/find-hierarchical
+Benchmarking trnmap/absent/alternating-negative-positive/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/alternating-negative-positive/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (9.0M iterations)
+Benchmarking trnmap/absent/alternating-negative-positive/1000000/find-hierarchical: Analyzing
+trnmap/absent/alternating-negative-positive/1000000/find-hierarchical
+                        time:   [10.795 ns 10.862 ns 10.966 ns]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/find-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (7.9M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/find-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/1000000/find-hierarchical
+                        time:   [12.108 ns 12.515 ns 13.014 ns]
+                        thrpt:  [76.840 Melem/s 79.906 Melem/s 82.587 Melem/s]
+
+Benchmarking trnmap/random-starts/4096-trit-clusters/1000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/4096-trit-clusters/1000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/4096-trit-clusters/1000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.29 ms (9020 iterations)
+Benchmarking trnmap/random-starts/4096-trit-clusters/1000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/4096-trit-clusters/1000000/find-hierarchical-1k
+                        time:   [10.780 µs 11.374 µs 12.029 µs]
+                        thrpt:  [85.127 Melem/s 90.034 Melem/s 94.986 Melem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/find-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.0M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/find-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/1000000/find-hierarchical
+                        time:   [12.140 ns 12.220 ns 12.352 ns]
+                        thrpt:  [80.960 Melem/s 81.836 Melem/s 82.372 Melem/s]
+
+Benchmarking trnmap/random-starts/positive-1-in-4096/1000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/positive-1-in-4096/1000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/positive-1-in-4096/1000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.15 ms (7920 iterations)
+Benchmarking trnmap/random-starts/positive-1-in-4096/1000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/positive-1-in-4096/1000000/find-hierarchical-1k
+                        time:   [12.520 µs 12.671 µs 12.802 µs]
+                        thrpt:  [79.990 Melem/s 80.812 Melem/s 81.792 Melem/s]
+
+Benchmarking trnmap/absent/positive-1-in-4096/1000000/find-hierarchical
+Benchmarking trnmap/absent/positive-1-in-4096/1000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/positive-1-in-4096/1000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.5M iterations)
+Benchmarking trnmap/absent/positive-1-in-4096/1000000/find-hierarchical: Analyzing
+trnmap/absent/positive-1-in-4096/1000000/find-hierarchical
+                        time:   [11.502 ns 11.578 ns 11.643 ns]
+
+Benchmarking trnmap/scenario/all-negative/16000000/find-hierarchical
+Benchmarking trnmap/scenario/all-negative/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-negative/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (31M iterations)
+Benchmarking trnmap/scenario/all-negative/16000000/find-hierarchical: Analyzing
+trnmap/scenario/all-negative/16000000/find-hierarchical
+                        time:   [3.1932 ns 3.3214 ns 3.4215 ns]
+                        thrpt:  [292.27 Melem/s 301.07 Melem/s 313.17 Melem/s]
+
+Benchmarking trnmap/random-starts/all-negative/16000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-negative/16000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-negative/16000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.04 ms (25k iterations)
+Benchmarking trnmap/random-starts/all-negative/16000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-negative/16000000/find-hierarchical-1k
+                        time:   [3.7782 µs 3.8294 µs 3.9223 µs]
+                        thrpt:  [261.07 Melem/s 267.40 Melem/s 271.03 Melem/s]
+
+Benchmarking trnmap/absent/all-negative/16000000/find-hierarchical
+Benchmarking trnmap/absent/all-negative/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-negative/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (9.1M iterations)
+Benchmarking trnmap/absent/all-negative/16000000/find-hierarchical: Analyzing
+trnmap/absent/all-negative/16000000/find-hierarchical
+                        time:   [10.668 ns 10.721 ns 10.831 ns]
+
+Benchmarking trnmap/scenario/all-zero/16000000/find-hierarchical
+Benchmarking trnmap/scenario/all-zero/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/all-zero/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (34M iterations)
+Benchmarking trnmap/scenario/all-zero/16000000/find-hierarchical: Analyzing
+trnmap/scenario/all-zero/16000000/find-hierarchical
+                        time:   [2.9782 ns 3.1374 ns 3.2409 ns]
+                        thrpt:  [308.55 Melem/s 318.73 Melem/s 335.77 Melem/s]
+
+Benchmarking trnmap/random-starts/all-zero/16000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/all-zero/16000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/all-zero/16000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.19 ms (24k iterations)
+Benchmarking trnmap/random-starts/all-zero/16000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/all-zero/16000000/find-hierarchical-1k
+                        time:   [3.7967 µs 3.8245 µs 3.8756 µs]
+                        thrpt:  [264.22 Melem/s 267.75 Melem/s 269.70 Melem/s]
+
+Benchmarking trnmap/absent/all-zero/16000000/find-hierarchical
+Benchmarking trnmap/absent/all-zero/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/all-zero/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.3M iterations)
+Benchmarking trnmap/absent/all-zero/16000000/find-hierarchical: Analyzing
+trnmap/absent/all-zero/16000000/find-hierarchical
+                        time:   [11.779 ns 11.834 ns 11.869 ns]
+
+Benchmarking trnmap/scenario/uniform-ternary/16000000/find-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/uniform-ternary/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (28M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/16000000/find-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/16000000/find-hierarchical
+                        time:   [3.3725 ns 3.4908 ns 3.6829 ns]
+                        thrpt:  [271.53 Melem/s 286.46 Melem/s 296.51 Melem/s]
+
+Benchmarking trnmap/random-starts/uniform-ternary/16000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/uniform-ternary/16000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/uniform-ternary/16000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.22 ms (23k iterations)
+Benchmarking trnmap/random-starts/uniform-ternary/16000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/uniform-ternary/16000000/find-hierarchical-1k
+                        time:   [4.3129 µs 4.3760 µs 4.4265 µs]
+                        thrpt:  [231.34 Melem/s 234.00 Melem/s 237.43 Melem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/find-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (31M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/find-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/16000000/find-hierarchical
+                        time:   [3.1570 ns 3.2081 ns 3.2764 ns]
+                        thrpt:  [305.21 Melem/s 311.71 Melem/s 316.76 Melem/s]
+
+Benchmarking trnmap/random-starts/alternating-negative-positive/16000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/alternating-negative-positive/16000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/alternating-negative-positive/16000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.13 ms (27k iterations)
+Benchmarking trnmap/random-starts/alternating-negative-positive/16000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/alternating-negative-positive/16000000/find-hierarchical-1k
+                        time:   [3.7178 µs 3.8239 µs 3.9932 µs]
+                        thrpt:  [256.44 Melem/s 267.79 Melem/s 275.44 Melem/s]
+
+Benchmarking trnmap/absent/alternating-negative-positive/16000000/find-hierarchical
+Benchmarking trnmap/absent/alternating-negative-positive/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/alternating-negative-positive/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (9.0M iterations)
+Benchmarking trnmap/absent/alternating-negative-positive/16000000/find-hierarchical: Analyzing
+trnmap/absent/alternating-negative-positive/16000000/find-hierarchical
+                        time:   [10.926 ns 11.260 ns 11.906 ns]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/find-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.5M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/find-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/16000000/find-hierarchical
+                        time:   [11.901 ns 12.083 ns 12.165 ns]
+                        thrpt:  [82.203 Melem/s 82.764 Melem/s 84.028 Melem/s]
+
+Benchmarking trnmap/random-starts/4096-trit-clusters/16000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/4096-trit-clusters/16000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/4096-trit-clusters/16000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.20 ms (8525 iterations)
+Benchmarking trnmap/random-starts/4096-trit-clusters/16000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/4096-trit-clusters/16000000/find-hierarchical-1k
+                        time:   [11.509 µs 11.580 µs 11.682 µs]
+                        thrpt:  [87.653 Melem/s 88.427 Melem/s 88.970 Melem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/find-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (8.5M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/find-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/16000000/find-hierarchical
+                        time:   [11.490 ns 11.610 ns 11.688 ns]
+                        thrpt:  [85.560 Melem/s 86.135 Melem/s 87.031 Melem/s]
+
+Benchmarking trnmap/random-starts/positive-1-in-4096/16000000/find-hierarchical-1k
+Benchmarking trnmap/random-starts/positive-1-in-4096/16000000/find-hierarchical-1k: Warming up for 50.000 ms
+Benchmarking trnmap/random-starts/positive-1-in-4096/16000000/find-hierarchical-1k: Collecting 10 samples in estimated 100.31 ms (6270 iterations)
+Benchmarking trnmap/random-starts/positive-1-in-4096/16000000/find-hierarchical-1k: Analyzing
+trnmap/random-starts/positive-1-in-4096/16000000/find-hierarchical-1k
+                        time:   [15.772 µs 15.938 µs 16.092 µs]
+                        thrpt:  [63.634 Melem/s 64.247 Melem/s 64.927 Melem/s]
+
+Benchmarking trnmap/absent/positive-1-in-4096/16000000/find-hierarchical
+Benchmarking trnmap/absent/positive-1-in-4096/16000000/find-hierarchical: Warming up for 50.000 ms
+Benchmarking trnmap/absent/positive-1-in-4096/16000000/find-hierarchical: Collecting 10 samples in estimated 100.00 ms (9.0M iterations)
+Benchmarking trnmap/absent/positive-1-in-4096/16000000/find-hierarchical: Analyzing
+trnmap/absent/positive-1-in-4096/16000000/find-hierarchical
+                        time:   [10.749 ns 10.871 ns 11.034 ns]
+

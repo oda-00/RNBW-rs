@@ -151,11 +151,23 @@ fn trnmap_benchmarks(c: &mut Criterion) {
         group.bench_function("get-packed", |b| {
             b.iter(|| black_box(map.get(black_box(probe)).expect("valid index")))
         });
+        group.bench_function("get-unchecked", |b| {
+            b.iter(|| {
+                // SAFETY: the fixed benchmark probe is less than `len`.
+                black_box(unsafe { map.get_unchecked(black_box(probe)) })
+            })
+        });
         group.bench_function("get-scalar-byte", |b| {
             b.iter(|| black_box(values[black_box(probe)]))
         });
         group.bench_function("find-one-value", |b| {
             b.iter(|| black_box(map.find(CLASS_POSITIVE, black_box(probe))))
+        });
+        group.bench_function("find-unchecked-one-value", |b| {
+            b.iter(|| {
+                // SAFETY: the fixed benchmark probe is less than `len`.
+                black_box(unsafe { map.find_unchecked(CLASS_POSITIVE, black_box(probe)) })
+            })
         });
         group.bench_function("find-scalar-scan", |b| {
             b.iter(|| {
@@ -170,6 +182,203 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             })
         });
         group.finish();
+
+        if len == 1_000_000 {
+            let indices = random_starts(len);
+            let mut batch = c.benchmark_group("trnmap/batch-get-1k-random/1m-map");
+            batch.throughput(Throughput::Elements(indices.len() as u64));
+            batch.bench_function("packed-trnmap", |b| {
+                b.iter(|| {
+                    let mut sum = 0i64;
+                    for &index in black_box(&indices) {
+                        sum += i64::from(map.get(index).expect("valid random index"));
+                    }
+                    black_box(sum)
+                })
+            });
+            batch.bench_function("packed-trnmap-unchecked", |b| {
+                b.iter(|| {
+                    let mut sum = 0i64;
+                    for &index in black_box(&indices) {
+                        // SAFETY: random_starts returns indexes in `0..len`.
+                        sum += i64::from(unsafe { map.get_unchecked(index) });
+                    }
+                    black_box(sum)
+                })
+            });
+            batch.bench_function("byte-array", |b| {
+                b.iter(|| {
+                    let mut sum = 0i64;
+                    for &index in black_box(&indices) {
+                        sum += i64::from(values[index]);
+                    }
+                    black_box(sum)
+                })
+            });
+            batch.finish();
+
+            let mut searches = c.benchmark_group("trnmap/batch-find-1k-random/1m-map");
+            searches.throughput(Throughput::Elements(indices.len() as u64));
+            searches.bench_function("hierarchical-positive", |b| {
+                b.iter(|| {
+                    let mut sum = 0usize;
+                    for &start in black_box(&indices) {
+                        sum = sum.wrapping_add(map.find(CLASS_POSITIVE, start));
+                    }
+                    black_box(sum)
+                })
+            });
+            searches.bench_function("hierarchical-positive-unchecked", |b| {
+                b.iter(|| {
+                    let mut sum = 0usize;
+                    for &start in black_box(&indices) {
+                        // SAFETY: random_starts returns every start in `0..len`.
+                        sum =
+                            sum.wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, start) });
+                    }
+                    black_box(sum)
+                })
+            });
+            searches.bench_function("hierarchical-positive-unroll4", |b| {
+                b.iter(|| {
+                    let mut sums = [0usize; 4];
+                    for starts in black_box(&indices).chunks_exact(4) {
+                        for lane in 0..4 {
+                            sums[lane] =
+                                sums[lane].wrapping_add(map.find(CLASS_POSITIVE, starts[lane]));
+                        }
+                    }
+                    black_box(sums.into_iter().fold(0usize, usize::wrapping_add))
+                })
+            });
+            searches.bench_function("hierarchical-positive-unroll4-explicit", |b| {
+                b.iter(|| {
+                    let mut sums = [0usize; 4];
+                    for starts in black_box(&indices).chunks_exact(4) {
+                        sums[0] = sums[0].wrapping_add(map.find(CLASS_POSITIVE, starts[0]));
+                        sums[1] = sums[1].wrapping_add(map.find(CLASS_POSITIVE, starts[1]));
+                        sums[2] = sums[2].wrapping_add(map.find(CLASS_POSITIVE, starts[2]));
+                        sums[3] = sums[3].wrapping_add(map.find(CLASS_POSITIVE, starts[3]));
+                    }
+                    black_box(sums.into_iter().fold(0usize, usize::wrapping_add))
+                })
+            });
+            searches.bench_function("hierarchical-positive-unroll8-explicit", |b| {
+                b.iter(|| {
+                    let mut sums = [0usize; 8];
+                    for starts in black_box(&indices).chunks_exact(8) {
+                        sums[0] = sums[0].wrapping_add(map.find(CLASS_POSITIVE, starts[0]));
+                        sums[1] = sums[1].wrapping_add(map.find(CLASS_POSITIVE, starts[1]));
+                        sums[2] = sums[2].wrapping_add(map.find(CLASS_POSITIVE, starts[2]));
+                        sums[3] = sums[3].wrapping_add(map.find(CLASS_POSITIVE, starts[3]));
+                        sums[4] = sums[4].wrapping_add(map.find(CLASS_POSITIVE, starts[4]));
+                        sums[5] = sums[5].wrapping_add(map.find(CLASS_POSITIVE, starts[5]));
+                        sums[6] = sums[6].wrapping_add(map.find(CLASS_POSITIVE, starts[6]));
+                        sums[7] = sums[7].wrapping_add(map.find(CLASS_POSITIVE, starts[7]));
+                    }
+                    black_box(sums.into_iter().fold(0usize, usize::wrapping_add))
+                })
+            });
+            searches.bench_function("hierarchical-positive-unroll16-explicit", |b| {
+                b.iter(|| {
+                    let mut sums = [0usize; 16];
+                    for starts in black_box(&indices).chunks_exact(16) {
+                        sums[0] = sums[0].wrapping_add(map.find(CLASS_POSITIVE, starts[0]));
+                        sums[1] = sums[1].wrapping_add(map.find(CLASS_POSITIVE, starts[1]));
+                        sums[2] = sums[2].wrapping_add(map.find(CLASS_POSITIVE, starts[2]));
+                        sums[3] = sums[3].wrapping_add(map.find(CLASS_POSITIVE, starts[3]));
+                        sums[4] = sums[4].wrapping_add(map.find(CLASS_POSITIVE, starts[4]));
+                        sums[5] = sums[5].wrapping_add(map.find(CLASS_POSITIVE, starts[5]));
+                        sums[6] = sums[6].wrapping_add(map.find(CLASS_POSITIVE, starts[6]));
+                        sums[7] = sums[7].wrapping_add(map.find(CLASS_POSITIVE, starts[7]));
+                        sums[8] = sums[8].wrapping_add(map.find(CLASS_POSITIVE, starts[8]));
+                        sums[9] = sums[9].wrapping_add(map.find(CLASS_POSITIVE, starts[9]));
+                        sums[10] = sums[10].wrapping_add(map.find(CLASS_POSITIVE, starts[10]));
+                        sums[11] = sums[11].wrapping_add(map.find(CLASS_POSITIVE, starts[11]));
+                        sums[12] = sums[12].wrapping_add(map.find(CLASS_POSITIVE, starts[12]));
+                        sums[13] = sums[13].wrapping_add(map.find(CLASS_POSITIVE, starts[13]));
+                        sums[14] = sums[14].wrapping_add(map.find(CLASS_POSITIVE, starts[14]));
+                        sums[15] = sums[15].wrapping_add(map.find(CLASS_POSITIVE, starts[15]));
+                    }
+                    black_box(sums.into_iter().fold(0usize, usize::wrapping_add))
+                })
+            });
+            searches.bench_function("hierarchical-positive-unchecked-unroll16", |b| {
+                b.iter(|| {
+                    let mut sums = [0usize; 16];
+                    for starts in black_box(&indices).chunks_exact(16) {
+                        // SAFETY: random_starts returns every start in `0..len`.
+                        sums[0] = sums[0]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[0]) });
+                        sums[1] = sums[1]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[1]) });
+                        sums[2] = sums[2]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[2]) });
+                        sums[3] = sums[3]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[3]) });
+                        sums[4] = sums[4]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[4]) });
+                        sums[5] = sums[5]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[5]) });
+                        sums[6] = sums[6]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[6]) });
+                        sums[7] = sums[7]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[7]) });
+                        sums[8] = sums[8]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[8]) });
+                        sums[9] = sums[9]
+                            .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[9]) });
+                        sums[10] = sums[10].wrapping_add(unsafe {
+                            map.find_unchecked(CLASS_POSITIVE, starts[10])
+                        });
+                        sums[11] = sums[11].wrapping_add(unsafe {
+                            map.find_unchecked(CLASS_POSITIVE, starts[11])
+                        });
+                        sums[12] = sums[12].wrapping_add(unsafe {
+                            map.find_unchecked(CLASS_POSITIVE, starts[12])
+                        });
+                        sums[13] = sums[13].wrapping_add(unsafe {
+                            map.find_unchecked(CLASS_POSITIVE, starts[13])
+                        });
+                        sums[14] = sums[14].wrapping_add(unsafe {
+                            map.find_unchecked(CLASS_POSITIVE, starts[14])
+                        });
+                        sums[15] = sums[15].wrapping_add(unsafe {
+                            map.find_unchecked(CLASS_POSITIVE, starts[15])
+                        });
+                    }
+                    black_box(sums.into_iter().fold(0usize, usize::wrapping_add))
+                })
+            });
+            searches.bench_function("hierarchical-positive-unroll8", |b| {
+                b.iter(|| {
+                    let mut sums = [0usize; 8];
+                    for starts in black_box(&indices).chunks_exact(8) {
+                        for lane in 0..8 {
+                            sums[lane] =
+                                sums[lane].wrapping_add(map.find(CLASS_POSITIVE, starts[lane]));
+                        }
+                    }
+                    black_box(sums.into_iter().fold(0usize, usize::wrapping_add))
+                })
+            });
+            searches.bench_function("scalar-scan-positive", |b| {
+                b.iter(|| {
+                    let mut sum = 0usize;
+                    for &start in black_box(&indices) {
+                        let found = values
+                            .iter()
+                            .enumerate()
+                            .skip(start)
+                            .find(|&(_, &value)| value == 1)
+                            .map_or(len, |(index, _)| index);
+                        sum = sum.wrapping_add(found);
+                    }
+                    black_box(sum)
+                })
+            });
+            searches.finish();
+        }
 
         let mut changing = TrnMap::new(len).expect("allocate mutable map");
         let mut flip = false;

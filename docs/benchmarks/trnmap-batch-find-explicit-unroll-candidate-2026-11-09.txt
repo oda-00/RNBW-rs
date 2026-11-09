@@ -1,0 +1,47 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 5.95s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive: Collecting 30 samples in estimated 400.05 ms (334k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive
+                        time:   [1.2061 µs 1.2335 µs 1.2680 µs]
+                        thrpt:  [807.59 Melem/s 830.17 Melem/s 849.00 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4: Collecting 30 samples in estimated 400.33 ms (299k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4
+                        time:   [1.2451 µs 1.2612 µs 1.2841 µs]
+                        thrpt:  [797.46 Melem/s 811.90 Melem/s 822.44 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4-explicit
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4-explicit: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4-explicit: Collecting 30 samples in estimated 400.33 ms (357k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4-explicit: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4-explicit
+                        time:   [1.0773 µs 1.0914 µs 1.1133 µs]
+                        thrpt:  [919.78 Melem/s 938.21 Melem/s 950.55 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8: Collecting 30 samples in estimated 400.08 ms (320k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8
+                        time:   [1.2104 µs 1.2428 µs 1.2816 µs]
+                        thrpt:  [799.02 Melem/s 823.96 Melem/s 846.02 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive: Collecting 30 samples in estimated 400.74 ms (224k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive: Analyzing
+trnmap/batch-find-1k-random/1m-map/scalar-scan-positive
+                        time:   [1.7859 µs 1.8099 µs 1.8387 µs]
+                        thrpt:  [556.92 Melem/s 565.78 Melem/s 573.37 Melem/s]
+

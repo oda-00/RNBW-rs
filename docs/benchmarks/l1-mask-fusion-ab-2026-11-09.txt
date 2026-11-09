@@ -1,0 +1,33 @@
+# L1 mask construction fusion A/B
+
+Candidate committed as `34f21c2`. It replaces per-level full-key scans with one outer traversal that loads each key once for mask construction and updates each selected level in an inner loop. L1 image layout and wire bytes are unchanged; a randomized reference-equivalence test compares every level mask against the former algorithm for all even widths 2–32.
+
+Criterion command: `cargo bench --offline --locked --bench store -- store-build --sample-size 10 --warm-up-time 1 --measurement-time 2`. Each dataset has 1,000,000 keys. Baselines are Criterion stored references on this host; the Criterion change report was emitted during the candidate run.
+
+| Data shape | Path | Current mean [95% CI] (ms) | Change vs stored baseline [95% CI] | Verdict |
+|---|---|---:|---:|---|
+| clustered | Rnbw::encode | 21.431 [21.296–21.586] | -17.03% [-17.93% to -16.00%] | Improved |
+| clustered | Store p32 build | 3.062 [2.979–3.208] | +4.26% [+1.15% to +9.48%] | No significant change (p=0.06) |
+| clustered | Store p64 build | 2.983 [2.963–3.005] | +1.20% [+0.20% to +2.18%] | ~1.2% slower; within noise threshold |
+| dense | Rnbw::encode | 21.209 [21.052–21.367] | -14.57% [-16.24% to -13.02%] | Improved |
+| dense | Store p32 build | 1.622 [1.585–1.650] | -9.41% [-12.18% to -6.77%] | Improved |
+| dense | Store p64 build | 1.626 [1.604–1.645] | -10.16% [-14.20% to -6.32%] | Improved |
+| ecs | Rnbw::encode | 21.756 [21.458–22.015] | -18.16% [-19.27% to -17.12%] | Improved |
+| ecs | Store p32 build | 2.787 [2.748–2.825] | -10.46% [-12.63% to -8.39%] | Improved |
+| ecs | Store p64 build | 2.823 [2.793–2.851] | -6.14% [-8.51% to -3.62%] | Improved |
+| morton-shell | Rnbw::encode | 21.260 [21.037–21.500] | -12.35% [-13.33% to -11.22%] | Improved |
+| morton-shell | Store p32 build | 18.418 [18.230–18.647] | -9.60% [-11.19% to -8.05%] | Improved |
+| morton-shell | Store p64 build | 18.344 [18.251–18.444] | -11.18% [-13.19% to -9.26%] | Improved |
+| uniform | Rnbw::encode | 20.570 [20.404–20.790] | -30.81% [-39.57% to -21.49%] | Improved |
+| uniform | Store p32 build | 22.138 [22.020–22.262] | -5.14% [-6.67% to -3.55%] | Improved |
+| uniform | Store p64 build | 23.639 [23.515–23.769] | -16.61% [-24.02% to -8.09%] | Improved |
+
+### Cost model
+
+The removed mask stage performed D input scans for N keys, with D≤16; the fixed-width asymptotic bound remains O(N·D)=O(N). The candidate performs one input load per key in the outer mask pass and D mask updates per key. Bucket-stream and low-bit construction still read the source separately. Serialized mask/rank/bucket bytes are unchanged.
+
+Peak logical mask scratch changes from `8 × max_l ceil(nodes[l]/16)` bytes (reused vector) to `8 × Σ_l ceil(nodes[l]/16)` bytes (all level masks live together), an increase of `8 × (Σ_l ceil(nodes[l]/16) − max_l ceil(nodes[l]/16))` bytes, plus allocator capacity. Candidate Massif is being captured by the GitHub workflow; WSL resource limits prevented a second local launch after the baseline profile.
+
+### Validation
+
+`cargo fmt --all -- --check`, `cargo clippy --offline --locked --all-targets -- -D warnings`, and `cargo test --offline --locked` passed. The test suite had 58 tests including deterministic mutation fuzzing; the new test compared fused masks against the prior per-level reference over 16 widths and 12 randomized sets per width, for every depth.

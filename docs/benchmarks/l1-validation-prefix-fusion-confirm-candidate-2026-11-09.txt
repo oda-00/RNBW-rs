@@ -1,0 +1,64 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.20s
+     Running benches\codec.rs (target\release\deps\codec-4f96c2aa536a4974.exe)
+Gnuplot not found, using plotters backend
+benchmark environment: arch=x86_64 RNBW-SIMD=avx2 rayon-workers=16
+dataset=uniform keys=999882 bytes/key: rnbw-query=1.9288 rnbw-hybrid=1.7560 lane-lz-hybrid=2.2344 plain-ef=1.8216 delta-varint=1.9932 raw=4.0000 roaring-run-optimized=2.5244 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+Benchmarking build/uniform/rnbw/999882
+Benchmarking build/uniform/rnbw/999882: Warming up for 200.00 ms
+
+Warning: Unable to complete 20 samples in 400.0ms. You may wish to increase target time to 415.4ms, or reduce sample count to 10.
+Benchmarking build/uniform/rnbw/999882: Collecting 20 samples in estimated 415.37 ms (20 iterations)
+Benchmarking build/uniform/rnbw/999882: Analyzing
+build/uniform/rnbw/999882
+                        time:   [20.516 ms 20.765 ms 21.052 ms]
+                        thrpt:  [47.495 Melem/s 48.153 Melem/s 48.736 Melem/s]
+
+dataset=clustered keys=1000000 bytes/key: rnbw-query=0.5081 rnbw-hybrid=0.0521 lane-lz-hybrid=0.0512 plain-ef=1.6250 delta-varint=1.0313 raw=4.0000 roaring-run-optimized=0.2207 lz4-64k-indexed=4.0165 (+0 RNBW runtime index bytes)
+Benchmarking build/clustered/rnbw/1000000
+Benchmarking build/clustered/rnbw/1000000: Warming up for 200.00 ms
+
+Warning: Unable to complete 20 samples in 400.0ms. You may wish to increase target time to 648.4ms, or reduce sample count to 10.
+Benchmarking build/clustered/rnbw/1000000: Collecting 20 samples in estimated 648.43 ms (20 iterations)
+Benchmarking build/clustered/rnbw/1000000: Analyzing
+build/clustered/rnbw/1000000
+                        time:   [21.777 ms 22.355 ms 23.162 ms]
+                        thrpt:  [43.174 Melem/s 44.733 Melem/s 45.920 Melem/s]
+
+dataset=dense keys=1000000 bytes/key: rnbw-query=0.4667 rnbw-hybrid=0.0494 lane-lz-hybrid=0.0284 plain-ef=0.3125 delta-varint=1.0000 raw=4.0000 roaring-run-optimized=0.0002 lz4-64k-indexed=4.0167 (+0 RNBW runtime index bytes)
+Benchmarking build/dense/rnbw/1000000
+Benchmarking build/dense/rnbw/1000000: Warming up for 200.00 ms
+
+Warning: Unable to complete 20 samples in 400.0ms. You may wish to increase target time to 497.0ms, or reduce sample count to 10.
+Benchmarking build/dense/rnbw/1000000: Collecting 20 samples in estimated 497.02 ms (20 iterations)
+Benchmarking build/dense/rnbw/1000000: Analyzing
+build/dense/rnbw/1000000
+                        time:   [25.013 ms 27.434 ms 30.110 ms]
+                        thrpt:  [33.212 Melem/s 36.451 Melem/s 39.979 Melem/s]
+
+dataset=morton-shell keys=1000000 bytes/key: rnbw-query=1.2903 rnbw-hybrid=1.1764 lane-lz-hybrid=1.6231 plain-ef=1.5655 delta-varint=1.3198 raw=4.0000 roaring-run-optimized=2.0306 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+Benchmarking build/morton-shell/rnbw/1000000
+Benchmarking build/morton-shell/rnbw/1000000: Warming up for 200.00 ms
+
+Warning: Unable to complete 20 samples in 400.0ms. You may wish to increase target time to 428.7ms, or reduce sample count to 10.
+Benchmarking build/morton-shell/rnbw/1000000: Collecting 20 samples in estimated 428.74 ms (20 iterations)
+Benchmarking build/morton-shell/rnbw/1000000: Analyzing
+build/morton-shell/rnbw/1000000
+                        time:   [20.770 ms 20.833 ms 20.898 ms]
+                        thrpt:  [47.851 Melem/s 48.000 Melem/s 48.146 Melem/s]
+
+dataset=ecs keys=1000000 bytes/key: rnbw-query=0.4768 rnbw-hybrid=0.1520 lane-lz-hybrid=0.0346 plain-ef=0.3333 delta-varint=1.0000 raw=4.0000 roaring-run-optimized=0.1394 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+Benchmarking build/ecs/rnbw/1000000
+Benchmarking build/ecs/rnbw/1000000: Warming up for 200.00 ms
+
+Warning: Unable to complete 20 samples in 400.0ms. You may wish to increase target time to 427.8ms, or reduce sample count to 10.
+Benchmarking build/ecs/rnbw/1000000: Collecting 20 samples in estimated 427.84 ms (20 iterations)
+Benchmarking build/ecs/rnbw/1000000: Analyzing
+build/ecs/rnbw/1000000  time:   [21.489 ms 21.577 ms 21.667 ms]
+                        thrpt:  [46.152 Melem/s 46.345 Melem/s 46.535 Melem/s]
+
+lane-dataset=graphics-rgba8-synthetic raw=1048576 RNBW-multilane=700128 (1.498x) LZ4-interleaved=1052653 (0.996x) LZ4-SoA=790781 (1.326x)
+lane-dataset=graphics-shader-words-synthetic raw=262144 RNBW-multilane=3672 (71.390x) LZ4-interleaved=13331 (19.664x) LZ4-SoA=1459 (179.674x)
+lane-dataset=ai-model-int8-weights-synthetic raw=1048576 RNBW-multilane=21528 (48.708x) LZ4-interleaved=19770 (53.039x) LZ4-SoA=24149 (43.421x)
+lane-dataset=ai-kernel-words-synthetic raw=262144 RNBW-multilane=3744 (70.017x) LZ4-interleaved=263177 (0.996x) LZ4-SoA=9741 (26.911x)
+lane-dataset=random-bytes-control raw=262144 RNBW-multilane=262200 (1.000x) LZ4-interleaved=263177 (0.996x) LZ4-SoA=263177 (0.996x)

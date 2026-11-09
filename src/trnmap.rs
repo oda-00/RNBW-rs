@@ -458,6 +458,7 @@ impl<'a> TrnMap<'a> {
     }
 
     /// Reads trit `index`.
+    #[inline]
     pub fn get(&self, index: usize) -> Result<i8, TrnMapError> {
         if index >= self.len {
             return Err(TrnMapError::IndexOutOfBounds {
@@ -465,8 +466,25 @@ impl<'a> TrnMap<'a> {
                 len: self.len,
             });
         }
-        let word = self.read_leaf(index / 64);
-        Ok(word.get((index & 63) as u32).expect("masked trit index"))
+        // SAFETY: the length check above guarantees the leaf and bit are valid.
+        Ok(unsafe { self.get_unchecked(index) })
+    }
+
+    /// Reads a trit without checking `index`.
+    ///
+    /// # Safety
+    /// `index` must be less than [`Self::len`].
+    #[inline]
+    pub unsafe fn get_unchecked(&self, index: usize) -> i8 {
+        debug_assert!(index < self.len);
+        let bit = (index & 63) as u32;
+        let at = self.trit_base + (index >> 6) * 2;
+        let words = self.backing.words();
+        // SAFETY: the caller guarantees `index < len`; the layout allocates two
+        // plane words for every leaf covering that range.
+        let (positive, nonnegative) =
+            unsafe { (*words.get_unchecked(at), *words.get_unchecked(at + 1)) };
+        (((positive >> bit) & 1) + ((nonnegative >> bit) & 1)) as i8 - 1
     }
 
     /// Writes trit `index`, updating only summary levels whose state changes.
@@ -549,15 +567,42 @@ impl<'a> TrnMap<'a> {
 
     /// First index at or after `start` belonging to `classes`, or `len`.
     /// Class bits are 1 = -1, 2 = 0, 4 = +1. Runs in O(log_64(n)) word loads.
+    #[inline(always)]
     pub fn find(&self, classes: u8, start: usize) -> usize {
         let classes = classes & ALL_CLASSES;
         if start >= self.len || classes == 0 {
             return self.len;
         }
+        // SAFETY: the checked branch guarantees `start < self.len`.
+        unsafe { self.find_unchecked(classes, start) }
+    }
+
+    /// Finds a matching trit without checking the start index.
+    ///
+    /// # Safety
+    /// `start` must be less than [`Self::len`].
+    #[inline(always)]
+    pub unsafe fn find_unchecked(&self, classes: u8, start: usize) -> usize {
+        debug_assert!(start < self.len);
+        let classes = classes & ALL_CLASSES;
+        if classes == 0 {
+            return self.len;
+        }
         let leaf_index = start / 64;
-        let leaf_mask = self.leaf_class_mask(leaf_index, classes) & (u64::MAX << (start & 63));
-        if leaf_mask != 0 {
-            return leaf_index * 64 + leaf_mask.trailing_zeros() as usize;
+        if classes == POSITIVE {
+            let at = self.trit_base + leaf_index * 2;
+            let words = self.backing.words();
+            // SAFETY: `start < len` makes `leaf_index` a valid leaf word.
+            let positive = unsafe { *words.get_unchecked(at) };
+            let candidates = positive >> (start & 63);
+            if candidates != 0 {
+                return start + candidates.trailing_zeros() as usize;
+            }
+        } else {
+            let leaf_mask = self.leaf_class_mask(leaf_index, classes) & (u64::MAX << (start & 63));
+            if leaf_mask != 0 {
+                return leaf_index * 64 + leaf_mask.trailing_zeros() as usize;
+            }
         }
         if self.level_count == 1 {
             return self.len;
@@ -1176,6 +1221,43 @@ mod tests {
             TrnMap::in_buffer(&mut short_buffer, 65),
             Err(TrnMapError::BufferTooSmall { .. })
         ));
+    }
+
+    #[test]
+    fn unchecked_reads_match_checked_reads_at_leaf_boundaries() {
+        for len in [1, 63, 64, 65, 4097] {
+            let mut map = TrnMap::new(len).unwrap();
+            for index in (0..len).step_by(7) {
+                map.set(index, (index % 3) as i8 - 1).unwrap();
+            }
+            for index in 0..len {
+                let checked = map.get(index).unwrap();
+                // SAFETY: the loop bounds guarantee `index < len`.
+                let unchecked = unsafe { map.get_unchecked(index) };
+                assert_eq!(unchecked, checked, "len={len}, index={index}");
+            }
+        }
+    }
+
+    #[test]
+    fn unchecked_find_matches_checked_for_valid_starts() {
+        for len in [1, 63, 64, 65, 4097] {
+            let mut map = TrnMap::new(len).unwrap();
+            for index in (0..len).step_by(7) {
+                map.set(index, (index % 3) as i8 - 1).unwrap();
+            }
+            for classes in 0..=ALL_CLASSES {
+                for start in [0, len / 2, len - 1] {
+                    let expected = map.find(classes, start);
+                    // SAFETY: each tested start is in `0..len`.
+                    let actual = unsafe { map.find_unchecked(classes, start) };
+                    assert_eq!(
+                        actual, expected,
+                        "len={len}, classes={classes}, start={start}"
+                    );
+                }
+            }
+        }
     }
 
     #[test]

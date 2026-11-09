@@ -1,0 +1,39 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.19s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive: Collecting 30 samples in estimated 400.46 ms (330k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive
+                        time:   [1.2520 µs 1.2767 µs 1.3209 µs]
+                        thrpt:  [775.21 Melem/s 802.07 Melem/s 817.89 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4: Collecting 30 samples in estimated 400.09 ms (286k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll4
+                        time:   [1.3759 µs 1.4259 µs 1.5058 µs]
+                        thrpt:  [680.02 Melem/s 718.13 Melem/s 744.24 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8: Collecting 30 samples in estimated 400.02 ms (196k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8
+                        time:   [1.3832 µs 1.4752 µs 1.6215 µs]
+                        thrpt:  [631.49 Melem/s 694.16 Melem/s 740.32 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive: Collecting 30 samples in estimated 400.49 ms (213k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/scalar-scan-positive: Analyzing
+trnmap/batch-find-1k-random/1m-map/scalar-scan-positive
+                        time:   [1.8554 µs 1.9230 µs 2.0225 µs]
+                        thrpt:  [506.30 Melem/s 532.51 Melem/s 551.89 Melem/s]
+

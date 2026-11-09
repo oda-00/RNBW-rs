@@ -1,0 +1,18 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.19s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unchecked-unroll16
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unchecked-unroll16: Warming up for 200.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unchecked-unroll16: Collecting 50 samples in estimated 1.0004 s (1.1M iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unchecked-unroll16: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unchecked-unroll16
+                        time:   [959.40 ns 1.0006 µs 1.0594 µs]
+                        thrpt:  [966.55 Melem/s 1.0234 Gelem/s 1.0673 Gelem/s]
+

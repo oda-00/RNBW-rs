@@ -22,8 +22,8 @@ const LEGACY_DESCRIPTOR_BYTES: usize = 24;
 const DESCRIPTOR_BYTES: usize = 32;
 const TOKEN_BYTES: usize = 4;
 const WINDOW_SIZE: usize = 1 << 16;
-const HASH_BITS_COMPACT: usize = 18;
-const HASH_BITS_WIDE: usize = 18;
+const HASH_BITS_MIN: usize = 10;
+const HASH_BITS_MAX: usize = 18;
 const MAX_MATCH: usize = 130;
 const MATCH_INDEX_TAIL: usize = 16;
 const MATCH_INDEX_SKIP_THRESHOLD: usize = 48;
@@ -381,8 +381,9 @@ impl LaneLz {
 /// Reusable LZ and entropy scratch for repeated encodes.
 ///
 /// The ordinary `LaneLz::encode` API remains convenient for one-shot calls.
-/// Callers that encode repeatedly can retain this object to amortize the 64 KiB
-/// hash table, 64 KiB window links, and token buffer allocations.
+/// Callers that encode repeatedly can retain this object to amortize the
+/// input-sized hash table (up to 2 MiB), 64 KiB window links, and token buffer
+/// allocations.
 #[derive(Debug, Default)]
 pub struct LaneLzEncoder {
     serial: LzWorkspace,
@@ -790,24 +791,19 @@ fn encode_serial_lanes(
     raw_total: usize,
     workspace: &mut LzWorkspace,
 ) -> Result<LaneLz, CodecError> {
-    let hash_bits = if lanes.len() == 1 {
-        HASH_BITS_WIDE
-    } else {
-        HASH_BITS_COMPACT
-    };
     if lanes.len() == 1 {
         let input = lanes[0];
         if should_skip_lz_sample(input) {
             return LaneLz::from_raw_single_lane(input, raw_total);
         }
         return LaneLz::from_lanes(
-            vec![encode_lane_after_sample(input, workspace, hash_bits)?],
+            vec![encode_lane_after_sample(input, workspace, HASH_BITS_MAX)?],
             raw_total,
         );
     }
     let mut stored = Vec::with_capacity(lanes.len());
     for lane in lanes {
-        stored.push(encode_lane(lane, workspace, hash_bits)?);
+        stored.push(encode_lane(lane, workspace, HASH_BITS_MAX)?);
     }
     LaneLz::from_lanes(stored, raw_total)
 }
@@ -828,7 +824,7 @@ fn encode_parallel_lanes(
         }
         if lane.len() <= LZ_BLOCK_BYTES {
             return LaneLz::from_lanes(
-                vec![encode_lane_after_sample(lane, serial, HASH_BITS_WIDE)?],
+                vec![encode_lane_after_sample(lane, serial, HASH_BITS_MAX)?],
                 raw_total,
             );
         }
@@ -837,7 +833,7 @@ fn encode_parallel_lanes(
         let tasks = worker_count.min(block_count);
         if tasks < 2 {
             return LaneLz::from_lanes(
-                vec![encode_lane_after_sample(lane, serial, HASH_BITS_WIDE)?],
+                vec![encode_lane_after_sample(lane, serial, HASH_BITS_MAX)?],
                 raw_total,
             );
         }
@@ -864,7 +860,7 @@ fn encode_parallel_lanes(
         .zip(lanes.par_chunks(lanes_per_task))
         .try_for_each(|((workspace, output), input)| -> Result<(), CodecError> {
             for (slot, lane) in output.iter_mut().zip(input) {
-                *slot = Some(encode_lane(lane, workspace, HASH_BITS_COMPACT)?);
+                *slot = Some(encode_lane(lane, workspace, HASH_BITS_MAX)?);
             }
             Ok(())
         })?;
@@ -1068,7 +1064,7 @@ fn encode_parallel_single_lane(
             let end_block = (first_block + blocks_per_task).min(block_count);
             let start = first_block * LZ_BLOCK_BYTES;
             let end = (end_block * LZ_BLOCK_BYTES).min(input.len());
-            encode_lz_range(input, start, end, workspace, HASH_BITS_WIDE);
+            encode_lz_range(input, start, end, workspace, HASH_BITS_MAX);
         });
 
     serial.block_tokens.clear();
@@ -1255,6 +1251,7 @@ fn lz_encode_window(
     workspace: &mut LzWorkspace,
     hash_bits: usize,
 ) -> (usize, usize) {
+    let hash_bits = hash_bits.min(hash_bits_for_input(input.len()));
     let LzWorkspace {
         heads,
         touched_heads,
@@ -1371,6 +1368,14 @@ fn finish_token_stream(output: &mut Vec<u8>, literal_bytes: &[u8]) -> (usize, us
 fn hash_at(input: &[u8], index: usize, hash_bits: usize) -> usize {
     let value = u32::from_le_bytes([input[index], input[index + 1], input[index + 2], 0]);
     (value.wrapping_mul(0x1e35_a7bd) >> (32 - hash_bits)) as usize
+}
+
+#[inline]
+fn hash_bits_for_input(input_len: usize) -> usize {
+    let capacity = 1usize << HASH_BITS_MAX;
+    let covered = input_len.max(1).min(capacity);
+    let bits = usize::BITS as usize - (covered - 1).leading_zeros() as usize;
+    bits.clamp(HASH_BITS_MIN, HASH_BITS_MAX)
 }
 
 fn insert_position(index: usize, hash: usize, heads: &mut [u64], touched_heads: &mut Vec<u32>) {
@@ -1756,6 +1761,21 @@ mod tests {
     }
 
     #[test]
+    fn lz_hash_table_tracks_active_input_size() {
+        assert_eq!(hash_bits_for_input(0), HASH_BITS_MIN);
+        assert_eq!(hash_bits_for_input(1), HASH_BITS_MIN);
+        assert_eq!(hash_bits_for_input(1 << HASH_BITS_MIN), HASH_BITS_MIN);
+        assert_eq!(
+            hash_bits_for_input((1 << HASH_BITS_MIN) + 1),
+            HASH_BITS_MIN + 1
+        );
+        assert_eq!(hash_bits_for_input(1 << 16), 16);
+        assert_eq!(hash_bits_for_input(1 << 17), 17);
+        assert_eq!(hash_bits_for_input(1 << HASH_BITS_MAX), HASH_BITS_MAX);
+        assert_eq!(hash_bits_for_input(1 << (HASH_BITS_MAX + 1)), HASH_BITS_MAX);
+    }
+
+    #[test]
     fn compressed_png_sample_uses_raw_fast_path_and_roundtrips() {
         use std::io::Write;
 
@@ -1814,7 +1834,7 @@ mod tests {
         assert_eq!(direct_image.as_bytes(), raw_image.as_bytes());
 
         let mut full_workspace = LzWorkspace::default();
-        let (token_count, literal_len) = lz_encode(&png, &mut full_workspace, HASH_BITS_WIDE);
+        let (token_count, literal_len) = lz_encode(&png, &mut full_workspace, HASH_BITS_MAX);
         let full_lz_result =
             choose_lane_data(&png, &full_workspace.tokens, token_count, literal_len).unwrap();
         assert_eq!(full_lz_result.mode, MODE_RAW);

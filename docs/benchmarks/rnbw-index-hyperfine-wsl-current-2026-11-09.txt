@@ -1,0 +1,79 @@
+# Current RNBW integer-index Hyperfine matrix
+
+Host: Ubuntu WSL on the local machine; Linux release binary, Rust 1.99.1, Hyperfine 1.19.0. Commands use --shell=none --warmup 2 --runs 10. Each timed process generates the 1M-key corpus, builds the representation, and then performs the named operation; contains runs 8,192 probes. These are process totals, not isolated codec operation times.
+
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation build --engine rnbw` | 38.6 ± 1.3 | 37.5 | 42.1 | 2.16 ± 0.08 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation build --engine plain-ef` | 26.1 ± 0.3 | 25.7 | 26.7 | 1.46 ± 0.02 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation build --engine raw` | 17.9 ± 0.2 | 17.6 | 18.1 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation contains --engine rnbw` | 39.8 ± 0.3 | 39.5 | 40.6 | 2.08 ± 0.03 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation contains --engine plain-ef` | 29.9 ± 0.4 | 29.4 | 30.6 | 1.56 ± 0.03 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation contains --engine raw` | 19.2 ± 0.2 | 18.8 | 19.4 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation decode --engine rnbw` | 86.2 ± 0.4 | 85.6 | 86.9 | 4.33 ± 0.06 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation decode --engine plain-ef` | 32.6 ± 0.3 | 32.2 | 33.1 | 1.64 ± 0.03 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload uniform --size 1000000 --operation decode --engine raw` | 19.9 ± 0.3 | 19.4 | 20.3 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation build --engine rnbw` | 25.7 ± 0.8 | 25.1 | 27.9 | 5.13 ± 0.22 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation build --engine plain-ef` | 9.8 ± 0.2 | 9.6 | 10.1 | 1.96 ± 0.07 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation build --engine raw` | 5.0 ± 0.1 | 4.8 | 5.3 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation contains --engine rnbw` | 28.0 ± 0.2 | 27.8 | 28.3 | 4.53 ± 0.29 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation contains --engine plain-ef` | 11.0 ± 0.3 | 10.4 | 11.5 | 1.78 ± 0.12 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation contains --engine raw` | 6.2 ± 0.4 | 5.5 | 6.7 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation decode --engine rnbw` | 45.2 ± 0.6 | 44.1 | 46.4 | 6.27 ± 0.33 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation decode --engine plain-ef` | 16.0 ± 0.3 | 15.4 | 16.4 | 2.22 ± 0.12 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload clustered --size 1000000 --operation decode --engine raw` | 7.2 ± 0.4 | 6.7 | 8.0 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation build --engine rnbw` | 25.4 ± 1.1 | 24.8 | 28.6 | 5.17 ± 0.44 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation build --engine plain-ef` | 6.6 ± 0.1 | 6.4 | 6.7 | 1.34 ± 0.10 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation build --engine raw` | 4.9 ± 0.4 | 4.4 | 5.8 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation contains --engine rnbw` | 27.1 ± 0.2 | 26.8 | 27.4 | 4.54 ± 0.21 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation contains --engine plain-ef` | 7.5 ± 0.1 | 7.3 | 7.8 | 1.25 ± 0.06 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation contains --engine raw` | 6.0 ± 0.3 | 5.6 | 6.4 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation decode --engine rnbw` | 43.8 ± 0.8 | 42.5 | 45.0 | 6.22 ± 0.18 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation decode --engine plain-ef` | 9.7 ± 0.2 | 9.4 | 10.1 | 1.38 ± 0.05 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload dense --size 1000000 --operation decode --engine raw` | 7.0 ± 0.2 | 6.9 | 7.3 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation build --engine rnbw` | 126.9 ± 2.0 | 125.2 | 131.7 | 1.12 ± 0.04 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation build --engine plain-ef` | 113.7 ± 3.4 | 110.0 | 120.0 | 1.00 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation build --engine raw` | 114.3 ± 9.1 | 104.5 | 131.7 | 1.01 ± 0.09 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation contains --engine rnbw` | 131.9 ± 4.7 | 126.1 | 140.1 | 1.16 ± 0.08 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation contains --engine plain-ef` | 115.7 ± 1.5 | 113.1 | 117.5 | 1.01 ± 0.06 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation contains --engine raw` | 114.0 ± 6.5 | 107.7 | 127.5 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation decode --engine rnbw` | 164.7 ± 8.1 | 159.1 | 186.5 | 1.44 ± 0.10 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation decode --engine plain-ef` | 121.8 ± 3.5 | 116.5 | 126.6 | 1.07 ± 0.06 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload morton-shell --size 1000000 --operation decode --engine raw` | 114.3 ± 5.5 | 108.5 | 126.6 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation build --engine rnbw` | 26.9 ± 0.4 | 26.4 | 27.8 | 4.06 ± 0.14 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation build --engine plain-ef` | 8.4 ± 0.1 | 8.2 | 8.6 | 1.26 ± 0.04 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation build --engine raw` | 6.6 ± 0.2 | 6.5 | 7.1 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation contains --engine rnbw` | 29.0 ± 0.3 | 28.6 | 29.4 | 3.78 ± 0.26 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation contains --engine plain-ef` | 9.2 ± 0.2 | 8.9 | 9.6 | 1.20 ± 0.09 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation contains --engine raw` | 7.7 ± 0.5 | 7.0 | 8.6 | 1.00 |
+| Command | Mean [ms] | Min [ms] | Max [ms] | Relative |
+|:---|---:|---:|---:|---:|
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation decode --engine rnbw` | 48.5 ± 0.4 | 48.0 | 49.2 | 5.45 ± 0.20 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation decode --engine plain-ef` | 11.4 ± 0.3 | 10.9 | 11.9 | 1.29 ± 0.06 |
+| `/tmp/rnbw-linux-target/release/rnbw bench --workload ecs --size 1000000 --operation decode --engine raw` | 8.9 ± 0.3 | 8.3 | 9.6 | 1.00 |

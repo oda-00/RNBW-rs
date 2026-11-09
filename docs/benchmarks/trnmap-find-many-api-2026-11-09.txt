@@ -1,0 +1,26 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 10.43s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-safe
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-safe: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-safe: Collecting 30 samples in estimated 400.10 ms (289k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-safe: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-safe
+                        time:   [1.4204 µs 1.4482 µs 1.4948 µs]
+                        thrpt:  [685.04 Melem/s 707.09 Melem/s 720.90 Melem/s]
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-unchecked
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-unchecked: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-unchecked: Collecting 30 samples in estimated 400.10 ms (351k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-unchecked: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-many-unchecked
+                        time:   [1.1330 µs 1.1519 µs 1.1786 µs]
+                        thrpt:  [868.85 Melem/s 888.99 Melem/s 903.79 Melem/s]
+

@@ -114,15 +114,9 @@ impl Rnbw {
     /// This is used by the multi-level manager for a group or chunk whose
     /// directory already implies the higher bits.
     pub fn encode_width(sorted_values: &[u32], width: u8) -> Result<Self, CodecError> {
-        validate_input(sorted_values, width)?;
         let max_depth = (width / 2) as usize;
         let mut node_counts = [0usize; 17];
-        count_prefixes_by_level(
-            sorted_values,
-            width,
-            max_depth,
-            &mut node_counts[..=max_depth],
-        );
+        analyze_input(sorted_values, width, &mut node_counts[..=max_depth])?;
         let nodes = &node_counts[..=max_depth];
 
         let mut best: Option<(usize, usize)> = None;
@@ -327,6 +321,80 @@ impl<'a> RnbwView<'a> {
     }
 }
 
+fn analyze_input(values: &[u32], width: u8, counts: &mut [usize]) -> Result<(), CodecError> {
+    if !(2..=32).contains(&width) || !width.is_multiple_of(2) {
+        return Err(CodecError::InvalidFormat(
+            "key width must be even and between 2 and 32",
+        ));
+    }
+    if values.len() > u32::MAX as usize {
+        return Err(CodecError::LengthOverflow);
+    }
+    counts.fill(0);
+    if values.is_empty() {
+        return Ok(());
+    }
+
+    let max_depth = (width / 2) as usize;
+    counts[0] = 1;
+    let mut increments = [0usize; 17];
+    if width == 32 {
+        // The normal full-width path has no range check. Validate ordering and
+        // derive all prefix counts together, returning on the first bad pair.
+        let mut previous = values[0];
+        for (index, &current) in values[1..].iter().enumerate() {
+            if current <= previous {
+                return Err(CodecError::UnsortedInput { index: index + 1 });
+            }
+            let differing_bits = (u32::BITS - (previous ^ current).leading_zeros()) as usize;
+            let common_bits = 32 - differing_bits;
+            let first_distinct_depth = common_bits / 2 + 1;
+            if first_distinct_depth <= max_depth {
+                increments[first_distinct_depth] += 1;
+            }
+            previous = current;
+        }
+    } else {
+        let limit = 1u32 << width;
+        let mut first_unsorted = None;
+        let mut first_out_of_range = (values[0] >= limit).then_some(0);
+        for (index, pair) in values.windows(2).enumerate() {
+            let current_index = index + 1;
+            if pair[1] >= limit && first_out_of_range.is_none() {
+                first_out_of_range = Some(current_index);
+            }
+            if pair[0] >= pair[1] && first_unsorted.is_none() {
+                first_unsorted = Some(current_index);
+            }
+
+            // Each adjacent pair contributes one new prefix at every level
+            // below its first differing 2-bit digit. The difference array
+            // accumulates them during this validation pass.
+            if pair[0] < limit && pair[1] < limit {
+                let differing_bits = (u32::BITS - (pair[0] ^ pair[1]).leading_zeros()) as usize;
+                let common_bits = width as usize - differing_bits;
+                let first_distinct_depth = common_bits / 2 + 1;
+                if first_distinct_depth <= max_depth {
+                    increments[first_distinct_depth] += 1;
+                }
+            }
+        }
+        if let Some(index) = first_out_of_range {
+            return Err(CodecError::ValueOutOfRange { index, width });
+        }
+        if let Some(index) = first_unsorted {
+            return Err(CodecError::UnsortedInput { index });
+        }
+    }
+
+    let mut added = 0usize;
+    for depth in 1..=max_depth {
+        added += increments[depth];
+        counts[depth] = added + 1;
+    }
+    Ok(())
+}
+
 fn validate_input(values: &[u32], width: u8) -> Result<(), CodecError> {
     if !(2..=32).contains(&width) || !width.is_multiple_of(2) {
         return Err(CodecError::InvalidFormat(
@@ -352,33 +420,6 @@ fn validate_input(values: &[u32], width: u8) -> Result<(), CodecError> {
         }
     }
     Ok(())
-}
-
-fn count_prefixes_by_level(values: &[u32], width: u8, max_depth: usize, counts: &mut [usize]) {
-    counts.fill(0);
-    if values.is_empty() {
-        return;
-    }
-    counts[0] = 1;
-
-    // Each adjacent pair contributes one new prefix at every depth below its
-    // first differing 2-bit digit. A difference array counts all levels in a
-    // single pass instead of rescanning the input once per level.
-    let mut increments = [0usize; 17];
-    let width = width as usize;
-    for pair in values.windows(2) {
-        let differing_bits = (u32::BITS - (pair[0] ^ pair[1]).leading_zeros()) as usize;
-        let common_bits = width - differing_bits;
-        let first_distinct_depth = common_bits / 2 + 1;
-        if first_distinct_depth <= max_depth {
-            increments[first_distinct_depth] += 1;
-        }
-    }
-    let mut added = 0usize;
-    for depth in 1..=max_depth {
-        added += increments[depth];
-        counts[depth] = added + 1;
-    }
 }
 
 fn image_offsets(
@@ -2068,7 +2109,7 @@ mod tests {
                 values.dedup();
                 let max_depth = (width / 2) as usize;
                 let mut counts = [0usize; 17];
-                count_prefixes_by_level(&values, width, max_depth, &mut counts[..=max_depth]);
+                analyze_input(&values, width, &mut counts[..=max_depth]).unwrap();
                 for (depth, &count) in counts.iter().take(max_depth + 1).enumerate() {
                     let shift = width as usize - 2 * depth;
                     let expected = if values.is_empty() {
@@ -2085,6 +2126,22 @@ mod tests {
                     assert_eq!(count, expected, "width={width}, depth={depth}");
                 }
             }
+        }
+    }
+
+    #[test]
+    fn fused_analysis_preserves_validation_error_precedence() {
+        for (values, width) in [
+            (&[8, 2][..], 2),
+            (&[1, 8][..], 2),
+            (&[8, 9][..], 2),
+            (&[3, 2, 8][..], 2),
+        ] {
+            let expected = validate_input(values, width).unwrap_err();
+            let mut counts = [usize::MAX; 17];
+            let actual =
+                analyze_input(values, width, &mut counts[..=usize::from(width / 2)]).unwrap_err();
+            assert_eq!(actual, expected, "values={values:?}, width={width}");
         }
     }
 
@@ -2106,7 +2163,7 @@ mod tests {
 
                 let max_depth = (width / 2) as usize;
                 let mut node_counts = [0usize; 17];
-                count_prefixes_by_level(&values, width, max_depth, &mut node_counts[..=max_depth]);
+                analyze_input(&values, width, &mut node_counts[..=max_depth]).unwrap();
                 for depth in 0..=max_depth {
                     let mut actual = Vec::new();
                     let starts = build_all_level_masks(

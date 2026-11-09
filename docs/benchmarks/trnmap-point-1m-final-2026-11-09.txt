@@ -1,0 +1,54 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 10.08s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/point/1000000/get-packed
+Benchmarking trnmap/point/1000000/get-packed: Warming up for 100.00 ms
+Benchmarking trnmap/point/1000000/get-packed: Collecting 30 samples in estimated 400.00 ms (464M iterations)
+Benchmarking trnmap/point/1000000/get-packed: Analyzing
+trnmap/point/1000000/get-packed
+                        time:   [813.52 ps 853.37 ps 918.43 ps]
+                        thrpt:  [1.0888 Gelem/s 1.1718 Gelem/s 1.2292 Gelem/s]
+Benchmarking trnmap/point/1000000/get-unchecked
+Benchmarking trnmap/point/1000000/get-unchecked: Warming up for 100.00 ms
+Benchmarking trnmap/point/1000000/get-unchecked: Collecting 30 samples in estimated 400.00 ms (519M iterations)
+Benchmarking trnmap/point/1000000/get-unchecked: Analyzing
+trnmap/point/1000000/get-unchecked
+                        time:   [815.59 ps 823.40 ps 833.03 ps]
+                        thrpt:  [1.2004 Gelem/s 1.2145 Gelem/s 1.2261 Gelem/s]
+Benchmarking trnmap/point/1000000/get-scalar-byte
+Benchmarking trnmap/point/1000000/get-scalar-byte: Warming up for 100.00 ms
+Benchmarking trnmap/point/1000000/get-scalar-byte: Collecting 30 samples in estimated 400.00 ms (566M iterations)
+Benchmarking trnmap/point/1000000/get-scalar-byte: Analyzing
+trnmap/point/1000000/get-scalar-byte
+                        time:   [679.04 ps 681.80 ps 684.47 ps]
+                        thrpt:  [1.4610 Gelem/s 1.4667 Gelem/s 1.4727 Gelem/s]
+Benchmarking trnmap/point/1000000/find-one-value
+Benchmarking trnmap/point/1000000/find-one-value: Warming up for 100.00 ms
+Benchmarking trnmap/point/1000000/find-one-value: Collecting 30 samples in estimated 400.00 ms (532M iterations)
+Benchmarking trnmap/point/1000000/find-one-value: Analyzing
+trnmap/point/1000000/find-one-value
+                        time:   [734.71 ps 737.24 ps 740.57 ps]
+                        thrpt:  [1.3503 Gelem/s 1.3564 Gelem/s 1.3611 Gelem/s]
+Benchmarking trnmap/point/1000000/find-unchecked-one-value
+Benchmarking trnmap/point/1000000/find-unchecked-one-value: Warming up for 100.00 ms
+Benchmarking trnmap/point/1000000/find-unchecked-one-value: Collecting 30 samples in estimated 400.00 ms (544M iterations)
+Benchmarking trnmap/point/1000000/find-unchecked-one-value: Analyzing
+trnmap/point/1000000/find-unchecked-one-value
+                        time:   [715.57 ps 723.46 ps 735.25 ps]
+                        thrpt:  [1.3601 Gelem/s 1.3822 Gelem/s 1.3975 Gelem/s]
+Benchmarking trnmap/point/1000000/find-scalar-scan
+Benchmarking trnmap/point/1000000/find-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/point/1000000/find-scalar-scan: Collecting 30 samples in estimated 400.00 ms (338M iterations)
+Benchmarking trnmap/point/1000000/find-scalar-scan: Analyzing
+trnmap/point/1000000/find-scalar-scan
+                        time:   [1.1526 ns 1.1862 ns 1.2145 ns]
+                        thrpt:  [823.37 Melem/s 843.03 Melem/s 867.61 Melem/s]
+

@@ -1,0 +1,466 @@
+--------------------------------------------------------------------------------
+Command:            /tmp/rnbw-linux-profile/release/rnbw bench --workload clustered --size 100000 --operation build --engine rnbw
+Massif arguments:   --massif-out-file=/tmp/rnbw-valgrind-current/massif.out
+ms_print arguments: /tmp/rnbw-valgrind-current/massif.out
+--------------------------------------------------------------------------------
+
+
+    KB
+450.6^      :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+     |      :                                                                #
+     |      :                                                                #
+     |:::::::                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+     |: :   :                                                                #
+   0 +----------------------------------------------------------------------->Mi
+     0                                                                   45.17
+
+Number of snapshots: 56
+ Detailed snapshots: [5, 15, 25, 35, 45 (peak), 55]
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+  0              0                0                0             0            0
+  1        221,272              488              472            16            0
+  2        221,833              624              592            32            0
+  3        221,998            1,656            1,616            40            0
+  4        230,351            1,768            1,736            32            0
+  5        322,008            1,768            1,736            32            0
+98.19% (1,736B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->57.92% (1,024B) 0x498BA0B: _IO_file_doallocate (filedoalloc.c:91)
+| ->57.92% (1,024B) 0x499CF85: _IO_doallocbuf (genops.c:373)
+|   ->57.92% (1,024B) 0x4999EAD: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:520)
+|     ->57.92% (1,024B) 0x498D80B: getdelim (iogetdelim.c:81)
+|       ->57.92% (1,024B) 0x49A582D: pthread_getattr_np@@GLIBC_2.32 (pthread_getattr_np.c:122)
+|         ->57.92% (1,024B) 0x404B1AD: get_stack_start (stack_overflow.rs:366)
+|           ->57.92% (1,024B) 0x404B1AD: stack_start_aligned (stack_overflow.rs:383)
+|             ->57.92% (1,024B) 0x404B1AD: install_main_guard_linux (stack_overflow.rs:441)
+|               ->57.92% (1,024B) 0x404B1AD: install_main_guard (stack_overflow.rs:407)
+|                 ->57.92% (1,024B) 0x404B1AD: init (stack_overflow.rs:161)
+|                   ->57.92% (1,024B) 0x404B1AD: init (mod.rs:38)
+|                     ->57.92% (1,024B) 0x404B1AD: init (rt.rs:118)
+|                       ->57.92% (1,024B) 0x404B1AD: {closure
+|                         ->57.92% (1,024B) 0x404B1AD: do_call<std::rt::lang_start_internal::{closure_env
+|                           ->57.92% (1,024B) 0x404B1AD: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                             ->57.92% (1,024B) 0x404B1AD: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                               ->57.92% (1,024B) 0x404B1AD: std::rt::lang_start_internal (rt.rs:171)
+|                                 ->57.92% (1,024B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                   
+->26.70% (472B) 0x498C7BE: __fopen_internal (iofopen.c:65)
+| ->26.70% (472B) 0x498C7BE: fopen@@GLIBC_2.2.5 (iofopen.c:86)
+|   ->26.70% (472B) 0x49A56B6: pthread_getattr_np@@GLIBC_2.32 (pthread_getattr_np.c:85)
+|     ->26.70% (472B) 0x404B1AD: get_stack_start (stack_overflow.rs:366)
+|       ->26.70% (472B) 0x404B1AD: stack_start_aligned (stack_overflow.rs:383)
+|         ->26.70% (472B) 0x404B1AD: install_main_guard_linux (stack_overflow.rs:441)
+|           ->26.70% (472B) 0x404B1AD: install_main_guard (stack_overflow.rs:407)
+|             ->26.70% (472B) 0x404B1AD: init (stack_overflow.rs:161)
+|               ->26.70% (472B) 0x404B1AD: init (mod.rs:38)
+|                 ->26.70% (472B) 0x404B1AD: init (rt.rs:118)
+|                   ->26.70% (472B) 0x404B1AD: {closure
+|                     ->26.70% (472B) 0x404B1AD: do_call<std::rt::lang_start_internal::{closure_env
+|                       ->26.70% (472B) 0x404B1AD: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                         ->26.70% (472B) 0x404B1AD: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                           ->26.70% (472B) 0x404B1AD: std::rt::lang_start_internal (rt.rs:171)
+|                             ->26.70% (472B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                               
+->13.57% (240B) 0x498D6A9: getdelim (iogetdelim.c:111)
+| ->13.57% (240B) 0x49A582D: pthread_getattr_np@@GLIBC_2.32 (pthread_getattr_np.c:122)
+|   ->13.57% (240B) 0x404B1AD: get_stack_start (stack_overflow.rs:366)
+|     ->13.57% (240B) 0x404B1AD: stack_start_aligned (stack_overflow.rs:383)
+|       ->13.57% (240B) 0x404B1AD: install_main_guard_linux (stack_overflow.rs:441)
+|         ->13.57% (240B) 0x404B1AD: install_main_guard (stack_overflow.rs:407)
+|           ->13.57% (240B) 0x404B1AD: init (stack_overflow.rs:161)
+|             ->13.57% (240B) 0x404B1AD: init (mod.rs:38)
+|               ->13.57% (240B) 0x404B1AD: init (rt.rs:118)
+|                 ->13.57% (240B) 0x404B1AD: {closure
+|                   ->13.57% (240B) 0x404B1AD: do_call<std::rt::lang_start_internal::{closure_env
+|                     ->13.57% (240B) 0x404B1AD: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                       ->13.57% (240B) 0x404B1AD: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                         ->13.57% (240B) 0x404B1AD: std::rt::lang_start_internal (rt.rs:171)
+|                           ->13.57% (240B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                             
+->00.00% (0B) in 1+ places, all below ms_print's threshold (01.00%)
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+  6        322,008            1,520            1,496            24            0
+  7        322,335              488              472            16            0
+  8        322,466                0                0             0            0
+  9        322,520               40               32             8            0
+ 10        322,651              208              184            24            0
+ 11        322,705              248              216            32            0
+ 12        322,771              208              184            24            0
+ 13        322,855              168              152            16            0
+ 14        322,886                0                0             0            0
+ 15        323,332               24                4            20            0
+16.67% (4B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->16.67% (4B) 0x404E467: alloc (alloc.rs:130)
+| ->16.67% (4B) 0x404E467: alloc_impl_runtime (alloc.rs:302)
+|   ->16.67% (4B) 0x404E467: alloc_impl (alloc.rs:424)
+|     ->16.67% (4B) 0x404E467: allocate (alloc.rs:541)
+|       ->16.67% (4B) 0x404E467: try_clone_from_ref_in<str, alloc::alloc::Global> (boxed.rs:886)
+|         ->16.67% (4B) 0x404E467: clone_from_ref_in<str, alloc::alloc::Global> (boxed.rs:845)
+|           ->16.67% (4B) 0x404E467: clone_from_ref<str> (boxed.rs:798)
+|             ->16.67% (4B) 0x404E467: from (convert.rs:138)
+|               ->16.67% (4B) 0x404E467: call_once<fn(&str) -> alloc::boxed::Box<str, alloc::alloc::Global>, (&str)> (function.rs:250)
+|                 ->16.67% (4B) 0x404E467: map<&str, alloc::boxed::Box<str, alloc::alloc::Global>, fn(&str) -> alloc::boxed::Box<str, alloc::alloc::Global>> (option.rs:1163)
+|                   ->16.67% (4B) 0x404E467: {closure
+|                     ->16.67% (4B) 0x404E467: {closure
+|                       ->16.67% (4B) 0x404E467: try_with_current<std::thread::current::with_current_name::{closure_env
+|                         ->16.67% (4B) 0x404E467: with_current_name<std::sys::pal::unix::stack_overflow::thread_info::set_current_info::{closure_env
+|                           ->16.67% (4B) 0x404E467: std::sys::pal::unix::stack_overflow::thread_info::set_current_info (thread_info.rs:114)
+|                             ->16.67% (4B) 0x404B2D8: init (stack_overflow.rs:185)
+|                               ->16.67% (4B) 0x404B2D8: init (mod.rs:38)
+|                                 ->16.67% (4B) 0x404B2D8: init (rt.rs:118)
+|                                   ->16.67% (4B) 0x404B2D8: {closure
+|                                     ->16.67% (4B) 0x404B2D8: do_call<std::rt::lang_start_internal::{closure_env
+|                                       ->16.67% (4B) 0x404B2D8: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                         ->16.67% (4B) 0x404B2D8: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                           ->16.67% (4B) 0x404B2D8: std::rt::lang_start_internal (rt.rs:171)
+|                                             ->16.67% (4B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                               
+->00.00% (0B) in 7+ places, all below ms_print's threshold (01.00%)
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 16        323,420              576              548            28            0
+ 17        323,790              824              788            36            0
+ 18        323,887              880              824            56            0
+ 19        323,990              904              829            75            0
+ 20        324,096              928              839            89            0
+ 21        324,200              952              848           104            0
+ 22        324,304              976              854           122            0
+ 23        324,410            1,000              860           140            0
+ 24        324,516            1,024              871           153            0
+ 25        324,620            1,048              876           172            0
+83.59% (876B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->51.91% (544B) 0x404E68D: alloc (alloc.rs:130)
+| ->51.91% (544B) 0x404E68D: alloc_impl_runtime (alloc.rs:302)
+|   ->51.91% (544B) 0x404E68D: alloc_impl (alloc.rs:424)
+|     ->51.91% (544B) 0x404E68D: allocate (alloc.rs:541)
+|       ->51.91% (544B) 0x404E68D: try_new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:619)
+|         ->51.91% (544B) 0x404E68D: new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:586)
+|           ->51.91% (544B) 0x404E68D: new<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:87)
+|             ->51.91% (544B) 0x404E68D: new_leaf<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:225)
+|               ->51.91% (544B) 0x404E68D: insert_entry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:452)
+|                 ->51.91% (544B) 0x404E68D: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:426)
+|                   ->51.91% (544B) 0x404E68D: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (map.rs:1052)
+|                     ->51.91% (544B) 0x404E68D: std::sys::pal::unix::stack_overflow::thread_info::set_current_info (thread_info.rs:122)
+|                       ->51.91% (544B) 0x404B2D8: init (stack_overflow.rs:185)
+|                         ->51.91% (544B) 0x404B2D8: init (mod.rs:38)
+|                           ->51.91% (544B) 0x404B2D8: init (rt.rs:118)
+|                             ->51.91% (544B) 0x404B2D8: {closure
+|                               ->51.91% (544B) 0x404B2D8: do_call<std::rt::lang_start_internal::{closure_env
+|                                 ->51.91% (544B) 0x404B2D8: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                   ->51.91% (544B) 0x404B2D8: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                     ->51.91% (544B) 0x404B2D8: std::rt::lang_start_internal (rt.rs:171)
+|                                       ->51.91% (544B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                         
+->22.90% (240B) 0x404B9CB: alloc (alloc.rs:130)
+| ->22.90% (240B) 0x404B9CB: alloc_impl_runtime (alloc.rs:302)
+|   ->22.90% (240B) 0x404B9CB: alloc_impl (alloc.rs:424)
+|     ->22.90% (240B) 0x404B9CB: allocate (alloc.rs:541)
+|       ->22.90% (240B) 0x404B9CB: try_allocate_in<alloc::alloc::Global> (mod.rs:466)
+|         ->22.90% (240B) 0x404B9CB: with_capacity_in<alloc::alloc::Global> (mod.rs:435)
+|           ->22.90% (240B) 0x404B9CB: with_capacity_in<std::ffi::os_str::OsString, alloc::alloc::Global> (mod.rs:177)
+|             ->22.90% (240B) 0x404B9CB: with_capacity_in<std::ffi::os_str::OsString, alloc::alloc::Global> (mod.rs:969)
+|               ->22.90% (240B) 0x404B9CB: with_capacity<std::ffi::os_str::OsString> (mod.rs:522)
+|                 ->22.90% (240B) 0x404B9CB: args (unix.rs:24)
+|                   ->22.90% (240B) 0x404B9CB: std::env::args_os (env.rs:864)
+|                     ->22.90% (240B) 0x401D681: run (main.rs:16)
+|                       ->22.90% (240B) 0x401D681: rnbw::main (main.rs:9)
+|                         ->22.90% (240B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                           ->22.90% (240B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                             ->22.90% (240B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                               ->22.90% (240B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                 ->22.90% (240B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                   ->22.90% (240B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                     ->22.90% (240B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                       ->22.90% (240B) 0x404B398: {closure
+|                                         ->22.90% (240B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                           ->22.90% (240B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                             ->22.90% (240B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                               ->22.90% (240B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                 ->22.90% (240B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                   
+->08.40% (88B) 0x404BA7F: alloc (alloc.rs:130)
+| ->08.40% (88B) 0x404BA7F: alloc_impl_runtime (alloc.rs:302)
+|   ->08.40% (88B) 0x404BA7F: alloc_impl (alloc.rs:424)
+|     ->08.40% (88B) 0x404BA7F: allocate (alloc.rs:541)
+|       ->08.40% (88B) 0x404BA7F: try_allocate_in<alloc::alloc::Global> (mod.rs:466)
+|         ->08.40% (88B) 0x404BA7F: with_capacity_in<alloc::alloc::Global> (mod.rs:435)
+|           ->08.40% (88B) 0x404BA7F: with_capacity_in<u8, alloc::alloc::Global> (mod.rs:177)
+|             ->08.40% (88B) 0x404BA7F: with_capacity_in<u8, alloc::alloc::Global> (mod.rs:969)
+|               ->08.40% (88B) 0x404BA7F: to_vec<u8, alloc::alloc::Global> (slice.rs:448)
+|                 ->08.40% (88B) 0x404BA7F: to_vec_in<u8, alloc::alloc::Global> (slice.rs:400)
+|                   ->08.40% (88B) 0x404BA7F: to_vec<u8> (slice.rs:376)
+|                     ->08.40% (88B) 0x404BA7F: args (unix.rs:58)
+|                       ->08.40% (88B) 0x404BA7F: std::env::args_os (env.rs:864)
+|                         ->08.40% (88B) 0x401D681: run (main.rs:16)
+|                           ->08.40% (88B) 0x401D681: rnbw::main (main.rs:9)
+|                             ->08.40% (88B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                               ->08.40% (88B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                                 ->08.40% (88B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                                   ->08.40% (88B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                     ->08.40% (88B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                       ->08.40% (88B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                         ->08.40% (88B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                           ->08.40% (88B) 0x404B398: {closure
+|                                             ->08.40% (88B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                               ->08.40% (88B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                                 ->08.40% (88B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                                   ->08.40% (88B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                     ->08.40% (88B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                       
+->00.38% (4B) in 1+ places, all below ms_print's threshold (01.00%)
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 26        324,726            1,072              884           188            0
+ 27        324,830            1,096              888           208            0
+ 28        325,039            1,040              852           188            0
+ 29        325,202            1,064              859           205            0
+ 30        325,257            1,088              864           224            0
+ 31        325,313            1,112              867           245            0
+ 32        325,646            1,088              860           228            0
+ 33        325,686            1,064              850           214            0
+ 34        326,060            1,040              844           196            0
+ 35        326,095            1,016              838           178            0
+82.48% (838B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->53.54% (544B) 0x404E68D: alloc (alloc.rs:130)
+| ->53.54% (544B) 0x404E68D: alloc_impl_runtime (alloc.rs:302)
+|   ->53.54% (544B) 0x404E68D: alloc_impl (alloc.rs:424)
+|     ->53.54% (544B) 0x404E68D: allocate (alloc.rs:541)
+|       ->53.54% (544B) 0x404E68D: try_new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:619)
+|         ->53.54% (544B) 0x404E68D: new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:586)
+|           ->53.54% (544B) 0x404E68D: new<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:87)
+|             ->53.54% (544B) 0x404E68D: new_leaf<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:225)
+|               ->53.54% (544B) 0x404E68D: insert_entry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:452)
+|                 ->53.54% (544B) 0x404E68D: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:426)
+|                   ->53.54% (544B) 0x404E68D: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (map.rs:1052)
+|                     ->53.54% (544B) 0x404E68D: std::sys::pal::unix::stack_overflow::thread_info::set_current_info (thread_info.rs:122)
+|                       ->53.54% (544B) 0x404B2D8: init (stack_overflow.rs:185)
+|                         ->53.54% (544B) 0x404B2D8: init (mod.rs:38)
+|                           ->53.54% (544B) 0x404B2D8: init (rt.rs:118)
+|                             ->53.54% (544B) 0x404B2D8: {closure
+|                               ->53.54% (544B) 0x404B2D8: do_call<std::rt::lang_start_internal::{closure_env
+|                                 ->53.54% (544B) 0x404B2D8: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                   ->53.54% (544B) 0x404B2D8: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                     ->53.54% (544B) 0x404B2D8: std::rt::lang_start_internal (rt.rs:171)
+|                                       ->53.54% (544B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                         
+->23.62% (240B) 0x404B9CB: alloc (alloc.rs:130)
+| ->23.62% (240B) 0x404B9CB: alloc_impl_runtime (alloc.rs:302)
+|   ->23.62% (240B) 0x404B9CB: alloc_impl (alloc.rs:424)
+|     ->23.62% (240B) 0x404B9CB: allocate (alloc.rs:541)
+|       ->23.62% (240B) 0x404B9CB: try_allocate_in<alloc::alloc::Global> (mod.rs:466)
+|         ->23.62% (240B) 0x404B9CB: with_capacity_in<alloc::alloc::Global> (mod.rs:435)
+|           ->23.62% (240B) 0x404B9CB: with_capacity_in<std::ffi::os_str::OsString, alloc::alloc::Global> (mod.rs:177)
+|             ->23.62% (240B) 0x404B9CB: with_capacity_in<std::ffi::os_str::OsString, alloc::alloc::Global> (mod.rs:969)
+|               ->23.62% (240B) 0x404B9CB: with_capacity<std::ffi::os_str::OsString> (mod.rs:522)
+|                 ->23.62% (240B) 0x404B9CB: args (unix.rs:24)
+|                   ->23.62% (240B) 0x404B9CB: std::env::args_os (env.rs:864)
+|                     ->23.62% (240B) 0x401D681: run (main.rs:16)
+|                       ->23.62% (240B) 0x401D681: rnbw::main (main.rs:9)
+|                         ->23.62% (240B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                           ->23.62% (240B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                             ->23.62% (240B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                               ->23.62% (240B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                 ->23.62% (240B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                   ->23.62% (240B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                     ->23.62% (240B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                       ->23.62% (240B) 0x404B398: {closure
+|                                         ->23.62% (240B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                           ->23.62% (240B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                             ->23.62% (240B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                               ->23.62% (240B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                 ->23.62% (240B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                   
+->04.13% (42B) 0x404BA7F: alloc (alloc.rs:130)
+| ->04.13% (42B) 0x404BA7F: alloc_impl_runtime (alloc.rs:302)
+|   ->04.13% (42B) 0x404BA7F: alloc_impl (alloc.rs:424)
+|     ->04.13% (42B) 0x404BA7F: allocate (alloc.rs:541)
+|       ->04.13% (42B) 0x404BA7F: try_allocate_in<alloc::alloc::Global> (mod.rs:466)
+|         ->04.13% (42B) 0x404BA7F: with_capacity_in<alloc::alloc::Global> (mod.rs:435)
+|           ->04.13% (42B) 0x404BA7F: with_capacity_in<u8, alloc::alloc::Global> (mod.rs:177)
+|             ->04.13% (42B) 0x404BA7F: with_capacity_in<u8, alloc::alloc::Global> (mod.rs:969)
+|               ->04.13% (42B) 0x404BA7F: to_vec<u8, alloc::alloc::Global> (slice.rs:448)
+|                 ->04.13% (42B) 0x404BA7F: to_vec_in<u8, alloc::alloc::Global> (slice.rs:400)
+|                   ->04.13% (42B) 0x404BA7F: to_vec<u8> (slice.rs:376)
+|                     ->04.13% (42B) 0x404BA7F: args (unix.rs:58)
+|                       ->04.13% (42B) 0x404BA7F: std::env::args_os (env.rs:864)
+|                         ->04.13% (42B) 0x401D681: run (main.rs:16)
+|                           ->04.13% (42B) 0x401D681: rnbw::main (main.rs:9)
+|                             ->04.13% (42B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                               ->04.13% (42B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                                 ->04.13% (42B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                                   ->04.13% (42B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                     ->04.13% (42B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                       ->04.13% (42B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                         ->04.13% (42B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                           ->04.13% (42B) 0x404B398: {closure
+|                                             ->04.13% (42B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                               ->04.13% (42B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                                 ->04.13% (42B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                                   ->04.13% (42B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                     ->04.13% (42B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                       
+->01.18% (12B) in 11 places, all below massif's threshold (1.00%)
+  
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 36        326,399              992              833           159            0
+ 37        326,440              968              822           146            0
+ 38        326,719              944              819           125            0
+ 39        326,755              920              811           109            0
+ 40        326,886          400,928          400,811           117            0
+ 41      1,769,319          401,960          401,835           125            0
+ 42      1,771,708          401,984          401,851           133            0
+ 43      4,482,295          453,256          453,107           149            0
+ 44      4,483,505          461,408          461,251           157            0
+ 45     47,362,741          461,408          461,251           157            0
+99.97% (461,251B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->86.69% (400,000B) 0x401FFEA: alloc (library/alloc/src/alloc.rs:130)
+| ->86.69% (400,000B) 0x401FFEA: alloc_impl_runtime (library/alloc/src/alloc.rs:302)
+|   ->86.69% (400,000B) 0x401FFEA: alloc_impl (library/alloc/src/alloc.rs:424)
+|     ->86.69% (400,000B) 0x401FFEA: allocate (library/alloc/src/alloc.rs:541)
+|       ->86.69% (400,000B) 0x401FFEA: try_allocate_in<alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:466)
+|         ->86.69% (400,000B) 0x401FFEA: with_capacity_in<alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:435)
+|           ->86.69% (400,000B) 0x401FFEA: with_capacity_in<u32, alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:177)
+|             ->86.69% (400,000B) 0x401FFEA: with_capacity_in<u32, alloc::alloc::Global> (library/alloc/src/vec/mod.rs:969)
+|               ->86.69% (400,000B) 0x401FFEA: with_capacity<u32> (library/alloc/src/vec/mod.rs:522)
+|                 ->86.69% (400,000B) 0x401FFEA: clustered (datasets.rs:32)
+|                   ->86.69% (400,000B) 0x401FFEA: rnbw::datasets::make_dataset (datasets.rs:8)
+|                     ->86.69% (400,000B) 0x401E03B: run (main.rs:45)
+|                       ->86.69% (400,000B) 0x401E03B: rnbw::main (main.rs:9)
+|                         ->86.69% (400,000B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                           ->86.69% (400,000B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                             ->86.69% (400,000B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                               ->86.69% (400,000B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                 ->86.69% (400,000B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                   ->86.69% (400,000B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                     ->86.69% (400,000B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                       ->86.69% (400,000B) 0x404B398: {closure
+|                                         ->86.69% (400,000B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                           ->86.69% (400,000B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                             ->86.69% (400,000B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                               ->86.69% (400,000B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                 ->86.69% (400,000B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                   
+->11.11% (51,256B) 0x4027BB0: alloc_zeroed (library/alloc/src/alloc.rs:290)
+| ->11.11% (51,256B) 0x4027BB0: alloc_impl_runtime (library/alloc/src/alloc.rs:302)
+|   ->11.11% (51,256B) 0x4027BB0: alloc_impl (library/alloc/src/alloc.rs:424)
+|     ->11.11% (51,256B) 0x4027BB0: allocate_zeroed (library/alloc/src/alloc.rs:547)
+|       ->11.11% (51,256B) 0x4027BB0: <alloc::raw_vec::RawVecInner>::try_allocate_in (library/alloc/src/raw_vec/mod.rs:468)
+|         ->11.11% (51,256B) 0x40245E3: with_capacity_zeroed_in<alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:587)
+|           ->11.11% (51,256B) 0x40245E3: with_capacity_zeroed_in<u8, alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:221)
+|             ->11.11% (51,256B) 0x40245E3: from_elem<alloc::alloc::Global> (library/alloc/src/vec/spec_from_elem.rs:51)
+|               ->11.11% (51,256B) 0x40245E3: from_elem<u8> (library/alloc/src/vec/mod.rs:3773)
+|                 ->11.11% (51,256B) 0x40245E3: <rnbw::Rnbw>::encode_width (lib.rs:139)
+|                   ->11.11% (51,256B) 0x401E35D: run_engine (main.rs:78)
+|                     ->11.11% (51,256B) 0x401E35D: run (main.rs:61)
+|                       ->11.11% (51,256B) 0x401E35D: rnbw::main (main.rs:9)
+|                         ->11.11% (51,256B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                           ->11.11% (51,256B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                             ->11.11% (51,256B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                               ->11.11% (51,256B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                 ->11.11% (51,256B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                   ->11.11% (51,256B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                     ->11.11% (51,256B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                       ->11.11% (51,256B) 0x404B398: {closure
+|                                         ->11.11% (51,256B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                           ->11.11% (51,256B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                             ->11.11% (51,256B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                               ->11.11% (51,256B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                 ->11.11% (51,256B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                   
+->01.77% (8,144B) 0x4027B1C: alloc (library/alloc/src/alloc.rs:130)
+| ->01.77% (8,144B) 0x4027B1C: alloc_impl_runtime (library/alloc/src/alloc.rs:302)
+|   ->01.77% (8,144B) 0x4027B1C: alloc_impl (library/alloc/src/alloc.rs:424)
+|     ->01.77% (8,144B) 0x4027B1C: allocate (library/alloc/src/alloc.rs:541)
+|       ->01.77% (8,144B) 0x4027B1C: <alloc::raw_vec::RawVecInner>::finish_grow (library/alloc/src/raw_vec/mod.rs:560)
+|         ->01.77% (8,144B) 0x4027A03: grow_amortized<alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:529)
+|           ->01.77% (8,144B) 0x4027A03: <alloc::raw_vec::RawVecInner<_>>::reserve::do_reserve_and_handle::<alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:665)
+|             ->01.77% (8,144B) 0x4023769: reserve<alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:672)
+|               ->01.77% (8,144B) 0x4023769: reserve<u64, alloc::alloc::Global> (library/alloc/src/raw_vec/mod.rs:341)
+|                 ->01.77% (8,144B) 0x4023769: reserve<u64, alloc::alloc::Global> (library/alloc/src/vec/mod.rs:1461)
+|                   ->01.77% (8,144B) 0x4023769: extend_with<u64, alloc::alloc::Global> (library/alloc/src/vec/mod.rs:3714)
+|                     ->01.77% (8,144B) 0x4023769: resize<u64, alloc::alloc::Global> (library/alloc/src/vec/mod.rs:3575)
+|                       ->01.77% (8,144B) 0x4023769: rnbw::build_all_level_masks (lib.rs:638)
+|                         ->01.77% (8,144B) 0x4024AA2: <rnbw::Rnbw>::encode_width (lib.rs:151)
+|                           ->01.77% (8,144B) 0x401E35D: run_engine (main.rs:78)
+|                             ->01.77% (8,144B) 0x401E35D: run (main.rs:61)
+|                               ->01.77% (8,144B) 0x401E35D: rnbw::main (main.rs:9)
+|                                 ->01.77% (8,144B) 0x401F7A2: call_once<fn(), ()> (library/core/src/ops/function.rs:250)
+|                                   ->01.77% (8,144B) 0x401F7A2: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()> (library/std/src/sys/backtrace.rs:166)
+|                                     ->01.77% (8,144B) 0x401F7B8: std::rt::lang_start::<()>::{closure
+|                                       ->01.77% (8,144B) 0x404B398: call_once<(), (dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (function.rs:287)
+|                                         ->01.77% (8,144B) 0x404B398: do_call<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panicking.rs:576)
+|                                           ->01.77% (8,144B) 0x404B398: catch_unwind<i32, &(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe)> (panicking.rs:544)
+|                                             ->01.77% (8,144B) 0x404B398: catch_unwind<&(dyn core::ops::function::Fn<(), Output=i32> + core::marker::Sync + core::panic::unwind_safe::RefUnwindSafe), i32> (panic.rs:359)
+|                                               ->01.77% (8,144B) 0x404B398: {closure
+|                                                 ->01.77% (8,144B) 0x404B398: do_call<std::rt::lang_start_internal::{closure_env
+|                                                   ->01.77% (8,144B) 0x404B398: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                                     ->01.77% (8,144B) 0x404B398: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                                       ->01.77% (8,144B) 0x404B398: std::rt::lang_start_internal (rt.rs:171)
+|                                                         ->01.77% (8,144B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                                           
+->00.40% (1,851B) in 1+ places, all below ms_print's threshold (01.00%)
+
+--------------------------------------------------------------------------------
+  n        time(i)         total(B)   useful-heap(B) extra-heap(B)    stacks(B)
+--------------------------------------------------------------------------------
+ 46     47,362,741          453,256          453,107           149            0
+ 47     47,362,805          401,984          401,851           133            0
+ 48     47,368,457          401,960          401,835           125            0
+ 49     47,368,492            1,952            1,835           117            0
+ 50     47,368,526            1,928            1,831            97            0
+ 51     47,368,560            1,904            1,826            78            0
+ 52     47,368,594            1,880            1,817            63            0
+ 53     47,368,628            1,856            1,812            44            0
+ 54     47,368,673            1,608            1,572            36            0
+ 55     47,368,855              576              548            28            0
+95.14% (548B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->94.44% (544B) 0x404E68D: alloc (alloc.rs:130)
+| ->94.44% (544B) 0x404E68D: alloc_impl_runtime (alloc.rs:302)
+|   ->94.44% (544B) 0x404E68D: alloc_impl (alloc.rs:424)
+|     ->94.44% (544B) 0x404E68D: allocate (alloc.rs:541)
+|       ->94.44% (544B) 0x404E68D: try_new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:619)
+|         ->94.44% (544B) 0x404E68D: new_uninit_in<alloc::collections::btree::node::LeafNode<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo>, alloc::alloc::Global> (boxed.rs:586)
+|           ->94.44% (544B) 0x404E68D: new<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:87)
+|             ->94.44% (544B) 0x404E68D: new_leaf<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (node.rs:225)
+|               ->94.44% (544B) 0x404E68D: insert_entry<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:452)
+|                 ->94.44% (544B) 0x404E68D: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (entry.rs:426)
+|                   ->94.44% (544B) 0x404E68D: insert<usize, std::sys::pal::unix::stack_overflow::thread_info::ThreadInfo, alloc::alloc::Global> (map.rs:1052)
+|                     ->94.44% (544B) 0x404E68D: std::sys::pal::unix::stack_overflow::thread_info::set_current_info (thread_info.rs:122)
+|                       ->94.44% (544B) 0x404B2D8: init (stack_overflow.rs:185)
+|                         ->94.44% (544B) 0x404B2D8: init (mod.rs:38)
+|                           ->94.44% (544B) 0x404B2D8: init (rt.rs:118)
+|                             ->94.44% (544B) 0x404B2D8: {closure
+|                               ->94.44% (544B) 0x404B2D8: do_call<std::rt::lang_start_internal::{closure_env
+|                                 ->94.44% (544B) 0x404B2D8: catch_unwind<isize, std::rt::lang_start_internal::{closure_env
+|                                   ->94.44% (544B) 0x404B2D8: catch_unwind<std::rt::lang_start_internal::{closure_env
+|                                     ->94.44% (544B) 0x404B2D8: std::rt::lang_start_internal (rt.rs:171)
+|                                       ->94.44% (544B) 0x401F79B: main (in /tmp/rnbw-linux-profile/release/rnbw)
+|                                         
+->00.69% (4B) in 1+ places, all below ms_print's threshold (01.00%)
+

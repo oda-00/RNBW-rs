@@ -1,0 +1,33 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 8.18s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap: Warming up for 100.00 ms
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap: Collecting 20 samples in estimated 250.11 ms (251k iterations)
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap: Analyzing
+trnmap/batch-get-1k-random/1m-map/packed-trnmap
+                        time:   [995.42 ns 1.0051 µs 1.0176 µs]
+                        thrpt:  [1.0063 Gelem/s 1.0188 Gelem/s 1.0287 Gelem/s]
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked: Warming up for 100.00 ms
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked: Collecting 20 samples in estimated 250.17 ms (287k iterations)
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked: Analyzing
+trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked
+                        time:   [899.15 ns 902.58 ns 905.06 ns]
+                        thrpt:  [1.1314 Gelem/s 1.1345 Gelem/s 1.1389 Gelem/s]
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array: Warming up for 100.00 ms
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array: Collecting 20 samples in estimated 250.15 ms (322k iterations)
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array: Analyzing
+trnmap/batch-get-1k-random/1m-map/byte-array
+                        time:   [767.55 ns 772.56 ns 778.92 ns]
+                        thrpt:  [1.3146 Gelem/s 1.3255 Gelem/s 1.3341 Gelem/s]
+

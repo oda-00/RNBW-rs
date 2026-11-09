@@ -6,6 +6,25 @@
 > Its count and merge values supersede the corresponding older measurements in
 > this historical full matrix; other rows have not been rebenchmarked here.
 
+## Fresh point-operation rerun (2026-11-09)
+
+These 30-sample measurements supersede the older hot `get` and `find` rows below.
+The old full matrix remains dated 2026-11-08; the recent same-run confidence
+intervals and random-batch normalization are in
+[`rnbw-operation-latency-scorecard-2026-11-09.md`](rnbw-operation-latency-scorecard-2026-11-09.md)
+and the raw Criterion output is in the linked `trnmap-point-1m-final` and
+`trnmap-batch-*-1m-final` files.
+
+| Operation, 1M-trit map | Whole operation | Result |
+|---|---:|---|
+| Packed safe `get`, one hot index | 0.853 ns [0.814–0.918] | 1.25× slower than byte-array get at 0.682 ns |
+| Packed unchecked `get`, same index | 0.823 ns [0.816–0.833] | Unsafe caller-valid-index path |
+| Positive `find`, same hot start and immediate hit | 0.737 ns [0.735–0.741] | Hot-leaf fast path |
+| Unchecked positive `find`, same case | 0.723 ns [0.716–0.735] | Unsafe caller-valid-start path |
+| Safe packed `get`, 1,024 random indexes | 1.0167 µs/batch = 0.993 ns/query | 95% normalized interval 0.9844–0.9995 ns/query |
+| Unchecked packed `get`, same batch | 0.9038 µs/batch = 0.883 ns/query | 95% normalized interval 0.8781–0.8879 ns/query |
+| Positive `find`, 1,024 random starts | 1.1626 µs/batch = 1.135 ns/search | Not below 1 ns/search |
+
 Run date: 2026-11-08. Toolchain: `rustc 1.95.0`. Host identifier reported by the
 Windows runner: `AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD`; the exact CPU
 SKU and cache sizes were not exposed, so cache-tier claims are intentionally omitted.

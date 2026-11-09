@@ -1,0 +1,32 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.20s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap: Warming up for 100.00 ms
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap: Collecting 30 samples in estimated 400.30 ms (387k iterations)
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap: Analyzing
+trnmap/batch-get-1k-random/1m-map/packed-trnmap
+                        time:   [1.0080 µs 1.0167 µs 1.0235 µs]
+                        thrpt:  [1.0004 Gelem/s 1.0072 Gelem/s 1.0158 Gelem/s]
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked: Warming up for 100.00 ms
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked: Collecting 30 samples in estimated 400.35 ms (451k iterations)
+Benchmarking trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked: Analyzing
+trnmap/batch-get-1k-random/1m-map/packed-trnmap-unchecked
+                        time:   [899.20 ns 903.81 ns 909.18 ns]
+                        thrpt:  [1.1263 Gelem/s 1.1330 Gelem/s 1.1388 Gelem/s]
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array: Warming up for 100.00 ms
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array: Collecting 30 samples in estimated 400.15 ms (436k iterations)
+Benchmarking trnmap/batch-get-1k-random/1m-map/byte-array: Analyzing
+trnmap/batch-get-1k-random/1m-map/byte-array
+                        time:   [994.01 ns 1.0828 µs 1.1872 µs]
+                        thrpt:  [862.55 Melem/s 945.69 Melem/s 1.0302 Gelem/s]
+

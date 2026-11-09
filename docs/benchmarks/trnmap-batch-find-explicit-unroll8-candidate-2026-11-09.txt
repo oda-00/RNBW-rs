@@ -1,0 +1,19 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 5.85s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8-explicit
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8-explicit: Warming up for 100.00 ms
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8-explicit: Collecting 30 samples in estimated 400.08 ms (375k iterations)
+Benchmarking trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8-explicit: Analyzing
+trnmap/batch-find-1k-random/1m-map/hierarchical-positive-unroll8-explicit
+                        time:   [1.0821 µs 1.0864 µs 1.0912 µs]
+                        thrpt:  [938.43 Melem/s 942.59 Melem/s 946.28 Melem/s]
+

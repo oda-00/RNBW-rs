@@ -1,0 +1,29 @@
+# RNBW integer-index Hyperfine results from WSL
+
+Run against source commit `63fa1c0` (before L1 mask fusion). WSL on AMD Ryzen 9 5900HS, 8 virtual cores; Rust 1.99.1, Hyperfine 1.19.0.
+
+Command: `hyperfine --shell=none --warmup 2 --runs 10`; 1,000,000 requested keys; five workloads × build/contains/decode × RNBW/PlainEF/raw. Values are whole-process milliseconds, including workload generation and process/report startup. `contains` includes 8,192 probes (4,096 hits and 4,096 misses); `decode` builds then decodes. This measures the integer index, not the byte-compression codec.
+
+Hyperfine reported outliers in some groups; the report retains each median and full min–max range.
+
+| Workload | Op | RNBW mean ± σ; median; range (ms) | PlainEF mean ± σ; median; range (ms) | Raw mean ± σ; median; range (ms) | Mean ratio RNBW/EF | Mean ratio RNBW/raw |
+|---|---|---:|---:|---:|---:|---:|
+| clustered | build | 29.039 ± 0.216; 28.993; 28.733–29.476 | 10.260 ± 0.266; 10.228; 9.783–10.797 | 5.196 ± 0.302; 5.216; 4.731–5.665 | 2.83× | 5.59× |
+| clustered | contains | 31.623 ± 0.224; 31.671; 31.158–31.977 | 11.406 ± 0.268; 11.415; 11.018–11.845 | 6.276 ± 0.240; 6.191; 6.133–6.932 | 2.77× | 5.04× |
+| clustered | decode | 48.588 ± 0.568; 48.610; 47.417–49.443 | 16.509 ± 0.339; 16.429; 16.160–17.124 | 7.478 ± 0.284; 7.371; 7.149–7.994 | 2.94× | 6.50× |
+| dense | build | 28.818 ± 1.144; 28.514; 28.042–31.978 | 7.105 ± 0.255; 7.023; 6.784–7.568 | 5.268 ± 0.232; 5.266; 4.792–5.697 | 4.06× | 5.47× |
+| dense | contains | 30.505 ± 0.203; 30.513; 30.186–30.803 | 7.859 ± 0.438; 7.860; 7.398–8.949 | 6.255 ± 0.441; 6.209; 5.533–7.100 | 3.88× | 4.88× |
+| dense | decode | 47.299 ± 0.426; 47.332; 46.287–47.773 | 9.990 ± 0.164; 9.962; 9.781–10.244 | 7.523 ± 0.383; 7.366; 7.106–8.266 | 4.73× | 6.29× |
+| ecs | build | 30.465 ± 0.163; 30.460; 30.259–30.749 | 9.102 ± 0.103; 9.052; 8.987–9.288 | 7.208 ± 0.233; 7.129; 6.990–7.645 | 3.35× | 4.23× |
+| ecs | contains | 32.543 ± 0.431; 32.515; 31.929–33.119 | 9.816 ± 0.274; 9.768; 9.434–10.364 | 7.901 ± 0.284; 7.927; 7.289–8.258 | 3.32× | 4.12× |
+| ecs | decode | 51.794 ± 1.441; 51.897; 49.095–54.499 | 12.160 ± 0.232; 12.123; 11.831–12.659 | 9.412 ± 0.273; 9.343; 9.149–9.967 | 4.26× | 5.50× |
+| morton-shell | build | 133.700 ± 5.193; 131.743; 127.979–141.940 | 118.811 ± 9.366; 116.651; 111.536–142.646 | 112.149 ± 4.253; 110.835; 107.160–121.308 | 1.13× | 1.19× |
+| morton-shell | contains | 144.421 ± 10.930; 142.402; 132.951–165.023 | 118.755 ± 2.578; 119.090; 114.786–122.900 | 111.529 ± 2.814; 110.250; 108.497–116.871 | 1.22× | 1.29× |
+| morton-shell | decode | 166.313 ± 5.738; 165.729; 159.794–180.205 | 121.291 ± 2.317; 121.605; 116.704–125.796 | 114.855 ± 7.925; 112.159; 109.232–136.294 | 1.37× | 1.45× |
+| uniform | build | 40.979 ± 0.443; 40.821; 40.415–41.967 | 27.079 ± 1.262; 26.739; 26.055–30.346 | 18.190 ± 1.114; 17.788; 17.612–21.276 | 1.51× | 2.25× |
+| uniform | contains | 42.734 ± 0.426; 42.573; 42.132–43.498 | 30.246 ± 0.309; 30.181; 29.907–30.761 | 19.378 ± 0.335; 19.254; 18.924–19.859 | 1.41× | 2.21× |
+| uniform | decode | 89.892 ± 1.038; 89.716; 88.509–91.670 | 33.001 ± 0.208; 32.945; 32.697–33.336 | 19.937 ± 0.346; 19.854; 19.448–20.615 | 2.72× | 4.51× |
+
+RNBW is slower than both comparison engines in all 15 cases. The median slowdown is 1.13×–4.75× versus PlainEF and 1.19×–6.60× versus raw. Morton-shell is closest; dense/ECS and decode are the largest gaps.
+
+The 15 Hyperfine JSON files with all ten samples each are in the local ignored path `reports/wsl-index-hyperfine-63fa1c0/`.
