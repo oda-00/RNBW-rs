@@ -1,0 +1,32 @@
+# Single-lane decode fast-path A/B
+
+Date: 2026-11-09
+
+Command for both runs: `cargo bench --offline --locked --bench files -- 'file-(encode|decode|roundtrip)/.*/rnbw' --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet`. The runs used the same 16 general workloads and RNBW encoder, decoder, and roundtrip cases. The candidate only changed compressed single-lane `decode_interleaved_cow`; the encode columns are unchanged-code controls. Raw Criterion logs retain confidence intervals.
+
+Baseline log: `general-single-lane-decode-fastpath-ab-baseline-2026-11-09.txt`.
+Candidate log: `general-single-lane-decode-fastpath-ab-candidate-2026-11-09.txt`.
+
+Medians in microseconds; `baseline -> candidate (faster/slower percent)`. Positive percentages mean the candidate was faster.
+
+| Workload | Reuse-serial encode | Interleaved decode | Reuse-serial encode+decode |
+|---|---:|---:|---:|
+| image-rgba8-raster | 5,999.30 -> 5,420.30 (+9.7%) | 1,657.30 -> 1,682.50 (-1.5%) | 7,891.00 -> 8,991.10 (-13.9%) |
+| image-png-stored-deflate | 2,707.30 -> 2,707.60 (0.0%) | 1,377.20 -> 1,478.90 (-7.4%) | 3,980.40 -> 3,872.90 (+2.7%) |
+| image-png-compressed-deflate | 5.83 -> 6.06 (-3.9%) | 1.90 -> 2.04 (-7.5%) | 8.31 -> 8.01 (+3.7%) |
+| graphics-shader-machine-words-synthetic | 483.71 -> 514.34 (-6.3%) | 365.64 -> 369.03 (-0.9%) | 876.90 -> 941.61 (-7.4%) |
+| graphics-wgsl-source | 50.87 -> 49.11 (+3.5%) | 27.44 -> 26.45 (+3.6%) | 80.67 -> 78.79 (+2.3%) |
+| ai-model-int8-tensor-synthetic | 3,987.40 -> 4,019.80 (-0.8%) | 1,598.10 -> 1,630.30 (-2.0%) | 5,577.50 -> 5,708.60 (-2.4%) |
+| native-executable-binary | 64,399.00 -> 63,883.00 (+0.8%) | 35,727.00 -> 34,257.00 (+4.1%) | 95,531.00 -> 98,147.00 (-2.7%) |
+| structured-binary-records | 2,399.10 -> 2,364.00 (+1.5%) | 1,066.70 -> 1,109.70 (-4.0%) | 3,544.30 -> 3,620.90 (-2.2%) |
+| sparse-binary | 2,302.50 -> 2,264.80 (+1.6%) | 667.52 -> 689.76 (-3.3%) | 2,808.70 -> 2,911.70 (-3.7%) |
+| random-binary-incompressible | 249.13 -> 266.79 (-7.1%) | 275.67 -> 270.55 (+1.9%) | 421.56 -> 410.72 (+2.6%) |
+| repository-rust-source | 1,593.50 -> 1,518.30 (+4.7%) | 907.57 -> 871.14 (+4.0%) | 2,590.40 -> 2,405.60 (+7.1%) |
+| repository-technical-prose | 286.69 -> 271.25 (+5.4%) | 162.88 -> 167.78 (-3.0%) | 478.83 -> 482.24 (-0.7%) |
+| natural-style-prose-generated | 1,829.20 -> 1,952.40 (-6.7%) | 751.26 -> 746.66 (+0.6%) | 2,671.50 -> 2,714.00 (-1.6%) |
+| json-records | 4,618.30 -> 4,406.80 (+4.6%) | 2,310.60 -> 2,253.50 (+2.5%) | 6,554.20 -> 6,915.60 (-5.5%) |
+| csv-table | 5,838.30 -> 6,089.10 (-4.3%) | 4,809.90 -> 4,618.70 (+4.0%) | 10,868.00 -> 10,785.00 (+0.8%) |
+| server-log-records | 6,603.20 -> 6,665.90 (-0.9%) | 3,754.00 -> 3,681.40 (+1.9%) | 10,505.00 -> 10,640.00 (-1.3%) |
+
+Conclusion: decode and encode+decode medians moved both directions across the corpus, and encode controls also varied despite identical code. This A/B did not establish a repeatable speedup. The implementation change and its temporary unit test were removed; no codec behavior or serialized bytes changed. The proposed path would have removed the one-element outer `Vec<Vec<u8>>` collection on compressed single-lane decode, but its benefit was below the noise floor of whole-workload measurements.
+
