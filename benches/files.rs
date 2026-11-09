@@ -131,8 +131,10 @@ fn file_codecs(c: &mut Criterion) {
             .collect::<Vec<_>>()
             .join(" ");
         eprintln!(
-            "file-dataset={name} bytes={raw_len} structural-lanes={} rnbw={:.4} rnbw-parallel={:.4} parallel-size-delta={:+.2}% raw=1.0000 {ratios} cow-borrowed={}",
+            "file-dataset={name} bytes={raw_len} structural-lanes={} rnbw-bytes={} rnbw-parallel-bytes={} rnbw={:.4} rnbw-parallel={:.4} parallel-size-delta={:+.2}% raw=1.0000 {ratios} cow-borrowed={}",
             layout.label(),
+            codec.as_bytes().len(),
+            parallel_codec.as_bytes().len(),
             codec.as_bytes().len() as f64 / raw_len as f64,
             parallel_codec.as_bytes().len() as f64 / raw_len as f64,
             (parallel_codec.as_bytes().len() as f64 / codec.as_bytes().len() as f64 - 1.0) * 100.0,

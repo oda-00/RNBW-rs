@@ -217,6 +217,45 @@ impl LaneLz {
         Ok(Self { image })
     }
 
+    fn from_raw_single_lane(input: &[u8], raw_total: usize) -> Result<Self, CodecError> {
+        let descriptor_end = HEADER_BYTES
+            .checked_add(DESCRIPTOR_BYTES)
+            .ok_or(CodecError::LengthOverflow)?;
+        let payload_offset = align_up(descriptor_end, 8).ok_or(CodecError::LengthOverflow)?;
+        let payload_end = payload_offset
+            .checked_add(input.len())
+            .ok_or(CodecError::LengthOverflow)?;
+        let image_len = align_up(payload_end, 8).ok_or(CodecError::LengthOverflow)?;
+        if descriptor_end > u32::MAX as usize || image_len > u32::MAX as usize {
+            return Err(CodecError::LengthOverflow);
+        }
+
+        let mut image = Vec::with_capacity(image_len);
+        image.resize(payload_offset, 0);
+        image.extend_from_slice(input);
+        image.resize(image_len, 0);
+        image[..4].copy_from_slice(MAGIC);
+        put_u16(&mut image, 4, VERSION)?;
+        put_u16(&mut image, 6, 1)?;
+        put_u32(
+            &mut image,
+            8,
+            u32::try_from(raw_total).map_err(|_| CodecError::LengthOverflow)?,
+        )?;
+        put_u32(&mut image, 12, descriptor_end as u32)?;
+        put_u32(&mut image, 16, image_len as u32)?;
+
+        let descriptor = HEADER_BYTES;
+        let input_len = u32::try_from(input.len()).map_err(|_| CodecError::LengthOverflow)?;
+        put_u32(&mut image, descriptor, input_len)?;
+        put_u32(&mut image, descriptor + 4, input_len)?;
+        put_u32(&mut image, descriptor + 8, payload_offset as u32)?;
+        put_u32(&mut image, descriptor + 12, input_len)?;
+        image[descriptor + 22] = MODE_RAW;
+        image[descriptor + 23] = METHOD_RAW;
+        Ok(Self { image })
+    }
+
     /// Parses and validates the serialized lane container.
     pub fn from_bytes(bytes: &[u8]) -> Result<Self, CodecError> {
         parse_image(bytes)?;
@@ -754,6 +793,16 @@ fn encode_serial_lanes(
     } else {
         HASH_BITS_COMPACT
     };
+    if lanes.len() == 1 {
+        let input = lanes[0];
+        if should_skip_lz_sample(input) {
+            return LaneLz::from_raw_single_lane(input, raw_total);
+        }
+        return LaneLz::from_lanes(
+            vec![encode_lane_after_sample(input, workspace, hash_bits)?],
+            raw_total,
+        );
+    }
     let mut stored = Vec::with_capacity(lanes.len());
     for lane in lanes {
         stored.push(encode_lane(lane, workspace, hash_bits)?);
@@ -773,16 +822,22 @@ fn encode_parallel_lanes(
     if lanes.len() == 1 {
         let lane = lanes[0];
         if should_skip_lz_sample(lane) {
-            return LaneLz::from_lanes(vec![raw_lane_data(lane)], raw_total);
+            return LaneLz::from_raw_single_lane(lane, raw_total);
         }
         if lane.len() <= LZ_BLOCK_BYTES {
-            return encode_serial_lanes(lanes, raw_total, serial);
+            return LaneLz::from_lanes(
+                vec![encode_lane_after_sample(lane, serial, HASH_BITS_WIDE)?],
+                raw_total,
+            );
         }
         let worker_count = rayon_worker_count();
         let block_count = lane.len().div_ceil(LZ_BLOCK_BYTES);
         let tasks = worker_count.min(block_count);
         if tasks < 2 {
-            return encode_serial_lanes(lanes, raw_total, serial);
+            return LaneLz::from_lanes(
+                vec![encode_lane_after_sample(lane, serial, HASH_BITS_WIDE)?],
+                raw_total,
+            );
         }
         return encode_parallel_single_lane(lane, raw_total, worker_count, serial, parallel);
     }
@@ -977,6 +1032,14 @@ fn encode_lane(
     if should_skip_lz_sample(input) {
         return Ok(raw_lane_data(input));
     }
+    encode_lane_after_sample(input, workspace, hash_bits)
+}
+
+fn encode_lane_after_sample(
+    input: &[u8],
+    workspace: &mut LzWorkspace,
+    hash_bits: usize,
+) -> Result<LaneData, CodecError> {
     let (token_count, literal_len) = lz_encode(input, workspace, hash_bits);
     choose_lane_data(input, &workspace.tokens, token_count, literal_len)
 }
@@ -1110,7 +1173,7 @@ fn should_skip_lz_sample(input: &[u8]) -> bool {
 
     let distinct_bytes = byte_counts.iter().filter(|&&count| count != 0).count();
     let max_frequency = byte_counts.iter().copied().max().unwrap_or(0) as usize;
-    distinct_bytes >= 200 && max_frequency <= sample_bytes / 64 && duplicate_grams <= 8
+    distinct_bytes >= 240 && max_frequency <= sample_bytes / 16 && duplicate_grams <= 32
 }
 
 fn raw_lane_data(input: &[u8]) -> LaneData {
@@ -1661,6 +1724,9 @@ mod tests {
         let encoded = LaneLz::encode(&[&random]).unwrap();
         let descriptor = parse_image(encoded.as_bytes()).unwrap()[0];
         assert_eq!(descriptor.mode, MODE_RAW);
+        let previous_raw_fallback =
+            LaneLz::from_lanes(vec![raw_lane_data(&random)], random.len()).unwrap();
+        assert_eq!(encoded.as_bytes(), previous_raw_fallback.as_bytes());
         assert_eq!(encoded.decode_lanes().unwrap()[0], random);
 
         let mut mixed = (0..1_048_576)
@@ -1682,5 +1748,82 @@ mod tests {
         );
         assert!(encoded.as_bytes().len() < mixed.len());
         assert_eq!(encoded.decode_lanes().unwrap()[0], mixed);
+    }
+
+    #[test]
+    fn compressed_png_sample_uses_raw_fast_path_and_roundtrips() {
+        use std::io::Write;
+
+        let (width, height) = (512u32, 256u32);
+        let mut pixels = Vec::with_capacity((width * height * 4) as usize);
+        let mut state = 0x9e37_79b9_7f4a_7c15u64;
+        for y in 0..height {
+            for x in 0..width {
+                state ^= state << 13;
+                state ^= state >> 7;
+                state ^= state << 17;
+                let noise = (state & 3) as u8;
+                pixels.extend_from_slice(&[
+                    ((x / 2) as u8).wrapping_add(noise),
+                    ((y / 2) as u8).wrapping_add(noise),
+                    ((x ^ y) as u8).wrapping_add(noise),
+                    255,
+                ]);
+            }
+        }
+        let mut scanlines = Vec::with_capacity(131_200);
+        for row in pixels.chunks_exact(1024).take(128) {
+            scanlines.push(0);
+            scanlines.extend_from_slice(row);
+        }
+        let mut zlib = flate2::write::ZlibEncoder::new(Vec::new(), flate2::Compression::default());
+        zlib.write_all(&scanlines).unwrap();
+        let zlib = zlib.finish().unwrap();
+        let mut png = b"\x89PNG\r\n\x1a\n".to_vec();
+        let mut ihdr = Vec::with_capacity(13);
+        ihdr.extend_from_slice(&256u32.to_be_bytes());
+        ihdr.extend_from_slice(&128u32.to_be_bytes());
+        ihdr.extend_from_slice(&[8, 6, 0, 0, 0]);
+        for (kind, data) in [
+            (b"IHDR", ihdr.as_slice()),
+            (b"IDAT", zlib.as_slice()),
+            (b"IEND", &[]),
+        ] {
+            png.extend_from_slice(&(data.len() as u32).to_be_bytes());
+            png.extend_from_slice(kind);
+            png.extend_from_slice(data);
+            let mut crc = !0u32;
+            for &byte in kind.iter().chain(data) {
+                crc ^= u32::from(byte);
+                for _ in 0..8 {
+                    crc = (crc >> 1) ^ (0xedb8_8320 & 0u32.wrapping_sub(crc & 1));
+                }
+            }
+            png.extend_from_slice(&(!crc).to_be_bytes());
+        }
+        assert_eq!(png.len(), 89_883);
+        assert!(should_skip_lz_sample(&png));
+
+        let raw_image = LaneLz::from_lanes(vec![raw_lane_data(&png)], png.len()).unwrap();
+        let direct_image = LaneLz::from_raw_single_lane(&png, png.len()).unwrap();
+        assert_eq!(direct_image.as_bytes(), raw_image.as_bytes());
+
+        let mut full_workspace = LzWorkspace::default();
+        let (token_count, literal_len) = lz_encode(&png, &mut full_workspace, HASH_BITS_WIDE);
+        let full_lz_result =
+            choose_lane_data(&png, &full_workspace.tokens, token_count, literal_len).unwrap();
+        assert_eq!(full_lz_result.mode, MODE_RAW);
+        let previous_full_encode = LaneLz::from_lanes(vec![full_lz_result], png.len()).unwrap();
+        assert_eq!(direct_image.as_bytes(), previous_full_encode.as_bytes());
+
+        let encoded = LaneLz::encode(&[&png]).unwrap();
+        assert_eq!(encoded.as_bytes(), direct_image.as_bytes());
+        assert_eq!(
+            LaneLz::from_bytes(encoded.as_bytes())
+                .unwrap()
+                .decode_lanes()
+                .unwrap()[0],
+            png
+        );
     }
 }

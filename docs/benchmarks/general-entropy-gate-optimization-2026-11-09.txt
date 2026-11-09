@@ -1,0 +1,46 @@
+RNBW high-entropy raw-fallback gate and single-lane raw serializer
+Date: 2026-11-09
+Change: broadened the sampled incompressibility gate (distinct bytes >=240, max sampled byte count <=1/16 of the sample, duplicate 3-grams <=32) and directly serialize a single raw lane. The serialized format is unchanged; raw payload is copied once into the final image, with only the header and alignment padding zero-filled.
+
+Why: the 89,883-byte compressed-PNG corpus failed the old sampler (distinct=256, max frequency=81 versus limit 32, duplicate grams=25 versus limit 8), ran the full LZ+entropy path, then chose raw fallback. The broadened gate sends it directly to the same raw image.
+
+Method: before and after used Criterion release profile, AVX2, 10 samples, 100 ms warmup, 150 ms requested measurement across 16 fixed general workloads. Corpus construction and comparator encoding are outside timed loops; roundtrip assertions run before timing. These are independent runs, not paired. A focused confirmation used 30 samples, 200 ms warmup and 500 ms measurement for the four affected serial/parallel encode cases.
+
+Focused serial/parallel encode comparison (median; 95% Criterion interval).
+
+| Input | Serial before | Serial after | Parallel before | Parallel after | Current exact encoded size |
+|---|---:|---:|---:|---:|---:|
+| PNG compressed bytes (89,883 B) | 1.347 ms [1.332–1.372] | 5.63 µs [5.60–5.67] | 1.194 ms [1.185–1.205] | 5.56 µs [5.52–5.62] | 89,944 B (raw + 61 B) |
+| Random binary (1,048,576 B) | 417.51 µs [401.67–452.29] | 219.98 µs [205.03–229.23] | 422.40 µs [389.23–473.88] | 235.34 µs [232.22–238.79] | 1,048,632 B (raw + 56 B) |
+
+Higher-sample confirmation medians: PNG serial 5.5225 µs [5.4643–5.5682], parallel 5.8343 µs [5.7316–5.9572]; random binary serial 253.45 µs [238.14–272.82], parallel 245.12 µs [233.59–256.62]. All four are non-overlapping with their baseline intervals. The change is retained for these verified encode wins.
+
+Full 16-corpus RNBW operation medians. Times are baseline -> candidate; current exact serialized byte counts are in the last column. Ratios are unchanged at four decimals in all 16 cases.
+
+| Corpus | RNBW bytes/input | Exact bytes serial/parallel | One-shot encode | Reuse serial encode | Reuse parallel encode | Full decode |
+|---|---:|---:|---:|---:|---:|---:|
+| ai-model-int8-tensor-synthetic | 0.0206 -> 0.0206 | 21568 / 21568 | 4.284 ms -> 4.468 ms | 4.008 ms -> 4.030 ms | 2.547 ms -> 2.618 ms | 1.581 ms -> 1.634 ms |
+| csv-table | 0.4314 -> 0.4314 | 429432 / 429456 | 6.459 ms -> 6.445 ms | 5.692 ms -> 5.839 ms | 3.289 ms -> 3.868 ms | 4.487 ms -> 4.614 ms |
+| graphics-shader-machine-words-synthetic | 0.0140 -> 0.0140 | 3672 / 3672 | 941.15 µs -> 952.32 µs | 525.56 µs -> 515.01 µs | 209.25 µs -> 201.83 µs | 359.09 µs -> 358.58 µs |
+| graphics-wgsl-source | 0.3610 -> 0.3610 | 2984 / 2984 | 489.23 µs -> 524.78 µs | 52.49 µs -> 53.48 µs | 50.04 µs -> 53.34 µs | 26.65 µs -> 27.25 µs |
+| image-png-compressed-deflate | 1.0007 -> 1.0007 | 89944 / 89944 | 1.742 ms -> 5.87 µs | 1.347 ms -> 5.63 µs | 1.194 ms -> 5.56 µs | 1.87 µs -> 2.03 µs |
+| image-png-stored-deflate | 0.9283 -> 0.9283 | 121864 / 121864 | 3.071 ms -> 2.977 ms | 2.558 ms -> 2.601 ms | 2.545 ms -> 2.629 ms | 1.347 ms -> 1.351 ms |
+| image-rgba8-raster | 0.5630 -> 0.5630 | 295200 / 295200 | 6.853 ms -> 6.741 ms | 5.739 ms -> 5.473 ms | 2.744 ms -> 2.747 ms | 1.590 ms -> 1.599 ms |
+| json-records | 0.1966 -> 0.1966 | 237792 / 237816 | 5.081 ms -> 5.490 ms | 4.653 ms -> 4.326 ms | 2.729 ms -> 2.675 ms | 2.197 ms -> 2.393 ms |
+| native-executable-binary | 0.5560 -> 0.5560 | 3022976 / 3023136 | 61.430 ms -> 62.822 ms | 64.010 ms -> 60.638 ms | 46.385 ms -> 47.280 ms | 35.400 ms -> 36.131 ms |
+| natural-style-prose-generated | 0.1535 -> 0.1535 | 89952 / 89976 | 2.281 ms -> 2.366 ms | 1.809 ms -> 1.937 ms | 1.091 ms -> 1.098 ms | 777.78 µs -> 755.34 µs |
+| random-binary-incompressible | 1.0001 -> 1.0001 | 1048632 / 1048632 | 521.07 µs -> 197.92 µs | 417.51 µs -> 219.98 µs | 422.40 µs -> 235.34 µs | 204.08 µs -> 242.24 µs |
+| repository-rust-source | 0.3161 -> 0.3161 | 87152 / 87168 | 1.941 ms -> 1.955 ms | 1.685 ms -> 1.599 ms | 1.069 ms -> 1.021 ms | 880.20 µs -> 904.67 µs |
+| repository-technical-prose | 0.5937 -> 0.5937 | 15832 / 15832 | 721.17 µs -> 860.17 µs | 278.53 µs -> 299.46 µs | 279.83 µs -> 298.55 µs | 160.51 µs -> 166.91 µs |
+| server-log-records | 0.2819 -> 0.2819 | 394256 / 394296 | 6.867 ms -> 7.539 ms | 6.741 ms -> 6.910 ms | 3.617 ms -> 3.889 ms | 3.755 ms -> 3.838 ms |
+| sparse-binary | 0.0462 -> 0.0462 | 48424 / 48440 | 2.636 ms -> 3.212 ms | 2.131 ms -> 2.109 ms | 746.56 µs -> 748.39 µs | 672.79 µs -> 673.85 µs |
+| structured-binary-records | 0.6725 -> 0.6725 | 352584 / 352584 | 2.741 ms -> 2.919 ms | 2.457 ms -> 2.256 ms | 2.200 ms -> 2.216 ms | 1.079 ms -> 1.080 ms |
+
+The all-corpus unpaired geomeans were 1.419x reuse-parallel encode, 1.476x reuse-serial encode, and 1.447x one-shot encode. Non-overlapping intervals were mixed outside the two targeted datasets (parallel 4 improved/5 regressed/7 overlapped; serial 8/3/5; one-shot 2/5/9), so no general-corpus speedup is claimed beyond the two confirmed raw-fallback inputs. Decode source is unchanged; its independent-run medians were mixed and are not claimed as a codec decode change.
+
+Correctness: full `cargo test --offline --locked` passed (46 library tests, 3 binary tests, 1 codec mutation-fuzz test, 3 TRNMAP mutation-fuzz tests). After the full run, the two raw-path tests were rerun and passed with additional byte-for-byte checks: compressed PNG fast output equals both old raw serialization and the prior full-LZ-then-raw-fallback image; random binary equals the prior raw serializer.
+
+Raw logs:
+- docs/benchmarks/general-encode-decode-entropy-gate-final-2026-11-09.txt
+- docs/benchmarks/general-entropy-gate-confirm-2026-11-09.txt
+- docs/benchmarks/general-encode-decode-rerun-2026-11-09.txt (baseline)
