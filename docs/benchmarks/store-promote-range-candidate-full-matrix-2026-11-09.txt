@@ -1,0 +1,105 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.20s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=56332 spills=9204
+Benchmarking store-promote/uniform/p32/full-range-refresh
+Benchmarking store-promote/uniform/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 557.5ms.
+Benchmarking store-promote/uniform/p32/full-range-refresh: Collecting 10 samples in estimated 557.50 ms (10 iterations)
+Benchmarking store-promote/uniform/p32/full-range-refresh: Analyzing
+store-promote/uniform/p32/full-range-refresh
+                        time:   [56.425 ms 57.161 ms 57.854 ms]
+                        thrpt:  [1.1328 Melem/s 1.1465 Melem/s 1.1615 Melem/s]
+Benchmarking store-promote/uniform/p64/full-range-refresh
+Benchmarking store-promote/uniform/p64/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 648.2ms.
+Benchmarking store-promote/uniform/p64/full-range-refresh: Collecting 10 samples in estimated 648.21 ms (10 iterations)
+Benchmarking store-promote/uniform/p64/full-range-refresh: Analyzing
+store-promote/uniform/p64/full-range-refresh
+                        time:   [61.628 ms 62.401 ms 63.214 ms]
+                        thrpt:  [1.0367 Melem/s 1.0502 Melem/s 1.0634 Melem/s]
+
+store dataset=clustered keys=1000000 layout=p32 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+Benchmarking store-promote/clustered/p32/full-range-refresh
+Benchmarking store-promote/clustered/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 52.2ms or enable flat sampling.
+Benchmarking store-promote/clustered/p32/full-range-refresh: Collecting 10 samples in estimated 52.161 ms (55 iterations)
+Benchmarking store-promote/clustered/p32/full-range-refresh: Analyzing
+store-promote/clustered/p32/full-range-refresh
+                        time:   [906.87 µs 970.68 µs 1.0472 ms]
+                        thrpt:  [62.580 Melem/s 67.516 Melem/s 72.266 Melem/s]
+Benchmarking store-promote/clustered/p64/full-range-refresh
+Benchmarking store-promote/clustered/p64/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/clustered/p64/full-range-refresh: Collecting 10 samples in estimated 97.408 ms (110 iterations)
+Benchmarking store-promote/clustered/p64/full-range-refresh: Analyzing
+store-promote/clustered/p64/full-range-refresh
+                        time:   [844.93 µs 907.71 µs 995.83 µs]
+                        thrpt:  [65.811 Melem/s 72.200 Melem/s 77.564 Melem/s]
+
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+Benchmarking store-promote/dense/p32/full-range-refresh
+Benchmarking store-promote/dense/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 50.6ms or enable flat sampling.
+Benchmarking store-promote/dense/p32/full-range-refresh: Collecting 10 samples in estimated 50.632 ms (55 iterations)
+Benchmarking store-promote/dense/p32/full-range-refresh: Analyzing
+store-promote/dense/p32/full-range-refresh
+                        time:   [837.85 µs 851.78 µs 871.05 µs]
+                        thrpt:  [75.238 Melem/s 76.940 Melem/s 78.219 Melem/s]
+Benchmarking store-promote/dense/p64/full-range-refresh
+Benchmarking store-promote/dense/p64/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/dense/p64/full-range-refresh: Collecting 10 samples in estimated 82.769 ms (110 iterations)
+Benchmarking store-promote/dense/p64/full-range-refresh: Analyzing
+store-promote/dense/p64/full-range-refresh
+                        time:   [637.12 µs 660.13 µs 703.06 µs]
+                        thrpt:  [93.215 Melem/s 99.278 Melem/s 102.86 Melem/s]
+
+store dataset=morton-shell keys=1000000 layout=p32 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=351 spills=3478
+Benchmarking store-promote/morton-shell/p32/full-range-refresh
+Benchmarking store-promote/morton-shell/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 285.1ms.
+Benchmarking store-promote/morton-shell/p32/full-range-refresh: Collecting 10 samples in estimated 285.11 ms (10 iterations)
+Benchmarking store-promote/morton-shell/p32/full-range-refresh: Analyzing
+store-promote/morton-shell/p32/full-range-refresh
+                        time:   [28.483 ms 28.946 ms 29.409 ms]
+                        thrpt:  [2.2285 Melem/s 2.2640 Melem/s 2.3009 Melem/s]
+Benchmarking store-promote/morton-shell/p64/full-range-refresh
+Benchmarking store-promote/morton-shell/p64/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 287.8ms.
+Benchmarking store-promote/morton-shell/p64/full-range-refresh: Collecting 10 samples in estimated 287.82 ms (10 iterations)
+Benchmarking store-promote/morton-shell/p64/full-range-refresh: Analyzing
+store-promote/morton-shell/p64/full-range-refresh
+                        time:   [28.179 ms 28.607 ms 29.051 ms]
+                        thrpt:  [2.2559 Melem/s 2.2909 Melem/s 2.3257 Melem/s]
+
+store dataset=ecs keys=1000000 layout=p32 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+Benchmarking store-promote/ecs/p32/full-range-refresh
+Benchmarking store-promote/ecs/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 96.8ms or enable flat sampling.
+Benchmarking store-promote/ecs/p32/full-range-refresh: Collecting 10 samples in estimated 96.804 ms (55 iterations)
+Benchmarking store-promote/ecs/p32/full-range-refresh: Analyzing
+store-promote/ecs/p32/full-range-refresh
+                        time:   [1.5371 ms 1.6788 ms 1.7933 ms]
+                        thrpt:  [36.545 Melem/s 39.038 Melem/s 42.637 Melem/s]
+Benchmarking store-promote/ecs/p64/full-range-refresh
+Benchmarking store-promote/ecs/p64/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 81.2ms or enable flat sampling.
+Benchmarking store-promote/ecs/p64/full-range-refresh: Collecting 10 samples in estimated 81.199 ms (55 iterations)
+Benchmarking store-promote/ecs/p64/full-range-refresh: Analyzing
+store-promote/ecs/p64/full-range-refresh
+                        time:   [1.2718 ms 1.3391 ms 1.4062 ms]
+                        thrpt:  [46.604 Melem/s 48.942 Melem/s 51.531 Melem/s]

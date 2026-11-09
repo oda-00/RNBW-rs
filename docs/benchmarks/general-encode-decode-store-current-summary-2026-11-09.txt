@@ -1,0 +1,113 @@
+RNBW current encode/decode and store benchmark results
+Date: 2026-11-09
+
+## Method
+- Windows host, AVX2 dispatch selected.
+- General files: `cargo bench --offline --locked --bench files -- 'file-(encode|decode)/' --sample-size 10 --warm-up-time 0.05 --measurement-time 0.05 --noplot --quiet`.
+- 16 byte corpora; 383 Criterion measurements. The harness asserts successful serial and parallel RNBW roundtrips and comparator roundtrips. Eight external comparisons: LZ4, Snappy, Zstd fast-3 / level-1, Brotli quality 0 / 5, and zlib fast / default.
+- Store: same Criterion settings, five 1M-key-shaped data distributions and p32/p64 layouts. Build includes the RNBW L2 store, L2+L3 full-range promoted representation, and RNBW query image; decode times include L2 and promoted stores.
+- Ten Criterion samples and 50 ms warm-up/measurement target are a quick current sweep. Criterion adapts iterations to operation cost and records confidence intervals in raw logs. These are absolute current timings, not a paired codec-change A/B. Compare medians cautiously; no hardware counters were collected.
+
+## TRNMAP raw-word index build
+
+This is a separate index over 32-bit words of the original input, not the compressed RNBW image. `zero words` and `first zero` are validated against scalar references in the harness. Build times are one-shot wall-clock samples; exact index storage is shown.
+
+| Workload | Input B | Index B | Build (µs) | Zero words | First zero word |
+|---|---:|---:|---:|---:|---:|
+| image-rgba8-raster | 524,288 | 50,624 | 48.4 | 0 | 131,072 |
+| image-png-stored-deflate | 131,278 | 13,048 | 21.7 | 1 | 5 |
+| image-png-compressed-deflate | 89,883 | 9,088 | 16.0 | 1 | 5 |
+| graphics-shader-machine-words-synthetic | 262,144 | 25,536 | 38.3 | 0 | 65,536 |
+| graphics-wgsl-source | 8,267 | 1,240 | 3.8 | 0 | 2,067 |
+| ai-model-int8-tensor-synthetic | 1,048,576 | 100,800 | 126.1 | 2,048 | 1,043 |
+| native-executable-binary | 5,437,440 | 521,024 | 675.6 | 53,080 | 5 |
+| structured-binary-records | 524,288 | 50,624 | 77.6 | 33 | 0 |
+| sparse-binary | 1,048,576 | 100,800 | 130.1 | 253,563 | 0 |
+| random-binary-incompressible | 1,048,576 | 100,800 | 141.6 | 0 | 262,144 |
+| repository-rust-source | 275,729 | 26,864 | 36.8 | 0 | 68,933 |
+| repository-technical-prose | 26,666 | 3,032 | 6.1 | 0 | 6,667 |
+| natural-style-prose-generated | 586,022 | 56,560 | 86.9 | 0 | 146,506 |
+| json-records | 1,209,516 | 116,280 | 173.8 | 0 | 302,379 |
+| csv-table | 995,409 | 95,736 | 134.6 | 0 | 248,853 |
+| server-log-records | 1,398,527 | 134,376 | 173.7 | 0 | 349,632 |
+
+## General file encode and compression density
+All times are median microseconds. RNBW serial and parallel columns use retained workspaces; one-shot includes fresh setup. Best comparator size is the smallest measured external ratio; best encode is the lowest measured external encode time.
+
+| Workload (input B) | RNBW output (ratio) | Best external size ratio | RNBW encode one-shot / reuse-serial / reuse-parallel (µs) | Fastest external encode (µs) |
+|---|---:|---:|---:|---:|
+| image-rgba8-raster (524,288) | 295,200 (0.5630) | brotli-quality-5 (0.6079) | 6714.2 / 5483.6 / 2695.2 | snappy-encode (29.8) |
+| image-png-stored-deflate (131,278) | 121,864 (0.9283) | brotli-quality-5 (0.6091) | 3227.0 / 2672.8 / 2573.3 | snappy-encode (6.7) |
+| image-png-compressed-deflate (89,883) | 89,944 (1.0007) | zlib-default (0.9525) | 6.3 / 6.1 / 5.9 | snappy-encode (5.1) |
+| graphics-shader-machine-words-synthetic (262,144) | 3,672 (0.0140) | brotli-quality-5 (0.0367) | 482.1 / 93.6 / 98.3 | snappy-encode (19.1) |
+| graphics-wgsl-source (8,267) | 2,984 (0.3610) | brotli-quality-5 (0.2112) | 458.3 / 52.8 / 51.8 | snappy-encode (6.7) |
+| ai-model-int8-tensor-synthetic (1,048,576) | 21,568 (0.0206) | zstd-level-1 (0.0015) | 3136.2 / 2725.1 / 2480.2 | zstd-fast-3-encode (76.7) |
+| native-executable-binary (5,437,440) | 3,023,424 (0.5560) | brotli-quality-5 (0.3469) | 63512.0 / 63487.0 / 46982.0 | snappy-encode (7732.8) |
+| structured-binary-records (524,288) | 352,584 (0.6725) | zstd-level-1 (0.5790) | 2722.9 / 2270.8 / 2219.7 | snappy-encode (496.8) |
+| sparse-binary (1,048,576) | 48,424 (0.0462) | brotli-quality-5 (0.0311) | 1104.4 / 588.4 / 583.6 | snappy-encode (126.3) |
+| random-binary-incompressible (1,048,576) | 1,048,632 (1.0001) | snappy (1.0000) | 240.6 / 212.3 / 213.7 | snappy-encode (401.4) |
+| repository-rust-source (275,729) | 87,216 (0.3163) | brotli-quality-5 (0.1894) | 2312.0 / 1586.3 / 1006.8 | snappy-encode (364.7) |
+| repository-technical-prose (26,666) | 15,832 (0.5937) | brotli-quality-5 (0.3537) | 723.4 / 285.1 / 281.2 | snappy-encode (28.1) |
+| natural-style-prose-generated (586,022) | 89,832 (0.1533) | zlib-default (0.0598) | 2203.1 / 1774.1 / 1044.0 | lz4-fast-encode (291.4) |
+| json-records (1,209,516) | 237,792 (0.1966) | brotli-quality-5 (0.1100) | 5291.4 / 5142.2 / 2758.3 | snappy-encode (884.6) |
+| csv-table (995,409) | 429,432 (0.4314) | brotli-quality-5 (0.2292) | 6524.9 / 6428.3 / 3257.1 | zstd-fast-3-encode (1615.0) |
+| server-log-records (1,398,527) | 394,256 (0.2819) | brotli-quality-5 (0.1717) | 7547.7 / 6481.9 / 3889.7 | snappy-encode (1272.4) |
+
+## General file decode
+
+Times are median microseconds. “Fastest external decode” is the fastest of the same eight named comparators; this is a speed comparison and does not imply equal compressed size.
+
+| Workload | RNBW decode (serial encoded image) | RNBW decode (parallel encoded image) | Fastest external decode |
+|---|---:|---:|---:|
+| image-rgba8-raster | 1632.3 µs | 1626.5 µs | snappy-decode (19.3 µs) |
+| image-png-stored-deflate | 1440.0 µs | 1372.2 µs | snappy-decode (5.2 µs) |
+| image-png-compressed-deflate | 1.9 µs | 2.0 µs | zstd-fast-3-decode (2.3 µs) |
+| graphics-shader-machine-words-synthetic | 376.5 µs | 366.7 µs | zstd-fast-3-decode (6.7 µs) |
+| graphics-wgsl-source | 26.9 µs | 27.3 µs | lz4-fast-decode (2.7 µs) |
+| ai-model-int8-tensor-synthetic | 1625.1 µs | 1626.0 µs | lz4-fast-decode (237.4 µs) |
+| native-executable-binary | 35063.0 µs | 34084.0 µs | lz4-fast-decode (2426.9 µs) |
+| structured-binary-records | 1073.9 µs | 1079.4 µs | snappy-decode (180.2 µs) |
+| sparse-binary | 672.2 µs | 684.6 µs | zstd-level-1-decode (230.4 µs) |
+| random-binary-incompressible | 208.6 µs | 215.2 µs | snappy-decode (210.9 µs) |
+| repository-rust-source | 887.7 µs | 870.9 µs | lz4-fast-decode (96.3 µs) |
+| repository-technical-prose | 164.2 µs | 165.1 µs | snappy-decode (13.4 µs) |
+| natural-style-prose-generated | 742.8 µs | 733.4 µs | lz4-fast-decode (129.7 µs) |
+| json-records | 2281.8 µs | 2290.2 µs | lz4-fast-decode (492.2 µs) |
+| csv-table | 4531.6 µs | 4518.3 µs | lz4-fast-decode (373.0 µs) |
+| server-log-records | 3776.7 µs | 3699.8 µs | lz4-fast-decode (505.2 µs) |
+
+## RNBW integer store build/decode
+
+Bytes are exact L2+L3 storage for the promoted p32 representation; p64 uses the same base storage in these workloads. Build/decode medians are milliseconds per one-million-key dataset.
+
+| Workload | Keys | Promoted bytes | Bits/key | Build p32 / p64 / RNBW image (ms) | Decode L2 p32 / hot p32 / L2 p64 / hot p64 (ms) |
+|---|---:|---:|---:|---:|---:|
+| uniform | 999,882 | 6,384,872 | 51.085 | 24.183 / 25.217 / 27.063 | 36.328 / 38.288 / 36.230 / 36.636 |
+| clustered | 1,000,000 | 354,120 | 2.833 | 3.171 / 3.212 / 27.185 | 1.553 / 1.643 / 1.619 / 1.738 |
+| dense | 1,000,000 | 157,512 | 1.260 | 1.693 / 1.716 / 26.597 | 1.619 / 1.536 / 1.146 / 0.939 |
+| morton-shell | 1,000,000 | 4,484,328 | 35.875 | 22.039 / 21.033 / 26.083 | 30.419 / 33.599 / 31.126 / 29.948 |
+| ecs | 1,000,000 | 297,544 | 2.380 | 3.099 / 3.147 / 26.547 | 2.209 / 2.114 / 2.052 / 1.985 |
+
+## Range promotion optimization
+
+Full-range refresh candidate medians (ms), all 1M-key workloads:
+
+| Workload | p32 | p64 |
+|---|---:|---:|
+| uniform | 57.161 | 62.401 |
+| clustered | 0.971 | 0.908 |
+| dense | 0.852 | 0.660 |
+| morton-shell | 28.946 | 28.607 |
+| ecs | 1.679 | 1.339 |
+
+Only uniform p32 has a captured pre-change A/B baseline: 454.070 ms (Criterion interval `446.48 ms 454.07 ms 462.78 ms`) vs 57.161 ms candidate (interval `56.425 ms 57.161 ms 57.854 ms`). That is 87.4% lower median time (7.94x faster). The candidate decodes each 16-chunk group once per refresh. Other workload rows are candidate-only and are not claimed as speedups.
+
+## TRNMAP and codec boundary
+
+The file harness builds and correctness-checks one TRNMAP classification index over raw u32 words for each input before benchmarking the byte codec. It separately times serial/reused/parallel RNBW encode and RNBW decode. The LZ encoder still uses a fixed two-way, direct-address hash-head table to map 3-byte hashes to two recent source positions; `TrnMap` is not called by the LZ match search or decoder. Thus these encode/decode figures do not prove a TRNMAP-backed LZ codec speedup.
+
+Raw Criterion captures:
+- `docs/benchmarks/general-file-encode-decode-current-2026-11-09.txt`
+- `docs/benchmarks/store-build-decode-current-2026-11-09.txt`
+- `docs/benchmarks/store-promote-range-baseline-2026-11-09.txt`
+- `docs/benchmarks/store-promote-range-candidate-full-matrix-2026-11-09.txt`

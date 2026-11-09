@@ -1,0 +1,49 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 6.51s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=56332 spills=9204
+Benchmarking store-promote/uniform/p32/full-range-refresh
+Benchmarking store-promote/uniform/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 545.8ms.
+Benchmarking store-promote/uniform/p32/full-range-refresh: Collecting 10 samples in estimated 545.84 ms (10 iterations)
+Benchmarking store-promote/uniform/p32/full-range-refresh: Analyzing
+store-promote/uniform/p32/full-range-refresh
+                        time:   [55.411 ms 56.258 ms 57.502 ms]
+                        thrpt:  [1.1397 Melem/s 1.1649 Melem/s 1.1827 Melem/s]
+Benchmarking store-promote/uniform/p64/full-range-refresh
+Benchmarking store-promote/uniform/p64/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 50.0ms. You may wish to increase target time to 612.1ms.
+Benchmarking store-promote/uniform/p64/full-range-refresh: Collecting 10 samples in estimated 612.09 ms (10 iterations)
+Benchmarking store-promote/uniform/p64/full-range-refresh: Analyzing
+store-promote/uniform/p64/full-range-refresh
+                        time:   [60.223 ms 60.687 ms 61.244 ms]
+                        thrpt:  [1.0701 Melem/s 1.0799 Melem/s 1.0882 Melem/s]
+
+store dataset=clustered keys=1000000 layout=p32 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=morton-shell keys=1000000 layout=p32 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=351 spills=3478
+store dataset=ecs keys=1000000 layout=p32 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+Benchmarking store-promote/ecs/p32/full-range-refresh
+Benchmarking store-promote/ecs/p32/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/ecs/p32/full-range-refresh: Collecting 10 samples in estimated 54.847 ms (30 iterations)
+Benchmarking store-promote/ecs/p32/full-range-refresh: Analyzing
+store-promote/ecs/p32/full-range-refresh
+                        time:   [1.8152 ms 1.8352 ms 1.8537 ms]
+                        thrpt:  [35.353 Melem/s 35.711 Melem/s 36.105 Melem/s]
+Benchmarking store-promote/ecs/p64/full-range-refresh
+Benchmarking store-promote/ecs/p64/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/ecs/p64/full-range-refresh: Collecting 10 samples in estimated 57.273 ms (30 iterations)
+Benchmarking store-promote/ecs/p64/full-range-refresh: Analyzing
+store-promote/ecs/p64/full-range-refresh
+                        time:   [1.6795 ms 1.7103 ms 1.7406 ms]
+                        thrpt:  [37.652 Melem/s 38.318 Melem/s 39.020 Melem/s]

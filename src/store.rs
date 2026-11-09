@@ -838,55 +838,76 @@ impl RnbwStore {
         if start > end || end > CHUNK_COUNT {
             return Err(StoreError::RangeOutOfRange { start, end });
         }
+        if start == end {
+            return Ok((0, 0));
+        }
         let mut promoted = 0;
         let mut spills = 0;
         match self.layout {
             PocketLayout::PerChunk32 => {
-                for c in start..end {
-                    let v = self.chunk_values(c)?;
-                    if v.is_empty() {
-                        continue;
-                    }
-                    if v.len() <= 18 {
-                        let off = c * 32;
-                        let pockets = self
-                            .pockets
-                            .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice());
-                        pack32(&v, &mut pockets[off..off + 32]);
-                        self.set_tier(c, 1)?;
-                        promoted += 1
-                    } else {
-                        self.set_tier(c, 0)?;
-                        spills += 1
+                let first_group = start / CHUNKS_PER_GROUP;
+                let end_group = end.div_ceil(CHUNKS_PER_GROUP);
+                for g in first_group..end_group {
+                    let base = g * CHUNKS_PER_GROUP;
+                    let first = start.saturating_sub(base).min(CHUNKS_PER_GROUP);
+                    let last = end.saturating_sub(base).min(CHUNKS_PER_GROUP);
+                    let chunks = self.decode_group(g)?;
+                    for (i, values) in chunks.iter().enumerate().take(last).skip(first) {
+                        if values.is_empty() {
+                            continue;
+                        }
+                        let c = base + i;
+                        if values.len() <= 18 {
+                            let off = c * 32;
+                            let pockets = self
+                                .pockets
+                                .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice());
+                            pack32(values, &mut pockets[off..off + 32]);
+                            self.set_tier(c, 1)?;
+                            promoted += 1;
+                        } else {
+                            self.set_tier(c, 0)?;
+                            spills += 1;
+                        }
                     }
                 }
             }
             PocketLayout::PerPair64 => {
                 let first = start / 2;
                 let last = end.div_ceil(2);
-                for p in first..last {
-                    let a = self.chunk_values(p * 2)?;
-                    let b = self.chunk_values(p * 2 + 1)?;
-                    if a.is_empty() && b.is_empty() {
-                        continue;
-                    }
-                    if a.len() + b.len() <= 36 {
-                        let off = p * 64;
-                        let pockets = self
-                            .pockets
-                            .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice());
-                        pack64(&a, &b, &mut pockets[off..off + 64]);
-                        for c in [p * 2, p * 2 + 1] {
-                            if c >= start && c < end && !self.chunk_values(c)?.is_empty() {
-                                self.set_tier(c, 1)?;
-                                promoted += 1;
-                            }
+                let pairs_per_group = CHUNKS_PER_GROUP / 2;
+                let first_group = first / pairs_per_group;
+                let end_group = last.div_ceil(pairs_per_group);
+                for g in first_group..end_group {
+                    let base = g * CHUNKS_PER_GROUP;
+                    let first_pair = first.max(g * pairs_per_group);
+                    let end_pair = last.min((g + 1) * pairs_per_group);
+                    let chunks = self.decode_group(g)?;
+                    for p in first_pair..end_pair {
+                        let i = p * 2 - base;
+                        let a = &chunks[i];
+                        let b = &chunks[i + 1];
+                        if a.is_empty() && b.is_empty() {
+                            continue;
                         }
-                    } else {
-                        for c in p * 2..p * 2 + 2 {
-                            if c >= start && c < end && !self.chunk_values(c)?.is_empty() {
-                                self.set_tier(c, 0)?;
-                                spills += 1;
+                        if a.len() + b.len() <= 36 {
+                            let off = p * 64;
+                            let pockets = self
+                                .pockets
+                                .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice());
+                            pack64(a, b, &mut pockets[off..off + 64]);
+                            for (c, values) in [(p * 2, a), (p * 2 + 1, b)] {
+                                if c >= start && c < end && !values.is_empty() {
+                                    self.set_tier(c, 1)?;
+                                    promoted += 1;
+                                }
+                            }
+                        } else {
+                            for (c, values) in [(p * 2, a), (p * 2 + 1, b)] {
+                                if c >= start && c < end && !values.is_empty() {
+                                    self.set_tier(c, 0)?;
+                                    spills += 1;
+                                }
                             }
                         }
                     }
@@ -1384,6 +1405,33 @@ mod tests {
         }
         assert_eq!(s.decode().unwrap(), v);
     }
+
+    #[test]
+    fn range_promotion_batches_groups_and_respects_partial_group_bounds() {
+        let values: Vec<u32> = [15u32, 16, 17, 31, 32, 33]
+            .into_iter()
+            .map(|chunk| (chunk << 16) | 7)
+            .collect();
+
+        let mut per_chunk = RnbwStore::from_sorted(&values, PocketLayout::PerChunk32).unwrap();
+        per_chunk.dirty_chunks().unwrap();
+        assert_eq!(per_chunk.promote_range(16, 32).unwrap(), (3, 0));
+        assert_eq!(per_chunk.dirty_chunks().unwrap(), vec![16, 17, 31]);
+        assert_eq!(per_chunk.promote_range(16, 16).unwrap(), (0, 0));
+        assert!(per_chunk.dirty_chunks().unwrap().is_empty());
+        assert_eq!(per_chunk.decode().unwrap(), values);
+
+        let mut per_pair = RnbwStore::from_sorted(&values, PocketLayout::PerPair64).unwrap();
+        per_pair.dirty_chunks().unwrap();
+        assert_eq!(per_pair.promote_range(17, 33).unwrap(), (3, 0));
+        assert_eq!(per_pair.dirty_chunks().unwrap(), vec![17, 31, 32]);
+        assert_eq!(per_pair.decode().unwrap(), values);
+        for value in &values {
+            assert!(per_chunk.contains(*value).unwrap());
+            assert!(per_pair.contains(*value).unwrap());
+        }
+    }
+
     #[test]
     fn deterministic_store_mutation_fuzz_matches_btree_set() {
         use std::collections::BTreeSet;

@@ -5,6 +5,7 @@ use rnbw::{
 };
 use roaring::RoaringBitmap;
 use std::hint::black_box;
+use std::time::{Duration, Instant};
 
 #[path = "../src/datasets.rs"]
 mod datasets;
@@ -164,6 +165,38 @@ fn benchmarks(c: &mut Criterion) {
             });
         }
         decode.finish();
+
+        let mut promotion = c.benchmark_group(format!("store-promote/{name}"));
+        promotion.throughput(Throughput::Elements(CHUNK_COUNT as u64));
+        for (label, layout) in [
+            ("p32", PocketLayout::PerChunk32),
+            ("p64", PocketLayout::PerPair64),
+        ] {
+            let mut store = RnbwStore::from_sorted(&values, layout).unwrap();
+            let expected = store.promote_range(0, CHUNK_COUNT).unwrap();
+            assert_eq!(
+                store.decode().unwrap(),
+                values,
+                "promoted decode {name}/{label}"
+            );
+            assert!(hits.iter().all(|&x| store.contains(x).unwrap()));
+            assert!(misses.iter().all(|&x| !store.contains(x).unwrap()));
+            black_box(store.dirty_chunks().unwrap());
+            promotion.bench_function(format!("{label}/full-range-refresh"), |b| {
+                b.iter_custom(|iterations| {
+                    let mut elapsed = Duration::ZERO;
+                    for _ in 0..iterations {
+                        let start = Instant::now();
+                        let actual = store.promote_range(0, CHUNK_COUNT).unwrap();
+                        elapsed += start.elapsed();
+                        black_box(actual);
+                    }
+                    elapsed
+                });
+            });
+            black_box(expected);
+        }
+        promotion.finish();
     }
 }
 
