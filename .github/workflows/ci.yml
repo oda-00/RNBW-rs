@@ -31,6 +31,8 @@ jobs:
         run: cargo bench --locked --no-run
       - name: Run Criterion measurements
         run: cargo bench --locked --bench codec -- --sample-size 10 --warm-up-time 1 --measurement-time 1 --noplot
+      - name: Run cross-codec file workload matrix
+        run: cargo bench --locked --bench files -- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.2 --noplot
       - name: Run trnmap Criterion measurements
         run: cargo bench --locked --bench trnmap -- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.1 --noplot
       - uses: actions/upload-artifact@v4
