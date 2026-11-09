@@ -1,0 +1,51 @@
+# RNBW flat per-group builder optimization
+
+Date: 2026-11-09
+
+## Change
+
+`RnbwStore::from_sorted` no longer allocates 16 `Vec<u16>` values for each active
+GenTable group. It reuses one flat suffix buffer and a fixed 17-entry chunk-boundary
+array, then passes borrowed slices to the unchanged group-form encoder. It reserves
+once when the first group is larger than 8,192 keys, avoiding repeated growth for
+large contiguous groups. Quotient, run, bitmap, inline, and full chunk selection is
+unchanged. Persistent L2/L3 bytes are unchanged.
+
+## Benchmark method
+
+Paired Criterion runs used 15 samples, 150 ms warm-up, and 200 ms target
+measurement; 1,000,000 keys; `store-build/{workload}/rnbw-l2-p32` for uniform,
+clustered, dense, Morton-shell, and ECS. Both use the same run-record optimization
+from the preceding commit. Baseline is the no-flat-buffer builder in
+`store-build-run-alloc-candidate-2026-11-09.txt`; selected candidate is in
+`store-build-flat-group-selective-reserve-candidate-2026-11-09.txt`. Medians and
+Criterion 95% intervals are milliseconds.
+
+| Workload | Baseline (95% interval) | Candidate (95% interval) | Latency reduction | L2 / L3 bytes |
+|---|---:|---:|---:|---:|
+| Uniform | 36.029 [35.390, 36.617] | 22.810 [22.556, 23.068] | 36.7% | 4,287,720 / 2,097,152 |
+| Clustered | 7.656 [7.365, 8.027] | 3.004 [2.978, 3.022] | 60.8% | 354,120 / 0 |
+| Dense | 2.183 [2.145, 2.211] | 1.631 [1.617, 1.653] | 25.3% | 157,512 / 0 |
+| Morton-shell | 23.282 [23.114, 23.474] | 20.238 [20.084, 20.388] | 13.1% | 2,387,176 / 2,097,152 |
+| ECS | 2.885 [2.829, 2.954] | 2.643 [2.553, 2.768] | 8.4% | 297,544 / 0 |
+
+All five baseline/candidate confidence intervals are non-overlapping. Reported L2
+and L3 storage figures match exactly.
+
+## Rejected variants
+
+The flat buffer without a large-first-group reserve reached 22.407, 3.053, 2.019,
+20.697, and 3.060 ms respectively. Its ECS interval was slower than baseline, so
+it was not retained. Reserving every group using a binary search also regressed
+uniform and clustered builds; it was discarded. Captures:
+`store-build-flat-group-candidate-2026-11-09.txt` and
+`store-build-flat-group-reserved-candidate-2026-11-09.txt`. The selected first-group
+reserve retains the all-workload wins without either regression.
+
+## Correctness
+
+The full Criterion store setup checks decode, membership hits and misses, and L2/L3
+byte accounting for both pocket layouts before timing. Full tests and deterministic
+mutation fuzzers pass on the candidate: 47 library tests, 3 binary tests, codec
+mutation fuzz, and 3 TRNMAP mutation fuzz tests. Formatting and Clippy with warnings
+denied pass.

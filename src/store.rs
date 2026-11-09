@@ -7,6 +7,7 @@ use std::fmt;
 pub const CHUNK_COUNT: usize = 1 << 16;
 pub const GROUP_COUNT: usize = 1 << 12;
 const CHUNKS_PER_GROUP: usize = 16;
+const GROUP_RESERVE_THRESHOLD: usize = 8 * 1024;
 const GROUP_HEADER: usize = CHUNKS_PER_GROUP * 3;
 const ABSENT: u32 = u32::MAX;
 const PAGE_BYTES: usize = 1 << 16;
@@ -425,15 +426,36 @@ impl RnbwStore {
         let mut s = Self::new(layout)?;
         s.len = values.len();
         let mut at = 0;
+        let mut group_values = Vec::new();
+        if let Some(&first) = values.first() {
+            let first_group = first >> 20;
+            let first_group_len = values.partition_point(|value| (value >> 20) == first_group);
+            if first_group_len > GROUP_RESERVE_THRESHOLD {
+                group_values.reserve_exact(first_group_len);
+            }
+        }
         while at < values.len() {
             let gid = (values[at] >> 20) as usize;
-            let mut chunks: [Vec<u16>; 16] = std::array::from_fn(|_| Vec::new());
+            group_values.clear();
+            let mut boundaries = [0usize; CHUNKS_PER_GROUP + 1];
+            let mut current_chunk = 0;
             while at < values.len() && (values[at] >> 20) as usize == gid {
                 let v = values[at];
-                chunks[((v >> 16) & 15) as usize].push(v as u16);
+                let chunk = ((v >> 16) & 15) as usize;
+                while current_chunk < chunk {
+                    boundaries[current_chunk + 1] = group_values.len();
+                    current_chunk += 1;
+                }
+                group_values.push(v as u16);
                 at += 1;
             }
-            s.replace_group(gid, &chunks)?;
+            while current_chunk < CHUNKS_PER_GROUP {
+                boundaries[current_chunk + 1] = group_values.len();
+                current_chunk += 1;
+            }
+            let chunks: [&[u16]; CHUNKS_PER_GROUP] =
+                std::array::from_fn(|i| &group_values[boundaries[i]..boundaries[i + 1]]);
+            s.replace_group_slices(gid, &chunks)?;
             for (i, c) in chunks.iter().enumerate() {
                 if !c.is_empty() {
                     s.set_tier((gid << 4) + i, 0)?;
@@ -634,6 +656,15 @@ impl RnbwStore {
         Ok(std::mem::take(&mut a[chunk & 15]))
     }
     fn replace_group(&mut self, g: usize, chunks: &[Vec<u16>; 16]) -> Result<(), StoreError> {
+        let chunk_slices: [&[u16]; CHUNKS_PER_GROUP] =
+            std::array::from_fn(|i| chunks[i].as_slice());
+        self.replace_group_slices(g, &chunk_slices)
+    }
+    fn replace_group_slices(
+        &mut self,
+        g: usize,
+        chunks: &[&[u16]; CHUNKS_PER_GROUP],
+    ) -> Result<(), StoreError> {
         let old = self.group_handle(g);
         let generation = (self.gen_table[g] >> 32) as u32;
         let next_generation = generation.checked_add(1).ok_or(StoreError::TooLarge)?;
@@ -641,7 +672,7 @@ impl RnbwStore {
         let mut forms = [Form::Empty; 16];
         let mut bitmap_new = Vec::new();
         for i in 0..16 {
-            let v = &chunks[i];
+            let v = chunks[i];
             if v.is_empty() {
                 continue;
             }
@@ -674,7 +705,7 @@ impl RnbwStore {
         let mut keys = Vec::new();
         for i in 0..16 {
             if forms[i] == Form::Quot {
-                for &x in &chunks[i] {
+                for &x in chunks[i] {
                     keys.push(((i as u32) << 16) | u32::from(x));
                 }
             }
@@ -694,7 +725,7 @@ impl RnbwStore {
         }
         for i in 0..16 {
             if forms[i] == Form::Bitmap {
-                let slot = match self.bitmaps.alloc(&chunks[i]) {
+                let slot = match self.bitmaps.alloc(chunks[i]) {
                     Ok(slot) => slot,
                     Err(error) => {
                         for slot in bitmap_new.drain(..) {
@@ -709,7 +740,7 @@ impl RnbwStore {
                 put_desc(&mut rec, i, Form::Bitmap, slot)?;
             }
         }
-        let new = if chunks.iter().all(Vec::is_empty) {
+        let new = if chunks.iter().all(|chunk| chunk.is_empty()) {
             None
         } else {
             match self.arena.alloc(&rec) {
