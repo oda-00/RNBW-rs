@@ -1,0 +1,1420 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.18s
+     Running benches\files.rs (target\release\deps\files-2776eabebfe7ec4f.exe)
+Gnuplot not found, using plotters backend
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=47.6µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+Benchmarking file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 154.8ms or enable flat sampling.
+Benchmarking file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 154.78 ms (55 iterations)
+Benchmarking file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible
+                        time:   [2.8816 ms 2.9187 ms 2.9400 ms]
+                        thrpt:  [170.07 MiB/s 171.31 MiB/s 173.51 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 153.0ms or enable flat sampling.
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 152.98 ms (55 iterations)
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy
+                        time:   [2.7871 ms 2.8343 ms 2.8572 ms]
+                        thrpt:  [175.00 MiB/s 176.41 MiB/s 179.40 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 152.0ms or enable flat sampling.
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded: Collecting 10 samples in estimated 151.98 ms (55 iterations)
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded: Analyzing
+file-decode/image-rgba8-raster/rnbw-parallel-encoded
+                        time:   [2.6637 ms 2.6959 ms 2.7147 ms]
+                        thrpt:  [184.18 MiB/s 185.47 MiB/s 187.71 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/lz4-fast-decode
+Benchmarking file-decode/image-rgba8-raster/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/lz4-fast-decode: Collecting 10 samples in estimated 151.16 ms (6270 iterations)
+Benchmarking file-decode/image-rgba8-raster/lz4-fast-decode: Analyzing
+file-decode/image-rgba8-raster/lz4-fast-decode
+                        time:   [20.920 µs 21.090 µs 21.232 µs]
+                        thrpt:  [22.997 GiB/s 23.153 GiB/s 23.340 GiB/s]
+Benchmarking file-decode/image-rgba8-raster/snappy-decode
+Benchmarking file-decode/image-rgba8-raster/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/snappy-decode: Collecting 10 samples in estimated 150.65 ms (7590 iterations)
+Benchmarking file-decode/image-rgba8-raster/snappy-decode: Analyzing
+file-decode/image-rgba8-raster/snappy-decode
+                        time:   [20.788 µs 20.921 µs 20.983 µs]
+                        thrpt:  [23.270 GiB/s 23.339 GiB/s 23.489 GiB/s]
+Benchmarking file-decode/image-rgba8-raster/zstd-fast-3-decode
+Benchmarking file-decode/image-rgba8-raster/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/zstd-fast-3-decode: Collecting 10 samples in estimated 152.34 ms (2640 iterations)
+Benchmarking file-decode/image-rgba8-raster/zstd-fast-3-decode: Analyzing
+file-decode/image-rgba8-raster/zstd-fast-3-decode
+                        time:   [56.876 µs 58.254 µs 59.582 µs]
+                        thrpt:  [8.1951 GiB/s 8.3819 GiB/s 8.5850 GiB/s]
+Benchmarking file-decode/image-rgba8-raster/zstd-level-1-decode
+Benchmarking file-decode/image-rgba8-raster/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/zstd-level-1-decode: Collecting 10 samples in estimated 168.88 ms (385 iterations)
+Benchmarking file-decode/image-rgba8-raster/zstd-level-1-decode: Analyzing
+file-decode/image-rgba8-raster/zstd-level-1-decode
+                        time:   [436.25 µs 460.68 µs 498.86 µs]
+                        thrpt:  [1002.3 MiB/s 1.0599 GiB/s 1.1193 GiB/s]
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-0-decode
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-0-decode: Collecting 10 samples in estimated 274.80 ms (110 iterations)
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-0-decode: Analyzing
+file-decode/image-rgba8-raster/brotli-quality-0-decode
+                        time:   [2.3779 ms 2.4482 ms 2.5325 ms]
+                        thrpt:  [197.43 MiB/s 204.23 MiB/s 210.27 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-5-decode
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-5-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 158.2ms or enable flat sampling.
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-5-decode: Collecting 10 samples in estimated 158.24 ms (55 iterations)
+Benchmarking file-decode/image-rgba8-raster/brotli-quality-5-decode: Analyzing
+file-decode/image-rgba8-raster/brotli-quality-5-decode
+                        time:   [2.8398 ms 2.8807 ms 2.9251 ms]
+                        thrpt:  [170.93 MiB/s 173.57 MiB/s 176.07 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/zlib-fast-decode
+Benchmarking file-decode/image-rgba8-raster/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/zlib-fast-decode: Collecting 10 samples in estimated 180.71 ms (110 iterations)
+Benchmarking file-decode/image-rgba8-raster/zlib-fast-decode: Analyzing
+file-decode/image-rgba8-raster/zlib-fast-decode
+                        time:   [1.5763 ms 1.6026 ms 1.6159 ms]
+                        thrpt:  [309.42 MiB/s 312.00 MiB/s 317.19 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/zlib-default-decode
+Benchmarking file-decode/image-rgba8-raster/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/zlib-default-decode: Collecting 10 samples in estimated 234.29 ms (110 iterations)
+Benchmarking file-decode/image-rgba8-raster/zlib-default-decode: Analyzing
+file-decode/image-rgba8-raster/zlib-default-decode
+                        time:   [2.0710 ms 2.0996 ms 2.1287 ms]
+                        thrpt:  [234.89 MiB/s 238.14 MiB/s 241.43 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/raw-copy-control
+Benchmarking file-decode/image-rgba8-raster/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/image-rgba8-raster/raw-copy-control: Collecting 10 samples in estimated 150.20 ms (13k iterations)
+Benchmarking file-decode/image-rgba8-raster/raw-copy-control: Analyzing
+file-decode/image-rgba8-raster/raw-copy-control
+                        time:   [12.564 µs 12.886 µs 13.370 µs]
+                        thrpt:  [36.522 GiB/s 37.893 GiB/s 38.863 GiB/s]
+
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=19.8µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw=0.9283 rnbw-parallel=0.9283 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+Benchmarking file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 156.31 ms (110 iterations)
+Benchmarking file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible
+                        time:   [1.4081 ms 1.4143 ms 1.4246 ms]
+                        thrpt:  [87.882 MiB/s 88.522 MiB/s 88.910 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 158.23 ms (110 iterations)
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy
+                        time:   [1.3800 ms 1.3910 ms 1.4042 ms]
+                        thrpt:  [89.162 MiB/s 90.007 MiB/s 90.722 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded: Collecting 10 samples in estimated 166.36 ms (110 iterations)
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded: Analyzing
+file-decode/image-png-stored-deflate/rnbw-parallel-encoded
+                        time:   [1.4685 ms 1.4732 ms 1.4771 ms]
+                        thrpt:  [84.759 MiB/s 84.980 MiB/s 85.257 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/lz4-fast-decode
+Benchmarking file-decode/image-png-stored-deflate/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/lz4-fast-decode: Collecting 10 samples in estimated 150.32 ms (22k iterations)
+Benchmarking file-decode/image-png-stored-deflate/lz4-fast-decode: Analyzing
+file-decode/image-png-stored-deflate/lz4-fast-decode
+                        time:   [6.4648 µs 6.4980 µs 6.5290 µs]
+                        thrpt:  [18.726 GiB/s 18.815 GiB/s 18.912 GiB/s]
+Benchmarking file-decode/image-png-stored-deflate/snappy-decode
+Benchmarking file-decode/image-png-stored-deflate/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/snappy-decode: Collecting 10 samples in estimated 150.17 ms (30k iterations)
+Benchmarking file-decode/image-png-stored-deflate/snappy-decode: Analyzing
+file-decode/image-png-stored-deflate/snappy-decode
+                        time:   [4.8671 µs 4.9281 µs 4.9833 µs]
+                        thrpt:  [24.534 GiB/s 24.809 GiB/s 25.120 GiB/s]
+Benchmarking file-decode/image-png-stored-deflate/zstd-fast-3-decode
+Benchmarking file-decode/image-png-stored-deflate/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/zstd-fast-3-decode: Collecting 10 samples in estimated 151.19 ms (6655 iterations)
+Benchmarking file-decode/image-png-stored-deflate/zstd-fast-3-decode: Analyzing
+file-decode/image-png-stored-deflate/zstd-fast-3-decode
+                        time:   [20.589 µs 21.220 µs 21.574 µs]
+                        thrpt:  [5.6672 GiB/s 5.7617 GiB/s 5.9383 GiB/s]
+Benchmarking file-decode/image-png-stored-deflate/zstd-level-1-decode
+Benchmarking file-decode/image-png-stored-deflate/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/zstd-level-1-decode: Collecting 10 samples in estimated 153.30 ms (1540 iterations)
+Benchmarking file-decode/image-png-stored-deflate/zstd-level-1-decode: Analyzing
+file-decode/image-png-stored-deflate/zstd-level-1-decode
+                        time:   [100.56 µs 101.29 µs 102.59 µs]
+                        thrpt:  [1.1917 GiB/s 1.2071 GiB/s 1.2158 GiB/s]
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-0-decode
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-0-decode: Collecting 10 samples in estimated 163.88 ms (275 iterations)
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-0-decode: Analyzing
+file-decode/image-png-stored-deflate/brotli-quality-0-decode
+                        time:   [580.30 µs 585.13 µs 590.00 µs]
+                        thrpt:  [212.20 MiB/s 213.96 MiB/s 215.74 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-5-decode
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-5-decode: Collecting 10 samples in estimated 184.35 ms (275 iterations)
+Benchmarking file-decode/image-png-stored-deflate/brotli-quality-5-decode: Analyzing
+file-decode/image-png-stored-deflate/brotli-quality-5-decode
+                        time:   [661.47 µs 676.20 µs 707.48 µs]
+                        thrpt:  [176.96 MiB/s 185.15 MiB/s 189.27 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/zlib-fast-decode
+Benchmarking file-decode/image-png-stored-deflate/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/zlib-fast-decode: Collecting 10 samples in estimated 151.17 ms (385 iterations)
+Benchmarking file-decode/image-png-stored-deflate/zlib-fast-decode: Analyzing
+file-decode/image-png-stored-deflate/zlib-fast-decode
+                        time:   [386.36 µs 386.80 µs 387.44 µs]
+                        thrpt:  [323.14 MiB/s 323.67 MiB/s 324.04 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/zlib-default-decode
+Benchmarking file-decode/image-png-stored-deflate/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/zlib-default-decode: Collecting 10 samples in estimated 174.47 ms (330 iterations)
+Benchmarking file-decode/image-png-stored-deflate/zlib-default-decode: Analyzing
+file-decode/image-png-stored-deflate/zlib-default-decode
+                        time:   [537.82 µs 550.84 µs 558.48 µs]
+                        thrpt:  [224.17 MiB/s 227.28 MiB/s 232.78 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/raw-copy-control
+Benchmarking file-decode/image-png-stored-deflate/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-stored-deflate/raw-copy-control: Collecting 10 samples in estimated 150.05 ms (56k iterations)
+Benchmarking file-decode/image-png-stored-deflate/raw-copy-control: Analyzing
+file-decode/image-png-stored-deflate/raw-copy-control
+                        time:   [2.6563 µs 2.8016 µs 2.9605 µs]
+                        thrpt:  [41.298 GiB/s 43.640 GiB/s 46.028 GiB/s]
+
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=16µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 150.00 ms (8.5M iterations)
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible
+                        time:   [17.613 ns 17.666 ns 17.764 ns]
+                        thrpt:  [4712.4 GiB/s 4738.4 GiB/s 4752.6 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 150.00 ms (77k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy
+                        time:   [1.9006 µs 1.9465 µs 2.0084 µs]
+                        thrpt:  [41.679 GiB/s 43.006 GiB/s 44.043 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded: Collecting 10 samples in estimated 150.01 ms (78k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded: Analyzing
+file-decode/image-png-compressed-deflate/rnbw-parallel-encoded
+                        time:   [1.8822 µs 1.8886 µs 1.8924 µs]
+                        thrpt:  [44.235 GiB/s 44.324 GiB/s 44.475 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/lz4-fast-decode
+Benchmarking file-decode/image-png-compressed-deflate/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/lz4-fast-decode: Collecting 10 samples in estimated 150.06 ms (41k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/lz4-fast-decode: Analyzing
+file-decode/image-png-compressed-deflate/lz4-fast-decode
+                        time:   [3.4913 µs 3.5046 µs 3.5151 µs]
+                        thrpt:  [23.815 GiB/s 23.886 GiB/s 23.977 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/snappy-decode
+Benchmarking file-decode/image-png-compressed-deflate/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/snappy-decode: Collecting 10 samples in estimated 150.06 ms (45k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/snappy-decode: Analyzing
+file-decode/image-png-compressed-deflate/snappy-decode
+                        time:   [3.2073 µs 3.2836 µs 3.4405 µs]
+                        thrpt:  [24.331 GiB/s 25.493 GiB/s 26.100 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/zstd-fast-3-decode
+Benchmarking file-decode/image-png-compressed-deflate/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/zstd-fast-3-decode: Collecting 10 samples in estimated 150.04 ms (64k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/zstd-fast-3-decode: Analyzing
+file-decode/image-png-compressed-deflate/zstd-fast-3-decode
+                        time:   [2.3112 µs 2.3146 µs 2.3205 µs]
+                        thrpt:  [36.074 GiB/s 36.166 GiB/s 36.219 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/zstd-level-1-decode
+Benchmarking file-decode/image-png-compressed-deflate/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/zstd-level-1-decode: Collecting 10 samples in estimated 153.95 ms (1980 iterations)
+Benchmarking file-decode/image-png-compressed-deflate/zstd-level-1-decode: Analyzing
+file-decode/image-png-compressed-deflate/zstd-level-1-decode
+                        time:   [76.685 µs 78.053 µs 79.331 µs]
+                        thrpt:  [1.0552 GiB/s 1.0725 GiB/s 1.0916 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-0-decode
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-0-decode: Collecting 10 samples in estimated 150.48 ms (14k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-0-decode: Analyzing
+file-decode/image-png-compressed-deflate/brotli-quality-0-decode
+                        time:   [10.069 µs 10.293 µs 10.567 µs]
+                        thrpt:  [7.9215 GiB/s 8.1324 GiB/s 8.3138 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-5-decode
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-5-decode: Collecting 10 samples in estimated 158.04 ms (385 iterations)
+Benchmarking file-decode/image-png-compressed-deflate/brotli-quality-5-decode: Analyzing
+file-decode/image-png-compressed-deflate/brotli-quality-5-decode
+                        time:   [420.69 µs 423.29 µs 426.93 µs]
+                        thrpt:  [200.78 MiB/s 202.51 MiB/s 203.76 MiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/zlib-fast-decode
+Benchmarking file-decode/image-png-compressed-deflate/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/zlib-fast-decode: Collecting 10 samples in estimated 162.05 ms (660 iterations)
+Benchmarking file-decode/image-png-compressed-deflate/zlib-fast-decode: Analyzing
+file-decode/image-png-compressed-deflate/zlib-fast-decode
+                        time:   [236.41 µs 238.72 µs 241.75 µs]
+                        thrpt:  [354.58 MiB/s 359.08 MiB/s 362.58 MiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/zlib-default-decode
+Benchmarking file-decode/image-png-compressed-deflate/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/zlib-default-decode: Collecting 10 samples in estimated 154.52 ms (605 iterations)
+Benchmarking file-decode/image-png-compressed-deflate/zlib-default-decode: Analyzing
+file-decode/image-png-compressed-deflate/zlib-default-decode
+                        time:   [254.67 µs 255.62 µs 256.23 µs]
+                        thrpt:  [334.55 MiB/s 335.34 MiB/s 336.59 MiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/raw-copy-control
+Benchmarking file-decode/image-png-compressed-deflate/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/raw-copy-control: Collecting 10 samples in estimated 150.04 ms (79k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/raw-copy-control: Analyzing
+file-decode/image-png-compressed-deflate/raw-copy-control
+                        time:   [1.8615 µs 1.8871 µs 1.9485 µs]
+                        thrpt:  [42.961 GiB/s 44.360 GiB/s 44.970 GiB/s]
+
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=40.1µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 170.84 ms (440 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible
+                        time:   [366.79 µs 368.93 µs 372.31 µs]
+                        thrpt:  [671.48 MiB/s 677.64 MiB/s 681.59 MiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 161.67 ms (440 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [364.97 µs 366.89 µs 370.04 µs]
+                        thrpt:  [675.60 MiB/s 681.41 MiB/s 684.99 MiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Collecting 10 samples in estimated 170.26 ms (440 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+                        time:   [371.65 µs 380.28 µs 384.70 µs]
+                        thrpt:  [649.86 MiB/s 657.41 MiB/s 672.67 MiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode: Collecting 10 samples in estimated 150.11 ms (12k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode
+                        time:   [12.305 µs 12.344 µs 12.384 µs]
+                        thrpt:  [19.715 GiB/s 19.778 GiB/s 19.841 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode: Collecting 10 samples in estimated 150.32 ms (9405 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/snappy-decode
+                        time:   [15.436 µs 15.537 µs 15.745 µs]
+                        thrpt:  [15.506 GiB/s 15.713 GiB/s 15.817 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode: Collecting 10 samples in estimated 150.15 ms (22k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode
+                        time:   [6.8849 µs 6.9230 µs 6.9712 µs]
+                        thrpt:  [35.021 GiB/s 35.265 GiB/s 35.460 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode: Collecting 10 samples in estimated 150.09 ms (8800 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode
+                        time:   [17.574 µs 19.821 µs 21.629 µs]
+                        thrpt:  [11.287 GiB/s 12.317 GiB/s 13.892 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode: Collecting 10 samples in estimated 152.99 ms (2530 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode
+                        time:   [58.805 µs 59.627 µs 60.532 µs]
+                        thrpt:  [4.0332 GiB/s 4.0944 GiB/s 4.1517 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode: Collecting 10 samples in estimated 150.28 ms (2035 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode
+                        time:   [69.097 µs 69.583 µs 70.013 µs]
+                        thrpt:  [3.4871 GiB/s 3.5086 GiB/s 3.5333 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode: Collecting 10 samples in estimated 154.52 ms (220 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode
+                        time:   [691.05 µs 693.51 µs 697.34 µs]
+                        thrpt:  [358.51 MiB/s 360.49 MiB/s 361.77 MiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode: Collecting 10 samples in estimated 151.01 ms (2365 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode
+                        time:   [63.391 µs 64.382 µs 65.383 µs]
+                        thrpt:  [3.7340 GiB/s 3.7920 GiB/s 3.8514 GiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control: Collecting 10 samples in estimated 150.10 ms (25k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/raw-copy-control
+                        time:   [5.8562 µs 5.9179 µs 6.0371 µs]
+                        thrpt:  [40.440 GiB/s 41.255 GiB/s 41.689 GiB/s]
+
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=4.8µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw=0.3610 rnbw-parallel=0.3610 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+Benchmarking file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 151.07 ms (2970 iterations)
+Benchmarking file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible
+                        time:   [51.742 µs 52.968 µs 53.945 µs]
+                        thrpt:  [146.15 MiB/s 148.84 MiB/s 152.37 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 150.99 ms (2750 iterations)
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy
+                        time:   [57.535 µs 58.110 µs 58.806 µs]
+                        thrpt:  [134.07 MiB/s 135.68 MiB/s 137.03 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded: Collecting 10 samples in estimated 150.64 ms (2530 iterations)
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded: Analyzing
+file-decode/graphics-wgsl-source/rnbw-parallel-encoded
+                        time:   [55.324 µs 57.253 µs 58.842 µs]
+                        thrpt:  [133.99 MiB/s 137.71 MiB/s 142.51 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/lz4-fast-decode
+Benchmarking file-decode/graphics-wgsl-source/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/lz4-fast-decode: Collecting 10 samples in estimated 150.14 ms (50k iterations)
+Benchmarking file-decode/graphics-wgsl-source/lz4-fast-decode: Analyzing
+file-decode/graphics-wgsl-source/lz4-fast-decode
+                        time:   [2.8738 µs 2.9110 µs 2.9629 µs]
+                        thrpt:  [2.5985 GiB/s 2.6449 GiB/s 2.6792 GiB/s]
+Benchmarking file-decode/graphics-wgsl-source/snappy-decode
+Benchmarking file-decode/graphics-wgsl-source/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/snappy-decode: Collecting 10 samples in estimated 150.03 ms (44k iterations)
+Benchmarking file-decode/graphics-wgsl-source/snappy-decode: Analyzing
+file-decode/graphics-wgsl-source/snappy-decode
+                        time:   [3.2923 µs 3.3229 µs 3.3554 µs]
+                        thrpt:  [2.2946 GiB/s 2.3170 GiB/s 2.3386 GiB/s]
+Benchmarking file-decode/graphics-wgsl-source/zstd-fast-3-decode
+Benchmarking file-decode/graphics-wgsl-source/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/zstd-fast-3-decode: Collecting 10 samples in estimated 150.46 ms (17k iterations)
+Benchmarking file-decode/graphics-wgsl-source/zstd-fast-3-decode: Analyzing
+file-decode/graphics-wgsl-source/zstd-fast-3-decode
+                        time:   [7.5765 µs 7.6976 µs 7.8318 µs]
+                        thrpt:  [1006.7 MiB/s 1.0002 GiB/s 1.0162 GiB/s]
+Benchmarking file-decode/graphics-wgsl-source/zstd-level-1-decode
+Benchmarking file-decode/graphics-wgsl-source/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/zstd-level-1-decode: Collecting 10 samples in estimated 150.62 ms (13k iterations)
+Benchmarking file-decode/graphics-wgsl-source/zstd-level-1-decode: Analyzing
+file-decode/graphics-wgsl-source/zstd-level-1-decode
+                        time:   [10.475 µs 10.735 µs 11.062 µs]
+                        thrpt:  [712.72 MiB/s 734.39 MiB/s 752.63 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-0-decode
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-0-decode: Collecting 10 samples in estimated 150.33 ms (12k iterations)
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-0-decode: Analyzing
+file-decode/graphics-wgsl-source/brotli-quality-0-decode
+                        time:   [12.649 µs 12.991 µs 13.261 µs]
+                        thrpt:  [594.51 MiB/s 606.87 MiB/s 623.29 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-5-decode
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-5-decode: Collecting 10 samples in estimated 150.59 ms (13k iterations)
+Benchmarking file-decode/graphics-wgsl-source/brotli-quality-5-decode: Analyzing
+file-decode/graphics-wgsl-source/brotli-quality-5-decode
+                        time:   [11.127 µs 11.334 µs 11.620 µs]
+                        thrpt:  [678.48 MiB/s 695.63 MiB/s 708.54 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/zlib-fast-decode
+Benchmarking file-decode/graphics-wgsl-source/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/zlib-fast-decode: Collecting 10 samples in estimated 150.75 ms (9570 iterations)
+Benchmarking file-decode/graphics-wgsl-source/zlib-fast-decode: Analyzing
+file-decode/graphics-wgsl-source/zlib-fast-decode
+                        time:   [15.345 µs 15.436 µs 15.500 µs]
+                        thrpt:  [508.65 MiB/s 510.75 MiB/s 513.79 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/zlib-default-decode
+Benchmarking file-decode/graphics-wgsl-source/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/zlib-default-decode: Collecting 10 samples in estimated 150.27 ms (13k iterations)
+Benchmarking file-decode/graphics-wgsl-source/zlib-default-decode: Analyzing
+file-decode/graphics-wgsl-source/zlib-default-decode
+                        time:   [11.999 µs 12.029 µs 12.059 µs]
+                        thrpt:  [653.77 MiB/s 655.42 MiB/s 657.08 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/raw-copy-control
+Benchmarking file-decode/graphics-wgsl-source/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-wgsl-source/raw-copy-control: Collecting 10 samples in estimated 150.00 ms (1.1M iterations)
+Benchmarking file-decode/graphics-wgsl-source/raw-copy-control: Analyzing
+file-decode/graphics-wgsl-source/raw-copy-control
+                        time:   [134.63 ns 138.00 ns 141.42 ns]
+                        thrpt:  [54.441 GiB/s 55.793 GiB/s 57.190 GiB/s]
+
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=151.1µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 182.46 ms (110 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible
+                        time:   [1.6407 ms 1.6540 ms 1.6669 ms]
+                        thrpt:  [599.90 MiB/s 604.59 MiB/s 609.49 MiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 185.92 ms (110 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [1.6218 ms 1.6738 ms 1.7028 ms]
+                        thrpt:  [587.26 MiB/s 597.46 MiB/s 616.59 MiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Collecting 10 samples in estimated 201.06 ms (110 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+                        time:   [1.7153 ms 1.7383 ms 1.7806 ms]
+                        thrpt:  [561.60 MiB/s 575.28 MiB/s 583.00 MiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode: Collecting 10 samples in estimated 152.84 ms (550 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode
+                        time:   [227.04 µs 236.67 µs 253.79 µs]
+                        thrpt:  [3.8478 GiB/s 4.1263 GiB/s 4.3012 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode: Collecting 10 samples in estimated 155.92 ms (660 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/snappy-decode
+                        time:   [231.57 µs 233.67 µs 236.12 µs]
+                        thrpt:  [4.1359 GiB/s 4.1793 GiB/s 4.2171 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode: Collecting 10 samples in estimated 156.97 ms (605 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode
+                        time:   [272.34 µs 296.98 µs 314.25 µs]
+                        thrpt:  [3.1076 GiB/s 3.2883 GiB/s 3.5859 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode: Collecting 10 samples in estimated 162.89 ms (550 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode
+                        time:   [271.48 µs 281.14 µs 291.29 µs]
+                        thrpt:  [3.3525 GiB/s 3.4736 GiB/s 3.5972 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode: Collecting 10 samples in estimated 157.26 ms (330 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode
+                        time:   [438.78 µs 448.73 µs 460.56 µs]
+                        thrpt:  [2.1204 GiB/s 2.1763 GiB/s 2.2256 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode: Collecting 10 samples in estimated 166.80 ms (330 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode
+                        time:   [447.49 µs 480.89 µs 521.48 µs]
+                        thrpt:  [1.8727 GiB/s 2.0307 GiB/s 2.1823 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode: Collecting 10 samples in estimated 176.05 ms (330 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode
+                        time:   [503.28 µs 517.83 µs 527.31 µs]
+                        thrpt:  [1.8520 GiB/s 1.8859 GiB/s 1.9404 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode: Collecting 10 samples in estimated 176.24 ms (330 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode
+                        time:   [509.29 µs 555.22 µs 606.99 µs]
+                        thrpt:  [1.6089 GiB/s 1.7589 GiB/s 1.9175 GiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control: Collecting 10 samples in estimated 157.79 ms (605 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/raw-copy-control
+                        time:   [256.73 µs 277.15 µs 313.65 µs]
+                        thrpt:  [3.1135 GiB/s 3.5236 GiB/s 3.8039 GiB/s]
+
+general-trnmap-index=native-executable-binary bytes=5437440 words=1359360 index-bytes=521024 build=685.5µs zero-words=53080 first-zero=5
+file-dataset=native-executable-binary bytes=5437440 structural-lanes=1-byte-lane rnbw=0.5560 rnbw-parallel=0.5560 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5544 snappy=0.5636 zstd-fast-3=0.5503 zstd-level-1=0.4342 brotli-quality-0=0.4538 brotli-quality-5=0.3469 zlib-fast=0.4514 zlib-default=0.3823 cow-borrowed=false
+Benchmarking file-decode/native-executable-binary/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/native-executable-binary/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 370.8ms.
+Benchmarking file-decode/native-executable-binary/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 370.78 ms (10 iterations)
+Benchmarking file-decode/native-executable-binary/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/native-executable-binary/rnbw-cow-borrow-when-possible
+                        time:   [36.696 ms 37.136 ms 37.597 ms]
+                        thrpt:  [137.92 MiB/s 139.64 MiB/s 141.31 MiB/s]
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 376.0ms.
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 376.05 ms (10 iterations)
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+                        time:   [35.204 ms 35.763 ms 36.345 ms]
+                        thrpt:  [142.67 MiB/s 145.00 MiB/s 147.30 MiB/s]
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 366.1ms.
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded: Collecting 10 samples in estimated 366.11 ms (10 iterations)
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded: Analyzing
+file-decode/native-executable-binary/rnbw-parallel-encoded
+                        time:   [36.772 ms 37.182 ms 37.641 ms]
+                        thrpt:  [137.76 MiB/s 139.46 MiB/s 141.02 MiB/s]
+Benchmarking file-decode/native-executable-binary/lz4-fast-decode
+Benchmarking file-decode/native-executable-binary/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/native-executable-binary/lz4-fast-decode: Collecting 10 samples in estimated 282.51 ms (110 iterations)
+Benchmarking file-decode/native-executable-binary/lz4-fast-decode: Analyzing
+file-decode/native-executable-binary/lz4-fast-decode
+                        time:   [2.3057 ms 2.3510 ms 2.4040 ms]
+                        thrpt:  [2.1065 GiB/s 2.1540 GiB/s 2.1963 GiB/s]
+Benchmarking file-decode/native-executable-binary/snappy-decode
+Benchmarking file-decode/native-executable-binary/snappy-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 204.0ms or enable flat sampling.
+Benchmarking file-decode/native-executable-binary/snappy-decode: Collecting 10 samples in estimated 204.03 ms (55 iterations)
+Benchmarking file-decode/native-executable-binary/snappy-decode: Analyzing
+file-decode/native-executable-binary/snappy-decode
+                        time:   [3.6890 ms 3.7764 ms 3.8872 ms]
+                        thrpt:  [1.3027 GiB/s 1.3410 GiB/s 1.3727 GiB/s]
+Benchmarking file-decode/native-executable-binary/zstd-fast-3-decode
+Benchmarking file-decode/native-executable-binary/zstd-fast-3-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 222.3ms or enable flat sampling.
+Benchmarking file-decode/native-executable-binary/zstd-fast-3-decode: Collecting 10 samples in estimated 222.32 ms (55 iterations)
+Benchmarking file-decode/native-executable-binary/zstd-fast-3-decode: Analyzing
+file-decode/native-executable-binary/zstd-fast-3-decode
+                        time:   [3.9538 ms 3.9856 ms 4.0229 ms]
+                        thrpt:  [1.2588 GiB/s 1.2706 GiB/s 1.2808 GiB/s]
+Benchmarking file-decode/native-executable-binary/zstd-level-1-decode
+Benchmarking file-decode/native-executable-binary/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/native-executable-binary/zstd-level-1-decode: Collecting 10 samples in estimated 201.09 ms (30 iterations)
+Benchmarking file-decode/native-executable-binary/zstd-level-1-decode: Analyzing
+file-decode/native-executable-binary/zstd-level-1-decode
+                        time:   [6.0879 ms 6.2575 ms 6.4423 ms]
+                        thrpt:  [804.92 MiB/s 828.70 MiB/s 851.78 MiB/s]
+Benchmarking file-decode/native-executable-binary/brotli-quality-0-decode
+Benchmarking file-decode/native-executable-binary/brotli-quality-0-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 171.5ms.
+Benchmarking file-decode/native-executable-binary/brotli-quality-0-decode: Collecting 10 samples in estimated 171.46 ms (10 iterations)
+Benchmarking file-decode/native-executable-binary/brotli-quality-0-decode: Analyzing
+file-decode/native-executable-binary/brotli-quality-0-decode
+                        time:   [16.680 ms 16.868 ms 17.086 ms]
+                        thrpt:  [303.49 MiB/s 307.42 MiB/s 310.88 MiB/s]
+Benchmarking file-decode/native-executable-binary/brotli-quality-5-decode
+Benchmarking file-decode/native-executable-binary/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/native-executable-binary/brotli-quality-5-decode: Collecting 10 samples in estimated 287.12 ms (20 iterations)
+Benchmarking file-decode/native-executable-binary/brotli-quality-5-decode: Analyzing
+file-decode/native-executable-binary/brotli-quality-5-decode
+                        time:   [14.957 ms 15.533 ms 16.285 ms]
+                        thrpt:  [318.42 MiB/s 333.84 MiB/s 346.70 MiB/s]
+Benchmarking file-decode/native-executable-binary/zlib-fast-decode
+Benchmarking file-decode/native-executable-binary/zlib-fast-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 178.3ms.
+Benchmarking file-decode/native-executable-binary/zlib-fast-decode: Collecting 10 samples in estimated 178.27 ms (10 iterations)
+Benchmarking file-decode/native-executable-binary/zlib-fast-decode: Analyzing
+file-decode/native-executable-binary/zlib-fast-decode
+                        time:   [17.809 ms 18.004 ms 18.219 ms]
+                        thrpt:  [284.62 MiB/s 288.01 MiB/s 291.17 MiB/s]
+Benchmarking file-decode/native-executable-binary/zlib-default-decode
+Benchmarking file-decode/native-executable-binary/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/native-executable-binary/zlib-default-decode: Collecting 10 samples in estimated 289.59 ms (20 iterations)
+Benchmarking file-decode/native-executable-binary/zlib-default-decode: Analyzing
+file-decode/native-executable-binary/zlib-default-decode
+                        time:   [14.218 ms 14.333 ms 14.474 ms]
+                        thrpt:  [358.26 MiB/s 361.80 MiB/s 364.71 MiB/s]
+Benchmarking file-decode/native-executable-binary/raw-copy-control
+Benchmarking file-decode/native-executable-binary/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/native-executable-binary/raw-copy-control: Collecting 10 samples in estimated 192.76 ms (220 iterations)
+Benchmarking file-decode/native-executable-binary/raw-copy-control: Analyzing
+file-decode/native-executable-binary/raw-copy-control
+                        time:   [930.40 µs 1.0513 ms 1.1444 ms]
+                        thrpt:  [4.4250 GiB/s 4.8169 GiB/s 5.4428 GiB/s]
+
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=77.8µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 185.95 ms (165 iterations)
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/structured-binary-records/rnbw-hybrid-lz-entropy
+                        time:   [1.1157 ms 1.1353 ms 1.1617 ms]
+                        thrpt:  [430.40 MiB/s 440.43 MiB/s 448.14 MiB/s]
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded: Collecting 10 samples in estimated 184.11 ms (165 iterations)
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded: Analyzing
+file-decode/structured-binary-records/rnbw-parallel-encoded
+                        time:   [1.0993 ms 1.1036 ms 1.1084 ms]
+                        thrpt:  [451.10 MiB/s 453.04 MiB/s 454.83 MiB/s]
+Benchmarking file-decode/structured-binary-records/lz4-fast-decode
+Benchmarking file-decode/structured-binary-records/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/lz4-fast-decode: Collecting 10 samples in estimated 159.06 ms (770 iterations)
+Benchmarking file-decode/structured-binary-records/lz4-fast-decode: Analyzing
+file-decode/structured-binary-records/lz4-fast-decode
+                        time:   [204.81 µs 206.35 µs 207.68 µs]
+                        thrpt:  [2.3512 GiB/s 2.3663 GiB/s 2.3840 GiB/s]
+Benchmarking file-decode/structured-binary-records/snappy-decode
+Benchmarking file-decode/structured-binary-records/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/snappy-decode: Collecting 10 samples in estimated 153.81 ms (825 iterations)
+Benchmarking file-decode/structured-binary-records/snappy-decode: Analyzing
+file-decode/structured-binary-records/snappy-decode
+                        time:   [181.76 µs 182.23 µs 183.24 µs]
+                        thrpt:  [2.6647 GiB/s 2.6795 GiB/s 2.6864 GiB/s]
+Benchmarking file-decode/structured-binary-records/zstd-fast-3-decode
+Benchmarking file-decode/structured-binary-records/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/zstd-fast-3-decode: Collecting 10 samples in estimated 163.90 ms (385 iterations)
+Benchmarking file-decode/structured-binary-records/zstd-fast-3-decode: Analyzing
+file-decode/structured-binary-records/zstd-fast-3-decode
+                        time:   [449.99 µs 452.62 µs 457.76 µs]
+                        thrpt:  [1.0667 GiB/s 1.0788 GiB/s 1.0851 GiB/s]
+Benchmarking file-decode/structured-binary-records/zstd-level-1-decode
+Benchmarking file-decode/structured-binary-records/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/zstd-level-1-decode: Collecting 10 samples in estimated 164.85 ms (385 iterations)
+Benchmarking file-decode/structured-binary-records/zstd-level-1-decode: Analyzing
+file-decode/structured-binary-records/zstd-level-1-decode
+                        time:   [419.69 µs 425.93 µs 435.04 µs]
+                        thrpt:  [1.1224 GiB/s 1.1464 GiB/s 1.1634 GiB/s]
+Benchmarking file-decode/structured-binary-records/brotli-quality-0-decode
+Benchmarking file-decode/structured-binary-records/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/brotli-quality-0-decode: Collecting 10 samples in estimated 194.23 ms (110 iterations)
+Benchmarking file-decode/structured-binary-records/brotli-quality-0-decode: Analyzing
+file-decode/structured-binary-records/brotli-quality-0-decode
+                        time:   [1.7851 ms 1.8214 ms 1.8390 ms]
+                        thrpt:  [271.88 MiB/s 274.51 MiB/s 280.10 MiB/s]
+Benchmarking file-decode/structured-binary-records/brotli-quality-5-decode
+Benchmarking file-decode/structured-binary-records/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/brotli-quality-5-decode: Collecting 10 samples in estimated 153.93 ms (165 iterations)
+Benchmarking file-decode/structured-binary-records/brotli-quality-5-decode: Analyzing
+file-decode/structured-binary-records/brotli-quality-5-decode
+                        time:   [882.25 µs 898.75 µs 919.99 µs]
+                        thrpt:  [543.49 MiB/s 556.33 MiB/s 566.73 MiB/s]
+Benchmarking file-decode/structured-binary-records/zlib-fast-decode
+Benchmarking file-decode/structured-binary-records/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/zlib-fast-decode: Collecting 10 samples in estimated 172.55 ms (165 iterations)
+Benchmarking file-decode/structured-binary-records/zlib-fast-decode: Analyzing
+file-decode/structured-binary-records/zlib-fast-decode
+                        time:   [997.73 µs 1.0116 ms 1.0360 ms]
+                        thrpt:  [482.62 MiB/s 494.26 MiB/s 501.14 MiB/s]
+Benchmarking file-decode/structured-binary-records/zlib-default-decode
+Benchmarking file-decode/structured-binary-records/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/zlib-default-decode: Collecting 10 samples in estimated 168.47 ms (165 iterations)
+Benchmarking file-decode/structured-binary-records/zlib-default-decode: Analyzing
+file-decode/structured-binary-records/zlib-default-decode
+                        time:   [1.0062 ms 1.0122 ms 1.0210 ms]
+                        thrpt:  [489.71 MiB/s 494.00 MiB/s 496.94 MiB/s]
+Benchmarking file-decode/structured-binary-records/raw-copy-control
+Benchmarking file-decode/structured-binary-records/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/structured-binary-records/raw-copy-control: Collecting 10 samples in estimated 150.03 ms (12k iterations)
+Benchmarking file-decode/structured-binary-records/raw-copy-control: Analyzing
+file-decode/structured-binary-records/raw-copy-control
+                        time:   [12.665 µs 12.805 µs 12.899 µs]
+                        thrpt:  [37.853 GiB/s 38.131 GiB/s 38.553 GiB/s]
+
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=195.5µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+Benchmarking file-decode/sparse-binary/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/sparse-binary/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 186.75 ms (165 iterations)
+Benchmarking file-decode/sparse-binary/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/sparse-binary/rnbw-cow-borrow-when-possible
+                        time:   [1.0504 ms 1.0613 ms 1.0729 ms]
+                        thrpt:  [932.04 MiB/s 942.26 MiB/s 951.99 MiB/s]
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 187.99 ms (165 iterations)
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/sparse-binary/rnbw-hybrid-lz-entropy
+                        time:   [1.0425 ms 1.0474 ms 1.0526 ms]
+                        thrpt:  [950.05 MiB/s 954.72 MiB/s 959.22 MiB/s]
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded: Collecting 10 samples in estimated 168.20 ms (165 iterations)
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded: Analyzing
+file-decode/sparse-binary/rnbw-parallel-encoded
+                        time:   [1.0030 ms 1.0154 ms 1.0285 ms]
+                        thrpt:  [972.32 MiB/s 984.87 MiB/s 997.00 MiB/s]
+Benchmarking file-decode/sparse-binary/lz4-fast-decode
+Benchmarking file-decode/sparse-binary/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/lz4-fast-decode: Collecting 10 samples in estimated 151.54 ms (275 iterations)
+Benchmarking file-decode/sparse-binary/lz4-fast-decode: Analyzing
+file-decode/sparse-binary/lz4-fast-decode
+                        time:   [538.78 µs 552.07 µs 561.35 µs]
+                        thrpt:  [1.7397 GiB/s 1.7689 GiB/s 1.8125 GiB/s]
+Benchmarking file-decode/sparse-binary/snappy-decode
+Benchmarking file-decode/sparse-binary/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/snappy-decode: Collecting 10 samples in estimated 172.10 ms (385 iterations)
+Benchmarking file-decode/sparse-binary/snappy-decode: Analyzing
+file-decode/sparse-binary/snappy-decode
+                        time:   [436.01 µs 446.94 µs 458.44 µs]
+                        thrpt:  [2.1302 GiB/s 2.1850 GiB/s 2.2398 GiB/s]
+Benchmarking file-decode/sparse-binary/zstd-fast-3-decode
+Benchmarking file-decode/sparse-binary/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/zstd-fast-3-decode: Collecting 10 samples in estimated 161.83 ms (605 iterations)
+Benchmarking file-decode/sparse-binary/zstd-fast-3-decode: Analyzing
+file-decode/sparse-binary/zstd-fast-3-decode
+                        time:   [228.71 µs 234.38 µs 244.27 µs]
+                        thrpt:  [3.9978 GiB/s 4.1665 GiB/s 4.2699 GiB/s]
+Benchmarking file-decode/sparse-binary/zstd-level-1-decode
+Benchmarking file-decode/sparse-binary/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/zstd-level-1-decode: Collecting 10 samples in estimated 152.58 ms (550 iterations)
+Benchmarking file-decode/sparse-binary/zstd-level-1-decode: Analyzing
+file-decode/sparse-binary/zstd-level-1-decode
+                        time:   [261.16 µs 270.67 µs 284.72 µs]
+                        thrpt:  [3.4300 GiB/s 3.6079 GiB/s 3.7393 GiB/s]
+Benchmarking file-decode/sparse-binary/brotli-quality-0-decode
+Benchmarking file-decode/sparse-binary/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/brotli-quality-0-decode: Collecting 10 samples in estimated 165.08 ms (220 iterations)
+Benchmarking file-decode/sparse-binary/brotli-quality-0-decode: Analyzing
+file-decode/sparse-binary/brotli-quality-0-decode
+                        time:   [822.02 µs 971.02 µs 1.1092 ms]
+                        thrpt:  [901.56 MiB/s 1.0057 GiB/s 1.1880 GiB/s]
+Benchmarking file-decode/sparse-binary/brotli-quality-5-decode
+Benchmarking file-decode/sparse-binary/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/brotli-quality-5-decode: Collecting 10 samples in estimated 156.95 ms (275 iterations)
+Benchmarking file-decode/sparse-binary/brotli-quality-5-decode: Analyzing
+file-decode/sparse-binary/brotli-quality-5-decode
+                        time:   [514.39 µs 652.06 µs 763.21 µs]
+                        thrpt:  [1.2796 GiB/s 1.4977 GiB/s 1.8985 GiB/s]
+Benchmarking file-decode/sparse-binary/zlib-fast-decode
+Benchmarking file-decode/sparse-binary/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/zlib-fast-decode: Collecting 10 samples in estimated 163.39 ms (330 iterations)
+Benchmarking file-decode/sparse-binary/zlib-fast-decode: Analyzing
+file-decode/sparse-binary/zlib-fast-decode
+                        time:   [468.77 µs 486.34 µs 498.53 µs]
+                        thrpt:  [1.9589 GiB/s 2.0080 GiB/s 2.0832 GiB/s]
+Benchmarking file-decode/sparse-binary/zlib-default-decode
+Benchmarking file-decode/sparse-binary/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/zlib-default-decode: Collecting 10 samples in estimated 163.38 ms (385 iterations)
+Benchmarking file-decode/sparse-binary/zlib-default-decode: Analyzing
+file-decode/sparse-binary/zlib-default-decode
+                        time:   [409.17 µs 415.00 µs 424.27 µs]
+                        thrpt:  [2.3017 GiB/s 2.3532 GiB/s 2.3867 GiB/s]
+Benchmarking file-decode/sparse-binary/raw-copy-control
+Benchmarking file-decode/sparse-binary/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/sparse-binary/raw-copy-control: Collecting 10 samples in estimated 157.83 ms (660 iterations)
+Benchmarking file-decode/sparse-binary/raw-copy-control: Analyzing
+file-decode/sparse-binary/raw-copy-control
+                        time:   [219.50 µs 243.22 µs 262.11 µs]
+                        thrpt:  [3.7258 GiB/s 4.0151 GiB/s 4.4490 GiB/s]
+
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=159.9µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+Benchmarking file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 150.00 ms (8.2M iterations)
+Benchmarking file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible
+                        time:   [18.122 ns 18.385 ns 18.746 ns]
+                        thrpt:  [ 52095 GiB/s  53117 GiB/s  53887 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 150.07 ms (660 iterations)
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy
+                        time:   [186.56 µs 188.38 µs 191.53 µs]
+                        thrpt:  [5.0987 GiB/s 5.1841 GiB/s 5.2344 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded: Collecting 10 samples in estimated 159.16 ms (825 iterations)
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded: Analyzing
+file-decode/random-binary-incompressible/rnbw-parallel-encoded
+                        time:   [220.55 µs 270.87 µs 298.63 µs]
+                        thrpt:  [3.2702 GiB/s 3.6053 GiB/s 4.4279 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/lz4-fast-decode
+Benchmarking file-decode/random-binary-incompressible/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/lz4-fast-decode: Collecting 10 samples in estimated 164.17 ms (605 iterations)
+Benchmarking file-decode/random-binary-incompressible/lz4-fast-decode: Analyzing
+file-decode/random-binary-incompressible/lz4-fast-decode
+                        time:   [206.41 µs 223.57 µs 235.19 µs]
+                        thrpt:  [4.1522 GiB/s 4.3680 GiB/s 4.7311 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/snappy-decode
+Benchmarking file-decode/random-binary-incompressible/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/snappy-decode: Collecting 10 samples in estimated 159.13 ms (715 iterations)
+Benchmarking file-decode/random-binary-incompressible/snappy-decode: Analyzing
+file-decode/random-binary-incompressible/snappy-decode
+                        time:   [205.98 µs 215.08 µs 223.67 µs]
+                        thrpt:  [4.3662 GiB/s 4.5404 GiB/s 4.7410 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/zstd-fast-3-decode
+Benchmarking file-decode/random-binary-incompressible/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/zstd-fast-3-decode: Collecting 10 samples in estimated 160.32 ms (825 iterations)
+Benchmarking file-decode/random-binary-incompressible/zstd-fast-3-decode: Analyzing
+file-decode/random-binary-incompressible/zstd-fast-3-decode
+                        time:   [229.94 µs 247.31 µs 267.96 µs]
+                        thrpt:  [3.6445 GiB/s 3.9487 GiB/s 4.2471 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/zstd-level-1-decode
+Benchmarking file-decode/random-binary-incompressible/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/zstd-level-1-decode: Collecting 10 samples in estimated 151.05 ms (715 iterations)
+Benchmarking file-decode/random-binary-incompressible/zstd-level-1-decode: Analyzing
+file-decode/random-binary-incompressible/zstd-level-1-decode
+                        time:   [206.95 µs 220.90 µs 229.73 µs]
+                        thrpt:  [4.2510 GiB/s 4.4208 GiB/s 4.7189 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-0-decode
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-0-decode: Collecting 10 samples in estimated 164.68 ms (330 iterations)
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-0-decode: Analyzing
+file-decode/random-binary-incompressible/brotli-quality-0-decode
+                        time:   [470.78 µs 493.62 µs 521.43 µs]
+                        thrpt:  [1.8729 GiB/s 1.9784 GiB/s 2.0744 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-5-decode
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-5-decode: Collecting 10 samples in estimated 158.38 ms (330 iterations)
+Benchmarking file-decode/random-binary-incompressible/brotli-quality-5-decode: Analyzing
+file-decode/random-binary-incompressible/brotli-quality-5-decode
+                        time:   [523.99 µs 554.01 µs 616.06 µs]
+                        thrpt:  [1.5852 GiB/s 1.7627 GiB/s 1.8637 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/zlib-fast-decode
+Benchmarking file-decode/random-binary-incompressible/zlib-fast-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 151.9ms or enable flat sampling.
+Benchmarking file-decode/random-binary-incompressible/zlib-fast-decode: Collecting 10 samples in estimated 151.95 ms (55 iterations)
+Benchmarking file-decode/random-binary-incompressible/zlib-fast-decode: Analyzing
+file-decode/random-binary-incompressible/zlib-fast-decode
+                        time:   [2.6418 ms 2.6576 ms 2.6724 ms]
+                        thrpt:  [374.20 MiB/s 376.29 MiB/s 378.53 MiB/s]
+Benchmarking file-decode/random-binary-incompressible/zlib-default-decode
+Benchmarking file-decode/random-binary-incompressible/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/zlib-default-decode: Collecting 10 samples in estimated 166.42 ms (550 iterations)
+Benchmarking file-decode/random-binary-incompressible/zlib-default-decode: Analyzing
+file-decode/random-binary-incompressible/zlib-default-decode
+                        time:   [295.04 µs 303.49 µs 311.90 µs]
+                        thrpt:  [3.1310 GiB/s 3.2178 GiB/s 3.3099 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/raw-copy-control
+Benchmarking file-decode/random-binary-incompressible/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/random-binary-incompressible/raw-copy-control: Collecting 10 samples in estimated 157.18 ms (660 iterations)
+Benchmarking file-decode/random-binary-incompressible/raw-copy-control: Analyzing
+file-decode/random-binary-incompressible/raw-copy-control
+                        time:   [235.61 µs 251.41 µs 275.09 µs]
+                        thrpt:  [3.5500 GiB/s 3.8844 GiB/s 4.1449 GiB/s]
+
+general-trnmap-index=repository-rust-source bytes=275729 words=68933 index-bytes=26864 build=45.4µs zero-words=0 first-zero=68933
+file-dataset=repository-rust-source bytes=275729 structural-lanes=1-byte-lane rnbw=0.3161 rnbw-parallel=0.3161 parallel-size-delta=+0.02% raw=1.0000 lz4-fast=0.3332 snappy=0.3288 zstd-fast-3=0.2975 zstd-level-1=0.2350 brotli-quality-0=0.2542 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2021 cow-borrowed=false
+Benchmarking file-decode/repository-rust-source/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/repository-rust-source/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 214.53 ms (110 iterations)
+Benchmarking file-decode/repository-rust-source/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/repository-rust-source/rnbw-cow-borrow-when-possible
+                        time:   [1.8043 ms 1.8436 ms 1.8769 ms]
+                        thrpt:  [140.10 MiB/s 142.63 MiB/s 145.74 MiB/s]
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 194.19 ms (110 iterations)
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/repository-rust-source/rnbw-hybrid-lz-entropy
+                        time:   [1.7358 ms 1.7630 ms 1.7834 ms]
+                        thrpt:  [147.45 MiB/s 149.15 MiB/s 151.49 MiB/s]
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded: Collecting 10 samples in estimated 198.71 ms (110 iterations)
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded: Analyzing
+file-decode/repository-rust-source/rnbw-parallel-encoded
+                        time:   [1.8774 ms 1.9446 ms 1.9805 ms]
+                        thrpt:  [132.77 MiB/s 135.22 MiB/s 140.06 MiB/s]
+Benchmarking file-decode/repository-rust-source/lz4-fast-decode
+Benchmarking file-decode/repository-rust-source/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/lz4-fast-decode: Collecting 10 samples in estimated 152.57 ms (1540 iterations)
+Benchmarking file-decode/repository-rust-source/lz4-fast-decode: Analyzing
+file-decode/repository-rust-source/lz4-fast-decode
+                        time:   [93.462 µs 97.440 µs 100.80 µs]
+                        thrpt:  [2.5476 GiB/s 2.6354 GiB/s 2.7476 GiB/s]
+Benchmarking file-decode/repository-rust-source/snappy-decode
+Benchmarking file-decode/repository-rust-source/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/snappy-decode: Collecting 10 samples in estimated 156.39 ms (1045 iterations)
+Benchmarking file-decode/repository-rust-source/snappy-decode: Analyzing
+file-decode/repository-rust-source/snappy-decode
+                        time:   [147.69 µs 149.99 µs 151.35 µs]
+                        thrpt:  [1.6967 GiB/s 1.7121 GiB/s 1.7387 GiB/s]
+Benchmarking file-decode/repository-rust-source/zstd-fast-3-decode
+Benchmarking file-decode/repository-rust-source/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/zstd-fast-3-decode: Collecting 10 samples in estimated 151.55 ms (605 iterations)
+Benchmarking file-decode/repository-rust-source/zstd-fast-3-decode: Analyzing
+file-decode/repository-rust-source/zstd-fast-3-decode
+                        time:   [232.10 µs 240.69 µs 245.28 µs]
+                        thrpt:  [1.0469 GiB/s 1.0669 GiB/s 1.1064 GiB/s]
+Benchmarking file-decode/repository-rust-source/zstd-level-1-decode
+Benchmarking file-decode/repository-rust-source/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/zstd-level-1-decode: Collecting 10 samples in estimated 159.03 ms (605 iterations)
+Benchmarking file-decode/repository-rust-source/zstd-level-1-decode: Analyzing
+file-decode/repository-rust-source/zstd-level-1-decode
+                        time:   [244.97 µs 248.63 µs 253.35 µs]
+                        thrpt:  [1.0136 GiB/s 1.0328 GiB/s 1.0482 GiB/s]
+Benchmarking file-decode/repository-rust-source/brotli-quality-0-decode
+Benchmarking file-decode/repository-rust-source/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/brotli-quality-0-decode: Collecting 10 samples in estimated 161.12 ms (385 iterations)
+Benchmarking file-decode/repository-rust-source/brotli-quality-0-decode: Analyzing
+file-decode/repository-rust-source/brotli-quality-0-decode
+                        time:   [406.20 µs 421.17 µs 428.86 µs]
+                        thrpt:  [613.15 MiB/s 624.35 MiB/s 647.36 MiB/s]
+Benchmarking file-decode/repository-rust-source/brotli-quality-5-decode
+Benchmarking file-decode/repository-rust-source/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/brotli-quality-5-decode: Collecting 10 samples in estimated 155.30 ms (495 iterations)
+Benchmarking file-decode/repository-rust-source/brotli-quality-5-decode: Analyzing
+file-decode/repository-rust-source/brotli-quality-5-decode
+                        time:   [306.24 µs 309.65 µs 317.24 µs]
+                        thrpt:  [828.89 MiB/s 849.21 MiB/s 858.65 MiB/s]
+Benchmarking file-decode/repository-rust-source/zlib-fast-decode
+Benchmarking file-decode/repository-rust-source/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/zlib-fast-decode: Collecting 10 samples in estimated 181.72 ms (275 iterations)
+Benchmarking file-decode/repository-rust-source/zlib-fast-decode: Analyzing
+file-decode/repository-rust-source/zlib-fast-decode
+                        time:   [638.24 µs 644.09 µs 651.01 µs]
+                        thrpt:  [403.92 MiB/s 408.26 MiB/s 412.00 MiB/s]
+Benchmarking file-decode/repository-rust-source/zlib-default-decode
+Benchmarking file-decode/repository-rust-source/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/zlib-default-decode: Collecting 10 samples in estimated 156.30 ms (330 iterations)
+Benchmarking file-decode/repository-rust-source/zlib-default-decode: Analyzing
+file-decode/repository-rust-source/zlib-default-decode
+                        time:   [466.22 µs 471.29 µs 480.85 µs]
+                        thrpt:  [546.86 MiB/s 557.95 MiB/s 564.01 MiB/s]
+Benchmarking file-decode/repository-rust-source/raw-copy-control
+Benchmarking file-decode/repository-rust-source/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/repository-rust-source/raw-copy-control: Collecting 10 samples in estimated 150.31 ms (21k iterations)
+Benchmarking file-decode/repository-rust-source/raw-copy-control: Analyzing
+file-decode/repository-rust-source/raw-copy-control
+                        time:   [6.8070 µs 6.8901 µs 6.9477 µs]
+                        thrpt:  [36.961 GiB/s 37.270 GiB/s 37.725 GiB/s]
+
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=5.5µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw=0.5937 rnbw-parallel=0.5937 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+Benchmarking file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 153.58 ms (440 iterations)
+Benchmarking file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible
+                        time:   [336.83 µs 337.96 µs 338.86 µs]
+                        thrpt:  [75.047 MiB/s 75.248 MiB/s 75.499 MiB/s]
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 156.12 ms (495 iterations)
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy
+                        time:   [308.28 µs 312.65 µs 315.62 µs]
+                        thrpt:  [80.574 MiB/s 81.339 MiB/s 82.492 MiB/s]
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded: Collecting 10 samples in estimated 153.12 ms (440 iterations)
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded: Analyzing
+file-decode/repository-technical-prose/rnbw-parallel-encoded
+                        time:   [340.95 µs 343.67 µs 346.33 µs]
+                        thrpt:  [73.428 MiB/s 73.997 MiB/s 74.588 MiB/s]
+Benchmarking file-decode/repository-technical-prose/lz4-fast-decode
+Benchmarking file-decode/repository-technical-prose/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/lz4-fast-decode: Collecting 10 samples in estimated 150.49 ms (13k iterations)
+Benchmarking file-decode/repository-technical-prose/lz4-fast-decode: Analyzing
+file-decode/repository-technical-prose/lz4-fast-decode
+                        time:   [11.276 µs 11.373 µs 11.609 µs]
+                        thrpt:  [2.1393 GiB/s 2.1836 GiB/s 2.2024 GiB/s]
+Benchmarking file-decode/repository-technical-prose/snappy-decode
+Benchmarking file-decode/repository-technical-prose/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/snappy-decode: Collecting 10 samples in estimated 150.07 ms (11k iterations)
+Benchmarking file-decode/repository-technical-prose/snappy-decode: Analyzing
+file-decode/repository-technical-prose/snappy-decode
+                        time:   [13.357 µs 13.427 µs 13.476 µs]
+                        thrpt:  [1.8428 GiB/s 1.8496 GiB/s 1.8593 GiB/s]
+Benchmarking file-decode/repository-technical-prose/zstd-fast-3-decode
+Benchmarking file-decode/repository-technical-prose/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/zstd-fast-3-decode: Collecting 10 samples in estimated 150.24 ms (6655 iterations)
+Benchmarking file-decode/repository-technical-prose/zstd-fast-3-decode: Analyzing
+file-decode/repository-technical-prose/zstd-fast-3-decode
+                        time:   [22.617 µs 24.034 µs 25.132 µs]
+                        thrpt:  [1011.9 MiB/s 1.0333 GiB/s 1.0981 GiB/s]
+Benchmarking file-decode/repository-technical-prose/zstd-level-1-decode
+Benchmarking file-decode/repository-technical-prose/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/zstd-level-1-decode: Collecting 10 samples in estimated 151.01 ms (4400 iterations)
+Benchmarking file-decode/repository-technical-prose/zstd-level-1-decode: Analyzing
+file-decode/repository-technical-prose/zstd-level-1-decode
+                        time:   [31.490 µs 32.775 µs 33.750 µs]
+                        thrpt:  [753.51 MiB/s 775.92 MiB/s 807.58 MiB/s]
+Benchmarking file-decode/repository-technical-prose/brotli-quality-0-decode
+Benchmarking file-decode/repository-technical-prose/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/brotli-quality-0-decode: Collecting 10 samples in estimated 152.53 ms (2585 iterations)
+Benchmarking file-decode/repository-technical-prose/brotli-quality-0-decode: Analyzing
+file-decode/repository-technical-prose/brotli-quality-0-decode
+                        time:   [54.641 µs 55.191 µs 55.972 µs]
+                        thrpt:  [454.34 MiB/s 460.78 MiB/s 465.41 MiB/s]
+Benchmarking file-decode/repository-technical-prose/brotli-quality-5-decode
+Benchmarking file-decode/repository-technical-prose/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/brotli-quality-5-decode: Collecting 10 samples in estimated 150.88 ms (3245 iterations)
+Benchmarking file-decode/repository-technical-prose/brotli-quality-5-decode: Analyzing
+file-decode/repository-technical-prose/brotli-quality-5-decode
+                        time:   [46.430 µs 47.306 µs 48.166 µs]
+                        thrpt:  [527.99 MiB/s 537.58 MiB/s 547.72 MiB/s]
+Benchmarking file-decode/repository-technical-prose/zlib-fast-decode
+Benchmarking file-decode/repository-technical-prose/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/zlib-fast-decode: Collecting 10 samples in estimated 150.10 ms (2365 iterations)
+Benchmarking file-decode/repository-technical-prose/zlib-fast-decode: Analyzing
+file-decode/repository-technical-prose/zlib-fast-decode
+                        time:   [62.653 µs 67.531 µs 72.752 µs]
+                        thrpt:  [349.55 MiB/s 376.58 MiB/s 405.90 MiB/s]
+Benchmarking file-decode/repository-technical-prose/zlib-default-decode
+Benchmarking file-decode/repository-technical-prose/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/zlib-default-decode: Collecting 10 samples in estimated 151.13 ms (2750 iterations)
+Benchmarking file-decode/repository-technical-prose/zlib-default-decode: Analyzing
+file-decode/repository-technical-prose/zlib-default-decode
+                        time:   [56.968 µs 57.736 µs 58.224 µs]
+                        thrpt:  [436.77 MiB/s 440.46 MiB/s 446.40 MiB/s]
+Benchmarking file-decode/repository-technical-prose/raw-copy-control
+Benchmarking file-decode/repository-technical-prose/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/repository-technical-prose/raw-copy-control: Collecting 10 samples in estimated 150.02 ms (217k iterations)
+Benchmarking file-decode/repository-technical-prose/raw-copy-control: Analyzing
+file-decode/repository-technical-prose/raw-copy-control
+                        time:   [622.16 ns 625.61 ns 630.27 ns]
+                        thrpt:  [39.403 GiB/s 39.697 GiB/s 39.917 GiB/s]
+
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=79.6µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw=0.1535 rnbw-parallel=0.1535 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+Benchmarking file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 183.97 ms (110 iterations)
+Benchmarking file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible
+                        time:   [1.6913 ms 1.7788 ms 1.8425 ms]
+                        thrpt:  [303.33 MiB/s 314.18 MiB/s 330.44 MiB/s]
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 185.15 ms (110 iterations)
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy
+                        time:   [1.6916 ms 1.7329 ms 1.7977 ms]
+                        thrpt:  [310.88 MiB/s 322.50 MiB/s 330.38 MiB/s]
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded: Collecting 10 samples in estimated 199.71 ms (110 iterations)
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded: Analyzing
+file-decode/natural-style-prose-generated/rnbw-parallel-encoded
+                        time:   [1.7242 ms 1.7684 ms 1.8124 ms]
+                        thrpt:  [308.37 MiB/s 316.04 MiB/s 324.13 MiB/s]
+Benchmarking file-decode/natural-style-prose-generated/lz4-fast-decode
+Benchmarking file-decode/natural-style-prose-generated/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/lz4-fast-decode: Collecting 10 samples in estimated 156.07 ms (1100 iterations)
+Benchmarking file-decode/natural-style-prose-generated/lz4-fast-decode: Analyzing
+file-decode/natural-style-prose-generated/lz4-fast-decode
+                        time:   [142.19 µs 142.73 µs 143.51 µs]
+                        thrpt:  [3.8030 GiB/s 3.8239 GiB/s 3.8384 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/snappy-decode
+Benchmarking file-decode/natural-style-prose-generated/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/snappy-decode: Collecting 10 samples in estimated 151.12 ms (990 iterations)
+Benchmarking file-decode/natural-style-prose-generated/snappy-decode: Analyzing
+file-decode/natural-style-prose-generated/snappy-decode
+                        time:   [147.58 µs 151.06 µs 155.22 µs]
+                        thrpt:  [3.5162 GiB/s 3.6129 GiB/s 3.6981 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/zstd-fast-3-decode
+Benchmarking file-decode/natural-style-prose-generated/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/zstd-fast-3-decode: Collecting 10 samples in estimated 153.43 ms (440 iterations)
+Benchmarking file-decode/natural-style-prose-generated/zstd-fast-3-decode: Analyzing
+file-decode/natural-style-prose-generated/zstd-fast-3-decode
+                        time:   [309.93 µs 310.54 µs 311.94 µs]
+                        thrpt:  [1.7496 GiB/s 1.7575 GiB/s 1.7609 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/zstd-level-1-decode
+Benchmarking file-decode/natural-style-prose-generated/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/zstd-level-1-decode: Collecting 10 samples in estimated 150.81 ms (440 iterations)
+Benchmarking file-decode/natural-style-prose-generated/zstd-level-1-decode: Analyzing
+file-decode/natural-style-prose-generated/zstd-level-1-decode
+                        time:   [301.95 µs 318.77 µs 327.44 µs]
+                        thrpt:  [1.6668 GiB/s 1.7121 GiB/s 1.8075 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-0-decode
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-0-decode: Collecting 10 samples in estimated 157.86 ms (385 iterations)
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-0-decode: Analyzing
+file-decode/natural-style-prose-generated/brotli-quality-0-decode
+                        time:   [415.93 µs 420.71 µs 424.83 µs]
+                        thrpt:  [1.2847 GiB/s 1.2973 GiB/s 1.3122 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-5-decode
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-5-decode: Collecting 10 samples in estimated 157.72 ms (440 iterations)
+Benchmarking file-decode/natural-style-prose-generated/brotli-quality-5-decode: Analyzing
+file-decode/natural-style-prose-generated/brotli-quality-5-decode
+                        time:   [329.35 µs 343.30 µs 360.60 µs]
+                        thrpt:  [1.5135 GiB/s 1.5898 GiB/s 1.6571 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/zlib-fast-decode
+Benchmarking file-decode/natural-style-prose-generated/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/zlib-fast-decode: Collecting 10 samples in estimated 164.30 ms (275 iterations)
+Benchmarking file-decode/natural-style-prose-generated/zlib-fast-decode: Analyzing
+file-decode/natural-style-prose-generated/zlib-fast-decode
+                        time:   [595.37 µs 597.03 µs 599.50 µs]
+                        thrpt:  [932.24 MiB/s 936.08 MiB/s 938.69 MiB/s]
+Benchmarking file-decode/natural-style-prose-generated/zlib-default-decode
+Benchmarking file-decode/natural-style-prose-generated/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/zlib-default-decode: Collecting 10 samples in estimated 155.34 ms (605 iterations)
+Benchmarking file-decode/natural-style-prose-generated/zlib-default-decode: Analyzing
+file-decode/natural-style-prose-generated/zlib-default-decode
+                        time:   [271.33 µs 272.54 µs 274.66 µs]
+                        thrpt:  [1.9871 GiB/s 2.0025 GiB/s 2.0114 GiB/s]
+Benchmarking file-decode/natural-style-prose-generated/raw-copy-control
+Benchmarking file-decode/natural-style-prose-generated/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/natural-style-prose-generated/raw-copy-control: Collecting 10 samples in estimated 150.58 ms (11k iterations)
+Benchmarking file-decode/natural-style-prose-generated/raw-copy-control: Analyzing
+file-decode/natural-style-prose-generated/raw-copy-control
+                        time:   [13.591 µs 13.781 µs 14.047 µs]
+                        thrpt:  [38.854 GiB/s 39.604 GiB/s 40.156 GiB/s]
+
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=154.8µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+Benchmarking file-decode/json-records/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/json-records/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 234.7ms or enable flat sampling.
+Benchmarking file-decode/json-records/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 234.74 ms (55 iterations)
+Benchmarking file-decode/json-records/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/json-records/rnbw-cow-borrow-when-possible
+                        time:   [4.2203 ms 4.4366 ms 4.5898 ms]
+                        thrpt:  [251.32 MiB/s 259.99 MiB/s 273.32 MiB/s]
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 249.7ms or enable flat sampling.
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 249.72 ms (55 iterations)
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/json-records/rnbw-hybrid-lz-entropy
+                        time:   [4.4800 ms 4.6369 ms 4.7381 ms]
+                        thrpt:  [243.45 MiB/s 248.76 MiB/s 257.47 MiB/s]
+Benchmarking file-decode/json-records/rnbw-parallel-encoded
+Benchmarking file-decode/json-records/rnbw-parallel-encoded: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 244.9ms or enable flat sampling.
+Benchmarking file-decode/json-records/rnbw-parallel-encoded: Collecting 10 samples in estimated 244.86 ms (55 iterations)
+Benchmarking file-decode/json-records/rnbw-parallel-encoded: Analyzing
+file-decode/json-records/rnbw-parallel-encoded
+                        time:   [4.2898 ms 4.4374 ms 4.5194 ms]
+                        thrpt:  [255.23 MiB/s 259.95 MiB/s 268.89 MiB/s]
+Benchmarking file-decode/json-records/lz4-fast-decode
+Benchmarking file-decode/json-records/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/lz4-fast-decode: Collecting 10 samples in estimated 158.65 ms (330 iterations)
+Benchmarking file-decode/json-records/lz4-fast-decode: Analyzing
+file-decode/json-records/lz4-fast-decode
+                        time:   [508.84 µs 546.16 µs 574.85 µs]
+                        thrpt:  [1.9596 GiB/s 2.0625 GiB/s 2.2137 GiB/s]
+Benchmarking file-decode/json-records/snappy-decode
+Benchmarking file-decode/json-records/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/snappy-decode: Collecting 10 samples in estimated 168.46 ms (275 iterations)
+Benchmarking file-decode/json-records/snappy-decode: Analyzing
+file-decode/json-records/snappy-decode
+                        time:   [585.63 µs 590.76 µs 597.16 µs]
+                        thrpt:  [1.8863 GiB/s 1.9068 GiB/s 1.9235 GiB/s]
+Benchmarking file-decode/json-records/zstd-fast-3-decode
+Benchmarking file-decode/json-records/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/zstd-fast-3-decode: Collecting 10 samples in estimated 154.69 ms (165 iterations)
+Benchmarking file-decode/json-records/zstd-fast-3-decode: Analyzing
+file-decode/json-records/zstd-fast-3-decode
+                        time:   [799.29 µs 816.88 µs 836.57 µs]
+                        thrpt:  [1.3465 GiB/s 1.3790 GiB/s 1.4093 GiB/s]
+Benchmarking file-decode/json-records/zstd-level-1-decode
+Benchmarking file-decode/json-records/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/zstd-level-1-decode: Collecting 10 samples in estimated 177.52 ms (165 iterations)
+Benchmarking file-decode/json-records/zstd-level-1-decode: Analyzing
+file-decode/json-records/zstd-level-1-decode
+                        time:   [1.0460 ms 1.0699 ms 1.0958 ms]
+                        thrpt:  [1.0279 GiB/s 1.0528 GiB/s 1.0769 GiB/s]
+Benchmarking file-decode/json-records/brotli-quality-0-decode
+Benchmarking file-decode/json-records/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/brotli-quality-0-decode: Collecting 10 samples in estimated 230.24 ms (110 iterations)
+Benchmarking file-decode/json-records/brotli-quality-0-decode: Analyzing
+file-decode/json-records/brotli-quality-0-decode
+                        time:   [1.8918 ms 1.9459 ms 2.0108 ms]
+                        thrpt:  [573.64 MiB/s 592.79 MiB/s 609.72 MiB/s]
+Benchmarking file-decode/json-records/brotli-quality-5-decode
+Benchmarking file-decode/json-records/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/brotli-quality-5-decode: Collecting 10 samples in estimated 176.66 ms (110 iterations)
+Benchmarking file-decode/json-records/brotli-quality-5-decode: Analyzing
+file-decode/json-records/brotli-quality-5-decode
+                        time:   [1.4445 ms 1.4721 ms 1.5333 ms]
+                        thrpt:  [752.30 MiB/s 783.55 MiB/s 798.54 MiB/s]
+Benchmarking file-decode/json-records/zlib-fast-decode
+Benchmarking file-decode/json-records/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/zlib-fast-decode: Collecting 10 samples in estimated 198.46 ms (110 iterations)
+Benchmarking file-decode/json-records/zlib-fast-decode: Analyzing
+file-decode/json-records/zlib-fast-decode
+                        time:   [1.6746 ms 1.7057 ms 1.7214 ms]
+                        thrpt:  [670.08 MiB/s 676.24 MiB/s 688.82 MiB/s]
+Benchmarking file-decode/json-records/zlib-default-decode
+Benchmarking file-decode/json-records/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/zlib-default-decode: Collecting 10 samples in estimated 152.01 ms (110 iterations)
+Benchmarking file-decode/json-records/zlib-default-decode: Analyzing
+file-decode/json-records/zlib-default-decode
+                        time:   [1.2673 ms 1.2929 ms 1.3159 ms]
+                        thrpt:  [876.57 MiB/s 892.19 MiB/s 910.16 MiB/s]
+Benchmarking file-decode/json-records/raw-copy-control
+Benchmarking file-decode/json-records/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/json-records/raw-copy-control: Collecting 10 samples in estimated 152.25 ms (605 iterations)
+Benchmarking file-decode/json-records/raw-copy-control: Analyzing
+file-decode/json-records/raw-copy-control
+                        time:   [283.18 µs 339.27 µs 375.06 µs]
+                        thrpt:  [3.0034 GiB/s 3.3202 GiB/s 3.9778 GiB/s]
+
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=233.7µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+Benchmarking file-decode/csv-table/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/csv-table/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 161.26 ms (20 iterations)
+Benchmarking file-decode/csv-table/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/csv-table/rnbw-cow-borrow-when-possible
+                        time:   [7.9931 ms 8.0690 ms 8.1268 ms]
+                        thrpt:  [116.81 MiB/s 117.65 MiB/s 118.76 MiB/s]
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 172.66 ms (20 iterations)
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/csv-table/rnbw-hybrid-lz-entropy
+                        time:   [8.0759 ms 8.2291 ms 8.3876 ms]
+                        thrpt:  [113.18 MiB/s 115.36 MiB/s 117.55 MiB/s]
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded: Collecting 10 samples in estimated 157.03 ms (20 iterations)
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded: Analyzing
+file-decode/csv-table/rnbw-parallel-encoded
+                        time:   [8.3975 ms 8.4968 ms 8.5874 ms]
+                        thrpt:  [110.55 MiB/s 111.72 MiB/s 113.05 MiB/s]
+Benchmarking file-decode/csv-table/lz4-fast-decode
+Benchmarking file-decode/csv-table/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/lz4-fast-decode: Collecting 10 samples in estimated 164.45 ms (440 iterations)
+Benchmarking file-decode/csv-table/lz4-fast-decode: Analyzing
+file-decode/csv-table/lz4-fast-decode
+                        time:   [362.95 µs 380.24 µs 407.72 µs]
+                        thrpt:  [2.2738 GiB/s 2.4380 GiB/s 2.5542 GiB/s]
+Benchmarking file-decode/csv-table/snappy-decode
+Benchmarking file-decode/csv-table/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/snappy-decode: Collecting 10 samples in estimated 175.10 ms (220 iterations)
+Benchmarking file-decode/csv-table/snappy-decode: Analyzing
+file-decode/csv-table/snappy-decode
+                        time:   [771.05 µs 776.75 µs 787.01 µs]
+                        thrpt:  [1.1779 GiB/s 1.1935 GiB/s 1.2023 GiB/s]
+Benchmarking file-decode/csv-table/zstd-fast-3-decode
+Benchmarking file-decode/csv-table/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/zstd-fast-3-decode: Collecting 10 samples in estimated 167.16 ms (220 iterations)
+Benchmarking file-decode/csv-table/zstd-fast-3-decode: Analyzing
+file-decode/csv-table/zstd-fast-3-decode
+                        time:   [666.97 µs 694.41 µs 715.85 µs]
+                        thrpt:  [1.2950 GiB/s 1.3350 GiB/s 1.3899 GiB/s]
+Benchmarking file-decode/csv-table/zstd-level-1-decode
+Benchmarking file-decode/csv-table/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/zstd-level-1-decode: Collecting 10 samples in estimated 151.11 ms (165 iterations)
+Benchmarking file-decode/csv-table/zstd-level-1-decode: Analyzing
+file-decode/csv-table/zstd-level-1-decode
+                        time:   [894.70 µs 904.66 µs 922.07 µs]
+                        thrpt:  [1.0054 GiB/s 1.0247 GiB/s 1.0361 GiB/s]
+Benchmarking file-decode/csv-table/brotli-quality-0-decode
+Benchmarking file-decode/csv-table/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/brotli-quality-0-decode: Collecting 10 samples in estimated 284.93 ms (110 iterations)
+Benchmarking file-decode/csv-table/brotli-quality-0-decode: Analyzing
+file-decode/csv-table/brotli-quality-0-decode
+                        time:   [2.4349 ms 2.4564 ms 2.4861 ms]
+                        thrpt:  [381.84 MiB/s 386.45 MiB/s 389.86 MiB/s]
+Benchmarking file-decode/csv-table/brotli-quality-5-decode
+Benchmarking file-decode/csv-table/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/brotli-quality-5-decode: Collecting 10 samples in estimated 234.64 ms (110 iterations)
+Benchmarking file-decode/csv-table/brotli-quality-5-decode: Analyzing
+file-decode/csv-table/brotli-quality-5-decode
+                        time:   [1.9478 ms 2.0497 ms 2.1908 ms]
+                        thrpt:  [433.30 MiB/s 463.13 MiB/s 487.38 MiB/s]
+Benchmarking file-decode/csv-table/zlib-fast-decode
+Benchmarking file-decode/csv-table/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/zlib-fast-decode: Collecting 10 samples in estimated 293.07 ms (110 iterations)
+Benchmarking file-decode/csv-table/zlib-fast-decode: Analyzing
+file-decode/csv-table/zlib-fast-decode
+                        time:   [2.6813 ms 2.7087 ms 2.7257 ms]
+                        thrpt:  [348.28 MiB/s 350.47 MiB/s 354.05 MiB/s]
+Benchmarking file-decode/csv-table/zlib-default-decode
+Benchmarking file-decode/csv-table/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/zlib-default-decode: Collecting 10 samples in estimated 275.11 ms (110 iterations)
+Benchmarking file-decode/csv-table/zlib-default-decode: Analyzing
+file-decode/csv-table/zlib-default-decode
+                        time:   [2.3891 ms 2.4340 ms 2.5001 ms]
+                        thrpt:  [379.71 MiB/s 390.01 MiB/s 397.35 MiB/s]
+Benchmarking file-decode/csv-table/raw-copy-control
+Benchmarking file-decode/csv-table/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/csv-table/raw-copy-control: Collecting 10 samples in estimated 150.20 ms (6820 iterations)
+Benchmarking file-decode/csv-table/raw-copy-control: Analyzing
+file-decode/csv-table/raw-copy-control
+                        time:   [20.408 µs 20.635 µs 21.170 µs]
+                        thrpt:  [43.790 GiB/s 44.925 GiB/s 45.426 GiB/s]
+
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=179.6µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false
+Benchmarking file-decode/server-log-records/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/server-log-records/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/rnbw-cow-borrow-when-possible: Collecting 10 samples in estimated 221.07 ms (30 iterations)
+Benchmarking file-decode/server-log-records/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/server-log-records/rnbw-cow-borrow-when-possible
+                        time:   [7.6298 ms 7.7503 ms 7.8912 ms]
+                        thrpt:  [169.02 MiB/s 172.09 MiB/s 174.81 MiB/s]
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy: Collecting 10 samples in estimated 161.32 ms (20 iterations)
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/server-log-records/rnbw-hybrid-lz-entropy
+                        time:   [7.6143 ms 7.7418 ms 7.8720 ms]
+                        thrpt:  [169.43 MiB/s 172.28 MiB/s 175.16 MiB/s]
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded: Collecting 10 samples in estimated 151.89 ms (20 iterations)
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded: Analyzing
+file-decode/server-log-records/rnbw-parallel-encoded
+                        time:   [7.1384 ms 7.1786 ms 7.2244 ms]
+                        thrpt:  [184.62 MiB/s 185.79 MiB/s 186.84 MiB/s]
+Benchmarking file-decode/server-log-records/lz4-fast-decode
+Benchmarking file-decode/server-log-records/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/lz4-fast-decode: Collecting 10 samples in estimated 163.61 ms (330 iterations)
+Benchmarking file-decode/server-log-records/lz4-fast-decode: Analyzing
+file-decode/server-log-records/lz4-fast-decode
+                        time:   [503.47 µs 515.96 µs 529.47 µs]
+                        thrpt:  [2.4600 GiB/s 2.5244 GiB/s 2.5870 GiB/s]
+Benchmarking file-decode/server-log-records/snappy-decode
+Benchmarking file-decode/server-log-records/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/snappy-decode: Collecting 10 samples in estimated 185.70 ms (220 iterations)
+Benchmarking file-decode/server-log-records/snappy-decode: Analyzing
+file-decode/server-log-records/snappy-decode
+                        time:   [783.26 µs 816.98 µs 904.02 µs]
+                        thrpt:  [1.4408 GiB/s 1.5943 GiB/s 1.6629 GiB/s]
+Benchmarking file-decode/server-log-records/zstd-fast-3-decode
+Benchmarking file-decode/server-log-records/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/zstd-fast-3-decode: Collecting 10 samples in estimated 154.92 ms (165 iterations)
+Benchmarking file-decode/server-log-records/zstd-fast-3-decode: Analyzing
+file-decode/server-log-records/zstd-fast-3-decode
+                        time:   [887.41 µs 903.78 µs 920.53 µs]
+                        thrpt:  [1.4149 GiB/s 1.4411 GiB/s 1.4677 GiB/s]
+Benchmarking file-decode/server-log-records/zstd-level-1-decode
+Benchmarking file-decode/server-log-records/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/zstd-level-1-decode: Collecting 10 samples in estimated 209.59 ms (165 iterations)
+Benchmarking file-decode/server-log-records/zstd-level-1-decode: Analyzing
+file-decode/server-log-records/zstd-level-1-decode
+                        time:   [1.1039 ms 1.1275 ms 1.1525 ms]
+                        thrpt:  [1.1302 GiB/s 1.1551 GiB/s 1.1799 GiB/s]
+Benchmarking file-decode/server-log-records/brotli-quality-0-decode
+Benchmarking file-decode/server-log-records/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/brotli-quality-0-decode: Collecting 10 samples in estimated 287.35 ms (110 iterations)
+Benchmarking file-decode/server-log-records/brotli-quality-0-decode: Analyzing
+file-decode/server-log-records/brotli-quality-0-decode
+                        time:   [2.5668 ms 2.7009 ms 2.9113 ms]
+                        thrpt:  [458.13 MiB/s 493.82 MiB/s 519.61 MiB/s]
+Benchmarking file-decode/server-log-records/brotli-quality-5-decode
+Benchmarking file-decode/server-log-records/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/brotli-quality-5-decode: Collecting 10 samples in estimated 241.37 ms (110 iterations)
+Benchmarking file-decode/server-log-records/brotli-quality-5-decode: Analyzing
+file-decode/server-log-records/brotli-quality-5-decode
+                        time:   [2.1329 ms 2.1658 ms 2.2211 ms]
+                        thrpt:  [600.48 MiB/s 615.82 MiB/s 625.33 MiB/s]
+Benchmarking file-decode/server-log-records/zlib-fast-decode
+Benchmarking file-decode/server-log-records/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/zlib-fast-decode: Collecting 10 samples in estimated 271.97 ms (110 iterations)
+Benchmarking file-decode/server-log-records/zlib-fast-decode: Analyzing
+file-decode/server-log-records/zlib-fast-decode
+                        time:   [2.3422 ms 2.3735 ms 2.4020 ms]
+                        thrpt:  [555.26 MiB/s 561.93 MiB/s 569.43 MiB/s]
+Benchmarking file-decode/server-log-records/zlib-default-decode
+Benchmarking file-decode/server-log-records/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/zlib-default-decode: Collecting 10 samples in estimated 232.30 ms (110 iterations)
+Benchmarking file-decode/server-log-records/zlib-default-decode: Analyzing
+file-decode/server-log-records/zlib-default-decode
+                        time:   [2.0672 ms 2.1281 ms 2.1805 ms]
+                        thrpt:  [611.68 MiB/s 626.72 MiB/s 645.18 MiB/s]
+Benchmarking file-decode/server-log-records/raw-copy-control
+Benchmarking file-decode/server-log-records/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/server-log-records/raw-copy-control: Collecting 10 samples in estimated 155.12 ms (495 iterations)
+Benchmarking file-decode/server-log-records/raw-copy-control: Analyzing
+file-decode/server-log-records/raw-copy-control
+                        time:   [317.79 µs 345.88 µs 372.26 µs]
+                        thrpt:  [3.4988 GiB/s 3.7657 GiB/s 4.0986 GiB/s]
+

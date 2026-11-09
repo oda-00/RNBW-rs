@@ -1,0 +1,46 @@
+RNBW general-corpus standalone encode/decode benchmark follow-up
+Date: 2026-11-09
+Commands: cargo bench --offline --locked --bench files -- file-encode|file-decode --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Criterion median point estimates. Full confidence intervals are in the two raw captures below. The harness verifies roundtrips before timing. Codec encode/decode timings do not invoke TRNMAP; raw-word TRNMAP index tests run separately.
+Full per-codec tables with ratios and throughput: general-encode-decode-followup-full-2026-11-09.txt. Raw Criterion intervals: general-encode-followup-2026-11-09.txt and general-decode-followup-2026-11-09.txt
+
+ENCODE — reusable RNBW encoder versus the fastest external encoder for each corpus
+| Dataset | Raw bytes | Ratio RNBW/LZ4/Zstd-3 | RNBW serial | RNBW parallel | Fastest external | RNBW parallel / fastest |
+|---|---:|---:|---:|---:|---:|---:|
+| image-rgba8-raster | 524,288 | 0.5630/1.0020/0.9746 | 6.006 ms | 3.211 ms | snappy 30.80 us | 104.27x |
+| image-png-stored-deflate | 131,278 | 0.9283/0.9962/0.9545 | 2.627 ms | 2.931 ms | snappy 7.01 us | 418.33x |
+| image-png-compressed-deflate | 89,883 | 1.0007/1.0040/1.0001 | 1.426 ms | 1.435 ms | snappy 4.98 us | 288.26x |
+| graphics-shader-machine-words-synthetic | 262,144 | 0.0140/0.0509/0.0471 | 532.42 us | 203.96 us | zstd-fast-3 19.10 us | 10.68x |
+| graphics-wgsl-source | 8,267 | 0.3610/0.3698/0.3197 | 52.72 us | 52.48 us | snappy 6.89 us | 7.62x |
+| ai-model-int8-tensor-synthetic | 1,048,576 | 0.0206/0.0190/0.0019 | 3.875 ms | 2.589 ms | zstd-level-1 86.96 us | 29.77x |
+| native-executable-binary | 5,437,440 | 0.5560/0.5544/0.5503 | 66.935 ms | 47.395 ms | snappy 8.178 ms | 5.80x |
+| structured-binary-records | 524,288 | 0.6725/0.7595/0.6997 | 2.304 ms | 2.166 ms | snappy 469.89 us | 4.61x |
+| sparse-binary | 1,048,576 | 0.0462/0.0382/0.0336 | 2.151 ms | 739.39 us | snappy 125.49 us | 5.89x |
+| random-binary-incompressible | 1,048,576 | 1.0001/1.0039/1.0000 | 507.94 us | 446.13 us | snappy 359.92 us | 1.24x |
+| repository-rust-source | 275,729 | 0.3161/0.3332/0.2975 | 1.601 ms | 993.04 us | snappy 358.87 us | 2.77x |
+| repository-technical-prose | 26,666 | 0.5937/0.5840/0.5777 | 277.73 us | 291.85 us | snappy 27.16 us | 10.74x |
+| natural-style-prose-generated | 586,022 | 0.1535/0.1558/0.0952 | 1.755 ms | 1.110 ms | lz4-fast 314.26 us | 3.53x |
+| json-records | 1,209,516 | 0.1966/0.2395/0.2037 | 4.333 ms | 2.617 ms | snappy 891.48 us | 2.94x |
+| csv-table | 995,409 | 0.4314/0.5051/0.5033 | 5.770 ms | 3.194 ms | snappy 1.633 ms | 1.96x |
+| server-log-records | 1,398,527 | 0.2819/0.3256/0.3104 | 6.126 ms | 3.622 ms | snappy 1.285 ms | 2.82x |
+
+DECODE — both RNBW output forms versus the fastest external decoder for each corpus
+| Dataset | RNBW one-shot image | RNBW parallel image | Fastest external | RNBW parallel / fastest |
+|---|---:|---:|---:|---:|
+
+| image-rgba8-raster | 2.834 ms | 2.696 ms | snappy 20.92 us | 128.86x |
+| image-png-stored-deflate | 1.391 ms | 1.473 ms | snappy 4.93 us | 298.94x |
+| image-png-compressed-deflate | 1.95 us | 1.89 us | zstd-fast-3 2.31 us | 0.82x |
+| graphics-shader-machine-words-synthetic | 366.89 us | 380.28 us | zstd-fast-3 6.92 us | 54.93x |
+| graphics-wgsl-source | 58.11 us | 57.25 us | lz4-fast 2.91 us | 19.67x |
+| ai-model-int8-tensor-synthetic | 1.674 ms | 1.738 ms | snappy 233.67 us | 7.44x |
+| native-executable-binary | 35.763 ms | 37.182 ms | lz4-fast 2.351 ms | 15.82x |
+| structured-binary-records | 1.135 ms | 1.104 ms | snappy 182.23 us | 6.06x |
+| sparse-binary | 1.047 ms | 1.015 ms | zstd-fast-3 234.38 us | 4.33x |
+| random-binary-incompressible | 188.38 us | 270.87 us | snappy 215.08 us | 1.26x |
+| repository-rust-source | 1.763 ms | 1.945 ms | lz4-fast 97.44 us | 19.96x |
+| repository-technical-prose | 312.65 us | 343.67 us | lz4-fast 11.37 us | 30.22x |
+| natural-style-prose-generated | 1.733 ms | 1.768 ms | lz4-fast 142.73 us | 12.39x |
+| json-records | 4.637 ms | 4.437 ms | lz4-fast 546.16 us | 8.12x |
+| csv-table | 8.229 ms | 8.497 ms | lz4-fast 380.24 us | 22.35x |
+| server-log-records | 7.742 ms | 7.179 ms | lz4-fast 515.96 us | 13.91x |
