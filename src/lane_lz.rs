@@ -25,6 +25,8 @@ const WINDOW_SIZE: usize = 1 << 16;
 const HASH_BITS_COMPACT: usize = 18;
 const HASH_BITS_WIDE: usize = 18;
 const MAX_MATCH: usize = 130;
+const MATCH_INDEX_TAIL: usize = 16;
+const MATCH_INDEX_SKIP_THRESHOLD: usize = 48;
 const PARALLEL_MIN_BYTES: usize = 16 * 1024;
 const LZ_BLOCK_BYTES: usize = 64 * 1024;
 const MODE_RAW: u8 = 0;
@@ -1333,9 +1335,12 @@ fn lz_encode_window(
             emit_matches(output, best_len, best_distance);
             let end = index + best_len;
             // The current position was inserted before candidate matching.
-            // Insert the rest of the accepted match so following positions can
-            // still match against every byte covered by it.
+            // Keep the final positions of each match available to nearby
+            // lookups, while jumping over older positions hidden by the match.
             index += 1;
+            if best_len > MATCH_INDEX_SKIP_THRESHOLD {
+                index = end - MATCH_INDEX_TAIL;
+            }
             while index < end {
                 if index + 2 < input.len() {
                     insert_position(

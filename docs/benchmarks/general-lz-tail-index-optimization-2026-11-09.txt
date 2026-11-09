@@ -1,0 +1,78 @@
+# RNBW LZ match-index tail optimization
+
+Date: 2026-11-09
+
+## Change
+
+After accepted matches longer than 48 bytes, the encoder indexes only the final 16 byte positions. Shorter matches keep the original complete indexing. For a 130-byte match this removes 113 hash calculations and table inserts (87.6%) while preserving recent match candidates. It adds no scratch memory or serialized bytes; the 32-bit match-token/literal-stream format, entropy coding, 64 KiB window and block boundaries are unchanged. The decoder is unchanged.
+
+## Benchmark method
+
+Paired baseline and candidate: Criterion, 20 samples per case, 150 ms warm-up, 250 ms target measurement, all 16 general corpus cases. Each case includes serial/parallel encode, decode and serial/parallel roundtrip. Candidate roundtrip assertions validate the decoded bytes. Times below are medians in microseconds; positive delta means candidate is faster. Raw logs preserve Criterion intervals.
+
+Baseline: `general-lz-tail-confirm-baseline-2026-11-09.txt`. Candidate: `general-lz-tail-threshold-48-candidate-2026-11-09.txt`.
+
+## Paired encode, decode and roundtrip results
+
+| Workload (input B) | Encoded bytes S/P baseline → candidate | Serial encode µs baseline → candidate (gain) | Parallel encode µs baseline → candidate (gain) | Decode µs baseline → candidate (gain) | Serial RT µs baseline → candidate (gain) | Parallel RT µs baseline → candidate (gain) |
+|---|---:|---:|---:|---:|---:|---:|
+| ai-model-int8-tensor-synthetic (1,048,576) | 21,568/21,568 → 21,568/21,568 | 3,992.5 → 2,762.2 (+30.8%) | 2,577.4 → 2,427.0 (+5.8%) | 1,619.5 → 1,625.6 (-0.4%) | 5,525.2 → 4,329.2 (+21.6%) | 4,156.3 → 3,982.9 (+4.2%) |
+| csv-table (995,409) | 429,432/429,456 → 429,432/429,456 | 6,103.5 → 6,466.2 (-5.9%) | 3,356.5 → 3,211.1 (+4.3%) | 4,632.9 → 4,496.6 (+2.9%) | 10,919.0 → 10,688.0 (+2.1%) | 8,027.0 → 7,888.4 (+1.7%) |
+| graphics-shader-machine-words-synthetic (262,144) | 3,672/3,672 → 3,672/3,672 | 481.6 → 92.0 (+80.9%) | 204.7 → 95.8 (+53.2%) | 358.2 → 368.0 (-2.7%) | 871.2 → 492.3 (+43.5%) | 557.9 → 459.5 (+17.6%) |
+| graphics-wgsl-source (8,267) | 2,984/2,984 → 2,984/2,984 | 51.3 → 51.0 (+0.6%) | 49.4 → 55.2 (-11.7%) | 27.5 → 27.2 (+1.1%) | 82.3 → 83.9 (-1.9%) | 79.5 → 80.0 (-0.6%) |
+| image-png-compressed-deflate (89,883) | 89,944/89,944 → 89,944/89,944 | 5.5 → 27.3 (-396.4%) | 5.8 → 5.9 (-1.7%) | 2.4 → 1.8 (+25.0%) | 28.2 → 8.2 (+70.9%) | 27.6 → 29.4 (-6.5%) |
+| image-png-stored-deflate (131,278) | 121,864/121,864 → 121,864/121,864 | 2,579.0 → 2,815.1 (-9.2%) | 2,545.2 → 2,583.9 (-1.5%) | 1,371.8 → 1,376.5 (-0.3%) | 3,914.7 → 4,192.4 (-7.1%) | 4,474.9 → 4,244.9 (+5.1%) |
+| image-rgba8-raster (524,288) | 295,200/295,200 → 295,200/295,200 | 5,581.1 → 5,763.5 (-3.3%) | 2,791.7 → 2,905.6 (-4.1%) | 1,595.4 → 1,614.2 (-1.2%) | 8,014.0 → 7,841.8 (+2.1%) | 4,834.0 → 5,279.7 (-9.2%) |
+| json-records (1,209,516) | 237,792/237,816 → 237,792/237,816 | 4,642.8 → 4,611.6 (+0.7%) | 2,696.6 → 2,599.4 (+3.6%) | 2,260.9 → 2,180.0 (+3.6%) | 6,943.4 → 6,756.9 (+2.7%) | 5,092.7 → 4,913.5 (+3.5%) |
+| native-executable-binary (5,437,440) | 3,022,976/3,023,136 → 3,023,424/3,022,768 | 63,161.0 → 62,738.0 (+0.7%) | 46,573.0 → 47,375.0 (-1.7%) | 35,833.0 → 33,371.0 (+6.9%) | 97,584.0 → 100,100.0 (-2.6%) | 83,057.0 → 81,770.0 (+1.5%) |
+| natural-style-prose-generated (586,022) | 89,952/89,976 → 89,832/89,840 | 1,956.1 → 1,815.7 (+7.2%) | 1,120.2 → 1,045.5 (+6.7%) | 750.4 → 727.4 (+3.1%) | 2,519.4 → 2,553.1 (-1.3%) | 1,895.7 → 1,860.6 (+1.9%) |
+| random-binary-incompressible (1,048,576) | 1,048,632/1,048,632 → 1,048,632/1,048,632 | 198.3 → 208.5 (-5.1%) | 205.7 → 213.0 (-3.5%) | 191.8 → 200.3 (-4.4%) | 388.0 → 410.1 (-5.7%) | 456.3 → 529.8 (-16.1%) |
+| repository-rust-source (275,729) | 87,152/87,168 → 87,216/87,240 | 1,556.3 → 1,525.5 (+2.0%) | 1,031.3 → 988.4 (+4.2%) | 879.0 → 879.8 (-0.1%) | 2,569.5 → 2,568.8 (+0.0%) | 2,032.0 → 2,010.6 (+1.1%) |
+| repository-technical-prose (26,666) | 15,832/15,832 → 15,832/15,832 | 283.6 → 278.7 (+1.7%) | 279.9 → 298.5 (-6.6%) | 162.3 → 167.3 (-3.1%) | 457.8 → 464.4 (-1.4%) | 483.8 → 476.0 (+1.6%) |
+| server-log-records (1,398,527) | 394,256/394,296 → 394,256/394,296 | 6,443.1 → 7,028.3 (-9.1%) | 3,666.7 → 3,700.8 (-0.9%) | 3,671.9 → 3,840.6 (-4.6%) | 10,261.0 → 10,941.0 (-6.6%) | 7,339.2 → 7,454.4 (-1.6%) |
+| sparse-binary (1,048,576) | 48,424/48,440 → 48,424/48,440 | 2,139.3 → 619.1 (+71.1%) | 751.4 → 537.3 (+28.5%) | 667.6 → 673.5 (-0.9%) | 3,050.6 → 1,305.2 (+57.2%) | 1,580.6 → 1,228.9 (+22.3%) |
+| structured-binary-records (524,288) | 352,584/352,584 → 352,584/352,584 | 2,296.6 → 2,234.6 (+2.7%) | 2,235.4 → 2,223.2 (+0.5%) | 1,069.8 → 1,082.6 (-1.2%) | 3,582.6 → 3,369.7 (+5.9%) | 3,382.0 → 3,331.0 (+1.5%) |
+
+A positive value in the decode column is faster; a negative value is slower. Decode code did not change, but the encoded token/literal sequence can change when the encoder skips old match candidates. Roundtrip is the end-to-end guard against an invalid stream. Exact encoded size is unchanged on 13/16 cases; native executable changes by +448 bytes serial / −368 bytes parallel in these paired runs, repository Rust source by +64/+72 bytes, and generated prose by −120/-136 bytes serial/parallel. The other 13 cases are byte-identical in the paired captures.
+
+## Confidence-interval-supported encode wins
+
+Non-overlapping Criterion 95% intervals support these serial / parallel encode gains:
+
+| Workload | Serial encode CI baseline → candidate (µs) | Parallel encode CI baseline → candidate (µs) |
+|---|---:|---:|
+| sparse-binary | [2,125.1, 2,154.6] → [611.6, 625.4] | [739.0, 765.4] → [530.6, 547.2] |
+| graphics-shader-machine-words-synthetic | [478.1, 485.1] → [90.8, 93.8] | [204.1, 205.5] → [95.2, 96.4] |
+| ai-model-int8-tensor-synthetic | [3,918.7, 4,065.8] → [2,745.9, 2,776.5] | [2,545.9, 2,611.6] → [2,411.4, 2,441.8] |
+| natural-style-prose-generated | [1,929.8, 1,971.4] → [1,796.2, 1,845.8] | [1,093.6, 1,144.5] → [1,031.3, 1,063.7] |
+
+Natural prose roundtrip is not a win in the paired run despite faster encoding; the format shrinks 120 bytes and serial roundtrip changes −1.3% with overlapping intervals. Other mixed results are preserved in the full table rather than hidden. The attempted alternate compressed-single-lane decoder fast path was also paired across encode/decode/roundtrip and reverted because it did not provide repeatable full-workload gains; its paired A/B capture is in the preceding commit (`c494eb5`); the shortcut was reverted after it failed to show a repeatable full-workload win.
+
+## All-codec snapshot
+
+Separate 10-sample Criterion capture on the same 16 general inputs. This is a cross-codec comparison, not a paired baseline/candidate test. Ratios are output bytes / input bytes; comparator ratios are measured for the named codec in the benchmark harness. “Fastest comparator” is the minimum encode/decode median among LZ4, Snappy, Zstd (fast-3 and level-1), Brotli (quality 0 and 5), and zlib (fast and default). RNBW timings are best among one-shot, reuse-serial and reuse-parallel encoders, and hybrid decode; they are not a controlled compression-level equivalence.
+
+| Workload | RNBW size ratio | Best external size ratio | RNBW fastest encode µs | Best external encode µs | RNBW decode µs | Best external decode µs |
+|---|---:|---:|---:|---:|---:|---:|
+| ai-model-int8-tensor-synthetic (1,048,576 B) | 0.0206 | 0.0015 (zstd-level-1) | 2,388.8 | 79.3 (zstd-fast-3-encode) | 1,629.5 | 209.6 (lz4-fast-decode) |
+| csv-table (995,409 B) | 0.4314 | 0.2292 (brotli-quality-5) | 3,227.0 | 1,572.3 (snappy-encode) | 4,713.8 | 349.1 (lz4-fast-decode) |
+| graphics-shader-machine-words-synthetic (262,144 B) | 0.0140 | 0.0367 (brotli-quality-5) | 90.9 | 17.9 (snappy-encode) | 367.2 | 6.7 (zstd-fast-3-decode) |
+| graphics-wgsl-source (8,267 B) | 0.3610 | 0.2112 (brotli-quality-5) | 52.1 | 6.7 (snappy-encode) | 27.6 | 2.7 (lz4-fast-decode) |
+| image-png-compressed-deflate (89,883 B) | 1.0007 | 0.9525 (zlib-default) | 5.7 | 5.3 (snappy-encode) | 1.9 | 2.2 (zstd-fast-3-decode) |
+| image-png-stored-deflate (131,278 B) | 0.9283 | 0.6091 (brotli-quality-5) | 2,580.3 | 6.9 (snappy-encode) | 1,445.8 | 4.8 (snappy-decode) |
+| image-rgba8-raster (524,288 B) | 0.5630 | 0.6079 (brotli-quality-5) | 2,780.1 | 30.1 (snappy-encode) | 1,623.6 | 20.4 (snappy-decode) |
+| json-records (1,209,516 B) | 0.1966 | 0.1100 (brotli-quality-5) | 2,527.6 | 873.5 (snappy-encode) | 2,263.4 | 501.4 (lz4-fast-decode) |
+| native-executable-binary (5,437,440 B) | 0.5560 | 0.3469 (brotli-quality-5) | 48,223.0 | 8,149.3 (snappy-encode) | 35,148.0 | 2,345.4 (lz4-fast-decode) |
+| natural-style-prose-generated (586,022 B) | 0.1533 | 0.0598 (zlib-default) | 1,090.9 | 312.7 (lz4-fast-encode) | 747.5 | 135.6 (lz4-fast-decode) |
+| random-binary-incompressible (1,048,576 B) | 1.0001 | 1.0000 (brotli-quality-0) | 211.2 | 322.1 (snappy-encode) | 202.3 | 199.8 (lz4-fast-decode) |
+| repository-rust-source (275,729 B) | 0.3163 | 0.1894 (brotli-quality-5) | 1,023.4 | 356.1 (snappy-encode) | 861.1 | 87.9 (lz4-fast-decode) |
+| repository-technical-prose (26,666 B) | 0.5937 | 0.3537 (brotli-quality-5) | 298.3 | 27.6 (snappy-encode) | 161.8 | 11.1 (lz4-fast-decode) |
+| server-log-records (1,398,527 B) | 0.2819 | 0.1717 (brotli-quality-5) | 3,563.2 | 1,258.5 (snappy-encode) | 3,556.6 | 460.7 (lz4-fast-decode) |
+| sparse-binary (1,048,576 B) | 0.0462 | 0.0311 (brotli-quality-5) | 592.4 | 121.5 (snappy-encode) | 670.0 | 210.8 (zstd-level-1-decode) |
+| structured-binary-records (524,288 B) | 0.6725 | 0.5790 (zstd-level-1) | 2,238.4 | 469.5 (snappy-encode) | 1,080.0 | 178.9 (snappy-decode) |
+
+## Correctness and tooling
+
+`cargo fmt --all --check` and `cargo test --offline --locked` passed on the selected threshold: 46 library tests, 3 binary tests, codec mutation fuzz, and all 3 TRNMAP mutation fuzz tests. The Criterion harness also validates complete RNBW roundtrips for all 16 general corpus cases. Runtime dispatch selected AVX2. Hyperfine, Valgrind/Callgrind, and cargo-flamegraph are unavailable in this Windows environment; the host processor model could not be queried.
+
+All raw exploration captures (tail lengths 4/8/16/32 and thresholds 17/48/96) are retained in `docs/benchmarks/`. The measured choice is tail 16, skip threshold 48: it keeps strong long-match encode wins while avoiding the clearer natural-prose and JSON regression seen at threshold 96.
