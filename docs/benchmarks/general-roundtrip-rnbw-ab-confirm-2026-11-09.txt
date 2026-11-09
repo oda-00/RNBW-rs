@@ -1,0 +1,223 @@
+file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [5.4812 ms 5.5341 ms 5.5874 ms]
+                        thrpt:  [89.488 MiB/s 90.349 MiB/s 91.220 MiB/s]
+file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.7147 ms 2.7300 ms 2.7417 ms]
+                        thrpt:  [182.37 MiB/s 183.15 MiB/s 184.18 MiB/s]
+
+file-roundtrip/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [9.1720 ms 9.3121 ms 9.4622 ms]
+                        thrpt:  [52.842 MiB/s 53.693 MiB/s 54.514 MiB/s]
+file-roundtrip/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [6.2943 ms 6.4614 ms 6.6299 ms]
+                        thrpt:  [75.416 MiB/s 77.383 MiB/s 79.437 MiB/s]
+
+file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [2.6196 ms 2.6484 ms 2.6747 ms]
+                        thrpt:  [46.807 MiB/s 47.272 MiB/s 47.792 MiB/s]
+file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.7104 ms 2.8187 ms 2.9214 ms]
+                        thrpt:  [42.855 MiB/s 44.417 MiB/s 46.192 MiB/s]
+
+file-roundtrip/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [4.0114 ms 4.0435 ms 4.0787 ms]
+                        thrpt:  [30.695 MiB/s 30.963 MiB/s 31.210 MiB/s]
+file-roundtrip/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [4.2423 ms 4.3188 ms 4.3985 ms]
+                        thrpt:  [28.464 MiB/s 28.989 MiB/s 29.511 MiB/s]
+
+file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [1.3541 ms 1.3805 ms 1.4176 ms]
+                        thrpt:  [60.467 MiB/s 62.094 MiB/s 63.303 MiB/s]
+file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [1.2278 ms 1.2536 ms 1.2766 ms]
+                        thrpt:  [67.148 MiB/s 68.380 MiB/s 69.813 MiB/s]
+
+file-roundtrip/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [1.4148 ms 1.4313 ms 1.4494 ms]
+                        thrpt:  [59.143 MiB/s 59.887 MiB/s 60.585 MiB/s]
+file-roundtrip/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [1.3008 ms 1.3348 ms 1.3713 ms]
+                        thrpt:  [62.510 MiB/s 64.217 MiB/s 65.899 MiB/s]
+
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [517.20 µs 526.23 µs 539.83 µs]
+                        thrpt:  [463.11 MiB/s 475.07 MiB/s 483.37 MiB/s]
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [218.35 µs 222.33 µs 226.11 µs]
+                        thrpt:  [1.0797 GiB/s 1.0981 GiB/s 1.1181 GiB/s]
+
+file-roundtrip/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [975.54 µs 997.36 µs 1.0173 ms]
+                        thrpt:  [245.75 MiB/s 250.66 MiB/s 256.27 MiB/s]
+file-roundtrip/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [564.48 µs 567.98 µs 571.91 µs]
+                        thrpt:  [437.13 MiB/s 440.16 MiB/s 442.89 MiB/s]
+
+file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [54.338 µs 55.112 µs 55.983 µs]
+                        thrpt:  [140.83 MiB/s 143.06 MiB/s 145.09 MiB/s]
+file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [50.715 µs 51.614 µs 52.678 µs]
+                        thrpt:  [149.66 MiB/s 152.75 MiB/s 155.46 MiB/s]
+
+file-roundtrip/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [117.62 µs 119.33 µs 121.51 µs]
+                        thrpt:  [64.886 MiB/s 66.071 MiB/s 67.032 MiB/s]
+file-roundtrip/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [115.53 µs 118.11 µs 120.99 µs]
+                        thrpt:  [65.160 MiB/s 66.754 MiB/s 68.242 MiB/s]
+
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [4.1833 ms 4.2294 ms 4.2706 ms]
+                        thrpt:  [234.16 MiB/s 236.44 MiB/s 239.05 MiB/s]
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.4667 ms 2.5684 ms 2.6277 ms]
+                        thrpt:  [380.57 MiB/s 389.34 MiB/s 405.39 MiB/s]
+
+file-roundtrip/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [5.7367 ms 5.7930 ms 5.8537 ms]
+                        thrpt:  [170.83 MiB/s 172.62 MiB/s 174.32 MiB/s]
+file-roundtrip/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [4.2455 ms 4.2996 ms 4.3588 ms]
+                        thrpt:  [229.42 MiB/s 232.58 MiB/s 235.54 MiB/s]
+
+file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [63.645 ms 66.844 ms 70.694 ms]
+                        thrpt:  [73.352 MiB/s 77.576 MiB/s 81.476 MiB/s]
+file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [47.390 ms 48.381 ms 49.465 ms]
+                        thrpt:  [104.83 MiB/s 107.18 MiB/s 109.42 MiB/s]
+
+file-roundtrip/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [102.16 ms 102.80 ms 103.46 ms]
+                        thrpt:  [50.123 MiB/s 50.445 MiB/s 50.761 MiB/s]
+file-roundtrip/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [82.999 ms 84.586 ms 86.360 ms]
+                        thrpt:  [60.046 MiB/s 61.305 MiB/s 62.477 MiB/s]
+
+file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [2.4368 ms 2.4504 ms 2.4659 ms]
+                        thrpt:  [202.77 MiB/s 204.05 MiB/s 205.19 MiB/s]
+file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.2026 ms 2.2092 ms 2.2164 ms]
+                        thrpt:  [225.59 MiB/s 226.33 MiB/s 227.01 MiB/s]
+
+file-roundtrip/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [3.5648 ms 3.6156 ms 3.6670 ms]
+                        thrpt:  [136.35 MiB/s 138.29 MiB/s 140.26 MiB/s]
+file-roundtrip/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [3.3663 ms 3.3845 ms 3.4147 ms]
+                        thrpt:  [146.43 MiB/s 147.73 MiB/s 148.53 MiB/s]
+
+file-encode/sparse-binary/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [2.3061 ms 2.3208 ms 2.3342 ms]
+                        thrpt:  [428.40 MiB/s 430.88 MiB/s 433.64 MiB/s]
+file-encode/sparse-binary/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [739.04 µs 755.65 µs 782.62 µs]
+                        thrpt:  [1.2478 GiB/s 1.2924 GiB/s 1.3214 GiB/s]
+
+file-roundtrip/sparse-binary/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [3.3967 ms 3.4247 ms 3.4582 ms]
+                        thrpt:  [289.16 MiB/s 292.00 MiB/s 294.41 MiB/s]
+file-roundtrip/sparse-binary/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [1.8850 ms 1.9184 ms 1.9602 ms]
+                        thrpt:  [510.15 MiB/s 521.28 MiB/s 530.51 MiB/s]
+
+file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [446.49 µs 464.60 µs 488.96 µs]
+                        thrpt:  [1.9972 GiB/s 2.1019 GiB/s 2.1872 GiB/s]
+file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [470.81 µs 493.46 µs 511.32 µs]
+                        thrpt:  [1.9099 GiB/s 1.9790 GiB/s 2.0742 GiB/s]
+
+file-roundtrip/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [654.89 µs 733.09 µs 797.69 µs]
+                        thrpt:  [1.2242 GiB/s 1.3321 GiB/s 1.4912 GiB/s]
+file-roundtrip/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [611.43 µs 622.97 µs 635.16 µs]
+                        thrpt:  [1.5375 GiB/s 1.5676 GiB/s 1.5972 GiB/s]
+
+file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [1.5553 ms 1.5915 ms 1.6155 ms]
+                        thrpt:  [162.77 MiB/s 165.23 MiB/s 169.07 MiB/s]
+file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [1.0251 ms 1.0528 ms 1.0763 ms]
+                        thrpt:  [244.32 MiB/s 249.76 MiB/s 256.51 MiB/s]
+
+file-roundtrip/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [3.5119 ms 3.5247 ms 3.5405 ms]
+                        thrpt:  [74.270 MiB/s 74.603 MiB/s 74.875 MiB/s]
+file-roundtrip/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.9596 ms 2.9849 ms 3.0171 ms]
+                        thrpt:  [87.154 MiB/s 88.094 MiB/s 88.850 MiB/s]
+
+file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [279.83 µs 285.12 µs 289.95 µs]
+                        thrpt:  [87.708 MiB/s 89.193 MiB/s 90.880 MiB/s]
+file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [300.95 µs 302.46 µs 304.26 µs]
+                        thrpt:  [83.582 MiB/s 84.078 MiB/s 84.500 MiB/s]
+
+file-roundtrip/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [614.40 µs 625.14 µs 637.40 µs]
+                        thrpt:  [39.898 MiB/s 40.680 MiB/s 41.391 MiB/s]
+file-roundtrip/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [609.50 µs 614.91 µs 621.75 µs]
+                        thrpt:  [40.901 MiB/s 41.356 MiB/s 41.724 MiB/s]
+
+file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [1.8505 ms 1.8844 ms 1.9111 ms]
+                        thrpt:  [292.43 MiB/s 296.58 MiB/s 302.01 MiB/s]
+file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [1.1264 ms 1.1622 ms 1.2079 ms]
+                        thrpt:  [462.68 MiB/s 480.86 MiB/s 496.17 MiB/s]
+
+file-roundtrip/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [3.7185 ms 3.7606 ms 3.7927 ms]
+                        thrpt:  [147.35 MiB/s 148.61 MiB/s 150.30 MiB/s]
+file-roundtrip/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.8358 ms 2.8546 ms 2.8699 ms]
+                        thrpt:  [194.73 MiB/s 195.78 MiB/s 197.08 MiB/s]
+
+file-encode/json-records/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [4.5727 ms 4.5873 ms 4.6026 ms]
+                        thrpt:  [250.62 MiB/s 251.45 MiB/s 252.25 MiB/s]
+file-encode/json-records/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.6266 ms 2.6432 ms 2.6674 ms]
+                        thrpt:  [432.44 MiB/s 436.40 MiB/s 439.15 MiB/s]
+
+file-roundtrip/json-records/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [8.7105 ms 8.8853 ms 9.0834 ms]
+                        thrpt:  [126.99 MiB/s 129.82 MiB/s 132.42 MiB/s]
+file-roundtrip/json-records/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [6.7709 ms 6.8386 ms 6.9186 ms]
+                        thrpt:  [166.72 MiB/s 168.67 MiB/s 170.36 MiB/s]
+
+file-encode/csv-table/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [5.6143 ms 5.6339 ms 5.6565 ms]
+                        thrpt:  [167.82 MiB/s 168.50 MiB/s 169.09 MiB/s]
+file-encode/csv-table/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [3.2379 ms 3.2969 ms 3.3818 ms]
+                        thrpt:  [280.71 MiB/s 287.94 MiB/s 293.19 MiB/s]
+
+file-roundtrip/csv-table/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [14.204 ms 14.360 ms 14.515 ms]
+                        thrpt:  [65.403 MiB/s 66.108 MiB/s 66.833 MiB/s]
+file-roundtrip/csv-table/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [11.172 ms 11.350 ms 11.559 ms]
+                        thrpt:  [82.123 MiB/s 83.638 MiB/s 84.974 MiB/s]
+
+file-encode/server-log-records/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [6.5216 ms 6.5966 ms 6.6628 ms]
+                        thrpt:  [200.18 MiB/s 202.19 MiB/s 204.51 MiB/s]
+file-encode/server-log-records/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [3.5042 ms 3.5549 ms 3.6060 ms]
+                        thrpt:  [369.86 MiB/s 375.18 MiB/s 380.61 MiB/s]
+
+file-roundtrip/server-log-records/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [14.507 ms 14.592 ms 14.683 ms]
+                        thrpt:  [90.834 MiB/s 91.403 MiB/s 91.941 MiB/s]
+file-roundtrip/server-log-records/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [11.087 ms 11.247 ms 11.436 ms]
+                        thrpt:  [116.62 MiB/s 118.59 MiB/s 120.30 MiB/s]

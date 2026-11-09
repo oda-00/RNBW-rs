@@ -25,3 +25,5 @@ sparse-binary | 1048576 | 0.0462 / 0.0382 / 0.0336 | 4.1483 ms | 5.5646 ms | 1.2
 structured-binary-records | 524288 | 0.6725 / 0.7595 / 0.6997 | 4.0214 ms | 3.6238 ms | 1.1622 ms | 754.08 µs | 1.4380 ms | 3.6658 ms | 5.0181 ms | 24.357 ms | 4.5598 ms | 27.624 ms
 
 Detailed separate encode and decode runs: general-encode-current-2026-11-09.txt and general-decode-current-2026-11-09.txt. Source corpus and hashes: benches/data/README.md.
+
+RNBW serial-vs-parallel round-trip A/B was repeated with 20 samples for all 16 datasets; see general-roundtrip-rnbw-ab-confirm-summary-2026-11-09.txt.

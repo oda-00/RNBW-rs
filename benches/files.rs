@@ -184,6 +184,9 @@ fn file_codecs(c: &mut Criterion) {
         decode.bench_function("rnbw-hybrid-lz-entropy", |b| {
             b.iter(|| decode_rnbw(black_box(&codec), layout))
         });
+        decode.bench_function("rnbw-parallel-encoded", |b| {
+            b.iter(|| decode_rnbw(black_box(&parallel_codec), layout))
+        });
         for &(external_codec, ref compressed) in &external {
             decode.bench_function(format!("{}-decode", external_codec.name()), |b| {
                 b.iter(|| external_decode(external_codec, black_box(compressed), raw_len))

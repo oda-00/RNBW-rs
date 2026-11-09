@@ -1,0 +1,588 @@
+file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible
+                        time:   [2.8834 ms 2.9125 ms 2.9387 ms]
+                        thrpt:  [170.15 MiB/s 171.68 MiB/s 173.40 MiB/s]
+file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy
+                        time:   [2.7222 ms 2.7528 ms 2.7957 ms]
+                        thrpt:  [178.85 MiB/s 181.63 MiB/s 183.68 MiB/s]
+file-decode/image-rgba8-raster/rnbw-parallel-encoded
+                        time:   [2.6644 ms 2.7024 ms 2.7513 ms]
+                        thrpt:  [181.73 MiB/s 185.02 MiB/s 187.66 MiB/s]
+file-decode/image-rgba8-raster/lz4-fast-decode
+                        time:   [21.534 µs 22.534 µs 23.632 µs]
+                        thrpt:  [20.662 GiB/s 21.668 GiB/s 22.675 GiB/s]
+file-decode/image-rgba8-raster/snappy-decode
+                        time:   [19.714 µs 20.035 µs 20.599 µs]
+                        thrpt:  [23.704 GiB/s 24.372 GiB/s 24.768 GiB/s]
+file-decode/image-rgba8-raster/zstd-fast-3-decode
+                        time:   [61.110 µs 61.375 µs 61.756 µs]
+                        thrpt:  [7.9067 GiB/s 7.9557 GiB/s 7.9902 GiB/s]
+file-decode/image-rgba8-raster/zstd-level-1-decode
+                        time:   [441.72 µs 449.77 µs 456.78 µs]
+                        thrpt:  [1.0690 GiB/s 1.0856 GiB/s 1.1054 GiB/s]
+file-decode/image-rgba8-raster/brotli-quality-0-decode
+                        time:   [2.2881 ms 2.3032 ms 2.3246 ms]
+                        thrpt:  [215.09 MiB/s 217.09 MiB/s 218.52 MiB/s]
+file-decode/image-rgba8-raster/brotli-quality-5-decode
+                        time:   [2.6253 ms 2.6719 ms 2.7551 ms]
+                        thrpt:  [181.48 MiB/s 187.14 MiB/s 190.45 MiB/s]
+file-decode/image-rgba8-raster/zlib-fast-decode
+                        time:   [1.5756 ms 1.5868 ms 1.5967 ms]
+                        thrpt:  [313.14 MiB/s 315.10 MiB/s 317.35 MiB/s]
+file-decode/image-rgba8-raster/zlib-default-decode
+                        time:   [2.1987 ms 2.2406 ms 2.2708 ms]
+                        thrpt:  [220.18 MiB/s 223.15 MiB/s 227.40 MiB/s]
+file-decode/image-rgba8-raster/raw-copy-control
+                        time:   [12.094 µs 12.207 µs 12.375 µs]
+                        thrpt:  [39.458 GiB/s 40.001 GiB/s 40.375 GiB/s]
+
+file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible
+                        time:   [1.3729 ms 1.3845 ms 1.4044 ms]
+                        thrpt:  [89.147 MiB/s 90.425 MiB/s 91.188 MiB/s]
+file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy
+                        time:   [1.4015 ms 1.4274 ms 1.4404 ms]
+                        thrpt:  [86.916 MiB/s 87.712 MiB/s 89.332 MiB/s]
+file-decode/image-png-stored-deflate/rnbw-parallel-encoded
+                        time:   [1.4263 ms 1.4585 ms 1.4933 ms]
+                        thrpt:  [83.840 MiB/s 85.837 MiB/s 87.778 MiB/s]
+file-decode/image-png-stored-deflate/lz4-fast-decode
+                        time:   [6.7183 µs 6.9061 µs 7.1860 µs]
+                        thrpt:  [17.014 GiB/s 17.703 GiB/s 18.198 GiB/s]
+file-decode/image-png-stored-deflate/snappy-decode
+                        time:   [4.6592 µs 4.8348 µs 5.1749 µs]
+                        thrpt:  [23.626 GiB/s 25.288 GiB/s 26.241 GiB/s]
+file-decode/image-png-stored-deflate/zstd-fast-3-decode
+                        time:   [23.077 µs 23.520 µs 24.207 µs]
+                        thrpt:  [5.0507 GiB/s 5.1983 GiB/s 5.2980 GiB/s]
+file-decode/image-png-stored-deflate/zstd-level-1-decode
+                        time:   [101.08 µs 103.34 µs 104.91 µs]
+                        thrpt:  [1.1654 GiB/s 1.1831 GiB/s 1.2095 GiB/s]
+file-decode/image-png-stored-deflate/brotli-quality-0-decode
+                        time:   [576.40 µs 579.53 µs 585.11 µs]
+                        thrpt:  [213.97 MiB/s 216.03 MiB/s 217.21 MiB/s]
+file-decode/image-png-stored-deflate/brotli-quality-5-decode
+                        time:   [623.09 µs 627.49 µs 632.26 µs]
+                        thrpt:  [198.01 MiB/s 199.52 MiB/s 200.93 MiB/s]
+file-decode/image-png-stored-deflate/zlib-fast-decode
+                        time:   [386.90 µs 392.13 µs 399.53 µs]
+                        thrpt:  [313.36 MiB/s 319.28 MiB/s 323.59 MiB/s]
+file-decode/image-png-stored-deflate/zlib-default-decode
+                        time:   [528.18 µs 534.37 µs 547.57 µs]
+                        thrpt:  [228.64 MiB/s 234.29 MiB/s 237.03 MiB/s]
+file-decode/image-png-stored-deflate/raw-copy-control
+                        time:   [2.6115 µs 2.7578 µs 2.9613 µs]
+                        thrpt:  [41.287 GiB/s 44.334 GiB/s 46.817 GiB/s]
+
+file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible
+                        time:   [17.042 ns 17.344 ns 17.633 ns]
+                        thrpt:  [4747.2 GiB/s 4826.5 GiB/s 4912.0 GiB/s]
+file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy
+                        time:   [1.8742 µs 1.9189 µs 1.9498 µs]
+                        thrpt:  [42.934 GiB/s 43.623 GiB/s 44.664 GiB/s]
+file-decode/image-png-compressed-deflate/rnbw-parallel-encoded
+                        time:   [1.9342 µs 1.9620 µs 2.0023 µs]
+                        thrpt:  [41.806 GiB/s 42.665 GiB/s 43.278 GiB/s]
+file-decode/image-png-compressed-deflate/lz4-fast-decode
+                        time:   [3.5247 µs 3.5688 µs 3.6274 µs]
+                        thrpt:  [23.077 GiB/s 23.456 GiB/s 23.749 GiB/s]
+file-decode/image-png-compressed-deflate/snappy-decode
+                        time:   [3.9102 µs 3.9375 µs 3.9656 µs]
+                        thrpt:  [21.109 GiB/s 21.260 GiB/s 21.408 GiB/s]
+file-decode/image-png-compressed-deflate/zstd-fast-3-decode
+                        time:   [2.2297 µs 2.3276 µs 2.5309 µs]
+                        thrpt:  [33.076 GiB/s 35.965 GiB/s 37.543 GiB/s]
+file-decode/image-png-compressed-deflate/zstd-level-1-decode
+                        time:   [76.307 µs 76.723 µs 76.977 µs]
+                        thrpt:  [1.0875 GiB/s 1.0911 GiB/s 1.0970 GiB/s]
+file-decode/image-png-compressed-deflate/brotli-quality-0-decode
+                        time:   [9.6690 µs 9.9141 µs 10.093 µs]
+                        thrpt:  [8.2940 GiB/s 8.4435 GiB/s 8.6576 GiB/s]
+file-decode/image-png-compressed-deflate/brotli-quality-5-decode
+                        time:   [395.83 µs 400.41 µs 407.65 µs]
+                        thrpt:  [210.27 MiB/s 214.08 MiB/s 216.56 MiB/s]
+file-decode/image-png-compressed-deflate/zlib-fast-decode
+                        time:   [236.77 µs 237.73 µs 238.79 µs]
+                        thrpt:  [358.98 MiB/s 360.58 MiB/s 362.03 MiB/s]
+file-decode/image-png-compressed-deflate/zlib-default-decode
+                        time:   [259.08 µs 262.95 µs 266.22 µs]
+                        thrpt:  [321.99 MiB/s 326.00 MiB/s 330.85 MiB/s]
+file-decode/image-png-compressed-deflate/raw-copy-control
+                        time:   [1.8908 µs 1.9074 µs 1.9221 µs]
+                        thrpt:  [43.552 GiB/s 43.887 GiB/s 44.273 GiB/s]
+
+file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible
+                        time:   [373.31 µs 378.84 µs 387.05 µs]
+                        thrpt:  [645.91 MiB/s 659.91 MiB/s 669.69 MiB/s]
+file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [369.51 µs 370.90 µs 372.11 µs]
+                        thrpt:  [671.84 MiB/s 674.04 MiB/s 676.57 MiB/s]
+file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+                        time:   [376.65 µs 387.63 µs 394.62 µs]
+                        thrpt:  [633.52 MiB/s 644.95 MiB/s 663.75 MiB/s]
+file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode
+                        time:   [12.708 µs 13.102 µs 13.738 µs]
+                        thrpt:  [17.771 GiB/s 18.633 GiB/s 19.212 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/snappy-decode
+                        time:   [16.645 µs 17.085 µs 17.553 µs]
+                        thrpt:  [13.908 GiB/s 14.290 GiB/s 14.667 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode
+                        time:   [6.1151 µs 6.2227 µs 6.3964 µs]
+                        thrpt:  [38.168 GiB/s 39.234 GiB/s 39.924 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode
+                        time:   [17.244 µs 17.573 µs 17.947 µs]
+                        thrpt:  [13.604 GiB/s 13.893 GiB/s 14.158 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode
+                        time:   [60.943 µs 62.135 µs 63.164 µs]
+                        thrpt:  [3.8652 GiB/s 3.9292 GiB/s 4.0061 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode
+                        time:   [69.393 µs 70.172 µs 70.583 µs]
+                        thrpt:  [3.4589 GiB/s 3.4792 GiB/s 3.5182 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode
+                        time:   [692.96 µs 698.32 µs 706.40 µs]
+                        thrpt:  [353.91 MiB/s 358.00 MiB/s 360.77 MiB/s]
+file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode
+                        time:   [62.259 µs 63.627 µs 66.508 µs]
+                        thrpt:  [3.6708 GiB/s 3.8371 GiB/s 3.9213 GiB/s]
+file-decode/graphics-shader-machine-words-synthetic/raw-copy-control
+                        time:   [5.9778 µs 6.1312 µs 6.2115 µs]
+                        thrpt:  [39.305 GiB/s 39.819 GiB/s 40.841 GiB/s]
+
+file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible
+                        time:   [53.151 µs 55.478 µs 57.437 µs]
+                        thrpt:  [137.26 MiB/s 142.11 MiB/s 148.33 MiB/s]
+file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy
+                        time:   [49.307 µs 50.378 µs 52.704 µs]
+                        thrpt:  [149.59 MiB/s 156.50 MiB/s 159.90 MiB/s]
+file-decode/graphics-wgsl-source/rnbw-parallel-encoded
+                        time:   [51.929 µs 52.850 µs 53.440 µs]
+                        thrpt:  [147.53 MiB/s 149.18 MiB/s 151.82 MiB/s]
+file-decode/graphics-wgsl-source/lz4-fast-decode
+                        time:   [2.8268 µs 2.8700 µs 2.9077 µs]
+                        thrpt:  [2.6479 GiB/s 2.6827 GiB/s 2.7236 GiB/s]
+file-decode/graphics-wgsl-source/snappy-decode
+                        time:   [3.3961 µs 3.4560 µs 3.5135 µs]
+                        thrpt:  [2.1913 GiB/s 2.2278 GiB/s 2.2671 GiB/s]
+file-decode/graphics-wgsl-source/zstd-fast-3-decode
+                        time:   [8.6849 µs 8.9005 µs 9.0611 µs]
+                        thrpt:  [870.09 MiB/s 885.80 MiB/s 907.79 MiB/s]
+file-decode/graphics-wgsl-source/zstd-level-1-decode
+                        time:   [10.702 µs 11.126 µs 11.452 µs]
+                        thrpt:  [688.46 MiB/s 708.61 MiB/s 736.67 MiB/s]
+file-decode/graphics-wgsl-source/brotli-quality-0-decode
+                        time:   [12.889 µs 13.211 µs 13.348 µs]
+                        thrpt:  [590.66 MiB/s 596.76 MiB/s 611.68 MiB/s]
+file-decode/graphics-wgsl-source/brotli-quality-5-decode
+                        time:   [11.050 µs 11.483 µs 11.863 µs]
+                        thrpt:  [664.59 MiB/s 686.59 MiB/s 713.47 MiB/s]
+file-decode/graphics-wgsl-source/zlib-fast-decode
+                        time:   [15.852 µs 16.058 µs 16.381 µs]
+                        thrpt:  [481.28 MiB/s 490.97 MiB/s 497.34 MiB/s]
+file-decode/graphics-wgsl-source/zlib-default-decode
+                        time:   [11.853 µs 12.014 µs 12.298 µs]
+                        thrpt:  [641.06 MiB/s 656.26 MiB/s 665.18 MiB/s]
+file-decode/graphics-wgsl-source/raw-copy-control
+                        time:   [131.10 ns 136.29 ns 139.65 ns]
+                        thrpt:  [55.134 GiB/s 56.493 GiB/s 58.728 GiB/s]
+
+file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible
+                        time:   [1.6593 ms 1.6804 ms 1.6999 ms]
+                        thrpt:  [588.28 MiB/s 595.09 MiB/s 602.66 MiB/s]
+file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [1.6657 ms 1.6813 ms 1.6997 ms]
+                        thrpt:  [588.35 MiB/s 594.76 MiB/s 600.35 MiB/s]
+file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+                        time:   [1.6399 ms 1.6636 ms 1.6885 ms]
+                        thrpt:  [592.23 MiB/s 601.09 MiB/s 609.78 MiB/s]
+file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode
+                        time:   [230.54 µs 248.18 µs 267.19 µs]
+                        thrpt:  [3.6550 GiB/s 3.9348 GiB/s 4.2360 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/snappy-decode
+                        time:   [250.97 µs 275.68 µs 337.73 µs]
+                        thrpt:  [2.8916 GiB/s 3.5423 GiB/s 3.8911 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode
+                        time:   [275.12 µs 289.40 µs 304.29 µs]
+                        thrpt:  [3.2093 GiB/s 3.3745 GiB/s 3.5496 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode
+                        time:   [273.91 µs 280.00 µs 293.70 µs]
+                        thrpt:  [3.3251 GiB/s 3.4877 GiB/s 3.5652 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode
+                        time:   [450.88 µs 457.26 µs 464.51 µs]
+                        thrpt:  [2.1024 GiB/s 2.1357 GiB/s 2.1659 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode
+                        time:   [457.93 µs 479.04 µs 502.20 µs]
+                        thrpt:  [1.9446 GiB/s 2.0386 GiB/s 2.1325 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode
+                        time:   [525.94 µs 539.03 µs 559.10 µs]
+                        thrpt:  [1.7467 GiB/s 1.8117 GiB/s 1.8568 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode
+                        time:   [522.90 µs 530.75 µs 540.32 µs]
+                        thrpt:  [1.8074 GiB/s 1.8400 GiB/s 1.8676 GiB/s]
+file-decode/ai-model-int8-tensor-synthetic/raw-copy-control
+                        time:   [212.46 µs 224.10 µs 234.91 µs]
+                        thrpt:  [4.1572 GiB/s 4.3576 GiB/s 4.5964 GiB/s]
+
+file-decode/native-executable-binary/rnbw-cow-borrow-when-possible
+                        time:   [35.056 ms 35.580 ms 36.193 ms]
+                        thrpt:  [143.28 MiB/s 145.74 MiB/s 147.92 MiB/s]
+file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+                        time:   [34.970 ms 35.216 ms 35.494 ms]
+                        thrpt:  [146.10 MiB/s 147.25 MiB/s 148.28 MiB/s]
+file-decode/native-executable-binary/rnbw-parallel-encoded
+                        time:   [37.225 ms 38.312 ms 39.223 ms]
+                        thrpt:  [132.21 MiB/s 135.35 MiB/s 139.30 MiB/s]
+file-decode/native-executable-binary/lz4-fast-decode
+                        time:   [2.2682 ms 2.2910 ms 2.3244 ms]
+                        thrpt:  [2.1786 GiB/s 2.2104 GiB/s 2.2326 GiB/s]
+file-decode/native-executable-binary/snappy-decode
+                        time:   [3.6492 ms 3.7510 ms 3.8404 ms]
+                        thrpt:  [1.3186 GiB/s 1.3501 GiB/s 1.3877 GiB/s]
+file-decode/native-executable-binary/zstd-fast-3-decode
+                        time:   [4.1790 ms 4.3134 ms 4.4218 ms]
+                        thrpt:  [1.1452 GiB/s 1.1740 GiB/s 1.2118 GiB/s]
+file-decode/native-executable-binary/zstd-level-1-decode
+                        time:   [7.3423 ms 7.4647 ms 7.5933 ms]
+                        thrpt:  [682.91 MiB/s 694.67 MiB/s 706.26 MiB/s]
+file-decode/native-executable-binary/brotli-quality-0-decode
+                        time:   [17.987 ms 18.337 ms 18.826 ms]
+                        thrpt:  [275.44 MiB/s 282.79 MiB/s 288.29 MiB/s]
+file-decode/native-executable-binary/brotli-quality-5-decode
+                        time:   [15.331 ms 15.764 ms 16.220 ms]
+                        thrpt:  [319.70 MiB/s 328.95 MiB/s 338.25 MiB/s]
+file-decode/native-executable-binary/zlib-fast-decode
+                        time:   [20.158 ms 20.411 ms 20.683 ms]
+                        thrpt:  [250.72 MiB/s 254.06 MiB/s 257.24 MiB/s]
+file-decode/native-executable-binary/zlib-default-decode
+                        time:   [15.351 ms 15.985 ms 17.028 ms]
+                        thrpt:  [304.52 MiB/s 324.39 MiB/s 337.79 MiB/s]
+file-decode/native-executable-binary/raw-copy-control
+                        time:   [772.92 µs 816.53 µs 857.65 µs]
+                        thrpt:  [5.9045 GiB/s 6.2019 GiB/s 6.5518 GiB/s]
+
+file-decode/structured-binary-records/rnbw-hybrid-lz-entropy
+                        time:   [1.1424 ms 1.1550 ms 1.1721 ms]
+                        thrpt:  [426.60 MiB/s 432.89 MiB/s 437.67 MiB/s]
+file-decode/structured-binary-records/rnbw-parallel-encoded
+                        time:   [1.1293 ms 1.1389 ms 1.1484 ms]
+                        thrpt:  [435.37 MiB/s 439.00 MiB/s 442.75 MiB/s]
+file-decode/structured-binary-records/lz4-fast-decode
+                        time:   [200.41 µs 202.77 µs 205.22 µs]
+                        thrpt:  [2.3793 GiB/s 2.4081 GiB/s 2.4364 GiB/s]
+file-decode/structured-binary-records/snappy-decode
+                        time:   [186.33 µs 190.43 µs 192.76 µs]
+                        thrpt:  [2.5331 GiB/s 2.5641 GiB/s 2.6205 GiB/s]
+file-decode/structured-binary-records/zstd-fast-3-decode
+                        time:   [468.40 µs 472.65 µs 478.07 µs]
+                        thrpt:  [1.0214 GiB/s 1.0331 GiB/s 1.0424 GiB/s]
+file-decode/structured-binary-records/zstd-level-1-decode
+                        time:   [470.84 µs 472.05 µs 473.67 µs]
+                        thrpt:  [1.0308 GiB/s 1.0344 GiB/s 1.0371 GiB/s]
+file-decode/structured-binary-records/brotli-quality-0-decode
+                        time:   [1.7387 ms 1.7872 ms 1.8146 ms]
+                        thrpt:  [275.55 MiB/s 279.77 MiB/s 287.56 MiB/s]
+file-decode/structured-binary-records/brotli-quality-5-decode
+                        time:   [856.91 µs 861.89 µs 866.54 µs]
+                        thrpt:  [577.01 MiB/s 580.12 MiB/s 583.49 MiB/s]
+file-decode/structured-binary-records/zlib-fast-decode
+                        time:   [1.0012 ms 1.0203 ms 1.0409 ms]
+                        thrpt:  [480.35 MiB/s 490.05 MiB/s 499.38 MiB/s]
+file-decode/structured-binary-records/zlib-default-decode
+                        time:   [1.0416 ms 1.0506 ms 1.0574 ms]
+                        thrpt:  [472.86 MiB/s 475.93 MiB/s 480.02 MiB/s]
+file-decode/structured-binary-records/raw-copy-control
+                        time:   [12.376 µs 12.556 µs 12.732 µs]
+                        thrpt:  [38.349 GiB/s 38.888 GiB/s 39.453 GiB/s]
+
+file-decode/sparse-binary/rnbw-cow-borrow-when-possible
+                        time:   [1.0216 ms 1.0339 ms 1.0494 ms]
+                        thrpt:  [952.91 MiB/s 967.22 MiB/s 978.90 MiB/s]
+file-decode/sparse-binary/rnbw-hybrid-lz-entropy
+                        time:   [1.0292 ms 1.0499 ms 1.0685 ms]
+                        thrpt:  [935.85 MiB/s 952.44 MiB/s 971.67 MiB/s]
+file-decode/sparse-binary/rnbw-parallel-encoded
+                        time:   [1.0324 ms 1.0455 ms 1.0561 ms]
+                        thrpt:  [946.90 MiB/s 956.45 MiB/s 968.57 MiB/s]
+file-decode/sparse-binary/lz4-fast-decode
+                        time:   [535.01 µs 566.24 µs 619.62 µs]
+                        thrpt:  [1.5761 GiB/s 1.7246 GiB/s 1.8253 GiB/s]
+file-decode/sparse-binary/snappy-decode
+                        time:   [413.70 µs 423.46 µs 431.65 µs]
+                        thrpt:  [2.2624 GiB/s 2.3062 GiB/s 2.3606 GiB/s]
+file-decode/sparse-binary/zstd-fast-3-decode
+                        time:   [226.24 µs 232.41 µs 238.26 µs]
+                        thrpt:  [4.0988 GiB/s 4.2019 GiB/s 4.3165 GiB/s]
+file-decode/sparse-binary/zstd-level-1-decode
+                        time:   [239.68 µs 247.25 µs 256.68 µs]
+                        thrpt:  [3.8046 GiB/s 3.9497 GiB/s 4.0745 GiB/s]
+file-decode/sparse-binary/brotli-quality-0-decode
+                        time:   [791.27 µs 823.91 µs 851.68 µs]
+                        thrpt:  [1.1466 GiB/s 1.1853 GiB/s 1.2342 GiB/s]
+file-decode/sparse-binary/brotli-quality-5-decode
+                        time:   [489.92 µs 531.62 µs 579.97 µs]
+                        thrpt:  [1.6838 GiB/s 1.8370 GiB/s 1.9933 GiB/s]
+file-decode/sparse-binary/zlib-fast-decode
+                        time:   [447.42 µs 462.98 µs 484.50 µs]
+                        thrpt:  [2.0156 GiB/s 2.1093 GiB/s 2.1827 GiB/s]
+file-decode/sparse-binary/zlib-default-decode
+                        time:   [441.89 µs 469.44 µs 508.31 µs]
+                        thrpt:  [1.9212 GiB/s 2.0803 GiB/s 2.2100 GiB/s]
+file-decode/sparse-binary/raw-copy-control
+                        time:   [210.25 µs 220.44 µs 236.93 µs]
+                        thrpt:  [4.1218 GiB/s 4.4301 GiB/s 4.6447 GiB/s]
+
+file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible
+                        time:   [17.527 ns 17.876 ns 18.497 ns]
+                        thrpt:  [ 52796 GiB/s  54628 GiB/s  55719 GiB/s]
+file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy
+                        time:   [220.25 µs 235.79 µs 254.19 µs]
+                        thrpt:  [3.8418 GiB/s 4.1417 GiB/s 4.4339 GiB/s]
+file-decode/random-binary-incompressible/rnbw-parallel-encoded
+                        time:   [220.55 µs 234.32 µs 251.46 µs]
+                        thrpt:  [3.8836 GiB/s 4.1677 GiB/s 4.4279 GiB/s]
+file-decode/random-binary-incompressible/lz4-fast-decode
+                        time:   [213.87 µs 216.88 µs 220.12 µs]
+                        thrpt:  [4.4365 GiB/s 4.5028 GiB/s 4.5662 GiB/s]
+file-decode/random-binary-incompressible/snappy-decode
+                        time:   [248.24 µs 262.29 µs 281.51 µs]
+                        thrpt:  [3.4691 GiB/s 3.7232 GiB/s 3.9340 GiB/s]
+file-decode/random-binary-incompressible/zstd-fast-3-decode
+                        time:   [205.76 µs 214.24 µs 229.27 µs]
+                        thrpt:  [4.2594 GiB/s 4.5583 GiB/s 4.7461 GiB/s]
+file-decode/random-binary-incompressible/zstd-level-1-decode
+                        time:   [201.31 µs 208.25 µs 220.62 µs]
+                        thrpt:  [4.4265 GiB/s 4.6894 GiB/s 4.8510 GiB/s]
+file-decode/random-binary-incompressible/brotli-quality-0-decode
+                        time:   [515.28 µs 555.06 µs 581.29 µs]
+                        thrpt:  [1.6800 GiB/s 1.7594 GiB/s 1.8952 GiB/s]
+file-decode/random-binary-incompressible/brotli-quality-5-decode
+                        time:   [491.77 µs 522.34 µs 567.43 µs]
+                        thrpt:  [1.7210 GiB/s 1.8696 GiB/s 1.9858 GiB/s]
+file-decode/random-binary-incompressible/zlib-fast-decode
+                        time:   [2.7530 ms 2.8311 ms 2.8859 ms]
+                        thrpt:  [346.51 MiB/s 353.22 MiB/s 363.24 MiB/s]
+file-decode/random-binary-incompressible/zlib-default-decode
+                        time:   [297.93 µs 309.92 µs 322.72 µs]
+                        thrpt:  [3.0260 GiB/s 3.1510 GiB/s 3.2778 GiB/s]
+file-decode/random-binary-incompressible/raw-copy-control
+                        time:   [229.35 µs 248.53 µs 272.53 µs]
+                        thrpt:  [3.5833 GiB/s 3.9294 GiB/s 4.2579 GiB/s]
+
+file-decode/repository-rust-source/rnbw-cow-borrow-when-possible
+                        time:   [1.9415 ms 1.9444 ms 1.9464 ms]
+                        thrpt:  [135.10 MiB/s 135.24 MiB/s 135.44 MiB/s]
+file-decode/repository-rust-source/rnbw-hybrid-lz-entropy
+                        time:   [1.7648 ms 1.8084 ms 1.9005 ms]
+                        thrpt:  [138.36 MiB/s 145.40 MiB/s 149.00 MiB/s]
+file-decode/repository-rust-source/rnbw-parallel-encoded
+                        time:   [1.7728 ms 1.8390 ms 1.8990 ms]
+                        thrpt:  [138.47 MiB/s 142.99 MiB/s 148.33 MiB/s]
+file-decode/repository-rust-source/lz4-fast-decode
+                        time:   [88.392 µs 90.777 µs 92.713 µs]
+                        thrpt:  [2.7698 GiB/s 2.8288 GiB/s 2.9051 GiB/s]
+file-decode/repository-rust-source/snappy-decode
+                        time:   [151.33 µs 154.38 µs 160.29 µs]
+                        thrpt:  [1.6021 GiB/s 1.6634 GiB/s 1.6969 GiB/s]
+file-decode/repository-rust-source/zstd-fast-3-decode
+                        time:   [212.96 µs 218.33 µs 231.97 µs]
+                        thrpt:  [1.1070 GiB/s 1.1762 GiB/s 1.2058 GiB/s]
+file-decode/repository-rust-source/zstd-level-1-decode
+                        time:   [232.17 µs 245.35 µs 266.65 µs]
+                        thrpt:  [986.13 MiB/s 1.0466 GiB/s 1.1060 GiB/s]
+file-decode/repository-rust-source/brotli-quality-0-decode
+                        time:   [398.58 µs 399.55 µs 400.95 µs]
+                        thrpt:  [655.83 MiB/s 658.13 MiB/s 659.74 MiB/s]
+file-decode/repository-rust-source/brotli-quality-5-decode
+                        time:   [308.51 µs 315.72 µs 326.86 µs]
+                        thrpt:  [804.49 MiB/s 832.88 MiB/s 852.33 MiB/s]
+file-decode/repository-rust-source/zlib-fast-decode
+                        time:   [718.59 µs 723.14 µs 733.40 µs]
+                        thrpt:  [358.54 MiB/s 363.63 MiB/s 365.93 MiB/s]
+file-decode/repository-rust-source/zlib-default-decode
+                        time:   [468.61 µs 474.18 µs 478.61 µs]
+                        thrpt:  [549.41 MiB/s 554.55 MiB/s 561.14 MiB/s]
+file-decode/repository-rust-source/raw-copy-control
+                        time:   [6.3913 µs 6.4537 µs 6.5367 µs]
+                        thrpt:  [39.285 GiB/s 39.790 GiB/s 40.178 GiB/s]
+
+file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible
+                        time:   [339.95 µs 351.41 µs 358.30 µs]
+                        thrpt:  [70.975 MiB/s 72.367 MiB/s 74.808 MiB/s]
+file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy
+                        time:   [326.38 µs 333.23 µs 340.62 µs]
+                        thrpt:  [74.659 MiB/s 76.315 MiB/s 77.918 MiB/s]
+file-decode/repository-technical-prose/rnbw-parallel-encoded
+                        time:   [331.34 µs 342.23 µs 347.91 µs]
+                        thrpt:  [73.095 MiB/s 74.309 MiB/s 76.751 MiB/s]
+file-decode/repository-technical-prose/lz4-fast-decode
+                        time:   [12.034 µs 12.309 µs 12.519 µs]
+                        thrpt:  [1.9837 GiB/s 2.0177 GiB/s 2.0637 GiB/s]
+file-decode/repository-technical-prose/snappy-decode
+                        time:   [13.644 µs 13.728 µs 13.775 µs]
+                        thrpt:  [1.8028 GiB/s 1.8090 GiB/s 1.8201 GiB/s]
+file-decode/repository-technical-prose/zstd-fast-3-decode
+                        time:   [25.723 µs 26.069 µs 26.458 µs]
+                        thrpt:  [961.16 MiB/s 975.53 MiB/s 988.62 MiB/s]
+file-decode/repository-technical-prose/zstd-level-1-decode
+                        time:   [30.879 µs 32.125 µs 33.059 µs]
+                        thrpt:  [769.24 MiB/s 791.61 MiB/s 823.55 MiB/s]
+file-decode/repository-technical-prose/brotli-quality-0-decode
+                        time:   [58.732 µs 59.644 µs 60.602 µs]
+                        thrpt:  [419.63 MiB/s 426.38 MiB/s 432.99 MiB/s]
+file-decode/repository-technical-prose/brotli-quality-5-decode
+                        time:   [49.832 µs 50.548 µs 51.362 µs]
+                        thrpt:  [495.13 MiB/s 503.10 MiB/s 510.32 MiB/s]
+file-decode/repository-technical-prose/zlib-fast-decode
+                        time:   [67.692 µs 70.846 µs 74.009 µs]
+                        thrpt:  [343.62 MiB/s 358.96 MiB/s 375.68 MiB/s]
+file-decode/repository-technical-prose/zlib-default-decode
+                        time:   [55.180 µs 56.102 µs 56.981 µs]
+                        thrpt:  [446.30 MiB/s 453.29 MiB/s 460.87 MiB/s]
+file-decode/repository-technical-prose/raw-copy-control
+                        time:   [665.13 ns 672.41 ns 683.05 ns]
+                        thrpt:  [36.358 GiB/s 36.934 GiB/s 37.338 GiB/s]
+
+file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible
+                        time:   [1.6926 ms 1.7066 ms 1.7248 ms]
+                        thrpt:  [324.02 MiB/s 327.48 MiB/s 330.18 MiB/s]
+file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy
+                        time:   [1.8283 ms 1.8498 ms 1.8659 ms]
+                        thrpt:  [299.51 MiB/s 302.13 MiB/s 305.68 MiB/s]
+file-decode/natural-style-prose-generated/rnbw-parallel-encoded
+                        time:   [1.6542 ms 1.6601 ms 1.6639 ms]
+                        thrpt:  [335.87 MiB/s 336.66 MiB/s 337.86 MiB/s]
+file-decode/natural-style-prose-generated/lz4-fast-decode
+                        time:   [142.14 µs 143.38 µs 145.02 µs]
+                        thrpt:  [3.7636 GiB/s 3.8064 GiB/s 3.8397 GiB/s]
+file-decode/natural-style-prose-generated/snappy-decode
+                        time:   [155.12 µs 157.96 µs 163.03 µs]
+                        thrpt:  [3.3478 GiB/s 3.4551 GiB/s 3.5183 GiB/s]
+file-decode/natural-style-prose-generated/zstd-fast-3-decode
+                        time:   [355.76 µs 356.94 µs 358.15 µs]
+                        thrpt:  [1.5239 GiB/s 1.5290 GiB/s 1.5341 GiB/s]
+file-decode/natural-style-prose-generated/zstd-level-1-decode
+                        time:   [302.09 µs 304.43 µs 307.57 µs]
+                        thrpt:  [1.7745 GiB/s 1.7928 GiB/s 1.8067 GiB/s]
+file-decode/natural-style-prose-generated/brotli-quality-0-decode
+                        time:   [423.53 µs 428.57 µs 433.59 µs]
+                        thrpt:  [1.2587 GiB/s 1.2735 GiB/s 1.2886 GiB/s]
+file-decode/natural-style-prose-generated/brotli-quality-5-decode
+                        time:   [351.06 µs 353.47 µs 355.52 µs]
+                        thrpt:  [1.5351 GiB/s 1.5440 GiB/s 1.5546 GiB/s]
+file-decode/natural-style-prose-generated/zlib-fast-decode
+                        time:   [550.81 µs 562.85 µs 573.77 µs]
+                        thrpt:  [974.04 MiB/s 992.94 MiB/s 1014.6 MiB/s]
+file-decode/natural-style-prose-generated/zlib-default-decode
+                        time:   [263.50 µs 268.96 µs 273.36 µs]
+                        thrpt:  [1.9966 GiB/s 2.0292 GiB/s 2.0712 GiB/s]
+file-decode/natural-style-prose-generated/raw-copy-control
+                        time:   [13.954 µs 14.166 µs 14.460 µs]
+                        thrpt:  [37.744 GiB/s 38.527 GiB/s 39.112 GiB/s]
+
+file-decode/json-records/rnbw-cow-borrow-when-possible
+                        time:   [4.3234 ms 4.3899 ms 4.4832 ms]
+                        thrpt:  [257.29 MiB/s 262.76 MiB/s 266.80 MiB/s]
+file-decode/json-records/rnbw-hybrid-lz-entropy
+                        time:   [4.7152 ms 4.7639 ms 4.8099 ms]
+                        thrpt:  [239.82 MiB/s 242.13 MiB/s 244.63 MiB/s]
+file-decode/json-records/rnbw-parallel-encoded
+                        time:   [4.2513 ms 4.3123 ms 4.3858 ms]
+                        thrpt:  [263.00 MiB/s 267.49 MiB/s 271.32 MiB/s]
+file-decode/json-records/lz4-fast-decode
+                        time:   [536.02 µs 546.26 µs 557.86 µs]
+                        thrpt:  [2.0193 GiB/s 2.0621 GiB/s 2.1015 GiB/s]
+file-decode/json-records/snappy-decode
+                        time:   [590.00 µs 598.80 µs 607.28 µs]
+                        thrpt:  [1.8549 GiB/s 1.8812 GiB/s 1.9092 GiB/s]
+file-decode/json-records/zstd-fast-3-decode
+                        time:   [891.51 µs 909.73 µs 931.39 µs]
+                        thrpt:  [1.2094 GiB/s 1.2382 GiB/s 1.2635 GiB/s]
+file-decode/json-records/zstd-level-1-decode
+                        time:   [1.1026 ms 1.1385 ms 1.1614 ms]
+                        thrpt:  [993.16 MiB/s 1013.1 MiB/s 1.0216 GiB/s]
+file-decode/json-records/brotli-quality-0-decode
+                        time:   [1.7987 ms 1.9257 ms 2.0657 ms]
+                        thrpt:  [558.40 MiB/s 598.98 MiB/s 641.28 MiB/s]
+file-decode/json-records/brotli-quality-5-decode
+                        time:   [1.5495 ms 1.6141 ms 1.6959 ms]
+                        thrpt:  [680.18 MiB/s 714.62 MiB/s 744.43 MiB/s]
+file-decode/json-records/zlib-fast-decode
+                        time:   [1.7075 ms 1.7319 ms 1.7609 ms]
+                        thrpt:  [655.04 MiB/s 666.04 MiB/s 675.53 MiB/s]
+file-decode/json-records/zlib-default-decode
+                        time:   [1.2543 ms 1.2804 ms 1.3126 ms]
+                        thrpt:  [878.81 MiB/s 900.87 MiB/s 919.60 MiB/s]
+file-decode/json-records/raw-copy-control
+                        time:   [248.99 µs 276.00 µs 305.15 µs]
+                        thrpt:  [3.6915 GiB/s 4.0813 GiB/s 4.5240 GiB/s]
+
+file-decode/csv-table/rnbw-cow-borrow-when-possible
+                        time:   [8.1111 ms 8.3314 ms 8.5261 ms]
+                        thrpt:  [111.34 MiB/s 113.94 MiB/s 117.04 MiB/s]
+file-decode/csv-table/rnbw-hybrid-lz-entropy
+                        time:   [8.1193 ms 8.3340 ms 8.5869 ms]
+                        thrpt:  [110.55 MiB/s 113.91 MiB/s 116.92 MiB/s]
+file-decode/csv-table/rnbw-parallel-encoded
+                        time:   [8.4525 ms 8.4817 ms 8.5083 ms]
+                        thrpt:  [111.57 MiB/s 111.92 MiB/s 112.31 MiB/s]
+file-decode/csv-table/lz4-fast-decode
+                        time:   [388.56 µs 391.35 µs 395.69 µs]
+                        thrpt:  [2.3429 GiB/s 2.3689 GiB/s 2.3859 GiB/s]
+file-decode/csv-table/snappy-decode
+                        time:   [760.76 µs 779.84 µs 787.89 µs]
+                        thrpt:  [1.1766 GiB/s 1.1888 GiB/s 1.2186 GiB/s]
+file-decode/csv-table/zstd-fast-3-decode
+                        time:   [791.98 µs 850.30 µs 983.48 µs]
+                        thrpt:  [965.24 MiB/s 1.0903 GiB/s 1.1705 GiB/s]
+file-decode/csv-table/zstd-level-1-decode
+                        time:   [904.87 µs 915.66 µs 930.05 µs]
+                        thrpt:  [1020.7 MiB/s 1.0124 GiB/s 1.0245 GiB/s]
+file-decode/csv-table/brotli-quality-0-decode
+                        time:   [2.5180 ms 2.5365 ms 2.5694 ms]
+                        thrpt:  [369.47 MiB/s 374.25 MiB/s 377.01 MiB/s]
+file-decode/csv-table/brotli-quality-5-decode
+                        time:   [2.2338 ms 2.3893 ms 2.5633 ms]
+                        thrpt:  [370.34 MiB/s 397.31 MiB/s 424.97 MiB/s]
+file-decode/csv-table/zlib-fast-decode
+                        time:   [2.6608 ms 2.6909 ms 2.7162 ms]
+                        thrpt:  [349.50 MiB/s 352.78 MiB/s 356.78 MiB/s]
+file-decode/csv-table/zlib-default-decode
+                        time:   [2.5137 ms 2.5438 ms 2.5753 ms]
+                        thrpt:  [368.61 MiB/s 373.18 MiB/s 377.65 MiB/s]
+file-decode/csv-table/raw-copy-control
+                        time:   [22.632 µs 23.576 µs 24.147 µs]
+                        thrpt:  [38.392 GiB/s 39.321 GiB/s 40.962 GiB/s]
+
+file-decode/server-log-records/rnbw-cow-borrow-when-possible
+                        time:   [7.9037 ms 8.2011 ms 8.4626 ms]
+                        thrpt:  [157.60 MiB/s 162.63 MiB/s 168.75 MiB/s]
+file-decode/server-log-records/rnbw-hybrid-lz-entropy
+                        time:   [7.1975 ms 7.2886 ms 7.4038 ms]
+                        thrpt:  [180.14 MiB/s 182.99 MiB/s 185.31 MiB/s]
+file-decode/server-log-records/rnbw-parallel-encoded
+                        time:   [8.0412 ms 8.1599 ms 8.2572 ms]
+                        thrpt:  [161.52 MiB/s 163.45 MiB/s 165.86 MiB/s]
+file-decode/server-log-records/lz4-fast-decode
+                        time:   [498.76 µs 512.72 µs 521.88 µs]
+                        thrpt:  [2.4958 GiB/s 2.5403 GiB/s 2.6115 GiB/s]
+file-decode/server-log-records/snappy-decode
+                        time:   [711.38 µs 721.87 µs 740.66 µs]
+                        thrpt:  [1.7585 GiB/s 1.8043 GiB/s 1.8309 GiB/s]
+file-decode/server-log-records/zstd-fast-3-decode
+                        time:   [873.86 µs 881.74 µs 889.75 µs]
+                        thrpt:  [1.4639 GiB/s 1.4772 GiB/s 1.4905 GiB/s]
+file-decode/server-log-records/zstd-level-1-decode
+                        time:   [1.2093 ms 1.2319 ms 1.2494 ms]
+                        thrpt:  [1.0425 GiB/s 1.0573 GiB/s 1.0770 GiB/s]
+file-decode/server-log-records/brotli-quality-0-decode
+                        time:   [2.5511 ms 2.6471 ms 2.7866 ms]
+                        thrpt:  [478.63 MiB/s 503.86 MiB/s 522.80 MiB/s]
+file-decode/server-log-records/brotli-quality-5-decode
+                        time:   [2.0369 ms 2.0444 ms 2.0544 ms]
+                        thrpt:  [649.22 MiB/s 652.37 MiB/s 654.78 MiB/s]
+file-decode/server-log-records/zlib-fast-decode
+                        time:   [2.7385 ms 2.8063 ms 2.8832 ms]
+                        thrpt:  [462.58 MiB/s 475.27 MiB/s 487.03 MiB/s]
+file-decode/server-log-records/zlib-default-decode
+                        time:   [2.2148 ms 2.2522 ms 2.3026 ms]
+                        thrpt:  [579.23 MiB/s 592.19 MiB/s 602.20 MiB/s]
+file-decode/server-log-records/raw-copy-control
+                        time:   [291.46 µs 310.54 µs 333.65 µs]
+                        thrpt:  [3.9037 GiB/s 4.1943 GiB/s 4.4689 GiB/s]
