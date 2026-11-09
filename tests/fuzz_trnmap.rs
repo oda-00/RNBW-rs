@@ -113,6 +113,93 @@ fn every_class_code_and_out_of_range_start_are_total() {
     }
 }
 
+#[test]
+fn deterministic_merge_fuzzer_matches_scalar_operators() {
+    for len in [1usize, 63, 64, 65, 4095, 4096, 4097, 262_145] {
+        let mut seed = 0xd1b5_4a32_d192_ed03u64 ^ len as u64;
+        let mut left = Vec::with_capacity(len);
+        let mut right = Vec::with_capacity(len);
+        for _ in 0..len {
+            seed = seed
+                .wrapping_mul(6_364_136_223_846_793_005)
+                .wrapping_add(1_442_695_040_888_963_407);
+            left.push(((seed >> 32) % 3) as i8 - 1);
+            seed = seed
+                .wrapping_mul(6_364_136_223_846_793_005)
+                .wrapping_add(1_442_695_040_888_963_407);
+            right.push(((seed >> 32) % 3) as i8 - 1);
+        }
+        assert_merge_matches(&left, &right, len);
+
+        if len > 4096 {
+            // Exercise the summary-guided sparse merge path independently of
+            // the random dense maps above: OR has one non-negative RHS leaf;
+            // AND has one non-positive RHS leaf.
+            let mut sparse_or_rhs = vec![-1; len];
+            sparse_or_rhs[(len - 1).min(64 * 64 + 7)] = 1;
+            assert_merge_matches(&left, &sparse_or_rhs, len);
+
+            let mut sparse_and_rhs = vec![1; len];
+            sparse_and_rhs[(len - 1).min(64 * 64 + 9)] = 0;
+            assert_merge_matches(&left, &sparse_and_rhs, len);
+        }
+    }
+}
+
+fn assert_merge_matches(left: &[i8], right: &[i8], len: usize) {
+    let mut lhs = packed_map(left);
+    let rhs = packed_map(right);
+    let mut expected: Vec<i8> = left.iter().zip(right).map(|(&a, &b)| a.max(b)).collect();
+
+    lhs.or_assign(&rhs).unwrap();
+    assert_map_matches(&lhs, &expected, "OR", len);
+
+    expected.copy_from_slice(right);
+    lhs.and_assign(&rhs).unwrap();
+    assert_map_matches(&lhs, &expected, "AND", len);
+
+    for value in &mut expected {
+        *value = -*value;
+    }
+    lhs.not_assign();
+    assert_map_matches(&lhs, &expected, "NOT", len);
+}
+
+fn packed_map(values: &[i8]) -> TrnMap<'_> {
+    let mut map = TrnMap::new(values.len()).expect("fuzz map allocation");
+    for (word_index, chunk) in values.chunks(64).enumerate() {
+        let mut p = 0u64;
+        let mut u = 0u64;
+        for (bit, &value) in chunk.iter().enumerate() {
+            match value {
+                0 => u |= 1u64 << bit,
+                1 => {
+                    p |= 1u64 << bit;
+                    u |= 1u64 << bit;
+                }
+                -1 => {}
+                _ => unreachable!("fuzzer generates only valid trits"),
+            }
+        }
+        map.put(word_index, rnbw::trnmap::TriWord::from_planes(p, u))
+            .expect("valid packed fuzz word");
+    }
+    map
+}
+
+fn assert_map_matches(map: &TrnMap, expected: &[i8], op: &str, len: usize) {
+    for (index, &value) in expected.iter().enumerate() {
+        assert_eq!(map.get(index), Ok(value), "{op} len={len}, index={index}");
+    }
+    for trit in -1..=1 {
+        assert_eq!(
+            map.count(trit),
+            Ok(expected.iter().filter(|&&value| value == trit).count()),
+            "{op} count len={len}, trit={trit}"
+        );
+    }
+}
+
 fn class(trit: i8) -> u8 {
     match trit {
         -1 => CLASS_NEGATIVE,

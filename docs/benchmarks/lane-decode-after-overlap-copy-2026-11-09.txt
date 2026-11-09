@@ -1,0 +1,161 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 11.26s
+     Running benches\codec.rs (target\release\deps\codec-4f96c2aa536a4974.exe)
+Gnuplot not found, using plotters backend
+benchmark environment: arch=x86_64 RNBW-SIMD=avx2 rayon-workers=16
+dataset=uniform keys=999882 bytes/key: rnbw-query=1.9288 rnbw-hybrid=1.7560 lane-lz-hybrid=2.2344 plain-ef=1.8216 delta-varint=1.9932 raw=4.0000 roaring-run-optimized=2.5244 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+dataset=clustered keys=1000000 bytes/key: rnbw-query=0.5081 rnbw-hybrid=0.0521 lane-lz-hybrid=0.0512 plain-ef=1.6250 delta-varint=1.0313 raw=4.0000 roaring-run-optimized=0.2207 lz4-64k-indexed=4.0165 (+0 RNBW runtime index bytes)
+dataset=dense keys=1000000 bytes/key: rnbw-query=0.4667 rnbw-hybrid=0.0494 lane-lz-hybrid=0.0284 plain-ef=0.3125 delta-varint=1.0000 raw=4.0000 roaring-run-optimized=0.0002 lz4-64k-indexed=4.0167 (+0 RNBW runtime index bytes)
+dataset=morton-shell keys=1000000 bytes/key: rnbw-query=1.2903 rnbw-hybrid=1.1764 lane-lz-hybrid=1.6231 plain-ef=1.5655 delta-varint=1.3198 raw=4.0000 roaring-run-optimized=2.0306 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+dataset=ecs keys=1000000 bytes/key: rnbw-query=0.4768 rnbw-hybrid=0.1520 lane-lz-hybrid=0.0346 plain-ef=0.3333 delta-varint=1.0000 raw=4.0000 roaring-run-optimized=0.1394 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+lane-dataset=graphics-rgba8-synthetic raw=1048576 RNBW-multilane=700128 (1.498x) LZ4-interleaved=1052653 (0.996x) LZ4-SoA=790781 (1.326x)
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane: Collecting 10 samples in estimated 167.27 ms (30 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane: Analyzing
+lane-decode/graphics-rgba8-synthetic/rnbw-multilane
+                        time:   [5.4801 ms 5.6011 ms 5.7738 ms]
+                        thrpt:  [173.20 MiB/s 178.54 MiB/s 182.48 MiB/s]
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.70 ms (550 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved: Analyzing
+lane-decode/graphics-rgba8-synthetic/lz4-interleaved
+                        time:   [219.94 µs 229.62 µs 239.61 µs]
+                        thrpt:  [4.0756 GiB/s 4.2529 GiB/s 4.4402 GiB/s]
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 153.14 ms (165 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [878.85 µs 891.47 µs 906.46 µs]
+                        thrpt:  [1.0773 GiB/s 1.0954 GiB/s 1.1112 GiB/s]
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy: Collecting 10 samples in estimated 156.16 ms (715 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy: Analyzing
+lane-decode/graphics-rgba8-synthetic/raw-copy
+                        time:   [225.98 µs 257.74 µs 297.16 µs]
+                        thrpt:  [3.2864 GiB/s 3.7890 GiB/s 4.3215 GiB/s]
+
+lane-dataset=graphics-shader-words-synthetic raw=262144 RNBW-multilane=3672 (71.390x) LZ4-interleaved=13331 (19.664x) LZ4-SoA=1459 (179.674x)
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane: Collecting 10 samples in estimated 163.22 ms (440 iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane: Analyzing
+lane-decode/graphics-shader-words-synthetic/rnbw-multilane
+                        time:   [367.84 µs 371.78 µs 378.58 µs]
+                        thrpt:  [660.37 MiB/s 672.45 MiB/s 679.64 MiB/s]
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.09 ms (17k iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved: Analyzing
+lane-decode/graphics-shader-words-synthetic/lz4-interleaved
+                        time:   [8.8246 µs 9.0241 µs 9.1507 µs]
+                        thrpt:  [26.680 GiB/s 27.054 GiB/s 27.666 GiB/s]
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 153.40 ms (825 iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [171.42 µs 173.33 µs 175.24 µs]
+                        thrpt:  [1.3932 GiB/s 1.4085 GiB/s 1.4243 GiB/s]
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy: Collecting 10 samples in estimated 150.16 ms (28k iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy: Analyzing
+lane-decode/graphics-shader-words-synthetic/raw-copy
+                        time:   [5.2936 µs 5.3590 µs 5.4897 µs]
+                        thrpt:  [44.472 GiB/s 45.557 GiB/s 46.120 GiB/s]
+
+lane-dataset=ai-model-int8-weights-synthetic raw=1048576 RNBW-multilane=21528 (48.708x) LZ4-interleaved=19770 (53.039x) LZ4-SoA=24149 (43.421x)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane: Collecting 10 samples in estimated 197.11 ms (110 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane
+                        time:   [1.6873 ms 1.7302 ms 1.7678 ms]
+                        thrpt:  [565.68 MiB/s 577.97 MiB/s 592.67 MiB/s]
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved: Collecting 10 samples in estimated 159.89 ms (660 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved
+                        time:   [209.43 µs 217.43 µs 234.27 µs]
+                        thrpt:  [4.1686 GiB/s 4.4915 GiB/s 4.6629 GiB/s]
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 204.25 ms (110 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [1.8416 ms 1.8616 ms 1.8825 ms]
+                        thrpt:  [531.21 MiB/s 537.18 MiB/s 543.00 MiB/s]
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy: Collecting 10 samples in estimated 159.41 ms (770 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/raw-copy
+                        time:   [209.44 µs 221.02 µs 230.33 µs]
+                        thrpt:  [4.2399 GiB/s 4.4185 GiB/s 4.6627 GiB/s]
+
+lane-dataset=ai-kernel-words-synthetic raw=262144 RNBW-multilane=3744 (70.017x) LZ4-interleaved=263177 (0.996x) LZ4-SoA=9741 (26.911x)
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane: Collecting 10 samples in estimated 162.37 ms (440 iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane: Analyzing
+lane-decode/ai-kernel-words-synthetic/rnbw-multilane
+                        time:   [363.56 µs 366.06 µs 368.22 µs]
+                        thrpt:  [678.95 MiB/s 682.94 MiB/s 687.65 MiB/s]
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.34 ms (13k iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved: Analyzing
+lane-decode/ai-kernel-words-synthetic/lz4-interleaved
+                        time:   [11.645 µs 12.683 µs 13.445 µs]
+                        thrpt:  [18.158 GiB/s 19.250 GiB/s 20.965 GiB/s]
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 156.48 ms (770 iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [199.38 µs 200.52 µs 201.71 µs]
+                        thrpt:  [1.2104 GiB/s 1.2176 GiB/s 1.2245 GiB/s]
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy: Collecting 10 samples in estimated 150.21 ms (26k iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy: Analyzing
+lane-decode/ai-kernel-words-synthetic/raw-copy
+                        time:   [5.7272 µs 5.7693 µs 5.8094 µs]
+                        thrpt:  [42.025 GiB/s 42.317 GiB/s 42.628 GiB/s]
+
+lane-dataset=random-bytes-control raw=262144 RNBW-multilane=262200 (1.000x) LZ4-interleaved=263177 (0.996x) LZ4-SoA=263177 (0.996x)
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane: Collecting 10 samples in estimated 150.21 ms (26k iterations)
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane: Analyzing
+lane-decode/random-bytes-control/rnbw-multilane
+                        time:   [5.8405 µs 5.9062 µs 5.9768 µs]
+                        thrpt:  [40.848 GiB/s 41.336 GiB/s 41.801 GiB/s]
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved: Collecting 10 samples in estimated 150.32 ms (16k iterations)
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved: Analyzing
+lane-decode/random-bytes-control/lz4-interleaved
+                        time:   [9.5917 µs 9.6270 µs 9.6751 µs]
+                        thrpt:  [25.234 GiB/s 25.360 GiB/s 25.453 GiB/s]
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 157.04 ms (770 iterations)
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave
+                        time:   [204.61 µs 206.18 µs 207.75 µs]
+                        thrpt:  [1.1752 GiB/s 1.1841 GiB/s 1.1932 GiB/s]
+Benchmarking lane-decode/random-bytes-control/raw-copy
+Benchmarking lane-decode/random-bytes-control/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/raw-copy: Collecting 10 samples in estimated 150.08 ms (29k iterations)
+Benchmarking lane-decode/random-bytes-control/raw-copy: Analyzing
+lane-decode/random-bytes-control/raw-copy
+                        time:   [5.0659 µs 5.1138 µs 5.2042 µs]
+                        thrpt:  [46.912 GiB/s 47.741 GiB/s 48.193 GiB/s]
+

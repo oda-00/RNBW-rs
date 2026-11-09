@@ -1,0 +1,16 @@
+Rejected LZ decode match-copy experiment
+Date: 2026-11-09
+
+The experiment replaced repeated `Vec::extend_from_within` calls with direct writes into spare output capacity using `copy_nonoverlapping` and prefix doubling. Round trips and fuzz tests passed, but the lane-decode medians did not show a verified improvement, so the unsafe kernel was removed and the original safe copy path retained.
+
+Criterion used 10 samples, 0.1 s warm-up, 0.15 s requested measurement on the AVX2 host. These are separate runs and should be read as exploratory, not a paired benchmark.
+
+dataset | `extend_from_within` median | direct-copy median | ratio old/new
+--- | ---: | ---: | ---:
+graphics-rgba8-synthetic | 5.3579 ms | 5.6011 ms | 0.96x
+graphics-shader-words-synthetic | 373.92 us | 371.78 us | 1.01x
+ai-model-int8-weights-synthetic | 1.5754 ms | 1.7302 ms | 0.91x
+ai-kernel-words-synthetic | 363.91 us | 366.06 us | 0.99x
+random-bytes-control | 5.5927 us | 5.9062 us | 0.95x
+
+Raw Criterion captures are `codec-lane-current-2026-11-09.txt` and `lane-decode-after-overlap-copy-2026-11-09.txt`.

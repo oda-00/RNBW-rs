@@ -1,21 +1,25 @@
 # Lane LZ workspace and parallel measurements
 
+> The measurements below are a historical snapshot from the predecessor-chain
+> matcher. The current source uses two stored candidates per hash and has been
+> remeasured in `general-file-codec-and-trnmap-summary-2026-11-09.txt`.
+
 ## What changed
 
-`LaneLzEncoder` retains the hand-written LZ hash heads, 64 KiB predecessor window,
-and token buffer across calls. It clears only hash heads touched by the previous
-lane. `encode_parallel` processes independent lanes in bounded groups, retaining
-one workspace per active task. `LaneLz::encode` remains the one-shot serial API.
-The reusable encoder also retains split buffers for interleaved input.
+`LaneLzEncoder` retains its LZ table, touched-hash list, tokens, literals, and
+interleaved split buffers between calls. The current matcher stores the two
+newest positions for each 3-byte hash in one `u64`; it tests at most those two
+candidates rather than following a predecessor chain. The table has `2^18`
+entries, so its exact allocated size is 2,097,152 bytes per initialized
+workspace. The touched-hash list can retain up to 1,048,576 bytes, in addition
+to token/literal capacity.
 
-The workspace uses 524,288 bytes for the 65,536-entry `u32` hash and predecessor
-arrays, plus up to 131,072 bytes for the touched-head list and a retained token
-buffer. The fixed lookup tables are allocated only when a lane has at least three
-bytes. For `P` active tasks, retained scratch is at most `P × (655,360 bytes +
-token capacity)`, plus the raw input size for retained interleaved SoA buffers.
-`P ≤ min(lane_count, Rayon worker count)`. Encoding is O(n × 32) worst case for
-the bounded match-chain search, with O(n) tokenization and entropy passes;
-parallel wall time is bounded by the largest task plus container assembly.
+`encode_parallel` processes independent lanes or 64 KiB blocks in bounded groups
+and retains one workspace per task. With 16 initialized tasks, the hash tables
+alone occupy 32 MiB; the touched lists and token/literal buffers add workload-
+dependent memory. The old 64 KiB predecessor ring is no longer present. The
+current LZ matcher still uses a hand-written hash-head table; the separate
+TrnMap benchmarks do not mean the codec matcher is TrnMap-backed.
 
 This applies the reusable scratch-buffer and dense-index patterns used by the
 public [DFE resource manager](https://github.com/oda-00/dumpster_fire_engine/blob/115726ef89b6394d6383b4d1f00c78a575d07366/src/resource_manager/manager.rs)
@@ -23,7 +27,7 @@ and [stage storage](https://github.com/oda-00/dumpster_fire_engine/blob/115726ef
 Rayon supplies parallelism only across independent codec lanes; the codec and its
 LZ implementation remain hand-written.
 
-## Measurements
+## Historical measurements (predecessor-chain matcher)
 
 Quick repeated-workload run on Windows x86_64, RNBW AVX2, 16 logical processors,
 with Criterion 0.8.2, 20 samples, 300 ms warmup, and 1 s requested measurement.

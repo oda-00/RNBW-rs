@@ -1,0 +1,518 @@
+RNBW general file codec + undecoded TRNMAP index benchmark (fixed corpus, retained code)
+Date: 2026-11-09
+Run: cargo bench --offline --locked --bench files -- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Criterion timed 10 samples per group; it extended measurement time for several slow groups. Timings are medians. Host reported AVX2.
+Corpus: 16 general workloads. Every codec was round-trip checked against the exact original bytes before timing. RNBW decode is full decode; copy-on-write borrowed cases are separately labeled and excluded from full decode comparisons.
+Corpus repeatability: native executable, repository Rust source, repository technical prose, and WGSL sources are frozen in benches/data. The native executable input is a checked-in Windows PE snapshot of the benchmark driver. Generated corpora use fixed seeds.
+TRNMAP is a separate raw little-endian-u32 position-to-class index (zero, high-bit-set nonzero, other nonzero), built over the same raw corpus. It is not inside the compression codec and does not decode compressed streams.
+
+COMPRESSION RATIOS (compressed bytes / input bytes; lower is smaller)
+dataset | bytes | lanes | RNBW serial | RNBW parallel | LZ4 | Snappy | Zstd-3 | Zstd-1 | Brotli-0 | Brotli-5 | zlib-fast | zlib-default
+--- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---:
+image-rgba8-raster | 524288 | 4-byte-lanes | 0.5630 | 0.5630 | 1.0020 | 0.9999 | 0.9746 | 0.7928 | 0.7870 | 0.6079 | 0.7459 | 0.6805
+image-png-stored-deflate | 131278 | 1-byte-lane | 0.9283 | 0.9283 | 0.9962 | 1.0001 | 0.9545 | 0.8180 | 0.8028 | 0.6091 | 0.7439 | 0.6848
+image-png-compressed-deflate | 89883 | 1-byte-lane | 1.0007 | 1.0007 | 1.0040 | 1.0001 | 1.0001 | 0.9701 | 1.0001 | 0.9666 | 0.9646 | 0.9525
+graphics-shader-machine-words-synthetic | 262144 | 4-byte-lanes | 0.0140 | 0.0140 | 0.0509 | 0.4090 | 0.0471 | 0.0376 | 0.0386 | 0.0367 | 0.7748 | 0.0434
+graphics-wgsl-source | 8267 | 1-byte-lane | 0.3610 | 0.3610 | 0.3698 | 0.3272 | 0.3197 | 0.2585 | 0.2731 | 0.2112 | 0.2804 | 0.2175
+ai-model-int8-tensor-synthetic | 1048576 | 16-byte-lanes | 0.0206 | 0.0206 | 0.0190 | 0.0664 | 0.0019 | 0.0015 | 0.0021 | 0.0025 | 0.0343 | 0.0157
+native-executable-binary | 5437440 | 1-byte-lane | 0.5560 | 0.5560 | 0.5544 | 0.5636 | 0.5503 | 0.4342 | 0.4538 | 0.3469 | 0.4514 | 0.3823
+structured-binary-records | 524288 | 4-u32-field-lanes | 0.6725 | 0.6725 | 0.7595 | 0.7577 | 0.6997 | 0.5790 | 0.7177 | 0.5815 | 0.6347 | 0.6349
+sparse-binary | 1048576 | 1-byte-lane | 0.0462 | 0.0462 | 0.0382 | 0.0789 | 0.0336 | 0.0333 | 0.0392 | 0.0311 | 0.0399 | 0.0351
+random-binary-incompressible | 1048576 | 1-byte-lane | 1.0001 | 1.0001 | 1.0039 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0009 | 1.0002
+repository-rust-source | 275729 | 1-byte-lane | 0.3161 | 0.3161 | 0.3332 | 0.3288 | 0.2975 | 0.2350 | 0.2542 | 0.1894 | 0.2902 | 0.2021
+repository-technical-prose | 26666 | 1-byte-lane | 0.5937 | 0.5937 | 0.5840 | 0.5652 | 0.5777 | 0.4187 | 0.4447 | 0.3537 | 0.4761 | 0.3759
+natural-style-prose-generated | 586022 | 1-byte-lane | 0.1535 | 0.1535 | 0.1558 | 0.1446 | 0.0952 | 0.0908 | 0.1123 | 0.0678 | 0.1227 | 0.0598
+json-records | 1209516 | 1-byte-lane | 0.1966 | 0.1966 | 0.2395 | 0.2464 | 0.2037 | 0.1317 | 0.1963 | 0.1100 | 0.1571 | 0.1306
+csv-table | 995409 | 1-byte-lane | 0.4314 | 0.4314 | 0.5051 | 0.5024 | 0.5033 | 0.2681 | 0.3897 | 0.2292 | 0.3400 | 0.2874
+server-log-records | 1398527 | 1-byte-lane | 0.2819 | 0.2819 | 0.3256 | 0.3240 | 0.3104 | 0.1804 | 0.2517 | 0.1717 | 0.2142 | 0.1857
+
+TRNMAP BUILD / SIZE / SELECTED CLASS COUNTS
+dataset | raw bytes | u32 words | exact index bytes | build time | zero words | first zero
+--- | ---: | ---: | ---: | ---: | ---: | ---:
+image-rgba8-raster | 524288 | 131072 | 50624 | 54.9µs | 0 | 131072
+image-png-stored-deflate | 131278 | 32820 | 13048 | 21.5µs | 1 | 5
+image-png-compressed-deflate | 89883 | 22471 | 9088 | 20.6µs | 1 | 5
+graphics-shader-machine-words-synthetic | 262144 | 65536 | 25536 | 58.6µs | 0 | 65536
+graphics-wgsl-source | 8267 | 2067 | 1240 | 5.7µs | 0 | 2067
+ai-model-int8-tensor-synthetic | 1048576 | 262144 | 100800 | 126.6µs | 2048 | 1043
+native-executable-binary | 5437440 | 1359360 | 521024 | 736.4µs | 53080 | 5
+structured-binary-records | 524288 | 131072 | 50624 | 78.3µs | 33 | 0
+sparse-binary | 1048576 | 262144 | 100800 | 140.7µs | 253563 | 0
+random-binary-incompressible | 1048576 | 262144 | 100800 | 140µs | 0 | 262144
+repository-rust-source | 275729 | 68933 | 26864 | 43.7µs | 0 | 68933
+repository-technical-prose | 26666 | 6667 | 3032 | 7.1µs | 0 | 6667
+natural-style-prose-generated | 586022 | 146506 | 56560 | 83.5µs | 0 | 146506
+json-records | 1209516 | 302379 | 116280 | 160.4µs | 0 | 302379
+csv-table | 995409 | 248853 | 95736 | 150.2µs | 0 | 248853
+server-log-records | 1398527 | 349632 | 134376 | 174.3µs | 0 | 349632
+
+ALL CRITERION TIMINGS (median and median throughput)
+benchmark | median time | median throughput
+--- | ---: | ---:
+file-undecoded-index-get/image-rgba8-raster/trnmap-1024-even-positions | 1.9674 µs | 520.48 Melem/s
+file-undecoded-index-get/image-rgba8-raster/raw-word-classify-1024 | 2.5679 µs | 398.77 Melem/s
+file-undecoded-index-find-zero/image-rgba8-raster/trnmap-hierarchical-32-starts | 331.86 ns | 96.426 Melem/s
+file-undecoded-index-find-zero/image-rgba8-raster/raw-linear-32-starts | 4.7791 ms | 6.6959 Kelem/s
+file-undecoded-index-count-zero/image-rgba8-raster/trnmap-summary-count | 82.501 ns | 1588.7 Gelem/s
+file-undecoded-index-count-zero/image-rgba8-raster/raw-linear-count | 304.07 µs | 431.06 Melem/s
+file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-one-shot | 6.6830 ms | 74.816 MiB/s
+file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-serial | 5.5932 ms | 89.394 MiB/s
+file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-parallel | 2.6784 ms | 186.68 MiB/s
+file-encode/image-rgba8-raster/lz4-fast-encode | 167.58 µs | 2.9138 GiB/s
+file-encode/image-rgba8-raster/snappy-encode | 30.920 µs | 15.792 GiB/s
+file-encode/image-rgba8-raster/zstd-fast-3-encode | 450.27 µs | 1.0844 GiB/s
+file-encode/image-rgba8-raster/zstd-level-1-encode | 838.35 µs | 596.41 MiB/s
+file-encode/image-rgba8-raster/brotli-quality-0-encode | 2.8757 ms | 173.87 MiB/s
+file-encode/image-rgba8-raster/brotli-quality-5-encode | 31.974 ms | 15.638 MiB/s
+file-encode/image-rgba8-raster/zlib-fast-encode | 3.0703 ms | 162.85 MiB/s
+file-encode/image-rgba8-raster/zlib-default-encode | 16.931 ms | 29.532 MiB/s
+file-encode/image-rgba8-raster/raw-copy-control | 11.199 µs | 43.601 GiB/s
+file-decode/image-rgba8-raster/rnbw-cow-borrow-when-possible | 2.6758 ms | 186.86 MiB/s
+file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy | 2.6598 ms | 187.99 MiB/s
+file-decode/image-rgba8-raster/lz4-fast-decode | 20.972 µs | 23.283 GiB/s
+file-decode/image-rgba8-raster/snappy-decode | 20.499 µs | 23.819 GiB/s
+file-decode/image-rgba8-raster/zstd-fast-3-decode | 56.736 µs | 8.6061 GiB/s
+file-decode/image-rgba8-raster/zstd-level-1-decode | 405.59 µs | 1.2039 GiB/s
+file-decode/image-rgba8-raster/brotli-quality-0-decode | 2.2077 ms | 226.48 MiB/s
+file-decode/image-rgba8-raster/brotli-quality-5-decode | 2.4960 ms | 200.32 MiB/s
+file-decode/image-rgba8-raster/zlib-fast-decode | 1.4793 ms | 337.99 MiB/s
+file-decode/image-rgba8-raster/zlib-default-decode | 2.1693 ms | 230.49 MiB/s
+file-decode/image-rgba8-raster/raw-copy-control | 11.525 µs | 42.366 GiB/s
+file-undecoded-index-get/image-png-stored-deflate/trnmap-1024-even-positions | 1.9901 µs | 514.54 Melem/s
+file-undecoded-index-get/image-png-stored-deflate/raw-word-classify-1024 | 2.3657 µs | 432.85 Melem/s
+file-undecoded-index-find-zero/image-png-stored-deflate/trnmap-hierarchical-32-starts | 326.34 ns | 98.058 Melem/s
+file-undecoded-index-find-zero/image-png-stored-deflate/raw-linear-32-starts | 1.5799 ms | 20.255 Kelem/s
+file-undecoded-index-count-zero/image-png-stored-deflate/trnmap-summary-count | 28.993 ns | 1132.0 Gelem/s
+file-undecoded-index-count-zero/image-png-stored-deflate/raw-linear-count | 96.030 µs | 341.77 Melem/s
+file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-one-shot | 3.0967 ms | 40.429 MiB/s
+file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-serial | 2.7290 ms | 45.877 MiB/s
+file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-parallel | 2.5139 ms | 49.801 MiB/s
+file-encode/image-png-stored-deflate/lz4-fast-encode | 65.145 µs | 1.8768 GiB/s
+file-encode/image-png-stored-deflate/snappy-encode | 7.7541 µs | 15.767 GiB/s
+file-encode/image-png-stored-deflate/zstd-fast-3-encode | 138.13 µs | 906.35 MiB/s
+file-encode/image-png-stored-deflate/zstd-level-1-encode | 112.64 µs | 1.0854 GiB/s
+file-encode/image-png-stored-deflate/brotli-quality-0-encode | 627.48 µs | 199.52 MiB/s
+file-encode/image-png-stored-deflate/brotli-quality-5-encode | 6.4702 ms | 19.350 MiB/s
+file-encode/image-png-stored-deflate/zlib-fast-encode | 779.87 µs | 160.53 MiB/s
+file-encode/image-png-stored-deflate/zlib-default-encode | 3.7088 ms | 33.757 MiB/s
+file-encode/image-png-stored-deflate/raw-copy-control | 2.6468 µs | 46.192 GiB/s
+file-decode/image-png-stored-deflate/rnbw-cow-borrow-when-possible | 1.4696 ms | 85.192 MiB/s
+file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy | 1.4604 ms | 85.730 MiB/s
+file-decode/image-png-stored-deflate/lz4-fast-decode | 6.6136 µs | 18.486 GiB/s
+file-decode/image-png-stored-deflate/snappy-decode | 4.5330 µs | 26.972 GiB/s
+file-decode/image-png-stored-deflate/zstd-fast-3-decode | 20.901 µs | 5.8495 GiB/s
+file-decode/image-png-stored-deflate/zstd-level-1-decode | 101.86 µs | 1.2003 GiB/s
+file-decode/image-png-stored-deflate/brotli-quality-0-decode | 575.65 µs | 217.49 MiB/s
+file-decode/image-png-stored-deflate/brotli-quality-5-decode | 639.98 µs | 195.63 MiB/s
+file-decode/image-png-stored-deflate/zlib-fast-decode | 389.11 µs | 321.75 MiB/s
+file-decode/image-png-stored-deflate/zlib-default-decode | 514.51 µs | 243.33 MiB/s
+file-decode/image-png-stored-deflate/raw-copy-control | 3.0615 µs | 39.936 GiB/s
+file-undecoded-index-get/image-png-compressed-deflate/trnmap-1024-even-positions | 1.9266 µs | 531.50 Melem/s
+file-undecoded-index-get/image-png-compressed-deflate/raw-word-classify-1024 | 2.8286 µs | 362.01 Melem/s
+file-undecoded-index-find-zero/image-png-compressed-deflate/trnmap-hierarchical-32-starts | 309.60 ns | 103.36 Melem/s
+file-undecoded-index-find-zero/image-png-compressed-deflate/raw-linear-32-starts | 1.0629 ms | 30.106 Kelem/s
+file-undecoded-index-count-zero/image-png-compressed-deflate/trnmap-summary-count | 20.232 ns | 1110.7 Gelem/s
+file-undecoded-index-count-zero/image-png-compressed-deflate/raw-linear-count | 67.241 µs | 334.19 Melem/s
+file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-one-shot | 1.7567 ms | 48.796 MiB/s
+file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-serial | 1.2730 ms | 67.334 MiB/s
+file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-parallel | 1.1949 ms | 71.736 MiB/s
+file-encode/image-png-compressed-deflate/lz4-fast-encode | 7.3455 µs | 11.396 GiB/s
+file-encode/image-png-compressed-deflate/snappy-encode | 4.9701 µs | 16.843 GiB/s
+file-encode/image-png-compressed-deflate/zstd-fast-3-encode | 12.953 µs | 6.4624 GiB/s
+file-encode/image-png-compressed-deflate/zstd-level-1-encode | 81.258 µs | 1.0302 GiB/s
+file-encode/image-png-compressed-deflate/brotli-quality-0-encode | 41.686 µs | 2.0081 GiB/s
+file-encode/image-png-compressed-deflate/brotli-quality-5-encode | 1.7100 ms | 50.127 MiB/s
+file-encode/image-png-compressed-deflate/zlib-fast-encode | 479.35 µs | 178.82 MiB/s
+file-encode/image-png-compressed-deflate/zlib-default-encode | 1.9133 ms | 44.802 MiB/s
+file-encode/image-png-compressed-deflate/raw-copy-control | 1.6557 µs | 50.557 GiB/s
+file-decode/image-png-compressed-deflate/rnbw-cow-borrow-when-possible | 17.162 ns | 4877.7 GiB/s
+file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy | 1.8743 µs | 44.663 GiB/s
+file-decode/image-png-compressed-deflate/lz4-fast-decode | 3.5808 µs | 23.378 GiB/s
+file-decode/image-png-compressed-deflate/snappy-decode | 3.1991 µs | 26.167 GiB/s
+file-decode/image-png-compressed-deflate/zstd-fast-3-decode | 2.1066 µs | 39.736 GiB/s
+file-decode/image-png-compressed-deflate/zstd-level-1-decode | 75.773 µs | 1.1047 GiB/s
+file-decode/image-png-compressed-deflate/brotli-quality-0-decode | 11.223 µs | 7.4586 GiB/s
+file-decode/image-png-compressed-deflate/brotli-quality-5-decode | 394.11 µs | 217.50 MiB/s
+file-decode/image-png-compressed-deflate/zlib-fast-decode | 238.33 µs | 359.67 MiB/s
+file-decode/image-png-compressed-deflate/zlib-default-decode | 248.73 µs | 344.62 MiB/s
+file-decode/image-png-compressed-deflate/raw-copy-control | 1.6847 µs | 49.689 GiB/s
+file-undecoded-index-get/graphics-shader-machine-words-synthetic/trnmap-1024-even-positions | 1.9104 µs | 536.02 Melem/s
+file-undecoded-index-get/graphics-shader-machine-words-synthetic/raw-word-classify-1024 | 2.4898 µs | 411.28 Melem/s
+file-undecoded-index-find-zero/graphics-shader-machine-words-synthetic/trnmap-hierarchical-32-starts | 306.55 ns | 104.39 Melem/s
+file-undecoded-index-find-zero/graphics-shader-machine-words-synthetic/raw-linear-32-starts | 2.6819 ms | 11.932 Kelem/s
+file-undecoded-index-count-zero/graphics-shader-machine-words-synthetic/trnmap-summary-count | 41.093 ns | 1594.8 Gelem/s
+file-undecoded-index-count-zero/graphics-shader-machine-words-synthetic/raw-linear-count | 159.97 µs | 409.69 Melem/s
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot | 946.33 µs | 264.18 MiB/s
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial | 482.25 µs | 518.40 MiB/s
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel | 213.26 µs | 1.1448 GiB/s
+file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode | 23.073 µs | 10.581 GiB/s
+file-encode/graphics-shader-machine-words-synthetic/snappy-encode | 17.525 µs | 13.931 GiB/s
+file-encode/graphics-shader-machine-words-synthetic/zstd-fast-3-encode | 18.608 µs | 13.120 GiB/s
+file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode | 31.565 µs | 7.7346 GiB/s
+file-encode/graphics-shader-machine-words-synthetic/brotli-quality-0-encode | 166.44 µs | 1.4668 GiB/s
+file-encode/graphics-shader-machine-words-synthetic/brotli-quality-5-encode | 893.11 µs | 279.92 MiB/s
+file-encode/graphics-shader-machine-words-synthetic/zlib-fast-encode | 1.3066 ms | 191.33 MiB/s
+file-encode/graphics-shader-machine-words-synthetic/zlib-default-encode | 751.55 µs | 332.64 MiB/s
+file-encode/graphics-shader-machine-words-synthetic/raw-copy-control | 5.5267 µs | 44.175 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible | 365.90 µs | 683.24 MiB/s
+file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy | 365.31 µs | 684.34 MiB/s
+file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode | 9.1145 µs | 26.786 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/snappy-decode | 17.052 µs | 14.317 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode | 7.0323 µs | 34.717 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode | 17.624 µs | 13.853 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode | 60.218 µs | 4.0543 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode | 66.850 µs | 3.6521 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode | 676.76 µs | 369.41 MiB/s
+file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode | 66.458 µs | 3.6736 GiB/s
+file-decode/graphics-shader-machine-words-synthetic/raw-copy-control | 6.3371 µs | 38.525 GiB/s
+file-undecoded-index-get/graphics-wgsl-source/trnmap-1024-even-positions | 2.1565 µs | 474.83 Melem/s
+file-undecoded-index-get/graphics-wgsl-source/raw-word-classify-1024 | 2.9561 µs | 346.40 Melem/s
+file-undecoded-index-find-zero/graphics-wgsl-source/trnmap-hierarchical-32-starts | 266.08 ns | 120.26 Melem/s
+file-undecoded-index-find-zero/graphics-wgsl-source/raw-linear-32-starts | 98.091 µs | 326.23 Kelem/s
+file-undecoded-index-count-zero/graphics-wgsl-source/trnmap-summary-count | 6.8621 ns | 301.22 Gelem/s
+file-undecoded-index-count-zero/graphics-wgsl-source/raw-linear-count | 6.3883 µs | 323.56 Melem/s
+file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-one-shot | 513.01 µs | 15.368 MiB/s
+file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-serial | 49.785 µs | 158.36 MiB/s
+file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-parallel | 52.825 µs | 149.25 MiB/s
+file-encode/graphics-wgsl-source/lz4-fast-encode | 7.0367 µs | 1.0942 GiB/s
+file-encode/graphics-wgsl-source/snappy-encode | 6.6783 µs | 1.1529 GiB/s
+file-encode/graphics-wgsl-source/zstd-fast-3-encode | 17.163 µs | 459.36 MiB/s
+file-encode/graphics-wgsl-source/zstd-level-1-encode | 22.197 µs | 355.18 MiB/s
+file-encode/graphics-wgsl-source/brotli-quality-0-encode | 37.752 µs | 208.84 MiB/s
+file-encode/graphics-wgsl-source/brotli-quality-5-encode | 414.13 µs | 19.038 MiB/s
+file-encode/graphics-wgsl-source/zlib-fast-encode | 24.696 µs | 319.24 MiB/s
+file-encode/graphics-wgsl-source/zlib-default-encode | 87.795 µs | 89.800 MiB/s
+file-encode/graphics-wgsl-source/raw-copy-control | 134.06 ns | 57.429 GiB/s
+file-decode/graphics-wgsl-source/rnbw-cow-borrow-when-possible | 50.401 µs | 156.42 MiB/s
+file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy | 49.829 µs | 158.22 MiB/s
+file-decode/graphics-wgsl-source/lz4-fast-decode | 2.6599 µs | 2.8945 GiB/s
+file-decode/graphics-wgsl-source/snappy-decode | 3.3304 µs | 2.3118 GiB/s
+file-decode/graphics-wgsl-source/zstd-fast-3-decode | 8.1923 µs | 962.37 MiB/s
+file-decode/graphics-wgsl-source/zstd-level-1-decode | 10.195 µs | 773.34 MiB/s
+file-decode/graphics-wgsl-source/brotli-quality-0-decode | 13.101 µs | 601.77 MiB/s
+file-decode/graphics-wgsl-source/brotli-quality-5-decode | 11.475 µs | 687.04 MiB/s
+file-decode/graphics-wgsl-source/zlib-fast-decode | 14.144 µs | 557.43 MiB/s
+file-decode/graphics-wgsl-source/zlib-default-decode | 11.747 µs | 671.14 MiB/s
+file-decode/graphics-wgsl-source/raw-copy-control | 131.35 ns | 58.618 GiB/s
+file-undecoded-index-get/ai-model-int8-tensor-synthetic/trnmap-1024-even-positions | 1.9318 µs | 530.07 Melem/s
+file-undecoded-index-get/ai-model-int8-tensor-synthetic/raw-word-classify-1024 | 2.4877 µs | 411.62 Melem/s
+file-undecoded-index-find-zero/ai-model-int8-tensor-synthetic/trnmap-hierarchical-32-starts | 357.48 ns | 89.515 Melem/s
+file-undecoded-index-find-zero/ai-model-int8-tensor-synthetic/raw-linear-32-starts | 221.11 µs | 144.73 Kelem/s
+file-undecoded-index-count-zero/ai-model-int8-tensor-synthetic/trnmap-summary-count | 1.7285 µs | 151.66 Gelem/s
+file-undecoded-index-count-zero/ai-model-int8-tensor-synthetic/raw-linear-count | 799.07 µs | 328.06 Melem/s
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot | 4.6858 ms | 213.41 MiB/s
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial | 4.1779 ms | 239.36 MiB/s
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel | 2.5585 ms | 390.86 MiB/s
+file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode | 128.38 µs | 7.6071 GiB/s
+file-encode/ai-model-int8-tensor-synthetic/snappy-encode | 136.84 µs | 7.1365 GiB/s
+file-encode/ai-model-int8-tensor-synthetic/zstd-fast-3-encode | 105.71 µs | 9.2384 GiB/s
+file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode | 90.653 µs | 10.773 GiB/s
+file-encode/ai-model-int8-tensor-synthetic/brotli-quality-0-encode | 588.29 µs | 1.6600 GiB/s
+file-encode/ai-model-int8-tensor-synthetic/brotli-quality-5-encode | 3.4397 ms | 290.72 MiB/s
+file-encode/ai-model-int8-tensor-synthetic/zlib-fast-encode | 578.53 µs | 1.6880 GiB/s
+file-encode/ai-model-int8-tensor-synthetic/zlib-default-encode | 5.0978 ms | 196.16 MiB/s
+file-encode/ai-model-int8-tensor-synthetic/raw-copy-control | 207.71 µs | 4.7016 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible | 1.6445 ms | 608.09 MiB/s
+file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy | 1.6824 ms | 594.38 MiB/s
+file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode | 203.96 µs | 4.7881 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/snappy-decode | 220.41 µs | 4.4307 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode | 256.17 µs | 3.8121 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode | 285.51 µs | 3.4204 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode | 411.95 µs | 2.3706 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode | 422.60 µs | 2.3108 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode | 501.22 µs | 1.9484 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode | 482.42 µs | 2.0243 GiB/s
+file-decode/ai-model-int8-tensor-synthetic/raw-copy-control | 209.57 µs | 4.6599 GiB/s
+file-undecoded-index-get/native-executable-binary/trnmap-1024-even-positions | 2.4098 µs | 424.94 Melem/s
+file-undecoded-index-get/native-executable-binary/raw-word-classify-1024 | 2.8282 µs | 362.06 Melem/s
+file-undecoded-index-find-zero/native-executable-binary/trnmap-hierarchical-32-starts | 247.97 ns | 129.05 Melem/s
+file-undecoded-index-find-zero/native-executable-binary/raw-linear-32-starts | 546.17 µs | 58.590 Kelem/s
+file-undecoded-index-count-zero/native-executable-binary/trnmap-summary-count | 32.325 µs | 42.053 Gelem/s
+file-undecoded-index-count-zero/native-executable-binary/raw-linear-count | 3.9712 ms | 342.31 Melem/s
+file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-one-shot | 65.978 ms | 78.595 MiB/s
+file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-serial | 64.747 ms | 80.089 MiB/s
+file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-parallel | 47.127 ms | 110.03 MiB/s
+file-encode/native-executable-binary/lz4-fast-encode | 8.5662 ms | 605.35 MiB/s
+file-encode/native-executable-binary/snappy-encode | 7.8201 ms | 663.11 MiB/s
+file-encode/native-executable-binary/zstd-fast-3-encode | 8.9421 ms | 579.90 MiB/s
+file-encode/native-executable-binary/zstd-level-1-encode | 12.886 ms | 402.41 MiB/s
+file-encode/native-executable-binary/brotli-quality-0-encode | 25.580 ms | 202.72 MiB/s
+file-encode/native-executable-binary/brotli-quality-5-encode | 207.80 ms | 24.955 MiB/s
+file-encode/native-executable-binary/zlib-fast-encode | 30.401 ms | 170.57 MiB/s
+file-encode/native-executable-binary/zlib-default-encode | 202.22 ms | 25.643 MiB/s
+file-encode/native-executable-binary/raw-copy-control | 815.81 µs | 6.2073 GiB/s
+file-decode/native-executable-binary/rnbw-cow-borrow-when-possible | 37.439 ms | 138.51 MiB/s
+file-decode/native-executable-binary/rnbw-hybrid-lz-entropy | 34.423 ms | 150.64 MiB/s
+file-decode/native-executable-binary/lz4-fast-decode | 2.3949 ms | 2.1145 GiB/s
+file-decode/native-executable-binary/snappy-decode | 3.6019 ms | 1.4059 GiB/s
+file-decode/native-executable-binary/zstd-fast-3-decode | 3.8238 ms | 1.3244 GiB/s
+file-decode/native-executable-binary/zstd-level-1-decode | 6.4339 ms | 805.97 MiB/s
+file-decode/native-executable-binary/brotli-quality-0-decode | 17.880 ms | 290.02 MiB/s
+file-decode/native-executable-binary/brotli-quality-5-decode | 13.741 ms | 377.38 MiB/s
+file-decode/native-executable-binary/zlib-fast-decode | 17.393 ms | 298.15 MiB/s
+file-decode/native-executable-binary/zlib-default-decode | 14.489 ms | 357.90 MiB/s
+file-decode/native-executable-binary/raw-copy-control | 820.49 µs | 6.1720 GiB/s
+file-undecoded-index-get/structured-binary-records/trnmap-1024-even-positions | 2.1038 µs | 486.75 Melem/s
+file-undecoded-index-get/structured-binary-records/raw-word-classify-1024 | 2.4721 µs | 414.23 Melem/s
+file-undecoded-index-find-zero/structured-binary-records/trnmap-hierarchical-32-starts | 336.32 ns | 95.149 Melem/s
+file-undecoded-index-find-zero/structured-binary-records/raw-linear-32-starts | 4.9911 ms | 6.4113 Kelem/s
+file-undecoded-index-count-zero/structured-binary-records/trnmap-summary-count | 86.545 ns | 1514.5 Gelem/s
+file-undecoded-index-count-zero/structured-binary-records/raw-linear-count | 326.51 µs | 401.43 Melem/s
+file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-one-shot | 2.8377 ms | 176.20 MiB/s
+file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-serial | 2.3346 ms | 214.17 MiB/s
+file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-parallel | 2.2332 ms | 223.89 MiB/s
+file-encode/structured-binary-records/lz4-fast-encode | 728.58 µs | 686.26 MiB/s
+file-encode/structured-binary-records/snappy-encode | 491.91 µs | 1016.4 MiB/s
+file-encode/structured-binary-records/zstd-fast-3-encode | 860.17 µs | 581.28 MiB/s
+file-encode/structured-binary-records/zstd-level-1-encode | 1.3297 ms | 376.03 MiB/s
+file-encode/structured-binary-records/brotli-quality-0-encode | 2.7300 ms | 183.15 MiB/s
+file-encode/structured-binary-records/brotli-quality-5-encode | 17.449 ms | 28.655 MiB/s
+file-encode/structured-binary-records/zlib-fast-encode | 2.0436 ms | 244.67 MiB/s
+file-encode/structured-binary-records/zlib-default-encode | 15.343 ms | 32.589 MiB/s
+file-encode/structured-binary-records/raw-copy-control | 15.889 µs | 30.730 GiB/s
+file-decode/structured-binary-records/rnbw-hybrid-lz-entropy | 1.0883 ms | 459.44 MiB/s
+file-decode/structured-binary-records/lz4-fast-decode | 198.67 µs | 2.4578 GiB/s
+file-decode/structured-binary-records/snappy-decode | 184.97 µs | 2.6398 GiB/s
+file-decode/structured-binary-records/zstd-fast-3-decode | 424.52 µs | 1.1502 GiB/s
+file-decode/structured-binary-records/zstd-level-1-decode | 415.46 µs | 1.1753 GiB/s
+file-decode/structured-binary-records/brotli-quality-0-decode | 1.8058 ms | 276.88 MiB/s
+file-decode/structured-binary-records/brotli-quality-5-decode | 870.75 µs | 574.22 MiB/s
+file-decode/structured-binary-records/zlib-fast-decode | 994.56 µs | 502.73 MiB/s
+file-decode/structured-binary-records/zlib-default-decode | 1.0548 ms | 474.03 MiB/s
+file-decode/structured-binary-records/raw-copy-control | 11.963 µs | 40.816 GiB/s
+file-undecoded-index-get/sparse-binary/trnmap-1024-even-positions | 1.9737 µs | 518.83 Melem/s
+file-undecoded-index-get/sparse-binary/raw-word-classify-1024 | 3.0988 µs | 330.45 Melem/s
+file-undecoded-index-find-zero/sparse-binary/trnmap-hierarchical-32-starts | 126.04 ns | 253.89 Melem/s
+file-undecoded-index-find-zero/sparse-binary/raw-linear-32-starts | 78.935 ns | 405.40 Melem/s
+file-undecoded-index-count-zero/sparse-binary/trnmap-summary-count | 10.672 µs | 24.565 Gelem/s
+file-undecoded-index-count-zero/sparse-binary/raw-linear-count | 655.41 µs | 399.97 Melem/s
+file-encode/sparse-binary/rnbw-hybrid-lz-entropy-one-shot | 2.7682 ms | 361.25 MiB/s
+file-encode/sparse-binary/rnbw-hybrid-lz-entropy-reuse-serial | 2.1426 ms | 466.72 MiB/s
+file-encode/sparse-binary/rnbw-hybrid-lz-entropy-reuse-parallel | 739.77 µs | 1.3201 GiB/s
+file-encode/sparse-binary/lz4-fast-encode | 151.44 µs | 6.4487 GiB/s
+file-encode/sparse-binary/snappy-encode | 119.52 µs | 8.1706 GiB/s
+file-encode/sparse-binary/zstd-fast-3-encode | 175.52 µs | 5.5639 GiB/s
+file-encode/sparse-binary/zstd-level-1-encode | 291.02 µs | 3.3557 GiB/s
+file-encode/sparse-binary/brotli-quality-0-encode | 973.46 µs | 1.0032 GiB/s
+file-encode/sparse-binary/brotli-quality-5-encode | 5.3552 ms | 186.73 MiB/s
+file-encode/sparse-binary/zlib-fast-encode | 634.03 µs | 1.5402 GiB/s
+file-encode/sparse-binary/zlib-default-encode | 4.4569 ms | 224.37 MiB/s
+file-encode/sparse-binary/raw-copy-control | 214.70 µs | 4.5486 GiB/s
+file-decode/sparse-binary/rnbw-cow-borrow-when-possible | 1.0434 ms | 958.39 MiB/s
+file-decode/sparse-binary/rnbw-hybrid-lz-entropy | 986.28 µs | 1013.9 MiB/s
+file-decode/sparse-binary/lz4-fast-decode | 494.75 µs | 1.9739 GiB/s
+file-decode/sparse-binary/snappy-decode | 420.19 µs | 2.3241 GiB/s
+file-decode/sparse-binary/zstd-fast-3-decode | 214.69 µs | 4.5487 GiB/s
+file-decode/sparse-binary/zstd-level-1-decode | 267.18 µs | 3.6551 GiB/s
+file-decode/sparse-binary/brotli-quality-0-decode | 732.64 µs | 1.3329 GiB/s
+file-decode/sparse-binary/brotli-quality-5-decode | 474.37 µs | 2.0587 GiB/s
+file-decode/sparse-binary/zlib-fast-decode | 449.69 µs | 2.1716 GiB/s
+file-decode/sparse-binary/zlib-default-decode | 417.38 µs | 2.3397 GiB/s
+file-decode/sparse-binary/raw-copy-control | 208.69 µs | 4.6794 GiB/s
+file-undecoded-index-get/random-binary-incompressible/trnmap-1024-even-positions | 1.9949 µs | 513.30 Melem/s
+file-undecoded-index-get/random-binary-incompressible/raw-word-classify-1024 | 2.4096 µs | 424.97 Melem/s
+file-undecoded-index-find-zero/random-binary-incompressible/trnmap-hierarchical-32-starts | 312.51 ns | 102.40 Melem/s
+file-undecoded-index-find-zero/random-binary-incompressible/raw-linear-32-starts | 12.480 ms | 2.5641 Kelem/s
+file-undecoded-index-count-zero/random-binary-incompressible/trnmap-summary-count | 152.52 ns | 1718.7 Gelem/s
+file-undecoded-index-count-zero/random-binary-incompressible/raw-linear-count | 599.45 µs | 437.31 Melem/s
+file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-one-shot | 464.45 µs | 2.1026 GiB/s
+file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-serial | 393.29 µs | 2.4831 GiB/s
+file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-parallel | 422.13 µs | 2.3134 GiB/s
+file-encode/random-binary-incompressible/lz4-fast-encode | 497.44 µs | 1.9632 GiB/s
+file-encode/random-binary-incompressible/snappy-encode | 347.13 µs | 2.8132 GiB/s
+file-encode/random-binary-incompressible/zstd-fast-3-encode | 511.86 µs | 1.9079 GiB/s
+file-encode/random-binary-incompressible/zstd-level-1-encode | 602.16 µs | 1.6218 GiB/s
+file-encode/random-binary-incompressible/brotli-quality-0-encode | 1.0523 ms | 950.26 MiB/s
+file-encode/random-binary-incompressible/brotli-quality-5-encode | 5.0176 ms | 199.30 MiB/s
+file-encode/random-binary-incompressible/zlib-fast-encode | 5.2980 ms | 188.75 MiB/s
+file-encode/random-binary-incompressible/zlib-default-encode | 24.141 ms | 41.424 MiB/s
+file-encode/random-binary-incompressible/raw-copy-control | 238.96 µs | 4.0867 GiB/s
+file-decode/random-binary-incompressible/rnbw-cow-borrow-when-possible | 16.847 ns | GiB/s 57968
+file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy | 233.69 µs | 4.1788 GiB/s
+file-decode/random-binary-incompressible/lz4-fast-decode | 208.89 µs | 4.6751 GiB/s
+file-decode/random-binary-incompressible/snappy-decode | 246.38 µs | 3.9636 GiB/s
+file-decode/random-binary-incompressible/zstd-fast-3-decode | 219.52 µs | 4.4486 GiB/s
+file-decode/random-binary-incompressible/zstd-level-1-decode | 210.18 µs | 4.6464 GiB/s
+file-decode/random-binary-incompressible/brotli-quality-0-decode | 529.10 µs | 1.8457 GiB/s
+file-decode/random-binary-incompressible/brotli-quality-5-decode | 459.60 µs | 2.1248 GiB/s
+file-decode/random-binary-incompressible/zlib-fast-decode | 2.6774 ms | 373.50 MiB/s
+file-decode/random-binary-incompressible/zlib-default-decode | 361.40 µs | 2.7021 GiB/s
+file-decode/random-binary-incompressible/raw-copy-control | 208.59 µs | 4.6817 GiB/s
+file-undecoded-index-get/repository-rust-source/trnmap-1024-even-positions | 2.0981 µs | 488.07 Melem/s
+file-undecoded-index-get/repository-rust-source/raw-word-classify-1024 | 3.0412 µs | 336.71 Melem/s
+file-undecoded-index-find-zero/repository-rust-source/trnmap-hierarchical-32-starts | 305.57 ns | 104.72 Melem/s
+file-undecoded-index-find-zero/repository-rust-source/raw-linear-32-starts | 3.2234 ms | 9.9273 Kelem/s
+file-undecoded-index-count-zero/repository-rust-source/trnmap-summary-count | 42.853 ns | 1608.6 Gelem/s
+file-undecoded-index-count-zero/repository-rust-source/raw-linear-count | 201.64 µs | 341.86 Melem/s
+file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-one-shot | 1.9629 ms | 133.96 MiB/s
+file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-serial | 1.6369 ms | 160.65 MiB/s
+file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-parallel | 1.0075 ms | 261.00 MiB/s
+file-encode/repository-rust-source/lz4-fast-encode | 425.87 µs | 617.45 MiB/s
+file-encode/repository-rust-source/snappy-encode | 363.99 µs | 722.43 MiB/s
+file-encode/repository-rust-source/zstd-fast-3-encode | 605.38 µs | 434.36 MiB/s
+file-encode/repository-rust-source/zstd-level-1-encode | 703.61 µs | 373.72 MiB/s
+file-encode/repository-rust-source/brotli-quality-0-encode | 1.0385 ms | 253.20 MiB/s
+file-encode/repository-rust-source/brotli-quality-5-encode | 5.1871 ms | 50.694 MiB/s
+file-encode/repository-rust-source/zlib-fast-encode | 1.0207 ms | 257.63 MiB/s
+file-encode/repository-rust-source/zlib-default-encode | 6.2034 ms | 42.389 MiB/s
+file-encode/repository-rust-source/raw-copy-control | 6.5501 µs | 39.205 GiB/s
+file-decode/repository-rust-source/rnbw-cow-borrow-when-possible | 1.7719 ms | 148.40 MiB/s
+file-decode/repository-rust-source/rnbw-hybrid-lz-entropy | 1.8145 ms | 144.92 MiB/s
+file-decode/repository-rust-source/lz4-fast-decode | 98.502 µs | 2.6070 GiB/s
+file-decode/repository-rust-source/snappy-decode | 144.49 µs | 1.7772 GiB/s
+file-decode/repository-rust-source/zstd-fast-3-decode | 201.81 µs | 1.2725 GiB/s
+file-decode/repository-rust-source/zstd-level-1-decode | 237.74 µs | 1.0801 GiB/s
+file-decode/repository-rust-source/brotli-quality-0-decode | 418.35 µs | 628.56 MiB/s
+file-decode/repository-rust-source/brotli-quality-5-decode | 301.29 µs | 872.76 MiB/s
+file-decode/repository-rust-source/zlib-fast-decode | 671.02 µs | 391.88 MiB/s
+file-decode/repository-rust-source/zlib-default-decode | 449.83 µs | 584.57 MiB/s
+file-decode/repository-rust-source/raw-copy-control | 6.8343 µs | 37.574 GiB/s
+file-undecoded-index-get/repository-technical-prose/trnmap-1024-even-positions | 2.1638 µs | 473.25 Melem/s
+file-undecoded-index-get/repository-technical-prose/raw-word-classify-1024 | 2.4471 µs | 418.45 Melem/s
+file-undecoded-index-find-zero/repository-technical-prose/trnmap-hierarchical-32-starts | 332.60 ns | 96.212 Melem/s
+file-undecoded-index-find-zero/repository-technical-prose/raw-linear-32-starts | 328.03 µs | 97.551 Kelem/s
+file-undecoded-index-count-zero/repository-technical-prose/trnmap-summary-count | 8.5204 ns | 782.48 Gelem/s
+file-undecoded-index-count-zero/repository-technical-prose/raw-linear-count | 20.115 µs | 331.44 Melem/s
+file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-one-shot | 799.14 µs | 31.823 MiB/s
+file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-serial | 285.68 µs | 89.020 MiB/s
+file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-parallel | 299.06 µs | 85.036 MiB/s
+file-encode/repository-technical-prose/lz4-fast-encode | 33.070 µs | 768.99 MiB/s
+file-encode/repository-technical-prose/snappy-encode | 27.209 µs | 934.65 MiB/s
+file-encode/repository-technical-prose/zstd-fast-3-encode | 46.221 µs | 550.19 MiB/s
+file-encode/repository-technical-prose/zstd-level-1-encode | 67.084 µs | 379.09 MiB/s
+file-encode/repository-technical-prose/brotli-quality-0-encode | 127.95 µs | 198.75 MiB/s
+file-encode/repository-technical-prose/brotli-quality-5-encode | 1.1286 ms | 22.533 MiB/s
+file-encode/repository-technical-prose/zlib-fast-encode | 138.67 µs | 183.39 MiB/s
+file-encode/repository-technical-prose/zlib-default-encode | 515.42 µs | 49.340 MiB/s
+file-encode/repository-technical-prose/raw-copy-control | 540.34 ns | 45.962 GiB/s
+file-decode/repository-technical-prose/rnbw-cow-borrow-when-possible | 344.16 µs | 73.892 MiB/s
+file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy | 321.03 µs | 79.216 MiB/s
+file-decode/repository-technical-prose/lz4-fast-decode | 11.370 µs | 2.1843 GiB/s
+file-decode/repository-technical-prose/snappy-decode | 13.567 µs | 1.8305 GiB/s
+file-decode/repository-technical-prose/zstd-fast-3-decode | 21.035 µs | 1.1806 GiB/s
+file-decode/repository-technical-prose/zstd-level-1-decode | 30.144 µs | 843.65 MiB/s
+file-decode/repository-technical-prose/brotli-quality-0-decode | 56.016 µs | 453.99 MiB/s
+file-decode/repository-technical-prose/brotli-quality-5-decode | 49.157 µs | 517.34 MiB/s
+file-decode/repository-technical-prose/zlib-fast-decode | 59.612 µs | 426.60 MiB/s
+file-decode/repository-technical-prose/zlib-default-decode | 49.488 µs | 513.88 MiB/s
+file-decode/repository-technical-prose/raw-copy-control | 572.95 ns | 43.345 GiB/s
+file-undecoded-index-get/natural-style-prose-generated/trnmap-1024-even-positions | 1.9392 µs | 528.05 Melem/s
+file-undecoded-index-get/natural-style-prose-generated/raw-word-classify-1024 | 2.7757 µs | 368.92 Melem/s
+file-undecoded-index-find-zero/natural-style-prose-generated/trnmap-hierarchical-32-starts | 319.86 ns | 100.04 Melem/s
+file-undecoded-index-find-zero/natural-style-prose-generated/raw-linear-32-starts | 7.1206 ms | 4.4940 Kelem/s
+file-undecoded-index-count-zero/natural-style-prose-generated/trnmap-summary-count | 89.651 ns | 1634.2 Gelem/s
+file-undecoded-index-count-zero/natural-style-prose-generated/raw-linear-count | 432.57 µs | 338.69 Melem/s
+file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-one-shot | 2.2215 ms | 251.58 MiB/s
+file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-serial | 1.7685 ms | 316.02 MiB/s
+file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-parallel | 1.0908 ms | 512.36 MiB/s
+file-encode/natural-style-prose-generated/lz4-fast-encode | 300.59 µs | 1.8157 GiB/s
+file-encode/natural-style-prose-generated/snappy-encode | 325.27 µs | 1.6779 GiB/s
+file-encode/natural-style-prose-generated/zstd-fast-3-encode | 541.13 µs | 1.0086 GiB/s
+file-encode/natural-style-prose-generated/zstd-level-1-encode | 564.44 µs | 990.15 MiB/s
+file-encode/natural-style-prose-generated/brotli-quality-0-encode | 900.62 µs | 620.54 MiB/s
+file-encode/natural-style-prose-generated/brotli-quality-5-encode | 5.0013 ms | 111.75 MiB/s
+file-encode/natural-style-prose-generated/zlib-fast-encode | 810.19 µs | 689.81 MiB/s
+file-encode/natural-style-prose-generated/zlib-default-encode | 5.3004 ms | 105.44 MiB/s
+file-encode/natural-style-prose-generated/raw-copy-control | 13.401 µs | 40.727 GiB/s
+file-decode/natural-style-prose-generated/rnbw-cow-borrow-when-possible | 1.7514 ms | 319.10 MiB/s
+file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy | 1.7869 ms | 312.77 MiB/s
+file-decode/natural-style-prose-generated/lz4-fast-decode | 127.47 µs | 4.2817 GiB/s
+file-decode/natural-style-prose-generated/snappy-decode | 155.13 µs | 3.5181 GiB/s
+file-decode/natural-style-prose-generated/zstd-fast-3-decode | 301.60 µs | 1.8096 GiB/s
+file-decode/natural-style-prose-generated/zstd-level-1-decode | 323.73 µs | 1.6859 GiB/s
+file-decode/natural-style-prose-generated/brotli-quality-0-decode | 399.19 µs | 1.3672 GiB/s
+file-decode/natural-style-prose-generated/brotli-quality-5-decode | 333.66 µs | 1.6357 GiB/s
+file-decode/natural-style-prose-generated/zlib-fast-decode | 585.68 µs | 954.23 MiB/s
+file-decode/natural-style-prose-generated/zlib-default-decode | 254.97 µs | 2.1406 GiB/s
+file-decode/natural-style-prose-generated/raw-copy-control | 13.710 µs | 39.808 GiB/s
+file-undecoded-index-get/json-records/trnmap-1024-even-positions | 1.9606 µs | 522.28 Melem/s
+file-undecoded-index-get/json-records/raw-word-classify-1024 | 2.7867 µs | 367.46 Melem/s
+file-undecoded-index-find-zero/json-records/trnmap-hierarchical-32-starts | 360.71 ns | 88.713 Melem/s
+file-undecoded-index-find-zero/json-records/raw-linear-32-starts | 11.673 ms | 2.7414 Kelem/s
+file-undecoded-index-count-zero/json-records/trnmap-summary-count | 184.12 ns | 1642.3 Gelem/s
+file-undecoded-index-count-zero/json-records/raw-linear-count | 803.50 µs | 376.33 Melem/s
+file-encode/json-records/rnbw-hybrid-lz-entropy-one-shot | 4.7474 ms | 242.97 MiB/s
+file-encode/json-records/rnbw-hybrid-lz-entropy-reuse-serial | 4.6880 ms | 246.05 MiB/s
+file-encode/json-records/rnbw-hybrid-lz-entropy-reuse-parallel | 2.5417 ms | 453.82 MiB/s
+file-encode/json-records/lz4-fast-encode | 1.0917 ms | 1.0318 GiB/s
+file-encode/json-records/snappy-encode | 915.70 µs | 1.2301 GiB/s
+file-encode/json-records/zstd-fast-3-encode | 1.2161 ms | 948.47 MiB/s
+file-encode/json-records/zstd-level-1-encode | 1.8689 ms | 617.21 MiB/s
+file-encode/json-records/brotli-quality-0-encode | 2.9926 ms | 385.45 MiB/s
+file-encode/json-records/brotli-quality-5-encode | 20.998 ms | 54.933 MiB/s
+file-encode/json-records/zlib-fast-encode | 2.1494 ms | 536.67 MiB/s
+file-encode/json-records/zlib-default-encode | 28.669 ms | 40.235 MiB/s
+file-encode/json-records/raw-copy-control | 239.31 µs | 4.7072 GiB/s
+file-decode/json-records/rnbw-cow-borrow-when-possible | 4.2077 ms | 274.14 MiB/s
+file-decode/json-records/rnbw-hybrid-lz-entropy | 4.4158 ms | 261.22 MiB/s
+file-decode/json-records/lz4-fast-decode | 467.92 µs | 2.4074 GiB/s
+file-decode/json-records/snappy-decode | 571.20 µs | 1.9721 GiB/s
+file-decode/json-records/zstd-fast-3-decode | 805.79 µs | 1.3979 GiB/s
+file-decode/json-records/zstd-level-1-decode | 1.0471 ms | 1.0758 GiB/s
+file-decode/json-records/brotli-quality-0-decode | 1.7191 ms | 670.98 MiB/s
+file-decode/json-records/brotli-quality-5-decode | 1.4181 ms | 813.40 MiB/s
+file-decode/json-records/zlib-fast-decode | 1.5756 ms | 732.09 MiB/s
+file-decode/json-records/zlib-default-decode | 1.2877 ms | 895.79 MiB/s
+file-decode/json-records/raw-copy-control | 261.67 µs | 4.3049 GiB/s
+file-undecoded-index-get/csv-table/trnmap-1024-even-positions | 2.2543 µs | 454.24 Melem/s
+file-undecoded-index-get/csv-table/raw-word-classify-1024 | 3.0024 µs | 341.06 Melem/s
+file-undecoded-index-find-zero/csv-table/trnmap-hierarchical-32-starts | 331.95 ns | 96.400 Melem/s
+file-undecoded-index-find-zero/csv-table/raw-linear-32-starts | 11.882 ms | 2.6932 Kelem/s
+file-undecoded-index-count-zero/csv-table/trnmap-summary-count | 153.09 ns | 1625.5 Gelem/s
+file-undecoded-index-count-zero/csv-table/raw-linear-count | 750.56 µs | 331.56 Melem/s
+file-encode/csv-table/rnbw-hybrid-lz-entropy-one-shot | 6.0661 ms | 156.49 MiB/s
+file-encode/csv-table/rnbw-hybrid-lz-entropy-reuse-serial | 6.1666 ms | 153.94 MiB/s
+file-encode/csv-table/rnbw-hybrid-lz-entropy-reuse-parallel | 3.1960 ms | 297.03 MiB/s
+file-encode/csv-table/lz4-fast-encode | 1.6908 ms | 561.45 MiB/s
+file-encode/csv-table/snappy-encode | 1.6250 ms | 584.19 MiB/s
+file-encode/csv-table/zstd-fast-3-encode | 1.7181 ms | 552.53 MiB/s
+file-encode/csv-table/zstd-level-1-encode | 2.3494 ms | 404.06 MiB/s
+file-encode/csv-table/brotli-quality-0-encode | 4.4711 ms | 212.32 MiB/s
+file-encode/csv-table/brotli-quality-5-encode | 36.374 ms | 26.098 MiB/s
+file-encode/csv-table/zlib-fast-encode | 4.1740 ms | 227.43 MiB/s
+file-encode/csv-table/zlib-default-encode | 45.592 ms | 20.822 MiB/s
+file-encode/csv-table/raw-copy-control | 20.933 µs | 44.287 GiB/s
+file-decode/csv-table/rnbw-cow-borrow-when-possible | 8.6907 ms | 109.23 MiB/s
+file-decode/csv-table/rnbw-hybrid-lz-entropy | 8.4546 ms | 112.28 MiB/s
+file-decode/csv-table/lz4-fast-decode | 348.79 µs | 2.6579 GiB/s
+file-decode/csv-table/snappy-decode | 752.15 µs | 1.2325 GiB/s
+file-decode/csv-table/zstd-fast-3-decode | 726.93 µs | 1.2753 GiB/s
+file-decode/csv-table/zstd-level-1-decode | 877.87 µs | 1.0560 GiB/s
+file-decode/csv-table/brotli-quality-0-decode | 2.1906 ms | 433.34 MiB/s
+file-decode/csv-table/brotli-quality-5-decode | 2.0919 ms | 453.80 MiB/s
+file-decode/csv-table/zlib-fast-decode | 2.7594 ms | 344.02 MiB/s
+file-decode/csv-table/zlib-default-decode | 2.2728 ms | 417.68 MiB/s
+file-decode/csv-table/raw-copy-control | 21.669 µs | 42.783 GiB/s
+file-undecoded-index-get/server-log-records/trnmap-1024-even-positions | 2.0234 µs | 506.09 Melem/s
+file-undecoded-index-get/server-log-records/raw-word-classify-1024 | 2.8739 µs | 356.31 Melem/s
+file-undecoded-index-find-zero/server-log-records/trnmap-hierarchical-32-starts | 356.08 ns | 89.869 Melem/s
+file-undecoded-index-find-zero/server-log-records/raw-linear-32-starts | 17.259 ms | 1.8541 Kelem/s
+file-undecoded-index-count-zero/server-log-records/trnmap-summary-count | 219.56 ns | 1592.4 Gelem/s
+file-undecoded-index-count-zero/server-log-records/raw-linear-count | 1.0881 ms | 321.31 Melem/s
+file-encode/server-log-records/rnbw-hybrid-lz-entropy-one-shot | 6.9903 ms | 190.80 MiB/s
+file-encode/server-log-records/rnbw-hybrid-lz-entropy-reuse-serial | 6.6936 ms | 199.26 MiB/s
+file-encode/server-log-records/rnbw-hybrid-lz-entropy-reuse-parallel | 3.5851 ms | 372.03 MiB/s
+file-encode/server-log-records/lz4-fast-encode | 1.3761 ms | 969.19 MiB/s
+file-encode/server-log-records/snappy-encode | 1.2333 ms | 1.0561 GiB/s
+file-encode/server-log-records/zstd-fast-3-encode | 1.6815 ms | 793.20 MiB/s
+file-encode/server-log-records/zstd-level-1-encode | 2.0706 ms | 644.12 MiB/s
+file-encode/server-log-records/brotli-quality-0-encode | 4.9133 ms | 271.46 MiB/s
+file-encode/server-log-records/brotli-quality-5-encode | 33.615 ms | 39.677 MiB/s
+file-encode/server-log-records/zlib-fast-encode | 3.8035 ms | 350.66 MiB/s
+file-encode/server-log-records/zlib-default-encode | 21.565 ms | 61.848 MiB/s
+file-encode/server-log-records/raw-copy-control | 281.24 µs | 4.6312 GiB/s
+file-decode/server-log-records/rnbw-cow-borrow-when-possible | 7.8551 ms | 169.79 MiB/s
+file-decode/server-log-records/rnbw-hybrid-lz-entropy | 7.9057 ms | 168.71 MiB/s
+file-decode/server-log-records/lz4-fast-decode | 467.07 µs | 2.7886 GiB/s
+file-decode/server-log-records/snappy-decode | 686.87 µs | 1.8963 GiB/s
+file-decode/server-log-records/zstd-fast-3-decode | 804.39 µs | 1.6192 GiB/s
+file-decode/server-log-records/zstd-level-1-decode | 1.1658 ms | 1.1173 GiB/s
+file-decode/server-log-records/brotli-quality-0-decode | 2.3431 ms | 569.23 MiB/s
+file-decode/server-log-records/brotli-quality-5-decode | 2.2460 ms | 593.83 MiB/s
+file-decode/server-log-records/zlib-fast-decode | 2.3837 ms | 559.51 MiB/s
+file-decode/server-log-records/zlib-default-decode | 2.1494 ms | 620.51 MiB/s
+file-decode/server-log-records/raw-copy-control | 273.08 µs | 4.7695 GiB/s
+
+VALIDATION
+16 dataset summaries, 16 TRNMAP build records, 463 Criterion timing groups, 463 parsed timing rows; no missing timing medians. Every RNBW and comparator round-trip was asserted before timing.
+The index find/count cases compare against scalar scans. The point-get cases compare indexed raw-word classes with direct raw classification. These results are specific to this corpus and Windows AVX2 host.

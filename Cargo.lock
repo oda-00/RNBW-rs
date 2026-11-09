@@ -1062,6 +1062,7 @@ dependencies = [
  "lz4_flex",
  "rayon",
  "roaring",
+ "serde_json",
  "snap",
  "wgpu",
  "zstd",

@@ -1,0 +1,45 @@
+RNBW general corpus: refreshed full encode/decode matrix
+Date: 2026-11-09
+Separate runs: cargo bench --offline --locked --bench files -- file-encode/file-decode --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Ten Criterion samples per group; slow groups were automatically extended. Values are medians; ranges are in the raw captures. AVX2 detected. Round-trip assertions run before timing. RNBW decode is full entropy+LZ reconstruction and lane interleave; parallel decode uses the retained >=16 KiB multi-lane dispatch.
+The size ratios are unchanged fixed-corpus ratios from general-file-codec-and-trnmap-summary-2026-11-09.txt; the current rerun measures timings only.
+
+ENCODE MEDIANS
+dataset | raw bytes | ratio RNBW / LZ4 / Zstd-3 | one-shot RNBW | reuse serial RNBW | reuse parallel RNBW | LZ4 | Snappy | Zstd-3 | Zstd-1 | Brotli-0 | Brotli-5 | zlib-fast | zlib-default
+--- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---:
+ai-model-int8-tensor-synthetic | 1048576 | 0.0206 / 0.0190 / 0.0019 | 4.8972 ms | 4.1859 ms | 2.6925 ms | 136.61 µs | 147.24 µs | 108.59 µs | 91.736 µs | 577.53 µs | 3.8680 ms | 645.02 µs | 5.3312 ms
+csv-table | 995409 | 0.4314 / 0.5051 / 0.5033 | 6.3989 ms | 6.2215 ms | 3.4955 ms | 1.9045 ms | 1.6477 ms | 1.6954 ms | 2.5550 ms | 5.0355 ms | 38.922 ms | 4.3393 ms | 47.507 ms
+graphics-shader-machine-words-synthetic | 262144 | 0.0140 / 0.0509 / 0.0471 | 970.30 µs | 529.13 µs | 220.65 µs | 25.483 µs | 21.691 µs | 22.942 µs | 36.196 µs | 185.35 µs | 1.0540 ms | 1.4811 ms | 817.00 µs
+graphics-wgsl-source | 8267 | 0.3610 / 0.3698 / 0.3197 | 517.75 µs | 56.939 µs | 55.679 µs | 7.4006 µs | 7.2415 µs | 19.328 µs | 23.819 µs | 39.102 µs | 460.44 µs | 30.098 µs | 90.407 µs
+image-png-compressed-deflate | 89883 | 1.0007 / 1.0040 / 1.0001 | 1.8524 ms | 1.4154 ms | 1.4792 ms | 8.6771 µs | 5.6992 µs | 11.525 µs | 88.858 µs | 47.328 µs | 1.9601 ms | 487.45 µs | 1.9434 ms
+image-png-stored-deflate | 131278 | 0.9283 / 0.9962 / 0.9545 | 3.5580 ms | 3.0105 ms | 3.6278 ms | 80.114 µs | 8.1626 µs | 188.82 µs | 132.83 µs | 724.74 µs | 6.8082 ms | 780.63 µs | 4.5075 ms
+image-rgba8-raster | 524288 | 0.5630 / 1.0020 / 0.9746 | 8.0703 ms | 7.2358 ms | 3.0828 ms | 194.81 µs | 41.288 µs | 619.98 µs | 1.6023 ms | 3.5561 ms | 62.256 ms | 3.4972 ms | 20.247 ms
+json-records | 1209516 | 0.1966 / 0.2395 / 0.2037 | 5.3221 ms | 5.0462 ms | 2.9000 ms | 1.2082 ms | 970.45 µs | 1.4228 ms | 2.0055 ms | 2.9747 ms | 24.585 ms | 2.4108 ms | 30.572 ms
+native-executable-binary | 5437440 | 0.5560 / 0.5544 / 0.5503 | 66.352 ms | 68.871 ms | 53.671 ms | 8.8569 ms | 8.5165 ms | 9.5000 ms | 13.331 ms | 28.382 ms | 236.17 ms | 32.992 ms | 211.26 ms
+natural-style-prose-generated | 586022 | 0.1535 / 0.1558 / 0.0952 | 2.3134 ms | 1.8378 ms | 1.1067 ms | 303.93 µs | 329.98 µs | 590.81 µs | 608.86 µs | 1.0034 ms | 7.6238 ms | 859.51 µs | 5.5668 ms
+random-binary-incompressible | 1048576 | 1.0001 / 1.0039 / 1.0000 | 431.98 µs | 426.36 µs | 422.94 µs | 479.60 µs | 338.16 µs | 562.76 µs | 541.42 µs | 1.1047 ms | 5.8814 ms | 5.9449 ms | 23.679 ms
+repository-rust-source | 275729 | 0.3161 / 0.3332 / 0.2975 | 2.1279 ms | 1.5562 ms | 1.1255 ms | 480.74 µs | 383.81 µs | 649.50 µs | 705.79 µs | 1.0608 ms | 5.2377 ms | 1.0358 ms | 6.5985 ms
+repository-technical-prose | 26666 | 0.5937 / 0.5840 / 0.5777 | 706.15 µs | 327.24 µs | 292.55 µs | 32.390 µs | 29.866 µs | 48.065 µs | 75.088 µs | 129.49 µs | 1.2175 ms | 149.54 µs | 528.50 µs
+server-log-records | 1398527 | 0.2819 / 0.3256 / 0.3104 | 7.6814 ms | 6.5634 ms | 3.6828 ms | 1.5017 ms | 1.3550 ms | 1.5828 ms | 2.4184 ms | 4.9192 ms | 33.584 ms | 3.8209 ms | 22.590 ms
+sparse-binary | 1048576 | 0.0462 / 0.0382 / 0.0336 | 2.7089 ms | 2.2974 ms | 1.0406 ms | 144.74 µs | 129.86 µs | 191.35 µs | 316.95 µs | 1.0372 ms | 5.7364 ms | 638.61 µs | 4.7118 ms
+structured-binary-records | 524288 | 0.6725 / 0.7595 / 0.6997 | 3.4325 ms | 2.3450 ms | 2.3364 ms | 752.52 µs | 477.85 µs | 863.46 µs | 1.5196 ms | 2.9907 ms | 18.247 ms | 2.0764 ms | 16.060 ms
+
+DECODE MEDIANS
+dataset | raw bytes | ratio RNBW / LZ4 / Zstd-3 | RNBW | LZ4 | Snappy | Zstd-3 | Zstd-1 | Brotli-0 | Brotli-5 | zlib-fast | zlib-default
+--- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---:
+ai-model-int8-tensor-synthetic | 1048576 | 0.0206 / 0.0190 / 0.0019 | 1.7262 ms | 212.48 µs | 286.97 µs | 263.60 µs | 279.94 µs | 494.98 µs | 460.58 µs | 549.93 µs | 504.82 µs
+csv-table | 995409 | 0.4314 / 0.5051 / 0.5033 | 8.6375 ms | 424.77 µs | 795.38 µs | 760.20 µs | 1.0233 ms | 2.3220 ms | 2.3940 ms | 3.0187 ms | 2.5848 ms
+graphics-shader-machine-words-synthetic | 262144 | 0.0140 / 0.0509 / 0.0471 | 393.43 µs | 9.2324 µs | 17.803 µs | 7.0652 µs | 18.832 µs | 87.055 µs | 79.511 µs | 878.30 µs | 71.696 µs
+graphics-wgsl-source | 8267 | 0.3610 / 0.3698 / 0.3197 | 55.442 µs | 3.0626 µs | 3.8341 µs | 9.2123 µs | 10.556 µs | 13.906 µs | 11.897 µs | 16.291 µs | 12.171 µs
+image-png-compressed-deflate | 89883 | 1.0007 / 1.0040 / 1.0001 | 2.0046 µs | 3.7909 µs | 3.7089 µs | 2.4935 µs | 84.837 µs | 10.521 µs | 428.77 µs | 246.97 µs | 263.61 µs
+image-png-stored-deflate | 131278 | 0.9283 / 0.9962 / 0.9545 | 1.5564 ms | 7.2659 µs | 4.8212 µs | 26.181 µs | 109.63 µs | 610.67 µs | 732.69 µs | 418.55 µs | 612.90 µs
+image-rgba8-raster | 524288 | 0.5630 / 1.0020 / 0.9746 | 2.9354 ms | 22.906 µs | 20.652 µs | 62.647 µs | 638.64 µs | 3.0269 ms | 3.1531 ms | 1.8576 ms | 2.9086 ms
+json-records | 1209516 | 0.1966 / 0.2395 / 0.2037 | 4.9057 ms | 536.54 µs | 642.25 µs | 1.1294 ms | 1.2048 ms | 1.7827 ms | 1.4939 ms | 1.7197 ms | 1.3665 ms
+native-executable-binary | 5437440 | 0.5560 / 0.5544 / 0.5503 | 38.670 ms | 2.8251 ms | 3.6397 ms | 3.8007 ms | 7.3917 ms | 19.616 ms | 15.047 ms | 17.995 ms | 16.051 ms
+natural-style-prose-generated | 586022 | 0.1535 / 0.1558 / 0.0952 | 1.8989 ms | 133.02 µs | 174.89 µs | 343.13 µs | 334.53 µs | 463.64 µs | 374.47 µs | 610.58 µs | 250.96 µs
+random-binary-incompressible | 1048576 | 1.0001 / 1.0039 / 1.0000 | 218.72 µs | 264.57 µs | 241.31 µs | 229.67 µs | 256.24 µs | 459.33 µs | 527.25 µs | 2.8186 ms | 300.05 µs
+repository-rust-source | 275729 | 0.3161 / 0.3332 / 0.2975 | 2.0708 ms | 105.67 µs | 159.71 µs | 257.25 µs | 273.89 µs | 426.28 µs | 341.77 µs | 725.13 µs | 489.87 µs
+repository-technical-prose | 26666 | 0.5937 / 0.5840 / 0.5777 | 333.21 µs | 13.298 µs | 14.220 µs | 24.403 µs | 34.540 µs | 59.728 µs | 51.291 µs | 70.754 µs | 51.280 µs
+server-log-records | 1398527 | 0.2819 / 0.3256 / 0.3104 | 8.2636 ms | 487.67 µs | 721.65 µs | 951.66 µs | 1.2684 ms | 2.5094 ms | 2.1783 ms | 2.6656 ms | 2.5188 ms
+sparse-binary | 1048576 | 0.0462 / 0.0382 / 0.0336 | 1.1676 ms | 577.76 µs | 434.37 µs | 281.58 µs | 314.28 µs | 802.57 µs | 564.24 µs | 486.78 µs | 448.59 µs
+structured-binary-records | 524288 | 0.6725 / 0.7595 / 0.6997 | 1.1578 ms | 215.90 µs | 191.30 µs | 461.28 µs | 419.42 µs | 1.7638 ms | 903.05 µs | 1.1411 ms | 1.0973 ms

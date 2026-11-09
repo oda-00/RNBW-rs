@@ -1,0 +1,2086 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 8.13s
+     Running benches\codec.rs (target\release\deps\codec-4f96c2aa536a4974.exe)
+Gnuplot not found, using plotters backend
+benchmark environment: arch=x86_64 RNBW-SIMD=avx2 rayon-workers=16
+dataset=uniform keys=999882 bytes/key: rnbw-query=1.9288 rnbw-hybrid=1.7560 lane-lz-hybrid=2.2344 plain-ef=1.8216 delta-varint=1.9932 raw=4.0000 roaring-run-optimized=2.5244 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+Benchmarking build/uniform/rnbw/999882
+Benchmarking build/uniform/rnbw/999882: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 243.7ms.
+Benchmarking build/uniform/rnbw/999882: Collecting 10 samples in estimated 243.71 ms (10 iterations)
+Benchmarking build/uniform/rnbw/999882: Analyzing
+build/uniform/rnbw/999882
+                        time:   [24.103 ms 24.213 ms 24.322 ms]
+                        thrpt:  [41.111 Melem/s 41.295 Melem/s 41.484 Melem/s]
+Benchmarking build/uniform/plain-ef/999882
+Benchmarking build/uniform/plain-ef/999882: Warming up for 100.00 ms
+Benchmarking build/uniform/plain-ef/999882: Collecting 10 samples in estimated 208.49 ms (20 iterations)
+Benchmarking build/uniform/plain-ef/999882: Analyzing
+build/uniform/plain-ef/999882
+                        time:   [10.459 ms 10.525 ms 10.586 ms]
+                        thrpt:  [94.457 Melem/s 94.998 Melem/s 95.603 Melem/s]
+Benchmarking build/uniform/delta-varint/999882
+Benchmarking build/uniform/delta-varint/999882: Warming up for 100.00 ms
+Benchmarking build/uniform/delta-varint/999882: Collecting 10 samples in estimated 292.17 ms (110 iterations)
+Benchmarking build/uniform/delta-varint/999882: Analyzing
+build/uniform/delta-varint/999882
+                        time:   [2.6960 ms 2.8370 ms 3.0635 ms]
+                        thrpt:  [326.38 Melem/s 352.44 Melem/s 370.88 Melem/s]
+Benchmarking build/uniform/raw-vec/999882
+Benchmarking build/uniform/raw-vec/999882: Warming up for 100.00 ms
+Benchmarking build/uniform/raw-vec/999882: Collecting 10 samples in estimated 162.24 ms (275 iterations)
+Benchmarking build/uniform/raw-vec/999882: Analyzing
+build/uniform/raw-vec/999882
+                        time:   [568.31 µs 607.35 µs 655.05 µs]
+                        thrpt:  [1.5264 Gelem/s 1.6463 Gelem/s 1.7594 Gelem/s]
+Benchmarking build/uniform/roaring/999882
+Benchmarking build/uniform/roaring/999882: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 251.9ms.
+Benchmarking build/uniform/roaring/999882: Collecting 10 samples in estimated 251.91 ms (10 iterations)
+Benchmarking build/uniform/roaring/999882: Analyzing
+build/uniform/roaring/999882
+                        time:   [25.554 ms 26.018 ms 26.634 ms]
+                        thrpt:  [37.542 Melem/s 38.430 Melem/s 39.128 Melem/s]
+Benchmarking build/uniform/lz4-64k-indexed/999882
+Benchmarking build/uniform/lz4-64k-indexed/999882: Warming up for 100.00 ms
+Benchmarking build/uniform/lz4-64k-indexed/999882: Collecting 10 samples in estimated 298.93 ms (110 iterations)
+Benchmarking build/uniform/lz4-64k-indexed/999882: Analyzing
+build/uniform/lz4-64k-indexed/999882
+                        time:   [2.5450 ms 2.6833 ms 2.8220 ms]
+                        thrpt:  [354.31 Melem/s 372.64 Melem/s 392.88 Melem/s]
+Benchmarking build/uniform/rnbw-hybrid-entropy/999882
+Benchmarking build/uniform/rnbw-hybrid-entropy/999882: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 366.7ms.
+Benchmarking build/uniform/rnbw-hybrid-entropy/999882: Collecting 10 samples in estimated 366.69 ms (10 iterations)
+Benchmarking build/uniform/rnbw-hybrid-entropy/999882: Analyzing
+build/uniform/rnbw-hybrid-entropy/999882
+                        time:   [35.238 ms 35.651 ms 36.230 ms]
+                        thrpt:  [27.598 Melem/s 28.047 Melem/s 28.375 Melem/s]
+Benchmarking build/uniform/rnbw-lane-lz-hybrid/999882
+Benchmarking build/uniform/rnbw-lane-lz-hybrid/999882: Warming up for 100.00 ms
+Benchmarking build/uniform/rnbw-lane-lz-hybrid/999882: Collecting 10 samples in estimated 201.03 ms (20 iterations)
+Benchmarking build/uniform/rnbw-lane-lz-hybrid/999882: Analyzing
+build/uniform/rnbw-lane-lz-hybrid/999882
+                        time:   [9.1869 ms 9.3120 ms 9.4332 ms]
+                        thrpt:  [106.00 Melem/s 107.38 Melem/s 108.84 Melem/s]
+
+Benchmarking contains/uniform/rnbw/hits
+Benchmarking contains/uniform/rnbw/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/rnbw/hits: Collecting 10 samples in estimated 152.02 ms (1155 iterations)
+Benchmarking contains/uniform/rnbw/hits: Analyzing
+contains/uniform/rnbw/hits
+                        time:   [126.72 µs 127.70 µs 128.54 µs]
+                        thrpt:  [7.9665 Melem/s 8.0185 Melem/s 8.0808 Melem/s]
+Benchmarking contains/uniform/rnbw/misses
+Benchmarking contains/uniform/rnbw/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/rnbw/misses: Collecting 10 samples in estimated 154.21 ms (1650 iterations)
+Benchmarking contains/uniform/rnbw/misses: Analyzing
+contains/uniform/rnbw/misses
+                        time:   [93.935 µs 94.780 µs 95.877 µs]
+                        thrpt:  [10.680 Melem/s 10.804 Melem/s 10.901 Melem/s]
+Benchmarking contains/uniform/plain-ef/hits
+Benchmarking contains/uniform/plain-ef/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/plain-ef/hits: Collecting 10 samples in estimated 154.95 ms (440 iterations)
+Benchmarking contains/uniform/plain-ef/hits: Analyzing
+contains/uniform/plain-ef/hits
+                        time:   [341.47 µs 344.01 µs 346.93 µs]
+                        thrpt:  [2.9516 Melem/s 2.9767 Melem/s 2.9988 Melem/s]
+Benchmarking contains/uniform/plain-ef/misses
+Benchmarking contains/uniform/plain-ef/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/plain-ef/misses: Collecting 10 samples in estimated 162.05 ms (495 iterations)
+Benchmarking contains/uniform/plain-ef/misses: Analyzing
+contains/uniform/plain-ef/misses
+                        time:   [326.99 µs 327.62 µs 328.22 µs]
+                        thrpt:  [3.1199 Melem/s 3.1256 Melem/s 3.1316 Melem/s]
+Benchmarking contains/uniform/raw-binary-search/hits
+Benchmarking contains/uniform/raw-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/raw-binary-search/hits: Collecting 10 samples in estimated 150.87 ms (3630 iterations)
+Benchmarking contains/uniform/raw-binary-search/hits: Analyzing
+contains/uniform/raw-binary-search/hits
+                        time:   [41.344 µs 44.385 µs 49.396 µs]
+                        thrpt:  [20.730 Melem/s 23.071 Melem/s 24.768 Melem/s]
+Benchmarking contains/uniform/raw-binary-search/misses
+Benchmarking contains/uniform/raw-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/raw-binary-search/misses: Collecting 10 samples in estimated 152.09 ms (3630 iterations)
+Benchmarking contains/uniform/raw-binary-search/misses: Analyzing
+contains/uniform/raw-binary-search/misses
+                        time:   [42.620 µs 42.991 µs 43.200 µs]
+                        thrpt:  [23.704 Melem/s 23.819 Melem/s 24.026 Melem/s]
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/hits
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/hits: Collecting 10 samples in estimated 150.92 ms (3465 iterations)
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/hits: Analyzing
+contains/uniform/delta-varint-decoded-binary-search/hits
+                        time:   [41.080 µs 41.845 µs 42.632 µs]
+                        thrpt:  [24.020 Melem/s 24.471 Melem/s 24.927 Melem/s]
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/misses
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/misses: Collecting 10 samples in estimated 150.72 ms (3630 iterations)
+Benchmarking contains/uniform/delta-varint-decoded-binary-search/misses: Analyzing
+contains/uniform/delta-varint-decoded-binary-search/misses
+                        time:   [41.900 µs 44.006 µs 47.679 µs]
+                        thrpt:  [21.477 Melem/s 23.270 Melem/s 24.439 Melem/s]
+Benchmarking contains/uniform/delta-varint-decode-plus-search/hits
+Benchmarking contains/uniform/delta-varint-decode-plus-search/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/delta-varint-decode-plus-search/hits: Collecting 10 samples in estimated 264.73 ms (110 iterations)
+Benchmarking contains/uniform/delta-varint-decode-plus-search/hits: Analyzing
+contains/uniform/delta-varint-decode-plus-search/hits
+                        time:   [2.3657 ms 2.3980 ms 2.4353 ms]
+                        thrpt:  [420.48 Kelem/s 427.02 Kelem/s 432.86 Kelem/s]
+Benchmarking contains/uniform/delta-varint-decode-plus-search/misses
+Benchmarking contains/uniform/delta-varint-decode-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/delta-varint-decode-plus-search/misses: Collecting 10 samples in estimated 265.08 ms (110 iterations)
+Benchmarking contains/uniform/delta-varint-decode-plus-search/misses: Analyzing
+contains/uniform/delta-varint-decode-plus-search/misses
+                        time:   [2.4800 ms 2.5141 ms 2.5509 ms]
+                        thrpt:  [401.42 Kelem/s 407.30 Kelem/s 412.90 Kelem/s]
+Benchmarking contains/uniform/roaring/hits
+Benchmarking contains/uniform/roaring/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/roaring/hits: Collecting 10 samples in estimated 152.94 ms (2200 iterations)
+Benchmarking contains/uniform/roaring/hits: Analyzing
+contains/uniform/roaring/hits
+                        time:   [66.459 µs 66.863 µs 67.343 µs]
+                        thrpt:  [15.206 Melem/s 15.315 Melem/s 15.408 Melem/s]
+Benchmarking contains/uniform/roaring/misses
+Benchmarking contains/uniform/roaring/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/roaring/misses: Collecting 10 samples in estimated 153.34 ms (2310 iterations)
+Benchmarking contains/uniform/roaring/misses: Analyzing
+contains/uniform/roaring/misses
+                        time:   [64.723 µs 65.064 µs 65.456 µs]
+                        thrpt:  [15.644 Melem/s 15.738 Melem/s 15.821 Melem/s]
+Benchmarking contains/uniform/lz4-64k-block-plus-search/hits
+Benchmarking contains/uniform/lz4-64k-block-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 179.1ms or enable flat sampling.
+Benchmarking contains/uniform/lz4-64k-block-plus-search/hits: Collecting 10 samples in estimated 179.08 ms (55 iterations)
+Benchmarking contains/uniform/lz4-64k-block-plus-search/hits: Analyzing
+contains/uniform/lz4-64k-block-plus-search/hits
+                        time:   [3.2540 ms 3.3002 ms 3.3459 ms]
+                        thrpt:  [306.05 Kelem/s 310.28 Kelem/s 314.69 Kelem/s]
+Benchmarking contains/uniform/lz4-64k-block-plus-search/misses
+Benchmarking contains/uniform/lz4-64k-block-plus-search/misses: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 209.1ms or enable flat sampling.
+Benchmarking contains/uniform/lz4-64k-block-plus-search/misses: Collecting 10 samples in estimated 209.07 ms (55 iterations)
+Benchmarking contains/uniform/lz4-64k-block-plus-search/misses: Analyzing
+contains/uniform/lz4-64k-block-plus-search/misses
+                        time:   [3.6460 ms 3.6582 ms 3.6701 ms]
+                        thrpt:  [279.01 Kelem/s 279.92 Kelem/s 280.85 Kelem/s]
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/hits
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/hits: Warming up for 100.00 ms
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/hits: Collecting 10 samples in estimated 214.13 ms (20 iterations)
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/hits: Analyzing
+contains/uniform/rnbw-hybrid-restore-plus-search/hits
+                        time:   [11.272 ms 11.997 ms 12.706 ms]
+                        thrpt:  [80.593 Kelem/s 85.353 Kelem/s 90.846 Kelem/s]
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/misses
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/misses: Collecting 10 samples in estimated 223.82 ms (20 iterations)
+Benchmarking contains/uniform/rnbw-hybrid-restore-plus-search/misses: Analyzing
+contains/uniform/rnbw-hybrid-restore-plus-search/misses
+                        time:   [10.801 ms 10.914 ms 11.033 ms]
+                        thrpt:  [92.811 Kelem/s 93.822 Kelem/s 94.806 Kelem/s]
+
+Benchmarking decode/uniform/rnbw
+Benchmarking decode/uniform/rnbw: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 408.5ms.
+Benchmarking decode/uniform/rnbw: Collecting 10 samples in estimated 408.47 ms (10 iterations)
+Benchmarking decode/uniform/rnbw: Analyzing
+decode/uniform/rnbw     time:   [41.772 ms 43.890 ms 47.041 ms]
+                        thrpt:  [21.255 Melem/s 22.781 Melem/s 23.937 Melem/s]
+Benchmarking decode/uniform/rnbw-parse
+Benchmarking decode/uniform/rnbw-parse: Warming up for 100.00 ms
+Benchmarking decode/uniform/rnbw-parse: Collecting 10 samples in estimated 164.33 ms (30 iterations)
+Benchmarking decode/uniform/rnbw-parse: Analyzing
+decode/uniform/rnbw-parse
+                        time:   [5.5578 ms 5.5983 ms 5.6415 ms]
+                        thrpt:  [177.24 Melem/s 178.61 Melem/s 179.91 Melem/s]
+Benchmarking decode/uniform/rnbw-parse-plus-decode
+Benchmarking decode/uniform/rnbw-parse-plus-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 474.2ms.
+Benchmarking decode/uniform/rnbw-parse-plus-decode: Collecting 10 samples in estimated 474.23 ms (10 iterations)
+Benchmarking decode/uniform/rnbw-parse-plus-decode: Analyzing
+decode/uniform/rnbw-parse-plus-decode
+                        time:   [45.782 ms 46.462 ms 47.164 ms]
+                        thrpt:  [21.200 Melem/s 21.520 Melem/s 21.840 Melem/s]
+Benchmarking decode/uniform/plain-ef
+Benchmarking decode/uniform/plain-ef: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 263.5ms or enable flat sampling.
+Benchmarking decode/uniform/plain-ef: Collecting 10 samples in estimated 263.48 ms (55 iterations)
+Benchmarking decode/uniform/plain-ef: Analyzing
+decode/uniform/plain-ef time:   [4.4308 ms 4.5172 ms 4.6238 ms]
+                        thrpt:  [216.25 Melem/s 221.35 Melem/s 225.66 Melem/s]
+Benchmarking decode/uniform/delta-varint
+Benchmarking decode/uniform/delta-varint: Warming up for 100.00 ms
+Benchmarking decode/uniform/delta-varint: Collecting 10 samples in estimated 261.87 ms (110 iterations)
+Benchmarking decode/uniform/delta-varint: Analyzing
+decode/uniform/delta-varint
+                        time:   [2.3649 ms 2.4007 ms 2.4231 ms]
+                        thrpt:  [412.65 Melem/s 416.50 Melem/s 422.80 Melem/s]
+Benchmarking decode/uniform/raw-copy
+Benchmarking decode/uniform/raw-copy: Warming up for 100.00 ms
+Benchmarking decode/uniform/raw-copy: Collecting 10 samples in estimated 167.85 ms (275 iterations)
+Benchmarking decode/uniform/raw-copy: Analyzing
+decode/uniform/raw-copy time:   [556.21 µs 567.02 µs 581.22 µs]
+                        thrpt:  [1.7203 Gelem/s 1.7634 Gelem/s 1.7977 Gelem/s]
+Benchmarking decode/uniform/roaring-iterate
+Benchmarking decode/uniform/roaring-iterate: Warming up for 100.00 ms
+Benchmarking decode/uniform/roaring-iterate: Collecting 10 samples in estimated 219.29 ms (30 iterations)
+Benchmarking decode/uniform/roaring-iterate: Analyzing
+decode/uniform/roaring-iterate
+                        time:   [6.4113 ms 6.7082 ms 6.9050 ms]
+                        thrpt:  [144.81 Melem/s 149.05 Melem/s 155.96 Melem/s]
+Benchmarking decode/uniform/lz4-64k-indexed
+Benchmarking decode/uniform/lz4-64k-indexed: Warming up for 100.00 ms
+Benchmarking decode/uniform/lz4-64k-indexed: Collecting 10 samples in estimated 185.01 ms (110 iterations)
+Benchmarking decode/uniform/lz4-64k-indexed: Analyzing
+decode/uniform/lz4-64k-indexed
+                        time:   [1.5244 ms 1.5698 ms 1.6369 ms]
+                        thrpt:  [610.83 Melem/s 636.97 Melem/s 655.90 Melem/s]
+Benchmarking decode/uniform/rnbw-hybrid-entropy
+Benchmarking decode/uniform/rnbw-hybrid-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 524.5ms.
+Benchmarking decode/uniform/rnbw-hybrid-entropy: Collecting 10 samples in estimated 524.54 ms (10 iterations)
+Benchmarking decode/uniform/rnbw-hybrid-entropy: Analyzing
+decode/uniform/rnbw-hybrid-entropy
+                        time:   [50.863 ms 51.628 ms 52.426 ms]
+                        thrpt:  [19.072 Melem/s 19.367 Melem/s 19.658 Melem/s]
+Benchmarking decode/uniform/rnbw-lane-lz-hybrid
+Benchmarking decode/uniform/rnbw-lane-lz-hybrid: Warming up for 100.00 ms
+Benchmarking decode/uniform/rnbw-lane-lz-hybrid: Collecting 10 samples in estimated 160.78 ms (20 iterations)
+Benchmarking decode/uniform/rnbw-lane-lz-hybrid: Analyzing
+decode/uniform/rnbw-lane-lz-hybrid
+                        time:   [7.6897 ms 7.7715 ms 7.8657 ms]
+                        thrpt:  [127.12 Melem/s 128.66 Melem/s 130.03 Melem/s]
+
+dataset=clustered keys=1000000 bytes/key: rnbw-query=0.5081 rnbw-hybrid=0.0521 lane-lz-hybrid=0.0512 plain-ef=1.6250 delta-varint=1.0313 raw=4.0000 roaring-run-optimized=0.2207 lz4-64k-indexed=4.0165 (+0 RNBW runtime index bytes)
+Benchmarking build/clustered/rnbw/1000000
+Benchmarking build/clustered/rnbw/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 234.5ms.
+Benchmarking build/clustered/rnbw/1000000: Collecting 10 samples in estimated 234.47 ms (10 iterations)
+Benchmarking build/clustered/rnbw/1000000: Analyzing
+build/clustered/rnbw/1000000
+                        time:   [23.773 ms 24.159 ms 24.579 ms]
+                        thrpt:  [40.685 Melem/s 41.392 Melem/s 42.065 Melem/s]
+Benchmarking build/clustered/plain-ef/1000000
+Benchmarking build/clustered/plain-ef/1000000: Warming up for 100.00 ms
+Benchmarking build/clustered/plain-ef/1000000: Collecting 10 samples in estimated 205.43 ms (30 iterations)
+Benchmarking build/clustered/plain-ef/1000000: Analyzing
+build/clustered/plain-ef/1000000
+                        time:   [6.7927 ms 6.8643 ms 6.9444 ms]
+                        thrpt:  [144.00 Melem/s 145.68 Melem/s 147.22 Melem/s]
+Benchmarking build/clustered/delta-varint/1000000
+Benchmarking build/clustered/delta-varint/1000000: Warming up for 100.00 ms
+Benchmarking build/clustered/delta-varint/1000000: Collecting 10 samples in estimated 169.43 ms (110 iterations)
+Benchmarking build/clustered/delta-varint/1000000: Analyzing
+build/clustered/delta-varint/1000000
+                        time:   [1.5614 ms 1.5826 ms 1.6002 ms]
+                        thrpt:  [624.91 Melem/s 631.88 Melem/s 640.45 Melem/s]
+Benchmarking build/clustered/raw-vec/1000000
+Benchmarking build/clustered/raw-vec/1000000: Warming up for 100.00 ms
+Benchmarking build/clustered/raw-vec/1000000: Collecting 10 samples in estimated 155.28 ms (275 iterations)
+Benchmarking build/clustered/raw-vec/1000000: Analyzing
+build/clustered/raw-vec/1000000
+                        time:   [565.33 µs 584.79 µs 597.70 µs]
+                        thrpt:  [1.6731 Gelem/s 1.7100 Gelem/s 1.7689 Gelem/s]
+Benchmarking build/clustered/roaring/1000000
+Benchmarking build/clustered/roaring/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 185.5ms.
+Benchmarking build/clustered/roaring/1000000: Collecting 10 samples in estimated 185.54 ms (10 iterations)
+Benchmarking build/clustered/roaring/1000000: Analyzing
+build/clustered/roaring/1000000
+                        time:   [18.951 ms 19.553 ms 20.141 ms]
+                        thrpt:  [49.649 Melem/s 51.142 Melem/s 52.766 Melem/s]
+Benchmarking build/clustered/lz4-64k-indexed/1000000
+Benchmarking build/clustered/lz4-64k-indexed/1000000: Warming up for 100.00 ms
+Benchmarking build/clustered/lz4-64k-indexed/1000000: Collecting 10 samples in estimated 280.53 ms (110 iterations)
+Benchmarking build/clustered/lz4-64k-indexed/1000000: Analyzing
+build/clustered/lz4-64k-indexed/1000000
+                        time:   [2.5145 ms 2.5431 ms 2.5620 ms]
+                        thrpt:  [390.32 Melem/s 393.23 Melem/s 397.70 Melem/s]
+Benchmarking build/clustered/rnbw-hybrid-entropy/1000000
+Benchmarking build/clustered/rnbw-hybrid-entropy/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 287.1ms.
+Benchmarking build/clustered/rnbw-hybrid-entropy/1000000: Collecting 10 samples in estimated 287.11 ms (10 iterations)
+Benchmarking build/clustered/rnbw-hybrid-entropy/1000000: Analyzing
+build/clustered/rnbw-hybrid-entropy/1000000
+                        time:   [26.623 ms 26.831 ms 27.072 ms]
+                        thrpt:  [36.938 Melem/s 37.271 Melem/s 37.561 Melem/s]
+Benchmarking build/clustered/rnbw-lane-lz-hybrid/1000000
+Benchmarking build/clustered/rnbw-lane-lz-hybrid/1000000: Warming up for 100.00 ms
+Benchmarking build/clustered/rnbw-lane-lz-hybrid/1000000: Collecting 10 samples in estimated 160.56 ms (20 iterations)
+Benchmarking build/clustered/rnbw-lane-lz-hybrid/1000000: Analyzing
+build/clustered/rnbw-lane-lz-hybrid/1000000
+                        time:   [7.7785 ms 8.0003 ms 8.2673 ms]
+                        thrpt:  [120.96 Melem/s 124.99 Melem/s 128.56 Melem/s]
+
+Benchmarking contains/clustered/rnbw/hits
+Benchmarking contains/clustered/rnbw/hits: Warming up for 100.00 ms
+Benchmarking contains/clustered/rnbw/hits: Collecting 10 samples in estimated 156.11 ms (330 iterations)
+Benchmarking contains/clustered/rnbw/hits: Analyzing
+contains/clustered/rnbw/hits
+                        time:   [474.46 µs 480.64 µs 484.54 µs]
+                        thrpt:  [2.1134 Melem/s 2.1305 Melem/s 2.1582 Melem/s]
+Benchmarking contains/clustered/rnbw/misses
+Benchmarking contains/clustered/rnbw/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/rnbw/misses: Collecting 10 samples in estimated 150.97 ms (2640 iterations)
+Benchmarking contains/clustered/rnbw/misses: Analyzing
+contains/clustered/rnbw/misses
+                        time:   [55.493 µs 55.957 µs 56.715 µs]
+                        thrpt:  [18.055 Melem/s 18.300 Melem/s 18.453 Melem/s]
+Benchmarking contains/clustered/plain-ef/hits
+Benchmarking contains/clustered/plain-ef/hits: Warming up for 100.00 ms
+Benchmarking contains/clustered/plain-ef/hits: Collecting 10 samples in estimated 150.52 ms (2200 iterations)
+Benchmarking contains/clustered/plain-ef/hits: Analyzing
+contains/clustered/plain-ef/hits
+                        time:   [67.556 µs 68.054 µs 68.784 µs]
+                        thrpt:  [14.887 Melem/s 15.047 Melem/s 15.158 Melem/s]
+Benchmarking contains/clustered/plain-ef/misses
+Benchmarking contains/clustered/plain-ef/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/plain-ef/misses: Collecting 10 samples in estimated 150.17 ms (12k iterations)
+Benchmarking contains/clustered/plain-ef/misses: Analyzing
+contains/clustered/plain-ef/misses
+                        time:   [12.399 µs 12.475 µs 12.541 µs]
+                        thrpt:  [81.650 Melem/s 82.087 Melem/s 82.587 Melem/s]
+Benchmarking contains/clustered/raw-binary-search/hits
+Benchmarking contains/clustered/raw-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/clustered/raw-binary-search/hits: Collecting 10 samples in estimated 150.49 ms (3410 iterations)
+Benchmarking contains/clustered/raw-binary-search/hits: Analyzing
+contains/clustered/raw-binary-search/hits
+                        time:   [41.527 µs 42.919 µs 44.303 µs]
+                        thrpt:  [23.114 Melem/s 23.859 Melem/s 24.659 Melem/s]
+Benchmarking contains/clustered/raw-binary-search/misses
+Benchmarking contains/clustered/raw-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/raw-binary-search/misses: Collecting 10 samples in estimated 151.12 ms (6380 iterations)
+Benchmarking contains/clustered/raw-binary-search/misses: Analyzing
+contains/clustered/raw-binary-search/misses
+                        time:   [24.072 µs 24.888 µs 25.732 µs]
+                        thrpt:  [39.794 Melem/s 41.145 Melem/s 42.539 Melem/s]
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/hits
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/hits: Collecting 10 samples in estimated 151.69 ms (3465 iterations)
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/hits: Analyzing
+contains/clustered/delta-varint-decoded-binary-search/hits
+                        time:   [42.684 µs 42.873 µs 43.040 µs]
+                        thrpt:  [23.792 Melem/s 23.884 Melem/s 23.990 Melem/s]
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/misses
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/misses: Collecting 10 samples in estimated 150.77 ms (6325 iterations)
+Benchmarking contains/clustered/delta-varint-decoded-binary-search/misses: Analyzing
+contains/clustered/delta-varint-decoded-binary-search/misses
+                        time:   [23.579 µs 23.700 µs 23.912 µs]
+                        thrpt:  [42.824 Melem/s 43.207 Melem/s 43.429 Melem/s]
+Benchmarking contains/clustered/delta-varint-decode-plus-search/hits
+Benchmarking contains/clustered/delta-varint-decode-plus-search/hits: Warming up for 100.00 ms
+Benchmarking contains/clustered/delta-varint-decode-plus-search/hits: Collecting 10 samples in estimated 211.25 ms (110 iterations)
+Benchmarking contains/clustered/delta-varint-decode-plus-search/hits: Analyzing
+contains/clustered/delta-varint-decode-plus-search/hits
+                        time:   [1.8539 ms 1.9092 ms 2.0188 ms]
+                        thrpt:  [507.23 Kelem/s 536.35 Kelem/s 552.36 Kelem/s]
+Benchmarking contains/clustered/delta-varint-decode-plus-search/misses
+Benchmarking contains/clustered/delta-varint-decode-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/delta-varint-decode-plus-search/misses: Collecting 10 samples in estimated 211.23 ms (110 iterations)
+Benchmarking contains/clustered/delta-varint-decode-plus-search/misses: Analyzing
+contains/clustered/delta-varint-decode-plus-search/misses
+                        time:   [1.9451 ms 1.9861 ms 2.0108 ms]
+                        thrpt:  [509.25 Kelem/s 515.59 Kelem/s 526.46 Kelem/s]
+Benchmarking contains/clustered/roaring/hits
+Benchmarking contains/clustered/roaring/hits: Warming up for 100.00 ms
+Benchmarking contains/clustered/roaring/hits: Collecting 10 samples in estimated 151.40 ms (5775 iterations)
+Benchmarking contains/clustered/roaring/hits: Analyzing
+contains/clustered/roaring/hits
+                        time:   [24.835 µs 25.091 µs 25.412 µs]
+                        thrpt:  [40.295 Melem/s 40.811 Melem/s 41.232 Melem/s]
+Benchmarking contains/clustered/roaring/misses
+Benchmarking contains/clustered/roaring/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/roaring/misses: Collecting 10 samples in estimated 150.78 ms (6985 iterations)
+Benchmarking contains/clustered/roaring/misses: Analyzing
+contains/clustered/roaring/misses
+                        time:   [21.583 µs 21.796 µs 21.902 µs]
+                        thrpt:  [46.754 Melem/s 46.980 Melem/s 47.444 Melem/s]
+Benchmarking contains/clustered/lz4-64k-block-plus-search/hits
+Benchmarking contains/clustered/lz4-64k-block-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 163.4ms or enable flat sampling.
+Benchmarking contains/clustered/lz4-64k-block-plus-search/hits: Collecting 10 samples in estimated 163.44 ms (55 iterations)
+Benchmarking contains/clustered/lz4-64k-block-plus-search/hits: Analyzing
+contains/clustered/lz4-64k-block-plus-search/hits
+                        time:   [2.8930 ms 2.9397 ms 2.9936 ms]
+                        thrpt:  [342.06 Kelem/s 348.34 Kelem/s 353.96 Kelem/s]
+Benchmarking contains/clustered/lz4-64k-block-plus-search/misses
+Benchmarking contains/clustered/lz4-64k-block-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/clustered/lz4-64k-block-plus-search/misses: Collecting 10 samples in estimated 161.78 ms (220 iterations)
+Benchmarking contains/clustered/lz4-64k-block-plus-search/misses: Analyzing
+contains/clustered/lz4-64k-block-plus-search/misses
+                        time:   [725.91 µs 731.93 µs 737.83 µs]
+                        thrpt:  [1.3879 Melem/s 1.3990 Melem/s 1.4106 Melem/s]
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/hits
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 237.1ms or enable flat sampling.
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/hits: Collecting 10 samples in estimated 237.14 ms (55 iterations)
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/hits: Analyzing
+contains/clustered/rnbw-hybrid-restore-plus-search/hits
+                        time:   [4.4482 ms 4.5022 ms 4.5360 ms]
+                        thrpt:  [225.75 Kelem/s 227.44 Kelem/s 230.20 Kelem/s]
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/misses
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/misses: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 226.3ms or enable flat sampling.
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/misses: Collecting 10 samples in estimated 226.33 ms (55 iterations)
+Benchmarking contains/clustered/rnbw-hybrid-restore-plus-search/misses: Analyzing
+contains/clustered/rnbw-hybrid-restore-plus-search/misses
+                        time:   [3.8009 ms 3.8140 ms 3.8362 ms]
+                        thrpt:  [266.93 Kelem/s 268.48 Kelem/s 269.41 Kelem/s]
+
+Benchmarking decode/clustered/rnbw
+Benchmarking decode/clustered/rnbw: Warming up for 100.00 ms
+Benchmarking decode/clustered/rnbw: Collecting 10 samples in estimated 287.61 ms (20 iterations)
+Benchmarking decode/clustered/rnbw: Analyzing
+decode/clustered/rnbw   time:   [14.129 ms 14.252 ms 14.397 ms]
+                        thrpt:  [69.461 Melem/s 70.166 Melem/s 70.775 Melem/s]
+Benchmarking decode/clustered/rnbw-parse
+Benchmarking decode/clustered/rnbw-parse: Warming up for 100.00 ms
+Benchmarking decode/clustered/rnbw-parse: Collecting 10 samples in estimated 272.43 ms (110 iterations)
+Benchmarking decode/clustered/rnbw-parse: Analyzing
+decode/clustered/rnbw-parse
+                        time:   [2.4194 ms 2.4412 ms 2.4554 ms]
+                        thrpt:  [407.26 Melem/s 409.63 Melem/s 413.32 Melem/s]
+Benchmarking decode/clustered/rnbw-parse-plus-decode
+Benchmarking decode/clustered/rnbw-parse-plus-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 170.4ms.
+Benchmarking decode/clustered/rnbw-parse-plus-decode: Collecting 10 samples in estimated 170.38 ms (10 iterations)
+Benchmarking decode/clustered/rnbw-parse-plus-decode: Analyzing
+decode/clustered/rnbw-parse-plus-decode
+                        time:   [16.614 ms 16.809 ms 17.002 ms]
+                        thrpt:  [58.816 Melem/s 59.492 Melem/s 60.191 Melem/s]
+Benchmarking decode/clustered/plain-ef
+Benchmarking decode/clustered/plain-ef: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 207.8ms or enable flat sampling.
+Benchmarking decode/clustered/plain-ef: Collecting 10 samples in estimated 207.76 ms (55 iterations)
+Benchmarking decode/clustered/plain-ef: Analyzing
+decode/clustered/plain-ef
+                        time:   [3.7192 ms 3.7490 ms 3.7785 ms]
+                        thrpt:  [264.66 Melem/s 266.74 Melem/s 268.87 Melem/s]
+Benchmarking decode/clustered/delta-varint
+Benchmarking decode/clustered/delta-varint: Warming up for 100.00 ms
+Benchmarking decode/clustered/delta-varint: Collecting 10 samples in estimated 206.70 ms (110 iterations)
+Benchmarking decode/clustered/delta-varint: Analyzing
+decode/clustered/delta-varint
+                        time:   [1.8580 ms 1.8788 ms 1.8978 ms]
+                        thrpt:  [526.93 Melem/s 532.26 Melem/s 538.21 Melem/s]
+Benchmarking decode/clustered/raw-copy
+Benchmarking decode/clustered/raw-copy: Warming up for 100.00 ms
+Benchmarking decode/clustered/raw-copy: Collecting 10 samples in estimated 153.81 ms (275 iterations)
+Benchmarking decode/clustered/raw-copy: Analyzing
+decode/clustered/raw-copy
+                        time:   [550.93 µs 591.25 µs 645.76 µs]
+                        thrpt:  [1.5486 Gelem/s 1.6913 Gelem/s 1.8151 Gelem/s]
+Benchmarking decode/clustered/roaring-iterate
+Benchmarking decode/clustered/roaring-iterate: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 287.9ms or enable flat sampling.
+Benchmarking decode/clustered/roaring-iterate: Collecting 10 samples in estimated 287.89 ms (55 iterations)
+Benchmarking decode/clustered/roaring-iterate: Analyzing
+decode/clustered/roaring-iterate
+                        time:   [5.8714 ms 6.2063 ms 6.4616 ms]
+                        thrpt:  [154.76 Melem/s 161.13 Melem/s 170.32 Melem/s]
+Benchmarking decode/clustered/lz4-64k-indexed
+Benchmarking decode/clustered/lz4-64k-indexed: Warming up for 100.00 ms
+Benchmarking decode/clustered/lz4-64k-indexed: Collecting 10 samples in estimated 182.87 ms (110 iterations)
+Benchmarking decode/clustered/lz4-64k-indexed: Analyzing
+decode/clustered/lz4-64k-indexed
+                        time:   [1.4965 ms 1.5611 ms 1.6849 ms]
+                        thrpt:  [593.51 Melem/s 640.56 Melem/s 668.22 Melem/s]
+Benchmarking decode/clustered/rnbw-hybrid-entropy
+Benchmarking decode/clustered/rnbw-hybrid-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 194.3ms.
+Benchmarking decode/clustered/rnbw-hybrid-entropy: Collecting 10 samples in estimated 194.26 ms (10 iterations)
+Benchmarking decode/clustered/rnbw-hybrid-entropy: Analyzing
+decode/clustered/rnbw-hybrid-entropy
+                        time:   [19.713 ms 20.875 ms 22.603 ms]
+                        thrpt:  [44.243 Melem/s 47.904 Melem/s 50.728 Melem/s]
+Benchmarking decode/clustered/rnbw-lane-lz-hybrid
+Benchmarking decode/clustered/rnbw-lane-lz-hybrid: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 231.9ms or enable flat sampling.
+Benchmarking decode/clustered/rnbw-lane-lz-hybrid: Collecting 10 samples in estimated 231.88 ms (55 iterations)
+Benchmarking decode/clustered/rnbw-lane-lz-hybrid: Analyzing
+decode/clustered/rnbw-lane-lz-hybrid
+                        time:   [4.1285 ms 4.2630 ms 4.4190 ms]
+                        thrpt:  [226.30 Melem/s 234.58 Melem/s 242.22 Melem/s]
+
+dataset=dense keys=1000000 bytes/key: rnbw-query=0.4667 rnbw-hybrid=0.0494 lane-lz-hybrid=0.0284 plain-ef=0.3125 delta-varint=1.0000 raw=4.0000 roaring-run-optimized=0.0002 lz4-64k-indexed=4.0167 (+0 RNBW runtime index bytes)
+Benchmarking build/dense/rnbw/1000000
+Benchmarking build/dense/rnbw/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 231.6ms.
+Benchmarking build/dense/rnbw/1000000: Collecting 10 samples in estimated 231.59 ms (10 iterations)
+Benchmarking build/dense/rnbw/1000000: Analyzing
+build/dense/rnbw/1000000
+                        time:   [22.969 ms 23.173 ms 23.406 ms]
+                        thrpt:  [42.725 Melem/s 43.155 Melem/s 43.537 Melem/s]
+Benchmarking build/dense/plain-ef/1000000
+Benchmarking build/dense/plain-ef/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 209.9ms or enable flat sampling.
+Benchmarking build/dense/plain-ef/1000000: Collecting 10 samples in estimated 209.85 ms (55 iterations)
+Benchmarking build/dense/plain-ef/1000000: Analyzing
+build/dense/plain-ef/1000000
+                        time:   [3.8570 ms 3.8895 ms 3.9123 ms]
+                        thrpt:  [255.61 Melem/s 257.10 Melem/s 259.27 Melem/s]
+Benchmarking build/dense/delta-varint/1000000
+Benchmarking build/dense/delta-varint/1000000: Warming up for 100.00 ms
+Benchmarking build/dense/delta-varint/1000000: Collecting 10 samples in estimated 166.12 ms (110 iterations)
+Benchmarking build/dense/delta-varint/1000000: Analyzing
+build/dense/delta-varint/1000000
+                        time:   [1.5061 ms 1.5200 ms 1.5379 ms]
+                        thrpt:  [650.22 Melem/s 657.90 Melem/s 663.98 Melem/s]
+Benchmarking build/dense/raw-vec/1000000
+Benchmarking build/dense/raw-vec/1000000: Warming up for 100.00 ms
+Benchmarking build/dense/raw-vec/1000000: Collecting 10 samples in estimated 159.33 ms (275 iterations)
+Benchmarking build/dense/raw-vec/1000000: Analyzing
+build/dense/raw-vec/1000000
+                        time:   [553.34 µs 559.71 µs 573.65 µs]
+                        thrpt:  [1.7432 Gelem/s 1.7866 Gelem/s 1.8072 Gelem/s]
+Benchmarking build/dense/roaring/1000000
+Benchmarking build/dense/roaring/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 267.1ms or enable flat sampling.
+Benchmarking build/dense/roaring/1000000: Collecting 10 samples in estimated 267.08 ms (55 iterations)
+Benchmarking build/dense/roaring/1000000: Analyzing
+build/dense/roaring/1000000
+                        time:   [4.8704 ms 4.9162 ms 4.9720 ms]
+                        thrpt:  [201.13 Melem/s 203.41 Melem/s 205.32 Melem/s]
+Benchmarking build/dense/lz4-64k-indexed/1000000
+Benchmarking build/dense/lz4-64k-indexed/1000000: Warming up for 100.00 ms
+Benchmarking build/dense/lz4-64k-indexed/1000000: Collecting 10 samples in estimated 278.60 ms (110 iterations)
+Benchmarking build/dense/lz4-64k-indexed/1000000: Analyzing
+build/dense/lz4-64k-indexed/1000000
+                        time:   [2.5860 ms 2.6666 ms 2.7312 ms]
+                        thrpt:  [366.14 Melem/s 375.02 Melem/s 386.70 Melem/s]
+Benchmarking build/dense/rnbw-hybrid-entropy/1000000
+Benchmarking build/dense/rnbw-hybrid-entropy/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 265.9ms.
+Benchmarking build/dense/rnbw-hybrid-entropy/1000000: Collecting 10 samples in estimated 265.92 ms (10 iterations)
+Benchmarking build/dense/rnbw-hybrid-entropy/1000000: Analyzing
+build/dense/rnbw-hybrid-entropy/1000000
+                        time:   [26.128 ms 26.866 ms 28.072 ms]
+                        thrpt:  [35.622 Melem/s 37.222 Melem/s 38.273 Melem/s]
+Benchmarking build/dense/rnbw-lane-lz-hybrid/1000000
+Benchmarking build/dense/rnbw-lane-lz-hybrid/1000000: Warming up for 100.00 ms
+Benchmarking build/dense/rnbw-lane-lz-hybrid/1000000: Collecting 10 samples in estimated 218.41 ms (30 iterations)
+Benchmarking build/dense/rnbw-lane-lz-hybrid/1000000: Analyzing
+build/dense/rnbw-lane-lz-hybrid/1000000
+                        time:   [7.0939 ms 7.2063 ms 7.3133 ms]
+                        thrpt:  [136.74 Melem/s 138.77 Melem/s 140.97 Melem/s]
+
+Benchmarking contains/dense/rnbw/hits
+Benchmarking contains/dense/rnbw/hits: Warming up for 100.00 ms
+Benchmarking contains/dense/rnbw/hits: Collecting 10 samples in estimated 161.60 ms (440 iterations)
+Benchmarking contains/dense/rnbw/hits: Analyzing
+contains/dense/rnbw/hits
+                        time:   [357.61 µs 364.31 µs 374.67 µs]
+                        thrpt:  [2.7331 Melem/s 2.8108 Melem/s 2.8635 Melem/s]
+Benchmarking contains/dense/rnbw/misses
+Benchmarking contains/dense/rnbw/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/rnbw/misses: Collecting 10 samples in estimated 150.58 ms (9350 iterations)
+Benchmarking contains/dense/rnbw/misses: Analyzing
+contains/dense/rnbw/misses
+                        time:   [16.400 µs 16.564 µs 16.870 µs]
+                        thrpt:  [60.700 Melem/s 61.820 Melem/s 62.441 Melem/s]
+Benchmarking contains/dense/plain-ef/hits
+Benchmarking contains/dense/plain-ef/hits: Warming up for 100.00 ms
+Benchmarking contains/dense/plain-ef/hits: Collecting 10 samples in estimated 152.84 ms (1870 iterations)
+Benchmarking contains/dense/plain-ef/hits: Analyzing
+contains/dense/plain-ef/hits
+                        time:   [77.796 µs 78.304 µs 78.973 µs]
+                        thrpt:  [12.966 Melem/s 13.077 Melem/s 13.163 Melem/s]
+Benchmarking contains/dense/plain-ef/misses
+Benchmarking contains/dense/plain-ef/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/plain-ef/misses: Collecting 10 samples in estimated 150.04 ms (60k iterations)
+Benchmarking contains/dense/plain-ef/misses: Analyzing
+contains/dense/plain-ef/misses
+                        time:   [2.4365 µs 2.4436 µs 2.4522 µs]
+                        thrpt:  [417.58 Melem/s 419.05 Melem/s 420.28 Melem/s]
+Benchmarking contains/dense/raw-binary-search/hits
+Benchmarking contains/dense/raw-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/dense/raw-binary-search/hits: Collecting 10 samples in estimated 151.17 ms (3575 iterations)
+Benchmarking contains/dense/raw-binary-search/hits: Analyzing
+contains/dense/raw-binary-search/hits
+                        time:   [40.896 µs 41.108 µs 41.379 µs]
+                        thrpt:  [24.747 Melem/s 24.910 Melem/s 25.039 Melem/s]
+Benchmarking contains/dense/raw-binary-search/misses
+Benchmarking contains/dense/raw-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/raw-binary-search/misses: Collecting 10 samples in estimated 150.21 ms (8030 iterations)
+Benchmarking contains/dense/raw-binary-search/misses: Analyzing
+contains/dense/raw-binary-search/misses
+                        time:   [18.500 µs 18.594 µs 18.671 µs]
+                        thrpt:  [54.844 Melem/s 55.072 Melem/s 55.351 Melem/s]
+Benchmarking contains/dense/delta-varint-decoded-binary-search/hits
+Benchmarking contains/dense/delta-varint-decoded-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/dense/delta-varint-decoded-binary-search/hits: Collecting 10 samples in estimated 151.72 ms (3465 iterations)
+Benchmarking contains/dense/delta-varint-decoded-binary-search/hits: Analyzing
+contains/dense/delta-varint-decoded-binary-search/hits
+                        time:   [43.542 µs 44.439 µs 45.917 µs]
+                        thrpt:  [22.301 Melem/s 23.043 Melem/s 23.517 Melem/s]
+Benchmarking contains/dense/delta-varint-decoded-binary-search/misses
+Benchmarking contains/dense/delta-varint-decoded-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/delta-varint-decoded-binary-search/misses: Collecting 10 samples in estimated 150.97 ms (7920 iterations)
+Benchmarking contains/dense/delta-varint-decoded-binary-search/misses: Analyzing
+contains/dense/delta-varint-decoded-binary-search/misses
+                        time:   [18.802 µs 18.899 µs 18.966 µs]
+                        thrpt:  [53.993 Melem/s 54.183 Melem/s 54.462 Melem/s]
+Benchmarking contains/dense/delta-varint-decode-plus-search/hits
+Benchmarking contains/dense/delta-varint-decode-plus-search/hits: Warming up for 100.00 ms
+Benchmarking contains/dense/delta-varint-decode-plus-search/hits: Collecting 10 samples in estimated 215.63 ms (110 iterations)
+Benchmarking contains/dense/delta-varint-decode-plus-search/hits: Analyzing
+contains/dense/delta-varint-decode-plus-search/hits
+                        time:   [1.8542 ms 1.9784 ms 2.2578 ms]
+                        thrpt:  [453.53 Kelem/s 517.60 Kelem/s 552.26 Kelem/s]
+Benchmarking contains/dense/delta-varint-decode-plus-search/misses
+Benchmarking contains/dense/delta-varint-decode-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/delta-varint-decode-plus-search/misses: Collecting 10 samples in estimated 211.82 ms (110 iterations)
+Benchmarking contains/dense/delta-varint-decode-plus-search/misses: Analyzing
+contains/dense/delta-varint-decode-plus-search/misses
+                        time:   [1.8301 ms 1.8771 ms 1.9400 ms]
+                        thrpt:  [527.84 Kelem/s 545.53 Kelem/s 559.53 Kelem/s]
+Benchmarking contains/dense/roaring/hits
+Benchmarking contains/dense/roaring/hits: Warming up for 100.00 ms
+Benchmarking contains/dense/roaring/hits: Collecting 10 samples in estimated 150.02 ms (30k iterations)
+Benchmarking contains/dense/roaring/hits: Analyzing
+contains/dense/roaring/hits
+                        time:   [4.9295 µs 4.9915 µs 5.0366 µs]
+                        thrpt:  [203.31 Melem/s 205.15 Melem/s 207.73 Melem/s]
+Benchmarking contains/dense/roaring/misses
+Benchmarking contains/dense/roaring/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/roaring/misses: Collecting 10 samples in estimated 150.09 ms (54k iterations)
+Benchmarking contains/dense/roaring/misses: Analyzing
+contains/dense/roaring/misses
+                        time:   [2.7505 µs 2.7622 µs 2.7840 µs]
+                        thrpt:  [367.82 Melem/s 370.72 Melem/s 372.30 Melem/s]
+Benchmarking contains/dense/lz4-64k-block-plus-search/hits
+Benchmarking contains/dense/lz4-64k-block-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 167.9ms or enable flat sampling.
+Benchmarking contains/dense/lz4-64k-block-plus-search/hits: Collecting 10 samples in estimated 167.87 ms (55 iterations)
+Benchmarking contains/dense/lz4-64k-block-plus-search/hits: Analyzing
+contains/dense/lz4-64k-block-plus-search/hits
+                        time:   [2.9039 ms 2.9470 ms 3.0098 ms]
+                        thrpt:  [340.23 Kelem/s 347.47 Kelem/s 352.63 Kelem/s]
+Benchmarking contains/dense/lz4-64k-block-plus-search/misses
+Benchmarking contains/dense/lz4-64k-block-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/dense/lz4-64k-block-plus-search/misses: Collecting 10 samples in estimated 185.46 ms (275 iterations)
+Benchmarking contains/dense/lz4-64k-block-plus-search/misses: Analyzing
+contains/dense/lz4-64k-block-plus-search/misses
+                        time:   [680.51 µs 684.24 µs 690.20 µs]
+                        thrpt:  [1.4836 Melem/s 1.4965 Melem/s 1.5048 Melem/s]
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/hits
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 236.6ms or enable flat sampling.
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/hits: Collecting 10 samples in estimated 236.60 ms (55 iterations)
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/hits: Analyzing
+contains/dense/rnbw-hybrid-restore-plus-search/hits
+                        time:   [4.0636 ms 4.1454 ms 4.2210 ms]
+                        thrpt:  [242.60 Kelem/s 247.02 Kelem/s 251.99 Kelem/s]
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/misses
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/misses: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 215.1ms or enable flat sampling.
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/misses: Collecting 10 samples in estimated 215.05 ms (55 iterations)
+Benchmarking contains/dense/rnbw-hybrid-restore-plus-search/misses: Analyzing
+contains/dense/rnbw-hybrid-restore-plus-search/misses
+                        time:   [3.9672 ms 3.9872 ms 4.0248 ms]
+                        thrpt:  [254.42 Kelem/s 256.82 Kelem/s 258.12 Kelem/s]
+
+Benchmarking decode/dense/rnbw
+Benchmarking decode/dense/rnbw: Warming up for 100.00 ms
+Benchmarking decode/dense/rnbw: Collecting 10 samples in estimated 279.17 ms (20 iterations)
+Benchmarking decode/dense/rnbw: Analyzing
+decode/dense/rnbw       time:   [13.606 ms 13.883 ms 14.148 ms]
+                        thrpt:  [70.683 Melem/s 72.033 Melem/s 73.495 Melem/s]
+Benchmarking decode/dense/rnbw-parse
+Benchmarking decode/dense/rnbw-parse: Warming up for 100.00 ms
+Benchmarking decode/dense/rnbw-parse: Collecting 10 samples in estimated 255.25 ms (110 iterations)
+Benchmarking decode/dense/rnbw-parse: Analyzing
+decode/dense/rnbw-parse time:   [2.3867 ms 2.4214 ms 2.4417 ms]
+                        thrpt:  [409.56 Melem/s 412.99 Melem/s 418.99 Melem/s]
+Benchmarking decode/dense/rnbw-parse-plus-decode
+Benchmarking decode/dense/rnbw-parse-plus-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 161.8ms.
+Benchmarking decode/dense/rnbw-parse-plus-decode: Collecting 10 samples in estimated 161.76 ms (10 iterations)
+Benchmarking decode/dense/rnbw-parse-plus-decode: Analyzing
+decode/dense/rnbw-parse-plus-decode
+                        time:   [15.567 ms 15.711 ms 15.891 ms]
+                        thrpt:  [62.927 Melem/s 63.650 Melem/s 64.240 Melem/s]
+Benchmarking decode/dense/plain-ef
+Benchmarking decode/dense/plain-ef: Warming up for 100.00 ms
+Benchmarking decode/dense/plain-ef: Collecting 10 samples in estimated 219.13 ms (110 iterations)
+Benchmarking decode/dense/plain-ef: Analyzing
+decode/dense/plain-ef   time:   [2.0253 ms 2.0465 ms 2.0650 ms]
+                        thrpt:  [484.27 Melem/s 488.63 Melem/s 493.74 Melem/s]
+Benchmarking decode/dense/delta-varint
+Benchmarking decode/dense/delta-varint: Warming up for 100.00 ms
+Benchmarking decode/dense/delta-varint: Collecting 10 samples in estimated 192.08 ms (110 iterations)
+Benchmarking decode/dense/delta-varint: Analyzing
+decode/dense/delta-varint
+                        time:   [1.7680 ms 1.7821 ms 1.7980 ms]
+                        thrpt:  [556.17 Melem/s 561.14 Melem/s 565.62 Melem/s]
+Benchmarking decode/dense/raw-copy
+Benchmarking decode/dense/raw-copy: Warming up for 100.00 ms
+Benchmarking decode/dense/raw-copy: Collecting 10 samples in estimated 154.49 ms (275 iterations)
+Benchmarking decode/dense/raw-copy: Analyzing
+decode/dense/raw-copy   time:   [550.11 µs 571.57 µs 617.74 µs]
+                        thrpt:  [1.6188 Gelem/s 1.7496 Gelem/s 1.8178 Gelem/s]
+Benchmarking decode/dense/roaring-iterate
+Benchmarking decode/dense/roaring-iterate: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 267.4ms or enable flat sampling.
+Benchmarking decode/dense/roaring-iterate: Collecting 10 samples in estimated 267.38 ms (55 iterations)
+Benchmarking decode/dense/roaring-iterate: Analyzing
+decode/dense/roaring-iterate
+                        time:   [4.8574 ms 4.8867 ms 4.9086 ms]
+                        thrpt:  [203.73 Melem/s 204.64 Melem/s 205.87 Melem/s]
+Benchmarking decode/dense/lz4-64k-indexed
+Benchmarking decode/dense/lz4-64k-indexed: Warming up for 100.00 ms
+Benchmarking decode/dense/lz4-64k-indexed: Collecting 10 samples in estimated 180.98 ms (110 iterations)
+Benchmarking decode/dense/lz4-64k-indexed: Analyzing
+decode/dense/lz4-64k-indexed
+                        time:   [1.4914 ms 1.5288 ms 1.6058 ms]
+                        thrpt:  [622.74 Melem/s 654.13 Melem/s 670.49 Melem/s]
+Benchmarking decode/dense/rnbw-hybrid-entropy
+Benchmarking decode/dense/rnbw-hybrid-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 190.9ms.
+Benchmarking decode/dense/rnbw-hybrid-entropy: Collecting 10 samples in estimated 190.91 ms (10 iterations)
+Benchmarking decode/dense/rnbw-hybrid-entropy: Analyzing
+decode/dense/rnbw-hybrid-entropy
+                        time:   [17.391 ms 17.552 ms 17.733 ms]
+                        thrpt:  [56.392 Melem/s 56.973 Melem/s 57.501 Melem/s]
+Benchmarking decode/dense/rnbw-lane-lz-hybrid
+Benchmarking decode/dense/rnbw-lane-lz-hybrid: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 234.5ms or enable flat sampling.
+Benchmarking decode/dense/rnbw-lane-lz-hybrid: Collecting 10 samples in estimated 234.49 ms (55 iterations)
+Benchmarking decode/dense/rnbw-lane-lz-hybrid: Analyzing
+decode/dense/rnbw-lane-lz-hybrid
+                        time:   [3.6163 ms 3.6510 ms 3.6846 ms]
+                        thrpt:  [271.40 Melem/s 273.90 Melem/s 276.53 Melem/s]
+
+dataset=morton-shell keys=1000000 bytes/key: rnbw-query=1.2903 rnbw-hybrid=1.1764 lane-lz-hybrid=1.6231 plain-ef=1.5655 delta-varint=1.3198 raw=4.0000 roaring-run-optimized=2.0306 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+Benchmarking build/morton-shell/rnbw/1000000
+Benchmarking build/morton-shell/rnbw/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 234.3ms.
+Benchmarking build/morton-shell/rnbw/1000000: Collecting 10 samples in estimated 234.28 ms (10 iterations)
+Benchmarking build/morton-shell/rnbw/1000000: Analyzing
+build/morton-shell/rnbw/1000000
+                        time:   [23.397 ms 23.676 ms 23.975 ms]
+                        thrpt:  [41.710 Melem/s 42.236 Melem/s 42.741 Melem/s]
+Benchmarking build/morton-shell/plain-ef/1000000
+Benchmarking build/morton-shell/plain-ef/1000000: Warming up for 100.00 ms
+Benchmarking build/morton-shell/plain-ef/1000000: Collecting 10 samples in estimated 211.06 ms (30 iterations)
+Benchmarking build/morton-shell/plain-ef/1000000: Analyzing
+build/morton-shell/plain-ef/1000000
+                        time:   [6.7111 ms 7.5739 ms 8.6307 ms]
+                        thrpt:  [115.87 Melem/s 132.03 Melem/s 149.01 Melem/s]
+Benchmarking build/morton-shell/delta-varint/1000000
+Benchmarking build/morton-shell/delta-varint/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 183.9ms or enable flat sampling.
+Benchmarking build/morton-shell/delta-varint/1000000: Collecting 10 samples in estimated 183.88 ms (55 iterations)
+Benchmarking build/morton-shell/delta-varint/1000000: Analyzing
+build/morton-shell/delta-varint/1000000
+                        time:   [3.2672 ms 3.2931 ms 3.3188 ms]
+                        thrpt:  [301.32 Melem/s 303.67 Melem/s 306.07 Melem/s]
+Benchmarking build/morton-shell/raw-vec/1000000
+Benchmarking build/morton-shell/raw-vec/1000000: Warming up for 100.00 ms
+Benchmarking build/morton-shell/raw-vec/1000000: Collecting 10 samples in estimated 178.90 ms (330 iterations)
+Benchmarking build/morton-shell/raw-vec/1000000: Analyzing
+build/morton-shell/raw-vec/1000000
+                        time:   [545.45 µs 555.43 µs 569.32 µs]
+                        thrpt:  [1.7565 Gelem/s 1.8004 Gelem/s 1.8333 Gelem/s]
+Benchmarking build/morton-shell/roaring/1000000
+Benchmarking build/morton-shell/roaring/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 202.2ms.
+Benchmarking build/morton-shell/roaring/1000000: Collecting 10 samples in estimated 202.15 ms (10 iterations)
+Benchmarking build/morton-shell/roaring/1000000: Analyzing
+build/morton-shell/roaring/1000000
+                        time:   [18.059 ms 18.737 ms 19.338 ms]
+                        thrpt:  [51.711 Melem/s 53.370 Melem/s 55.375 Melem/s]
+Benchmarking build/morton-shell/lz4-64k-indexed/1000000
+Benchmarking build/morton-shell/lz4-64k-indexed/1000000: Warming up for 100.00 ms
+Benchmarking build/morton-shell/lz4-64k-indexed/1000000: Collecting 10 samples in estimated 287.97 ms (110 iterations)
+Benchmarking build/morton-shell/lz4-64k-indexed/1000000: Analyzing
+build/morton-shell/lz4-64k-indexed/1000000
+                        time:   [2.4920 ms 2.5495 ms 2.6168 ms]
+                        thrpt:  [382.14 Melem/s 392.23 Melem/s 401.29 Melem/s]
+Benchmarking build/morton-shell/rnbw-hybrid-entropy/1000000
+Benchmarking build/morton-shell/rnbw-hybrid-entropy/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 323.6ms.
+Benchmarking build/morton-shell/rnbw-hybrid-entropy/1000000: Collecting 10 samples in estimated 323.55 ms (10 iterations)
+Benchmarking build/morton-shell/rnbw-hybrid-entropy/1000000: Analyzing
+build/morton-shell/rnbw-hybrid-entropy/1000000
+                        time:   [32.160 ms 32.788 ms 33.827 ms]
+                        thrpt:  [29.562 Melem/s 30.499 Melem/s 31.095 Melem/s]
+Benchmarking build/morton-shell/rnbw-lane-lz-hybrid/1000000
+Benchmarking build/morton-shell/rnbw-lane-lz-hybrid/1000000: Warming up for 100.00 ms
+Benchmarking build/morton-shell/rnbw-lane-lz-hybrid/1000000: Collecting 10 samples in estimated 288.42 ms (20 iterations)
+Benchmarking build/morton-shell/rnbw-lane-lz-hybrid/1000000: Analyzing
+build/morton-shell/rnbw-lane-lz-hybrid/1000000
+                        time:   [13.556 ms 13.977 ms 14.468 ms]
+                        thrpt:  [69.120 Melem/s 71.546 Melem/s 73.766 Melem/s]
+
+Benchmarking contains/morton-shell/rnbw/hits
+Benchmarking contains/morton-shell/rnbw/hits: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/rnbw/hits: Collecting 10 samples in estimated 160.60 ms (440 iterations)
+Benchmarking contains/morton-shell/rnbw/hits: Analyzing
+contains/morton-shell/rnbw/hits
+                        time:   [356.37 µs 359.28 µs 364.23 µs]
+                        thrpt:  [2.8114 Melem/s 2.8502 Melem/s 2.8734 Melem/s]
+Benchmarking contains/morton-shell/rnbw/misses
+Benchmarking contains/morton-shell/rnbw/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/rnbw/misses: Collecting 10 samples in estimated 151.10 ms (3245 iterations)
+Benchmarking contains/morton-shell/rnbw/misses: Analyzing
+contains/morton-shell/rnbw/misses
+                        time:   [45.812 µs 46.131 µs 46.492 µs]
+                        thrpt:  [22.025 Melem/s 22.198 Melem/s 22.352 Melem/s]
+Benchmarking contains/morton-shell/plain-ef/hits
+Benchmarking contains/morton-shell/plain-ef/hits: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/plain-ef/hits: Collecting 10 samples in estimated 162.17 ms (275 iterations)
+Benchmarking contains/morton-shell/plain-ef/hits: Analyzing
+contains/morton-shell/plain-ef/hits
+                        time:   [584.66 µs 586.80 µs 590.41 µs]
+                        thrpt:  [1.7344 Melem/s 1.7450 Melem/s 1.7514 Melem/s]
+Benchmarking contains/morton-shell/plain-ef/misses
+Benchmarking contains/morton-shell/plain-ef/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/plain-ef/misses: Collecting 10 samples in estimated 150.68 ms (6545 iterations)
+Benchmarking contains/morton-shell/plain-ef/misses: Analyzing
+contains/morton-shell/plain-ef/misses
+                        time:   [22.711 µs 22.909 µs 23.097 µs]
+                        thrpt:  [44.334 Melem/s 44.699 Melem/s 45.089 Melem/s]
+Benchmarking contains/morton-shell/raw-binary-search/hits
+Benchmarking contains/morton-shell/raw-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/raw-binary-search/hits: Collecting 10 samples in estimated 151.82 ms (3685 iterations)
+Benchmarking contains/morton-shell/raw-binary-search/hits: Analyzing
+contains/morton-shell/raw-binary-search/hits
+                        time:   [41.095 µs 41.455 µs 41.908 µs]
+                        thrpt:  [24.434 Melem/s 24.702 Melem/s 24.918 Melem/s]
+Benchmarking contains/morton-shell/raw-binary-search/misses
+Benchmarking contains/morton-shell/raw-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/raw-binary-search/misses: Collecting 10 samples in estimated 150.08 ms (6545 iterations)
+Benchmarking contains/morton-shell/raw-binary-search/misses: Analyzing
+contains/morton-shell/raw-binary-search/misses
+                        time:   [22.767 µs 22.883 µs 23.024 µs]
+                        thrpt:  [44.474 Melem/s 44.750 Melem/s 44.978 Melem/s]
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/hits
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/hits: Collecting 10 samples in estimated 151.44 ms (3465 iterations)
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/hits: Analyzing
+contains/morton-shell/delta-varint-decoded-binary-search/hits
+                        time:   [43.097 µs 43.518 µs 43.925 µs]
+                        thrpt:  [23.312 Melem/s 23.531 Melem/s 23.760 Melem/s]
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/misses
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/misses: Collecting 10 samples in estimated 150.04 ms (6600 iterations)
+Benchmarking contains/morton-shell/delta-varint-decoded-binary-search/misses: Analyzing
+contains/morton-shell/delta-varint-decoded-binary-search/misses
+                        time:   [22.661 µs 22.738 µs 22.853 µs]
+                        thrpt:  [44.808 Melem/s 45.034 Melem/s 45.188 Melem/s]
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/hits
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 204.2ms or enable flat sampling.
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/hits: Collecting 10 samples in estimated 204.19 ms (55 iterations)
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/hits: Analyzing
+contains/morton-shell/delta-varint-decode-plus-search/hits
+                        time:   [3.6713 ms 3.6987 ms 3.7357 ms]
+                        thrpt:  [274.11 Kelem/s 276.85 Kelem/s 278.92 Kelem/s]
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/misses
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/misses: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 194.7ms or enable flat sampling.
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/misses: Collecting 10 samples in estimated 194.71 ms (55 iterations)
+Benchmarking contains/morton-shell/delta-varint-decode-plus-search/misses: Analyzing
+contains/morton-shell/delta-varint-decode-plus-search/misses
+                        time:   [3.5952 ms 3.6707 ms 3.7641 ms]
+                        thrpt:  [272.05 Kelem/s 278.97 Kelem/s 284.82 Kelem/s]
+Benchmarking contains/morton-shell/roaring/hits
+Benchmarking contains/morton-shell/roaring/hits: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/roaring/hits: Collecting 10 samples in estimated 150.38 ms (3355 iterations)
+Benchmarking contains/morton-shell/roaring/hits: Analyzing
+contains/morton-shell/roaring/hits
+                        time:   [41.917 µs 42.301 µs 42.736 µs]
+                        thrpt:  [23.961 Melem/s 24.207 Melem/s 24.429 Melem/s]
+Benchmarking contains/morton-shell/roaring/misses
+Benchmarking contains/morton-shell/roaring/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/roaring/misses: Collecting 10 samples in estimated 150.36 ms (11k iterations)
+Benchmarking contains/morton-shell/roaring/misses: Analyzing
+contains/morton-shell/roaring/misses
+                        time:   [13.730 µs 13.829 µs 13.951 µs]
+                        thrpt:  [73.399 Melem/s 74.048 Melem/s 74.579 Melem/s]
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/hits
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 173.3ms or enable flat sampling.
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/hits: Collecting 10 samples in estimated 173.30 ms (55 iterations)
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/hits: Analyzing
+contains/morton-shell/lz4-64k-block-plus-search/hits
+                        time:   [3.1313 ms 3.2236 ms 3.3389 ms]
+                        thrpt:  [306.69 Kelem/s 317.66 Kelem/s 327.02 Kelem/s]
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/misses
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/misses: Collecting 10 samples in estimated 175.82 ms (220 iterations)
+Benchmarking contains/morton-shell/lz4-64k-block-plus-search/misses: Analyzing
+contains/morton-shell/lz4-64k-block-plus-search/misses
+                        time:   [778.35 µs 782.40 µs 787.27 µs]
+                        thrpt:  [1.3007 Melem/s 1.3088 Melem/s 1.3156 Melem/s]
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/hits
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/hits: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/hits: Collecting 10 samples in estimated 205.71 ms (20 iterations)
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/hits: Analyzing
+contains/morton-shell/rnbw-hybrid-restore-plus-search/hits
+                        time:   [10.177 ms 10.303 ms 10.425 ms]
+                        thrpt:  [98.228 Kelem/s 99.390 Kelem/s 100.62 Kelem/s]
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/misses
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/misses: Collecting 10 samples in estimated 209.29 ms (20 iterations)
+Benchmarking contains/morton-shell/rnbw-hybrid-restore-plus-search/misses: Analyzing
+contains/morton-shell/rnbw-hybrid-restore-plus-search/misses
+                        time:   [9.6434 ms 9.7541 ms 9.8570 ms]
+                        thrpt:  [103.89 Kelem/s 104.98 Kelem/s 106.19 Kelem/s]
+
+Benchmarking decode/morton-shell/rnbw
+Benchmarking decode/morton-shell/rnbw: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 262.3ms.
+Benchmarking decode/morton-shell/rnbw: Collecting 10 samples in estimated 262.28 ms (10 iterations)
+Benchmarking decode/morton-shell/rnbw: Analyzing
+decode/morton-shell/rnbw
+                        time:   [25.994 ms 26.268 ms 26.554 ms]
+                        thrpt:  [37.659 Melem/s 38.069 Melem/s 38.470 Melem/s]
+Benchmarking decode/morton-shell/rnbw-parse
+Benchmarking decode/morton-shell/rnbw-parse: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 255.8ms or enable flat sampling.
+Benchmarking decode/morton-shell/rnbw-parse: Collecting 10 samples in estimated 255.84 ms (55 iterations)
+Benchmarking decode/morton-shell/rnbw-parse: Analyzing
+decode/morton-shell/rnbw-parse
+                        time:   [4.6766 ms 4.7202 ms 4.7490 ms]
+                        thrpt:  [210.57 Melem/s 211.86 Melem/s 213.83 Melem/s]
+Benchmarking decode/morton-shell/rnbw-parse-plus-decode
+Benchmarking decode/morton-shell/rnbw-parse-plus-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 308.0ms.
+Benchmarking decode/morton-shell/rnbw-parse-plus-decode: Collecting 10 samples in estimated 308.04 ms (10 iterations)
+Benchmarking decode/morton-shell/rnbw-parse-plus-decode: Analyzing
+decode/morton-shell/rnbw-parse-plus-decode
+                        time:   [29.737 ms 30.197 ms 30.668 ms]
+                        thrpt:  [32.607 Melem/s 33.116 Melem/s 33.628 Melem/s]
+Benchmarking decode/morton-shell/plain-ef
+Benchmarking decode/morton-shell/plain-ef: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 207.9ms or enable flat sampling.
+Benchmarking decode/morton-shell/plain-ef: Collecting 10 samples in estimated 207.90 ms (55 iterations)
+Benchmarking decode/morton-shell/plain-ef: Analyzing
+decode/morton-shell/plain-ef
+                        time:   [3.6147 ms 3.6410 ms 3.6879 ms]
+                        thrpt:  [271.16 Melem/s 274.65 Melem/s 276.65 Melem/s]
+Benchmarking decode/morton-shell/delta-varint
+Benchmarking decode/morton-shell/delta-varint: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 192.5ms or enable flat sampling.
+Benchmarking decode/morton-shell/delta-varint: Collecting 10 samples in estimated 192.47 ms (55 iterations)
+Benchmarking decode/morton-shell/delta-varint: Analyzing
+decode/morton-shell/delta-varint
+                        time:   [3.5866 ms 3.6225 ms 3.6549 ms]
+                        thrpt:  [273.61 Melem/s 276.05 Melem/s 278.82 Melem/s]
+Benchmarking decode/morton-shell/raw-copy
+Benchmarking decode/morton-shell/raw-copy: Warming up for 100.00 ms
+Benchmarking decode/morton-shell/raw-copy: Collecting 10 samples in estimated 166.47 ms (275 iterations)
+Benchmarking decode/morton-shell/raw-copy: Analyzing
+decode/morton-shell/raw-copy
+                        time:   [563.83 µs 590.89 µs 624.87 µs]
+                        thrpt:  [1.6003 Gelem/s 1.6924 Gelem/s 1.7736 Gelem/s]
+Benchmarking decode/morton-shell/roaring-iterate
+Benchmarking decode/morton-shell/roaring-iterate: Warming up for 100.00 ms
+Benchmarking decode/morton-shell/roaring-iterate: Collecting 10 samples in estimated 167.02 ms (30 iterations)
+Benchmarking decode/morton-shell/roaring-iterate: Analyzing
+decode/morton-shell/roaring-iterate
+                        time:   [5.5151 ms 5.5598 ms 5.6104 ms]
+                        thrpt:  [178.24 Melem/s 179.86 Melem/s 181.32 Melem/s]
+Benchmarking decode/morton-shell/lz4-64k-indexed
+Benchmarking decode/morton-shell/lz4-64k-indexed: Warming up for 100.00 ms
+Benchmarking decode/morton-shell/lz4-64k-indexed: Collecting 10 samples in estimated 184.92 ms (110 iterations)
+Benchmarking decode/morton-shell/lz4-64k-indexed: Analyzing
+decode/morton-shell/lz4-64k-indexed
+                        time:   [1.5484 ms 1.5791 ms 1.6269 ms]
+                        thrpt:  [614.66 Melem/s 633.27 Melem/s 645.84 Melem/s]
+Benchmarking decode/morton-shell/rnbw-hybrid-entropy
+Benchmarking decode/morton-shell/rnbw-hybrid-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 370.5ms.
+Benchmarking decode/morton-shell/rnbw-hybrid-entropy: Collecting 10 samples in estimated 370.51 ms (10 iterations)
+Benchmarking decode/morton-shell/rnbw-hybrid-entropy: Analyzing
+decode/morton-shell/rnbw-hybrid-entropy
+                        time:   [35.885 ms 36.335 ms 36.905 ms]
+                        thrpt:  [27.097 Melem/s 27.521 Melem/s 27.867 Melem/s]
+Benchmarking decode/morton-shell/rnbw-lane-lz-hybrid
+Benchmarking decode/morton-shell/rnbw-lane-lz-hybrid: Warming up for 100.00 ms
+Benchmarking decode/morton-shell/rnbw-lane-lz-hybrid: Collecting 10 samples in estimated 285.17 ms (20 iterations)
+Benchmarking decode/morton-shell/rnbw-lane-lz-hybrid: Analyzing
+decode/morton-shell/rnbw-lane-lz-hybrid
+                        time:   [14.156 ms 14.273 ms 14.401 ms]
+                        thrpt:  [69.441 Melem/s 70.064 Melem/s 70.640 Melem/s]
+
+dataset=ecs keys=1000000 bytes/key: rnbw-query=0.4768 rnbw-hybrid=0.1520 lane-lz-hybrid=0.0346 plain-ef=0.3333 delta-varint=1.0000 raw=4.0000 roaring-run-optimized=0.1394 lz4-64k-indexed=4.0168 (+0 RNBW runtime index bytes)
+Benchmarking build/ecs/rnbw/1000000
+Benchmarking build/ecs/rnbw/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 300.2ms.
+Benchmarking build/ecs/rnbw/1000000: Collecting 10 samples in estimated 300.19 ms (10 iterations)
+Benchmarking build/ecs/rnbw/1000000: Analyzing
+build/ecs/rnbw/1000000  time:   [24.707 ms 32.109 ms 42.926 ms]
+                        thrpt:  [23.296 Melem/s 31.144 Melem/s 40.474 Melem/s]
+Benchmarking build/ecs/plain-ef/1000000
+Benchmarking build/ecs/plain-ef/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 219.4ms or enable flat sampling.
+Benchmarking build/ecs/plain-ef/1000000: Collecting 10 samples in estimated 219.40 ms (55 iterations)
+Benchmarking build/ecs/plain-ef/1000000: Analyzing
+build/ecs/plain-ef/1000000
+                        time:   [4.1182 ms 4.1994 ms 4.3340 ms]
+                        thrpt:  [230.73 Melem/s 238.13 Melem/s 242.83 Melem/s]
+Benchmarking build/ecs/delta-varint/1000000
+Benchmarking build/ecs/delta-varint/1000000: Warming up for 100.00 ms
+Benchmarking build/ecs/delta-varint/1000000: Collecting 10 samples in estimated 158.63 ms (110 iterations)
+Benchmarking build/ecs/delta-varint/1000000: Analyzing
+build/ecs/delta-varint/1000000
+                        time:   [1.4247 ms 1.4387 ms 1.4515 ms]
+                        thrpt:  [688.94 Melem/s 695.06 Melem/s 701.92 Melem/s]
+Benchmarking build/ecs/raw-vec/1000000
+Benchmarking build/ecs/raw-vec/1000000: Warming up for 100.00 ms
+Benchmarking build/ecs/raw-vec/1000000: Collecting 10 samples in estimated 177.34 ms (330 iterations)
+Benchmarking build/ecs/raw-vec/1000000: Analyzing
+build/ecs/raw-vec/1000000
+                        time:   [545.89 µs 551.76 µs 557.14 µs]
+                        thrpt:  [1.7949 Gelem/s 1.8124 Gelem/s 1.8319 Gelem/s]
+Benchmarking build/ecs/roaring/1000000
+Benchmarking build/ecs/roaring/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 289.3ms or enable flat sampling.
+Benchmarking build/ecs/roaring/1000000: Collecting 10 samples in estimated 289.31 ms (55 iterations)
+Benchmarking build/ecs/roaring/1000000: Analyzing
+build/ecs/roaring/1000000
+                        time:   [5.2585 ms 5.2972 ms 5.3470 ms]
+                        thrpt:  [187.02 Melem/s 188.78 Melem/s 190.17 Melem/s]
+Benchmarking build/ecs/lz4-64k-indexed/1000000
+Benchmarking build/ecs/lz4-64k-indexed/1000000: Warming up for 100.00 ms
+Benchmarking build/ecs/lz4-64k-indexed/1000000: Collecting 10 samples in estimated 290.65 ms (110 iterations)
+Benchmarking build/ecs/lz4-64k-indexed/1000000: Analyzing
+build/ecs/lz4-64k-indexed/1000000
+                        time:   [2.5269 ms 2.5659 ms 2.6373 ms]
+                        thrpt:  [379.17 Melem/s 389.73 Melem/s 395.74 Melem/s]
+Benchmarking build/ecs/rnbw-hybrid-entropy/1000000
+Benchmarking build/ecs/rnbw-hybrid-entropy/1000000: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 279.4ms.
+Benchmarking build/ecs/rnbw-hybrid-entropy/1000000: Collecting 10 samples in estimated 279.45 ms (10 iterations)
+Benchmarking build/ecs/rnbw-hybrid-entropy/1000000: Analyzing
+build/ecs/rnbw-hybrid-entropy/1000000
+                        time:   [28.467 ms 28.680 ms 28.963 ms]
+                        thrpt:  [34.527 Melem/s 34.867 Melem/s 35.128 Melem/s]
+Benchmarking build/ecs/rnbw-lane-lz-hybrid/1000000
+Benchmarking build/ecs/rnbw-lane-lz-hybrid/1000000: Warming up for 100.00 ms
+Benchmarking build/ecs/rnbw-lane-lz-hybrid/1000000: Collecting 10 samples in estimated 157.19 ms (20 iterations)
+Benchmarking build/ecs/rnbw-lane-lz-hybrid/1000000: Analyzing
+build/ecs/rnbw-lane-lz-hybrid/1000000
+                        time:   [7.3122 ms 7.3854 ms 7.4573 ms]
+                        thrpt:  [134.10 Melem/s 135.40 Melem/s 136.76 Melem/s]
+
+Benchmarking contains/ecs/rnbw/hits
+Benchmarking contains/ecs/rnbw/hits: Warming up for 100.00 ms
+Benchmarking contains/ecs/rnbw/hits: Collecting 10 samples in estimated 169.32 ms (440 iterations)
+Benchmarking contains/ecs/rnbw/hits: Analyzing
+contains/ecs/rnbw/hits  time:   [385.36 µs 387.16 µs 390.92 µs]
+                        thrpt:  [2.6195 Melem/s 2.6449 Melem/s 2.6572 Melem/s]
+Benchmarking contains/ecs/rnbw/misses
+Benchmarking contains/ecs/rnbw/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/rnbw/misses: Collecting 10 samples in estimated 150.46 ms (9570 iterations)
+Benchmarking contains/ecs/rnbw/misses: Analyzing
+contains/ecs/rnbw/misses
+                        time:   [15.649 µs 15.713 µs 15.821 µs]
+                        thrpt:  [64.723 Melem/s 65.167 Melem/s 65.436 Melem/s]
+Benchmarking contains/ecs/plain-ef/hits
+Benchmarking contains/ecs/plain-ef/hits: Warming up for 100.00 ms
+Benchmarking contains/ecs/plain-ef/hits: Collecting 10 samples in estimated 152.73 ms (1815 iterations)
+Benchmarking contains/ecs/plain-ef/hits: Analyzing
+contains/ecs/plain-ef/hits
+                        time:   [84.293 µs 85.325 µs 86.231 µs]
+                        thrpt:  [11.875 Melem/s 12.001 Melem/s 12.148 Melem/s]
+Benchmarking contains/ecs/plain-ef/misses
+Benchmarking contains/ecs/plain-ef/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/plain-ef/misses: Collecting 10 samples in estimated 150.13 ms (57k iterations)
+Benchmarking contains/ecs/plain-ef/misses: Analyzing
+contains/ecs/plain-ef/misses
+                        time:   [2.4710 µs 2.4990 µs 2.5228 µs]
+                        thrpt:  [405.89 Melem/s 409.76 Melem/s 414.41 Melem/s]
+Benchmarking contains/ecs/raw-binary-search/hits
+Benchmarking contains/ecs/raw-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/ecs/raw-binary-search/hits: Collecting 10 samples in estimated 150.88 ms (3465 iterations)
+Benchmarking contains/ecs/raw-binary-search/hits: Analyzing
+contains/ecs/raw-binary-search/hits
+                        time:   [41.851 µs 42.208 µs 42.757 µs]
+                        thrpt:  [23.949 Melem/s 24.261 Melem/s 24.468 Melem/s]
+Benchmarking contains/ecs/raw-binary-search/misses
+Benchmarking contains/ecs/raw-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/raw-binary-search/misses: Collecting 10 samples in estimated 150.80 ms (8140 iterations)
+Benchmarking contains/ecs/raw-binary-search/misses: Analyzing
+contains/ecs/raw-binary-search/misses
+                        time:   [18.491 µs 18.541 µs 18.584 µs]
+                        thrpt:  [55.102 Melem/s 55.230 Melem/s 55.377 Melem/s]
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/hits
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/hits: Warming up for 100.00 ms
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/hits: Collecting 10 samples in estimated 151.31 ms (3575 iterations)
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/hits: Analyzing
+contains/ecs/delta-varint-decoded-binary-search/hits
+                        time:   [41.166 µs 41.652 µs 42.352 µs]
+                        thrpt:  [24.178 Melem/s 24.585 Melem/s 24.875 Melem/s]
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/misses
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/misses: Collecting 10 samples in estimated 150.83 ms (7975 iterations)
+Benchmarking contains/ecs/delta-varint-decoded-binary-search/misses: Analyzing
+contains/ecs/delta-varint-decoded-binary-search/misses
+                        time:   [18.717 µs 18.798 µs 18.932 µs]
+                        thrpt:  [54.088 Melem/s 54.474 Melem/s 54.711 Melem/s]
+Benchmarking contains/ecs/delta-varint-decode-plus-search/hits
+Benchmarking contains/ecs/delta-varint-decode-plus-search/hits: Warming up for 100.00 ms
+Benchmarking contains/ecs/delta-varint-decode-plus-search/hits: Collecting 10 samples in estimated 200.78 ms (110 iterations)
+Benchmarking contains/ecs/delta-varint-decode-plus-search/hits: Analyzing
+contains/ecs/delta-varint-decode-plus-search/hits
+                        time:   [1.7554 ms 1.7717 ms 1.7899 ms]
+                        thrpt:  [572.09 Kelem/s 577.98 Kelem/s 583.35 Kelem/s]
+Benchmarking contains/ecs/delta-varint-decode-plus-search/misses
+Benchmarking contains/ecs/delta-varint-decode-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/delta-varint-decode-plus-search/misses: Collecting 10 samples in estimated 201.86 ms (110 iterations)
+Benchmarking contains/ecs/delta-varint-decode-plus-search/misses: Analyzing
+contains/ecs/delta-varint-decode-plus-search/misses
+                        time:   [1.8126 ms 1.8528 ms 1.8942 ms]
+                        thrpt:  [540.60 Kelem/s 552.66 Kelem/s 564.92 Kelem/s]
+Benchmarking contains/ecs/roaring/hits
+Benchmarking contains/ecs/roaring/hits: Warming up for 100.00 ms
+Benchmarking contains/ecs/roaring/hits: Collecting 10 samples in estimated 150.15 ms (31k iterations)
+Benchmarking contains/ecs/roaring/hits: Analyzing
+contains/ecs/roaring/hits
+                        time:   [4.8465 µs 4.8991 µs 4.9373 µs]
+                        thrpt:  [207.40 Melem/s 209.02 Melem/s 211.29 Melem/s]
+Benchmarking contains/ecs/roaring/misses
+Benchmarking contains/ecs/roaring/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/roaring/misses: Collecting 10 samples in estimated 150.02 ms (41k iterations)
+Benchmarking contains/ecs/roaring/misses: Analyzing
+contains/ecs/roaring/misses
+                        time:   [3.5784 µs 3.6366 µs 3.6795 µs]
+                        thrpt:  [278.30 Melem/s 281.58 Melem/s 286.17 Melem/s]
+Benchmarking contains/ecs/lz4-64k-block-plus-search/hits
+Benchmarking contains/ecs/lz4-64k-block-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 179.1ms or enable flat sampling.
+Benchmarking contains/ecs/lz4-64k-block-plus-search/hits: Collecting 10 samples in estimated 179.12 ms (55 iterations)
+Benchmarking contains/ecs/lz4-64k-block-plus-search/hits: Analyzing
+contains/ecs/lz4-64k-block-plus-search/hits
+                        time:   [3.1066 ms 3.1257 ms 3.1683 ms]
+                        thrpt:  [323.21 Kelem/s 327.61 Kelem/s 329.62 Kelem/s]
+Benchmarking contains/ecs/lz4-64k-block-plus-search/misses
+Benchmarking contains/ecs/lz4-64k-block-plus-search/misses: Warming up for 100.00 ms
+Benchmarking contains/ecs/lz4-64k-block-plus-search/misses: Collecting 10 samples in estimated 166.72 ms (220 iterations)
+Benchmarking contains/ecs/lz4-64k-block-plus-search/misses: Analyzing
+contains/ecs/lz4-64k-block-plus-search/misses
+                        time:   [747.72 µs 755.37 µs 763.05 µs]
+                        thrpt:  [1.3420 Melem/s 1.3556 Melem/s 1.3695 Melem/s]
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/hits
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/hits: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 245.0ms or enable flat sampling.
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/hits: Collecting 10 samples in estimated 245.05 ms (55 iterations)
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/hits: Analyzing
+contains/ecs/rnbw-hybrid-restore-plus-search/hits
+                        time:   [4.2362 ms 4.3075 ms 4.4412 ms]
+                        thrpt:  [230.57 Kelem/s 237.73 Kelem/s 241.72 Kelem/s]
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/misses
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/misses: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 219.8ms or enable flat sampling.
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/misses: Collecting 10 samples in estimated 219.80 ms (55 iterations)
+Benchmarking contains/ecs/rnbw-hybrid-restore-plus-search/misses: Analyzing
+contains/ecs/rnbw-hybrid-restore-plus-search/misses
+                        time:   [3.8793 ms 3.9092 ms 3.9339 ms]
+                        thrpt:  [260.30 Kelem/s 261.95 Kelem/s 263.96 Kelem/s]
+
+Benchmarking decode/ecs/rnbw
+Benchmarking decode/ecs/rnbw: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 163.1ms.
+Benchmarking decode/ecs/rnbw: Collecting 10 samples in estimated 163.08 ms (10 iterations)
+Benchmarking decode/ecs/rnbw: Analyzing
+decode/ecs/rnbw         time:   [16.319 ms 18.283 ms 20.497 ms]
+                        thrpt:  [48.787 Melem/s 54.695 Melem/s 61.278 Melem/s]
+Benchmarking decode/ecs/rnbw-parse
+Benchmarking decode/ecs/rnbw-parse: Warming up for 100.00 ms
+Benchmarking decode/ecs/rnbw-parse: Collecting 10 samples in estimated 264.25 ms (110 iterations)
+Benchmarking decode/ecs/rnbw-parse: Analyzing
+decode/ecs/rnbw-parse   time:   [2.4330 ms 2.4630 ms 2.5052 ms]
+                        thrpt:  [399.17 Melem/s 406.01 Melem/s 411.02 Melem/s]
+Benchmarking decode/ecs/rnbw-parse-plus-decode
+Benchmarking decode/ecs/rnbw-parse-plus-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 179.8ms.
+Benchmarking decode/ecs/rnbw-parse-plus-decode: Collecting 10 samples in estimated 179.79 ms (10 iterations)
+Benchmarking decode/ecs/rnbw-parse-plus-decode: Analyzing
+decode/ecs/rnbw-parse-plus-decode
+                        time:   [17.804 ms 18.047 ms 18.291 ms]
+                        thrpt:  [54.673 Melem/s 55.411 Melem/s 56.168 Melem/s]
+Benchmarking decode/ecs/plain-ef
+Benchmarking decode/ecs/plain-ef: Warming up for 100.00 ms
+Benchmarking decode/ecs/plain-ef: Collecting 10 samples in estimated 224.41 ms (110 iterations)
+Benchmarking decode/ecs/plain-ef: Analyzing
+decode/ecs/plain-ef     time:   [2.0500 ms 2.0735 ms 2.1184 ms]
+                        thrpt:  [472.05 Melem/s 482.27 Melem/s 487.80 Melem/s]
+Benchmarking decode/ecs/delta-varint
+Benchmarking decode/ecs/delta-varint: Warming up for 100.00 ms
+Benchmarking decode/ecs/delta-varint: Collecting 10 samples in estimated 197.36 ms (110 iterations)
+Benchmarking decode/ecs/delta-varint: Analyzing
+decode/ecs/delta-varint time:   [1.7780 ms 1.8141 ms 1.8501 ms]
+                        thrpt:  [540.50 Melem/s 551.25 Melem/s 562.43 Melem/s]
+Benchmarking decode/ecs/raw-copy
+Benchmarking decode/ecs/raw-copy: Warming up for 100.00 ms
+Benchmarking decode/ecs/raw-copy: Collecting 10 samples in estimated 157.87 ms (275 iterations)
+Benchmarking decode/ecs/raw-copy: Analyzing
+decode/ecs/raw-copy     time:   [542.18 µs 550.96 µs 560.02 µs]
+                        thrpt:  [1.7856 Gelem/s 1.8150 Gelem/s 1.8444 Gelem/s]
+Benchmarking decode/ecs/roaring-iterate
+Benchmarking decode/ecs/roaring-iterate: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 293.4ms or enable flat sampling.
+Benchmarking decode/ecs/roaring-iterate: Collecting 10 samples in estimated 293.38 ms (55 iterations)
+Benchmarking decode/ecs/roaring-iterate: Analyzing
+decode/ecs/roaring-iterate
+                        time:   [4.8683 ms 4.9022 ms 4.9488 ms]
+                        thrpt:  [202.07 Melem/s 203.99 Melem/s 205.41 Melem/s]
+Benchmarking decode/ecs/lz4-64k-indexed
+Benchmarking decode/ecs/lz4-64k-indexed: Warming up for 100.00 ms
+Benchmarking decode/ecs/lz4-64k-indexed: Collecting 10 samples in estimated 176.61 ms (110 iterations)
+Benchmarking decode/ecs/lz4-64k-indexed: Analyzing
+decode/ecs/lz4-64k-indexed
+                        time:   [1.6646 ms 1.7032 ms 1.7379 ms]
+                        thrpt:  [575.40 Melem/s 587.15 Melem/s 600.75 Melem/s]
+Benchmarking decode/ecs/rnbw-hybrid-entropy
+Benchmarking decode/ecs/rnbw-hybrid-entropy: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 204.6ms.
+Benchmarking decode/ecs/rnbw-hybrid-entropy: Collecting 10 samples in estimated 204.64 ms (10 iterations)
+Benchmarking decode/ecs/rnbw-hybrid-entropy: Analyzing
+decode/ecs/rnbw-hybrid-entropy
+                        time:   [20.557 ms 20.776 ms 21.010 ms]
+                        thrpt:  [47.597 Melem/s 48.132 Melem/s 48.646 Melem/s]
+Benchmarking decode/ecs/rnbw-lane-lz-hybrid
+Benchmarking decode/ecs/rnbw-lane-lz-hybrid: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 206.7ms or enable flat sampling.
+Benchmarking decode/ecs/rnbw-lane-lz-hybrid: Collecting 10 samples in estimated 206.66 ms (55 iterations)
+Benchmarking decode/ecs/rnbw-lane-lz-hybrid: Analyzing
+decode/ecs/rnbw-lane-lz-hybrid
+                        time:   [3.6558 ms 3.6889 ms 3.7284 ms]
+                        thrpt:  [268.21 Melem/s 271.09 Melem/s 273.54 Melem/s]
+
+lane-dataset=graphics-rgba8-synthetic raw=1048576 RNBW-multilane=700128 (1.498x) LZ4-interleaved=1052653 (0.996x) LZ4-SoA=790781 (1.326x)
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 154.8ms.
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane: Collecting 10 samples in estimated 154.79 ms (10 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane: Analyzing
+lane-build/graphics-rgba8-synthetic/rnbw-multilane
+                        time:   [15.267 ms 15.534 ms 15.834 ms]
+                        thrpt:  [63.157 MiB/s 64.374 MiB/s 65.500 MiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-serial
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-serial: Collecting 10 samples in estimated 287.79 ms (20 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-serial: Analyzing
+lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-serial
+                        time:   [14.110 ms 14.289 ms 14.476 ms]
+                        thrpt:  [69.078 MiB/s 69.984 MiB/s 70.871 MiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-parallel
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-parallel: Collecting 10 samples in estimated 181.97 ms (30 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-parallel: Analyzing
+lane-build/graphics-rgba8-synthetic/rnbw-multilane-reuse-parallel
+                        time:   [5.9982 ms 6.0549 ms 6.1137 ms]
+                        thrpt:  [163.57 MiB/s 165.16 MiB/s 166.72 MiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-serial
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-serial: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 152.6ms.
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-serial: Collecting 10 samples in estimated 152.64 ms (10 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-serial: Analyzing
+lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-serial
+                        time:   [14.663 ms 14.822 ms 15.002 ms]
+                        thrpt:  [66.658 MiB/s 67.468 MiB/s 68.200 MiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-parallel
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-parallel: Collecting 10 samples in estimated 189.12 ms (30 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-parallel: Analyzing
+lane-build/graphics-rgba8-synthetic/rnbw-interleaved-reuse-parallel
+                        time:   [6.2983 ms 6.4466 ms 6.6264 ms]
+                        thrpt:  [150.91 MiB/s 155.12 MiB/s 158.77 MiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-interleaved
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-interleaved: Collecting 10 samples in estimated 154.08 ms (495 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-interleaved: Analyzing
+lane-build/graphics-rgba8-synthetic/lz4-interleaved
+                        time:   [275.40 µs 296.22 µs 324.00 µs]
+                        thrpt:  [3.0141 GiB/s 3.2967 GiB/s 3.5460 GiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-SoA-split-plus-compress
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-SoA-split-plus-compress: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-SoA-split-plus-compress: Collecting 10 samples in estimated 199.80 ms (220 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/lz4-SoA-split-plus-compress: Analyzing
+lane-build/graphics-rgba8-synthetic/lz4-SoA-split-plus-compress
+                        time:   [911.20 µs 940.91 µs 985.89 µs]
+                        thrpt:  [1014.3 MiB/s 1.0379 GiB/s 1.0717 GiB/s]
+Benchmarking lane-build/graphics-rgba8-synthetic/raw-copy
+Benchmarking lane-build/graphics-rgba8-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-rgba8-synthetic/raw-copy: Collecting 10 samples in estimated 150.69 ms (770 iterations)
+Benchmarking lane-build/graphics-rgba8-synthetic/raw-copy: Analyzing
+lane-build/graphics-rgba8-synthetic/raw-copy
+                        time:   [194.57 µs 198.63 µs 203.22 µs]
+                        thrpt:  [4.8055 GiB/s 4.9165 GiB/s 5.0191 GiB/s]
+
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane: Collecting 10 samples in estimated 164.83 ms (20 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/rnbw-multilane: Analyzing
+lane-decode/graphics-rgba8-synthetic/rnbw-multilane
+                        time:   [7.7416 ms 7.9284 ms 8.1208 ms]
+                        thrpt:  [123.14 MiB/s 126.13 MiB/s 129.17 MiB/s]
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved: Collecting 10 samples in estimated 152.34 ms (660 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-interleaved: Analyzing
+lane-decode/graphics-rgba8-synthetic/lz4-interleaved
+                        time:   [194.40 µs 196.55 µs 201.13 µs]
+                        thrpt:  [4.8554 GiB/s 4.9686 GiB/s 5.0235 GiB/s]
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 190.46 ms (220 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/graphics-rgba8-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [847.02 µs 854.65 µs 859.74 µs]
+                        thrpt:  [1.1359 GiB/s 1.1426 GiB/s 1.1529 GiB/s]
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy: Collecting 10 samples in estimated 154.76 ms (770 iterations)
+Benchmarking lane-decode/graphics-rgba8-synthetic/raw-copy: Analyzing
+lane-decode/graphics-rgba8-synthetic/raw-copy
+                        time:   [210.07 µs 232.99 µs 249.09 µs]
+                        thrpt:  [3.9206 GiB/s 4.1914 GiB/s 4.6487 GiB/s]
+
+lane-dataset=graphics-shader-words-synthetic raw=262144 RNBW-multilane=3672 (71.390x) LZ4-interleaved=13331 (19.664x) LZ4-SoA=1459 (179.674x)
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane: Collecting 10 samples in estimated 154.98 ms (165 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane: Analyzing
+lane-build/graphics-shader-words-synthetic/rnbw-multilane
+                        time:   [905.28 µs 918.17 µs 931.89 µs]
+                        thrpt:  [268.27 MiB/s 272.28 MiB/s 276.16 MiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-serial
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-serial: Collecting 10 samples in estimated 154.07 ms (330 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-serial: Analyzing
+lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-serial
+                        time:   [464.04 µs 475.62 µs 488.12 µs]
+                        thrpt:  [512.17 MiB/s 525.63 MiB/s 538.74 MiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-parallel
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-parallel: Collecting 10 samples in estimated 155.62 ms (880 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-parallel: Analyzing
+lane-build/graphics-shader-words-synthetic/rnbw-multilane-reuse-parallel
+                        time:   [176.13 µs 177.91 µs 180.20 µs]
+                        thrpt:  [1.3548 GiB/s 1.3723 GiB/s 1.3861 GiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-serial
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-serial: Collecting 10 samples in estimated 168.06 ms (330 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-serial: Analyzing
+lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-serial
+                        time:   [546.51 µs 551.71 µs 554.16 µs]
+                        thrpt:  [451.14 MiB/s 453.13 MiB/s 457.45 MiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-parallel
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-parallel: Collecting 10 samples in estimated 154.61 ms (770 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-parallel: Analyzing
+lane-build/graphics-shader-words-synthetic/rnbw-interleaved-reuse-parallel
+                        time:   [201.24 µs 202.03 µs 202.70 µs]
+                        thrpt:  [1.2044 GiB/s 1.2085 GiB/s 1.2132 GiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-interleaved
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.49 ms (8690 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-interleaved: Analyzing
+lane-build/graphics-shader-words-synthetic/lz4-interleaved
+                        time:   [16.949 µs 17.130 µs 17.371 µs]
+                        thrpt:  [14.054 GiB/s 14.252 GiB/s 14.404 GiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-SoA-split-plus-compress
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-SoA-split-plus-compress: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-SoA-split-plus-compress: Collecting 10 samples in estimated 154.52 ms (935 iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/lz4-SoA-split-plus-compress: Analyzing
+lane-build/graphics-shader-words-synthetic/lz4-SoA-split-plus-compress
+                        time:   [162.99 µs 163.61 µs 164.51 µs]
+                        thrpt:  [1.4841 GiB/s 1.4922 GiB/s 1.4979 GiB/s]
+Benchmarking lane-build/graphics-shader-words-synthetic/raw-copy
+Benchmarking lane-build/graphics-shader-words-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-build/graphics-shader-words-synthetic/raw-copy: Collecting 10 samples in estimated 150.13 ms (27k iterations)
+Benchmarking lane-build/graphics-shader-words-synthetic/raw-copy: Analyzing
+lane-build/graphics-shader-words-synthetic/raw-copy
+                        time:   [5.6178 µs 5.6398 µs 5.6960 µs]
+                        thrpt:  [42.862 GiB/s 43.289 GiB/s 43.459 GiB/s]
+
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane: Collecting 10 samples in estimated 154.14 ms (385 iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/rnbw-multilane: Analyzing
+lane-decode/graphics-shader-words-synthetic/rnbw-multilane
+                        time:   [397.61 µs 406.90 µs 414.03 µs]
+                        thrpt:  [603.82 MiB/s 614.40 MiB/s 628.75 MiB/s]
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.17 ms (15k iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-interleaved: Analyzing
+lane-decode/graphics-shader-words-synthetic/lz4-interleaved
+                        time:   [9.5805 µs 9.7483 µs 10.051 µs]
+                        thrpt:  [24.289 GiB/s 25.044 GiB/s 25.483 GiB/s]
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 156.39 ms (825 iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/graphics-shader-words-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [178.83 µs 179.77 µs 181.69 µs]
+                        thrpt:  [1.3438 GiB/s 1.3581 GiB/s 1.3652 GiB/s]
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy: Collecting 10 samples in estimated 150.15 ms (26k iterations)
+Benchmarking lane-decode/graphics-shader-words-synthetic/raw-copy: Analyzing
+lane-decode/graphics-shader-words-synthetic/raw-copy
+                        time:   [5.7080 µs 5.7476 µs 5.8001 µs]
+                        thrpt:  [42.093 GiB/s 42.477 GiB/s 42.772 GiB/s]
+
+lane-dataset=ai-model-int8-weights-synthetic raw=1048576 RNBW-multilane=21528 (48.708x) LZ4-interleaved=19770 (53.039x) LZ4-SoA=24149 (43.421x)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 241.9ms or enable flat sampling.
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane: Collecting 10 samples in estimated 241.88 ms (55 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane: Analyzing
+lane-build/ai-model-int8-weights-synthetic/rnbw-multilane
+                        time:   [4.2248 ms 4.2756 ms 4.3382 ms]
+                        thrpt:  [230.51 MiB/s 233.89 MiB/s 236.70 MiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-serial
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-serial: Collecting 10 samples in estimated 200.48 ms (110 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-serial: Analyzing
+lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-serial
+                        time:   [1.8017 ms 1.8125 ms 1.8271 ms]
+                        thrpt:  [547.31 MiB/s 551.73 MiB/s 555.03 MiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-parallel
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-parallel: Collecting 10 samples in estimated 162.87 ms (495 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-parallel: Analyzing
+lane-build/ai-model-int8-weights-synthetic/rnbw-multilane-reuse-parallel
+                        time:   [301.39 µs 319.62 µs 340.72 µs]
+                        thrpt:  [2.8662 GiB/s 3.0554 GiB/s 3.2402 GiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-serial
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-serial: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 226.6ms or enable flat sampling.
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-serial: Collecting 10 samples in estimated 226.64 ms (55 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-serial: Analyzing
+lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-serial
+                        time:   [4.1853 ms 4.2433 ms 4.2905 ms]
+                        thrpt:  [233.07 MiB/s 235.66 MiB/s 238.93 MiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-parallel
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-parallel: Collecting 10 samples in estimated 290.60 ms (110 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-parallel: Analyzing
+lane-build/ai-model-int8-weights-synthetic/rnbw-interleaved-reuse-parallel
+                        time:   [2.5389 ms 2.5789 ms 2.6093 ms]
+                        thrpt:  [383.24 MiB/s 387.77 MiB/s 393.88 MiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-interleaved
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-interleaved: Collecting 10 samples in estimated 152.85 ms (1265 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-interleaved: Analyzing
+lane-build/ai-model-int8-weights-synthetic/lz4-interleaved
+                        time:   [114.20 µs 115.07 µs 116.42 µs]
+                        thrpt:  [8.3883 GiB/s 8.4870 GiB/s 8.5513 GiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-SoA-split-plus-compress
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-SoA-split-plus-compress: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 212.6ms or enable flat sampling.
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-SoA-split-plus-compress: Collecting 10 samples in estimated 212.62 ms (55 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/lz4-SoA-split-plus-compress: Analyzing
+lane-build/ai-model-int8-weights-synthetic/lz4-SoA-split-plus-compress
+                        time:   [3.7785 ms 3.8353 ms 3.8788 ms]
+                        thrpt:  [257.81 MiB/s 260.73 MiB/s 264.66 MiB/s]
+Benchmarking lane-build/ai-model-int8-weights-synthetic/raw-copy
+Benchmarking lane-build/ai-model-int8-weights-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-build/ai-model-int8-weights-synthetic/raw-copy: Collecting 10 samples in estimated 156.16 ms (660 iterations)
+Benchmarking lane-build/ai-model-int8-weights-synthetic/raw-copy: Analyzing
+lane-build/ai-model-int8-weights-synthetic/raw-copy
+                        time:   [212.80 µs 234.98 µs 262.32 µs]
+                        thrpt:  [3.7228 GiB/s 4.1559 GiB/s 4.5892 GiB/s]
+
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane: Collecting 10 samples in estimated 198.36 ms (110 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/rnbw-multilane
+                        time:   [1.7751 ms 1.7887 ms 1.8034 ms]
+                        thrpt:  [554.52 MiB/s 559.06 MiB/s 563.35 MiB/s]
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved: Collecting 10 samples in estimated 156.43 ms (715 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/lz4-interleaved
+                        time:   [205.51 µs 214.27 µs 231.39 µs]
+                        thrpt:  [4.2205 GiB/s 4.5575 GiB/s 4.7518 GiB/s]
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 200.22 ms (110 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [1.7766 ms 1.7949 ms 1.8204 ms]
+                        thrpt:  [549.32 MiB/s 557.15 MiB/s 562.87 MiB/s]
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy: Collecting 10 samples in estimated 155.06 ms (660 iterations)
+Benchmarking lane-decode/ai-model-int8-weights-synthetic/raw-copy: Analyzing
+lane-decode/ai-model-int8-weights-synthetic/raw-copy
+                        time:   [203.49 µs 207.67 µs 215.30 µs]
+                        thrpt:  [4.5358 GiB/s 4.7024 GiB/s 4.7991 GiB/s]
+
+lane-dataset=ai-kernel-words-synthetic raw=262144 RNBW-multilane=3744 (70.017x) LZ4-interleaved=263177 (0.996x) LZ4-SoA=9741 (26.911x)
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane: Collecting 10 samples in estimated 175.20 ms (220 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane: Analyzing
+lane-build/ai-kernel-words-synthetic/rnbw-multilane
+                        time:   [788.25 µs 796.04 µs 803.99 µs]
+                        thrpt:  [310.95 MiB/s 314.05 MiB/s 317.16 MiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-serial
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-serial: Collecting 10 samples in estimated 174.41 ms (385 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-serial: Analyzing
+lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-serial
+                        time:   [448.00 µs 450.94 µs 454.69 µs]
+                        thrpt:  [549.83 MiB/s 554.39 MiB/s 558.03 MiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-parallel
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-parallel: Collecting 10 samples in estimated 154.12 ms (880 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-parallel: Analyzing
+lane-build/ai-kernel-words-synthetic/rnbw-multilane-reuse-parallel
+                        time:   [173.34 µs 174.53 µs 175.70 µs]
+                        thrpt:  [1.3895 GiB/s 1.3988 GiB/s 1.4084 GiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-serial
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-serial: Collecting 10 samples in estimated 158.15 ms (330 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-serial: Analyzing
+lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-serial
+                        time:   [429.10 µs 446.34 µs 469.57 µs]
+                        thrpt:  [532.40 MiB/s 560.12 MiB/s 582.61 MiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-parallel
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-parallel: Collecting 10 samples in estimated 150.83 ms (770 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-parallel: Analyzing
+lane-build/ai-kernel-words-synthetic/rnbw-interleaved-reuse-parallel
+                        time:   [196.76 µs 198.27 µs 199.82 µs]
+                        thrpt:  [1.2218 GiB/s 1.2314 GiB/s 1.2408 GiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-interleaved
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.07 ms (7425 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-interleaved: Analyzing
+lane-build/ai-kernel-words-synthetic/lz4-interleaved
+                        time:   [19.313 µs 19.631 µs 19.844 µs]
+                        thrpt:  [12.303 GiB/s 12.437 GiB/s 12.641 GiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-SoA-split-plus-compress
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-SoA-split-plus-compress: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-SoA-split-plus-compress: Collecting 10 samples in estimated 156.59 ms (880 iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/lz4-SoA-split-plus-compress: Analyzing
+lane-build/ai-kernel-words-synthetic/lz4-SoA-split-plus-compress
+                        time:   [172.94 µs 178.37 µs 186.43 µs]
+                        thrpt:  [1.3095 GiB/s 1.3688 GiB/s 1.4117 GiB/s]
+Benchmarking lane-build/ai-kernel-words-synthetic/raw-copy
+Benchmarking lane-build/ai-kernel-words-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-build/ai-kernel-words-synthetic/raw-copy: Collecting 10 samples in estimated 150.26 ms (27k iterations)
+Benchmarking lane-build/ai-kernel-words-synthetic/raw-copy: Analyzing
+lane-build/ai-kernel-words-synthetic/raw-copy
+                        time:   [5.5614 µs 5.5814 µs 5.6197 µs]
+                        thrpt:  [43.444 GiB/s 43.742 GiB/s 43.899 GiB/s]
+
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane: Collecting 10 samples in estimated 167.90 ms (385 iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/rnbw-multilane: Analyzing
+lane-decode/ai-kernel-words-synthetic/rnbw-multilane
+                        time:   [426.56 µs 428.38 µs 431.80 µs]
+                        thrpt:  [578.97 MiB/s 583.60 MiB/s 586.08 MiB/s]
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved: Collecting 10 samples in estimated 150.09 ms (14k iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-interleaved: Analyzing
+lane-decode/ai-kernel-words-synthetic/lz4-interleaved
+                        time:   [10.414 µs 10.465 µs 10.527 µs]
+                        thrpt:  [23.192 GiB/s 23.329 GiB/s 23.445 GiB/s]
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 151.27 ms (770 iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/ai-kernel-words-synthetic/lz4-SoA-decompress-plus-interleave
+                        time:   [184.47 µs 187.19 µs 189.28 µs]
+                        thrpt:  [1.2899 GiB/s 1.3042 GiB/s 1.3235 GiB/s]
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy: Collecting 10 samples in estimated 150.02 ms (26k iterations)
+Benchmarking lane-decode/ai-kernel-words-synthetic/raw-copy: Analyzing
+lane-decode/ai-kernel-words-synthetic/raw-copy
+                        time:   [5.7923 µs 5.8365 µs 5.8855 µs]
+                        thrpt:  [41.482 GiB/s 41.830 GiB/s 42.149 GiB/s]
+
+lane-dataset=random-bytes-control raw=262144 RNBW-multilane=262200 (1.000x) LZ4-interleaved=263177 (0.996x) LZ4-SoA=263177 (0.996x)
+Benchmarking lane-build/random-bytes-control/rnbw-multilane
+Benchmarking lane-build/random-bytes-control/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/rnbw-multilane: Collecting 10 samples in estimated 154.55 ms (1540 iterations)
+Benchmarking lane-build/random-bytes-control/rnbw-multilane: Analyzing
+lane-build/random-bytes-control/rnbw-multilane
+                        time:   [99.221 µs 99.586 µs 100.37 µs]
+                        thrpt:  [2.4325 GiB/s 2.4516 GiB/s 2.4606 GiB/s]
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-serial
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-serial: Collecting 10 samples in estimated 154.84 ms (1540 iterations)
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-serial: Analyzing
+lane-build/random-bytes-control/rnbw-multilane-reuse-serial
+                        time:   [98.963 µs 99.399 µs 100.36 µs]
+                        thrpt:  [2.4327 GiB/s 2.4562 GiB/s 2.4670 GiB/s]
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-parallel
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-parallel: Collecting 10 samples in estimated 151.44 ms (1485 iterations)
+Benchmarking lane-build/random-bytes-control/rnbw-multilane-reuse-parallel: Analyzing
+lane-build/random-bytes-control/rnbw-multilane-reuse-parallel
+                        time:   [99.597 µs 99.819 µs 100.18 µs]
+                        thrpt:  [2.4370 GiB/s 2.4458 GiB/s 2.4513 GiB/s]
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-serial
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-serial: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-serial: Collecting 10 samples in estimated 150.29 ms (7095 iterations)
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-serial: Analyzing
+lane-build/random-bytes-control/rnbw-interleaved-reuse-serial
+                        time:   [20.546 µs 20.750 µs 20.958 µs]
+                        thrpt:  [11.649 GiB/s 11.766 GiB/s 11.883 GiB/s]
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-parallel
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-parallel: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-parallel: Collecting 10 samples in estimated 151.09 ms (7260 iterations)
+Benchmarking lane-build/random-bytes-control/rnbw-interleaved-reuse-parallel: Analyzing
+lane-build/random-bytes-control/rnbw-interleaved-reuse-parallel
+                        time:   [20.699 µs 21.891 µs 23.818 µs]
+                        thrpt:  [10.250 GiB/s 11.153 GiB/s 11.795 GiB/s]
+Benchmarking lane-build/random-bytes-control/lz4-interleaved
+Benchmarking lane-build/random-bytes-control/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/lz4-interleaved: Collecting 10 samples in estimated 150.51 ms (6875 iterations)
+Benchmarking lane-build/random-bytes-control/lz4-interleaved: Analyzing
+lane-build/random-bytes-control/lz4-interleaved
+                        time:   [20.594 µs 20.797 µs 21.117 µs]
+                        thrpt:  [11.562 GiB/s 11.739 GiB/s 11.855 GiB/s]
+Benchmarking lane-build/random-bytes-control/lz4-SoA-split-plus-compress
+Benchmarking lane-build/random-bytes-control/lz4-SoA-split-plus-compress: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/lz4-SoA-split-plus-compress: Collecting 10 samples in estimated 161.46 ms (770 iterations)
+Benchmarking lane-build/random-bytes-control/lz4-SoA-split-plus-compress: Analyzing
+lane-build/random-bytes-control/lz4-SoA-split-plus-compress
+                        time:   [201.56 µs 202.34 µs 203.66 µs]
+                        thrpt:  [1.1988 GiB/s 1.2066 GiB/s 1.2112 GiB/s]
+Benchmarking lane-build/random-bytes-control/raw-copy
+Benchmarking lane-build/random-bytes-control/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-build/random-bytes-control/raw-copy: Collecting 10 samples in estimated 150.51 ms (15k iterations)
+Benchmarking lane-build/random-bytes-control/raw-copy: Analyzing
+lane-build/random-bytes-control/raw-copy
+                        time:   [9.8378 µs 9.9410 µs 10.196 µs]
+                        thrpt:  [23.944 GiB/s 24.559 GiB/s 24.817 GiB/s]
+
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane: Collecting 10 samples in estimated 150.29 ms (17k iterations)
+Benchmarking lane-decode/random-bytes-control/rnbw-multilane: Analyzing
+lane-decode/random-bytes-control/rnbw-multilane
+                        time:   [6.8776 µs 7.1006 µs 7.6696 µs]
+                        thrpt:  [31.832 GiB/s 34.383 GiB/s 35.498 GiB/s]
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved: Collecting 10 samples in estimated 150.48 ms (10k iterations)
+Benchmarking lane-decode/random-bytes-control/lz4-interleaved: Analyzing
+lane-decode/random-bytes-control/lz4-interleaved
+                        time:   [14.504 µs 14.603 µs 14.760 µs]
+                        thrpt:  [16.541 GiB/s 16.719 GiB/s 16.833 GiB/s]
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave: Collecting 10 samples in estimated 155.72 ms (770 iterations)
+Benchmarking lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave: Analyzing
+lane-decode/random-bytes-control/lz4-SoA-decompress-plus-interleave
+                        time:   [196.81 µs 199.18 µs 201.76 µs]
+                        thrpt:  [1.2101 GiB/s 1.2257 GiB/s 1.2405 GiB/s]
+Benchmarking lane-decode/random-bytes-control/raw-copy
+Benchmarking lane-decode/random-bytes-control/raw-copy: Warming up for 100.00 ms
+Benchmarking lane-decode/random-bytes-control/raw-copy: Collecting 10 samples in estimated 150.06 ms (17k iterations)
+Benchmarking lane-decode/random-bytes-control/raw-copy: Analyzing
+lane-decode/random-bytes-control/raw-copy
+                        time:   [9.4830 µs 9.6532 µs 9.8593 µs]
+                        thrpt:  [24.762 GiB/s 25.291 GiB/s 25.745 GiB/s]
+
+Benchmarking lane-parallel-cutoff/4096/serial
+Benchmarking lane-parallel-cutoff/4096/serial: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/4096/serial: Collecting 10 samples in estimated 150.90 ms (5830 iterations)
+Benchmarking lane-parallel-cutoff/4096/serial: Analyzing
+lane-parallel-cutoff/4096/serial
+                        time:   [24.275 µs 24.878 µs 25.353 µs]
+                        thrpt:  [154.07 MiB/s 157.01 MiB/s 160.92 MiB/s]
+Benchmarking lane-parallel-cutoff/4096/parallel
+Benchmarking lane-parallel-cutoff/4096/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/4096/parallel: Collecting 10 samples in estimated 150.20 ms (6050 iterations)
+Benchmarking lane-parallel-cutoff/4096/parallel: Analyzing
+lane-parallel-cutoff/4096/parallel
+                        time:   [23.769 µs 23.881 µs 24.091 µs]
+                        thrpt:  [162.14 MiB/s 163.57 MiB/s 164.34 MiB/s]
+Benchmarking lane-parallel-cutoff/8192/serial
+Benchmarking lane-parallel-cutoff/8192/serial: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/8192/serial: Collecting 10 samples in estimated 151.59 ms (4070 iterations)
+Benchmarking lane-parallel-cutoff/8192/serial: Analyzing
+lane-parallel-cutoff/8192/serial
+                        time:   [36.900 µs 37.012 µs 37.184 µs]
+                        thrpt:  [210.10 MiB/s 211.08 MiB/s 211.72 MiB/s]
+Benchmarking lane-parallel-cutoff/8192/parallel
+Benchmarking lane-parallel-cutoff/8192/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/8192/parallel: Collecting 10 samples in estimated 151.73 ms (3905 iterations)
+Benchmarking lane-parallel-cutoff/8192/parallel: Analyzing
+lane-parallel-cutoff/8192/parallel
+                        time:   [40.075 µs 40.212 µs 40.348 µs]
+                        thrpt:  [193.63 MiB/s 194.28 MiB/s 194.95 MiB/s]
+Benchmarking lane-parallel-cutoff/12288/serial
+Benchmarking lane-parallel-cutoff/12288/serial: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/12288/serial: Collecting 10 samples in estimated 152.74 ms (2750 iterations)
+Benchmarking lane-parallel-cutoff/12288/serial: Analyzing
+lane-parallel-cutoff/12288/serial
+                        time:   [52.933 µs 53.235 µs 53.527 µs]
+                        thrpt:  [218.93 MiB/s 220.13 MiB/s 221.39 MiB/s]
+Benchmarking lane-parallel-cutoff/12288/parallel
+Benchmarking lane-parallel-cutoff/12288/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/12288/parallel: Collecting 10 samples in estimated 151.97 ms (3025 iterations)
+Benchmarking lane-parallel-cutoff/12288/parallel: Analyzing
+lane-parallel-cutoff/12288/parallel
+                        time:   [49.540 µs 49.764 µs 49.939 µs]
+                        thrpt:  [234.66 MiB/s 235.49 MiB/s 236.55 MiB/s]
+Benchmarking lane-parallel-cutoff/16384/serial
+Benchmarking lane-parallel-cutoff/16384/serial: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/16384/serial: Collecting 10 samples in estimated 151.47 ms (1980 iterations)
+Benchmarking lane-parallel-cutoff/16384/serial: Analyzing
+lane-parallel-cutoff/16384/serial
+                        time:   [73.236 µs 74.372 µs 75.279 µs]
+                        thrpt:  [207.56 MiB/s 210.09 MiB/s 213.35 MiB/s]
+Benchmarking lane-parallel-cutoff/16384/parallel
+Benchmarking lane-parallel-cutoff/16384/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/16384/parallel: Collecting 10 samples in estimated 152.43 ms (2695 iterations)
+Benchmarking lane-parallel-cutoff/16384/parallel: Analyzing
+lane-parallel-cutoff/16384/parallel
+                        time:   [56.397 µs 56.736 µs 57.085 µs]
+                        thrpt:  [273.71 MiB/s 275.40 MiB/s 277.05 MiB/s]
+Benchmarking lane-parallel-cutoff/65536/serial
+Benchmarking lane-parallel-cutoff/65536/serial: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/65536/serial: Collecting 10 samples in estimated 159.97 ms (770 iterations)
+Benchmarking lane-parallel-cutoff/65536/serial: Analyzing
+lane-parallel-cutoff/65536/serial
+                        time:   [203.64 µs 204.23 µs 205.18 µs]
+                        thrpt:  [304.61 MiB/s 306.03 MiB/s 306.92 MiB/s]
+Benchmarking lane-parallel-cutoff/65536/parallel
+Benchmarking lane-parallel-cutoff/65536/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/65536/parallel: Collecting 10 samples in estimated 154.33 ms (1595 iterations)
+Benchmarking lane-parallel-cutoff/65536/parallel: Analyzing
+lane-parallel-cutoff/65536/parallel
+                        time:   [96.108 µs 96.667 µs 97.608 µs]
+                        thrpt:  [640.32 MiB/s 646.55 MiB/s 650.31 MiB/s]
+Benchmarking lane-parallel-cutoff/262144/serial
+Benchmarking lane-parallel-cutoff/262144/serial: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/262144/serial: Collecting 10 samples in estimated 163.19 ms (220 iterations)
+Benchmarking lane-parallel-cutoff/262144/serial: Analyzing
+lane-parallel-cutoff/262144/serial
+                        time:   [723.41 µs 734.13 µs 744.11 µs]
+                        thrpt:  [335.97 MiB/s 340.54 MiB/s 345.59 MiB/s]
+Benchmarking lane-parallel-cutoff/262144/parallel
+Benchmarking lane-parallel-cutoff/262144/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/262144/parallel: Collecting 10 samples in estimated 154.95 ms (605 iterations)
+Benchmarking lane-parallel-cutoff/262144/parallel: Analyzing
+lane-parallel-cutoff/262144/parallel
+                        time:   [258.39 µs 262.92 µs 266.88 µs]
+                        thrpt:  [936.77 MiB/s 950.86 MiB/s 967.54 MiB/s]
+Benchmarking lane-parallel-cutoff/1048576/serial
+Benchmarking lane-parallel-cutoff/1048576/serial: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 155.8ms or enable flat sampling.
+Benchmarking lane-parallel-cutoff/1048576/serial: Collecting 10 samples in estimated 155.84 ms (55 iterations)
+Benchmarking lane-parallel-cutoff/1048576/serial: Analyzing
+lane-parallel-cutoff/1048576/serial
+                        time:   [2.7967 ms 2.8129 ms 2.8373 ms]
+                        thrpt:  [352.44 MiB/s 355.50 MiB/s 357.57 MiB/s]
+Benchmarking lane-parallel-cutoff/1048576/parallel
+Benchmarking lane-parallel-cutoff/1048576/parallel: Warming up for 100.00 ms
+Benchmarking lane-parallel-cutoff/1048576/parallel: Collecting 10 samples in estimated 155.22 ms (165 iterations)
+Benchmarking lane-parallel-cutoff/1048576/parallel: Analyzing
+lane-parallel-cutoff/1048576/parallel
+                        time:   [892.23 µs 899.70 µs 914.26 µs]
+                        thrpt:  [1.0681 GiB/s 1.0854 GiB/s 1.0945 GiB/s]
+
+Benchmarking single-lane-parallel-cutoff/4096/compressible/serial
+Benchmarking single-lane-parallel-cutoff/4096/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/4096/compressible/serial: Collecting 10 samples in estimated 150.32 ms (2970 iterations)
+Benchmarking single-lane-parallel-cutoff/4096/compressible/serial: Analyzing
+single-lane-parallel-cutoff/4096/compressible/serial
+                        time:   [45.379 µs 46.278 µs 47.409 µs]
+                        thrpt:  [82.395 MiB/s 84.409 MiB/s 86.081 MiB/s]
+Benchmarking single-lane-parallel-cutoff/4096/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/4096/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/4096/compressible/parallel: Collecting 10 samples in estimated 150.83 ms (3135 iterations)
+Benchmarking single-lane-parallel-cutoff/4096/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/4096/compressible/parallel
+                        time:   [47.283 µs 47.588 µs 47.851 µs]
+                        thrpt:  [81.633 MiB/s 82.084 MiB/s 82.614 MiB/s]
+Benchmarking single-lane-parallel-cutoff/4096/random/serial
+Benchmarking single-lane-parallel-cutoff/4096/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/4096/random/serial: Collecting 10 samples in estimated 150.17 ms (44k iterations)
+Benchmarking single-lane-parallel-cutoff/4096/random/serial: Analyzing
+single-lane-parallel-cutoff/4096/random/serial
+                        time:   [3.3531 µs 3.3744 µs 3.3919 µs]
+                        thrpt:  [1.1247 GiB/s 1.1305 GiB/s 1.1377 GiB/s]
+Benchmarking single-lane-parallel-cutoff/4096/random/parallel
+Benchmarking single-lane-parallel-cutoff/4096/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/4096/random/parallel: Collecting 10 samples in estimated 150.15 ms (45k iterations)
+Benchmarking single-lane-parallel-cutoff/4096/random/parallel: Analyzing
+single-lane-parallel-cutoff/4096/random/parallel
+                        time:   [3.4256 µs 3.4359 µs 3.4464 µs]
+                        thrpt:  [1.1069 GiB/s 1.1102 GiB/s 1.1136 GiB/s]
+Benchmarking single-lane-parallel-cutoff/8192/compressible/serial
+Benchmarking single-lane-parallel-cutoff/8192/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/8192/compressible/serial: Collecting 10 samples in estimated 151.67 ms (2035 iterations)
+Benchmarking single-lane-parallel-cutoff/8192/compressible/serial: Analyzing
+single-lane-parallel-cutoff/8192/compressible/serial
+                        time:   [74.018 µs 75.492 µs 76.428 µs]
+                        thrpt:  [102.22 MiB/s 103.49 MiB/s 105.55 MiB/s]
+Benchmarking single-lane-parallel-cutoff/8192/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/8192/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/8192/compressible/parallel: Collecting 10 samples in estimated 153.06 ms (2035 iterations)
+Benchmarking single-lane-parallel-cutoff/8192/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/8192/compressible/parallel
+                        time:   [77.297 µs 77.689 µs 77.951 µs]
+                        thrpt:  [100.22 MiB/s 100.56 MiB/s 101.07 MiB/s]
+Benchmarking single-lane-parallel-cutoff/8192/random/serial
+Benchmarking single-lane-parallel-cutoff/8192/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/8192/random/serial: Collecting 10 samples in estimated 150.03 ms (42k iterations)
+Benchmarking single-lane-parallel-cutoff/8192/random/serial: Analyzing
+single-lane-parallel-cutoff/8192/random/serial
+                        time:   [3.5131 µs 3.5242 µs 3.5384 µs]
+                        thrpt:  [2.1562 GiB/s 2.1649 GiB/s 2.1717 GiB/s]
+Benchmarking single-lane-parallel-cutoff/8192/random/parallel
+Benchmarking single-lane-parallel-cutoff/8192/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/8192/random/parallel: Collecting 10 samples in estimated 150.07 ms (42k iterations)
+Benchmarking single-lane-parallel-cutoff/8192/random/parallel: Analyzing
+single-lane-parallel-cutoff/8192/random/parallel
+                        time:   [3.5235 µs 3.5820 µs 3.6564 µs]
+                        thrpt:  [2.0866 GiB/s 2.1299 GiB/s 2.1653 GiB/s]
+Benchmarking single-lane-parallel-cutoff/12288/compressible/serial
+Benchmarking single-lane-parallel-cutoff/12288/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/12288/compressible/serial: Collecting 10 samples in estimated 153.86 ms (1485 iterations)
+Benchmarking single-lane-parallel-cutoff/12288/compressible/serial: Analyzing
+single-lane-parallel-cutoff/12288/compressible/serial
+                        time:   [101.19 µs 102.10 µs 103.45 µs]
+                        thrpt:  [113.28 MiB/s 114.78 MiB/s 115.81 MiB/s]
+Benchmarking single-lane-parallel-cutoff/12288/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/12288/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/12288/compressible/parallel: Collecting 10 samples in estimated 150.51 ms (1430 iterations)
+Benchmarking single-lane-parallel-cutoff/12288/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/12288/compressible/parallel
+                        time:   [105.28 µs 106.11 µs 107.42 µs]
+                        thrpt:  [109.10 MiB/s 110.44 MiB/s 111.31 MiB/s]
+Benchmarking single-lane-parallel-cutoff/12288/random/serial
+Benchmarking single-lane-parallel-cutoff/12288/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/12288/random/serial: Collecting 10 samples in estimated 150.23 ms (32k iterations)
+Benchmarking single-lane-parallel-cutoff/12288/random/serial: Analyzing
+single-lane-parallel-cutoff/12288/random/serial
+                        time:   [4.6347 µs 4.6639 µs 4.6972 µs]
+                        thrpt:  [2.4364 GiB/s 2.4538 GiB/s 2.4692 GiB/s]
+Benchmarking single-lane-parallel-cutoff/12288/random/parallel
+Benchmarking single-lane-parallel-cutoff/12288/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/12288/random/parallel: Collecting 10 samples in estimated 150.06 ms (31k iterations)
+Benchmarking single-lane-parallel-cutoff/12288/random/parallel: Analyzing
+single-lane-parallel-cutoff/12288/random/parallel
+                        time:   [4.8820 µs 4.8881 µs 4.8976 µs]
+                        thrpt:  [2.3367 GiB/s 2.3412 GiB/s 2.3441 GiB/s]
+Benchmarking single-lane-parallel-cutoff/16384/compressible/serial
+Benchmarking single-lane-parallel-cutoff/16384/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/16384/compressible/serial: Collecting 10 samples in estimated 155.30 ms (1155 iterations)
+Benchmarking single-lane-parallel-cutoff/16384/compressible/serial: Analyzing
+single-lane-parallel-cutoff/16384/compressible/serial
+                        time:   [133.16 µs 133.68 µs 134.29 µs]
+                        thrpt:  [116.35 MiB/s 116.88 MiB/s 117.34 MiB/s]
+Benchmarking single-lane-parallel-cutoff/16384/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/16384/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/16384/compressible/parallel: Collecting 10 samples in estimated 155.02 ms (1210 iterations)
+Benchmarking single-lane-parallel-cutoff/16384/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/16384/compressible/parallel
+                        time:   [135.64 µs 136.14 µs 136.79 µs]
+                        thrpt:  [114.23 MiB/s 114.77 MiB/s 115.19 MiB/s]
+Benchmarking single-lane-parallel-cutoff/16384/random/serial
+Benchmarking single-lane-parallel-cutoff/16384/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/16384/random/serial: Collecting 10 samples in estimated 150.09 ms (36k iterations)
+Benchmarking single-lane-parallel-cutoff/16384/random/serial: Analyzing
+single-lane-parallel-cutoff/16384/random/serial
+                        time:   [4.1325 µs 4.2584 µs 4.3443 µs]
+                        thrpt:  [3.5124 GiB/s 3.5832 GiB/s 3.6924 GiB/s]
+Benchmarking single-lane-parallel-cutoff/16384/random/parallel
+Benchmarking single-lane-parallel-cutoff/16384/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/16384/random/parallel: Collecting 10 samples in estimated 150.06 ms (32k iterations)
+Benchmarking single-lane-parallel-cutoff/16384/random/parallel: Analyzing
+single-lane-parallel-cutoff/16384/random/parallel
+                        time:   [4.2332 µs 4.3150 µs 4.4751 µs]
+                        thrpt:  [3.4097 GiB/s 3.5362 GiB/s 3.6046 GiB/s]
+Benchmarking single-lane-parallel-cutoff/65536/compressible/serial
+Benchmarking single-lane-parallel-cutoff/65536/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/65536/compressible/serial: Collecting 10 samples in estimated 170.06 ms (385 iterations)
+Benchmarking single-lane-parallel-cutoff/65536/compressible/serial: Analyzing
+single-lane-parallel-cutoff/65536/compressible/serial
+                        time:   [444.81 µs 460.70 µs 470.81 µs]
+                        thrpt:  [132.75 MiB/s 135.66 MiB/s 140.51 MiB/s]
+Benchmarking single-lane-parallel-cutoff/65536/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/65536/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/65536/compressible/parallel: Collecting 10 samples in estimated 163.25 ms (330 iterations)
+Benchmarking single-lane-parallel-cutoff/65536/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/65536/compressible/parallel
+                        time:   [473.11 µs 474.64 µs 476.67 µs]
+                        thrpt:  [131.12 MiB/s 131.68 MiB/s 132.10 MiB/s]
+Benchmarking single-lane-parallel-cutoff/65536/random/serial
+Benchmarking single-lane-parallel-cutoff/65536/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/65536/random/serial: Collecting 10 samples in estimated 150.23 ms (19k iterations)
+Benchmarking single-lane-parallel-cutoff/65536/random/serial: Analyzing
+single-lane-parallel-cutoff/65536/random/serial
+                        time:   [8.0460 µs 8.2576 µs 8.5320 µs]
+                        thrpt:  [7.1537 GiB/s 7.3914 GiB/s 7.5858 GiB/s]
+Benchmarking single-lane-parallel-cutoff/65536/random/parallel
+Benchmarking single-lane-parallel-cutoff/65536/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/65536/random/parallel: Collecting 10 samples in estimated 150.21 ms (20k iterations)
+Benchmarking single-lane-parallel-cutoff/65536/random/parallel: Analyzing
+single-lane-parallel-cutoff/65536/random/parallel
+                        time:   [7.5502 µs 7.6454 µs 7.8397 µs]
+                        thrpt:  [7.7854 GiB/s 7.9833 GiB/s 8.0839 GiB/s]
+Benchmarking single-lane-parallel-cutoff/131072/compressible/serial
+Benchmarking single-lane-parallel-cutoff/131072/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/131072/compressible/serial: Collecting 10 samples in estimated 194.81 ms (220 iterations)
+Benchmarking single-lane-parallel-cutoff/131072/compressible/serial: Analyzing
+single-lane-parallel-cutoff/131072/compressible/serial
+                        time:   [890.20 µs 906.18 µs 914.92 µs]
+                        thrpt:  [136.62 MiB/s 137.94 MiB/s 140.42 MiB/s]
+Benchmarking single-lane-parallel-cutoff/131072/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/131072/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/131072/compressible/parallel: Collecting 10 samples in estimated 169.31 ms (220 iterations)
+Benchmarking single-lane-parallel-cutoff/131072/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/131072/compressible/parallel
+                        time:   [762.06 µs 767.62 µs 775.79 µs]
+                        thrpt:  [161.13 MiB/s 162.84 MiB/s 164.03 MiB/s]
+Benchmarking single-lane-parallel-cutoff/131072/random/serial
+Benchmarking single-lane-parallel-cutoff/131072/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/131072/random/serial: Collecting 10 samples in estimated 150.64 ms (12k iterations)
+Benchmarking single-lane-parallel-cutoff/131072/random/serial: Analyzing
+single-lane-parallel-cutoff/131072/random/serial
+                        time:   [12.593 µs 13.500 µs 13.942 µs]
+                        thrpt:  [8.7557 GiB/s 9.0423 GiB/s 9.6938 GiB/s]
+Benchmarking single-lane-parallel-cutoff/131072/random/parallel
+Benchmarking single-lane-parallel-cutoff/131072/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/131072/random/parallel: Collecting 10 samples in estimated 150.69 ms (11k iterations)
+Benchmarking single-lane-parallel-cutoff/131072/random/parallel: Analyzing
+single-lane-parallel-cutoff/131072/random/parallel
+                        time:   [13.094 µs 13.205 µs 13.337 µs]
+                        thrpt:  [9.1526 GiB/s 9.2439 GiB/s 9.3228 GiB/s]
+Benchmarking single-lane-parallel-cutoff/262144/compressible/serial
+Benchmarking single-lane-parallel-cutoff/262144/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/262144/compressible/serial: Collecting 10 samples in estimated 186.75 ms (110 iterations)
+Benchmarking single-lane-parallel-cutoff/262144/compressible/serial: Analyzing
+single-lane-parallel-cutoff/262144/compressible/serial
+                        time:   [1.6700 ms 1.6750 ms 1.6813 ms]
+                        thrpt:  [148.70 MiB/s 149.25 MiB/s 149.70 MiB/s]
+Benchmarking single-lane-parallel-cutoff/262144/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/262144/compressible/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/262144/compressible/parallel: Collecting 10 samples in estimated 180.70 ms (165 iterations)
+Benchmarking single-lane-parallel-cutoff/262144/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/262144/compressible/parallel
+                        time:   [1.0818 ms 1.0953 ms 1.1124 ms]
+                        thrpt:  [224.74 MiB/s 228.26 MiB/s 231.10 MiB/s]
+Benchmarking single-lane-parallel-cutoff/262144/random/serial
+Benchmarking single-lane-parallel-cutoff/262144/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/262144/random/serial: Collecting 10 samples in estimated 150.71 ms (7535 iterations)
+Benchmarking single-lane-parallel-cutoff/262144/random/serial: Analyzing
+single-lane-parallel-cutoff/262144/random/serial
+                        time:   [19.563 µs 19.653 µs 19.726 µs]
+                        thrpt:  [12.377 GiB/s 12.423 GiB/s 12.479 GiB/s]
+Benchmarking single-lane-parallel-cutoff/262144/random/parallel
+Benchmarking single-lane-parallel-cutoff/262144/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/262144/random/parallel: Collecting 10 samples in estimated 150.25 ms (7150 iterations)
+Benchmarking single-lane-parallel-cutoff/262144/random/parallel: Analyzing
+single-lane-parallel-cutoff/262144/random/parallel
+                        time:   [21.140 µs 22.063 µs 23.142 µs]
+                        thrpt:  [10.550 GiB/s 11.066 GiB/s 11.549 GiB/s]
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/serial
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/serial: Collecting 10 samples in estimated 206.01 ms (30 iterations)
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/serial: Analyzing
+single-lane-parallel-cutoff/1048576/compressible/serial
+                        time:   [7.1225 ms 7.2101 ms 7.3322 ms]
+                        thrpt:  [136.38 MiB/s 138.69 MiB/s 140.40 MiB/s]
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/parallel
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/parallel: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 181.4ms or enable flat sampling.
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/parallel: Collecting 10 samples in estimated 181.41 ms (55 iterations)
+Benchmarking single-lane-parallel-cutoff/1048576/compressible/parallel: Analyzing
+single-lane-parallel-cutoff/1048576/compressible/parallel
+                        time:   [3.1587 ms 3.2005 ms 3.2369 ms]
+                        thrpt:  [308.94 MiB/s 312.45 MiB/s 316.59 MiB/s]
+Benchmarking single-lane-parallel-cutoff/1048576/random/serial
+Benchmarking single-lane-parallel-cutoff/1048576/random/serial: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/1048576/random/serial: Collecting 10 samples in estimated 159.38 ms (330 iterations)
+Benchmarking single-lane-parallel-cutoff/1048576/random/serial: Analyzing
+single-lane-parallel-cutoff/1048576/random/serial
+                        time:   [379.53 µs 385.84 µs 402.47 µs]
+                        thrpt:  [2.4264 GiB/s 2.5310 GiB/s 2.5731 GiB/s]
+Benchmarking single-lane-parallel-cutoff/1048576/random/parallel
+Benchmarking single-lane-parallel-cutoff/1048576/random/parallel: Warming up for 100.00 ms
+Benchmarking single-lane-parallel-cutoff/1048576/random/parallel: Collecting 10 samples in estimated 161.89 ms (330 iterations)
+Benchmarking single-lane-parallel-cutoff/1048576/random/parallel: Analyzing
+single-lane-parallel-cutoff/1048576/random/parallel
+                        time:   [440.20 µs 461.62 µs 481.09 µs]
+                        thrpt:  [2.0299 GiB/s 2.1155 GiB/s 2.2184 GiB/s]
+

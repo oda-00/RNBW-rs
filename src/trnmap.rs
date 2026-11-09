@@ -550,16 +550,47 @@ impl<'a> TrnMap<'a> {
     /// Count occurrences of one trit, using summary levels to skip empty groups.
     pub fn count(&self, trit: i8) -> Result<usize, TrnMapError> {
         let classes = trit_class_checked(trit)?;
+        if self.level_count == 1 {
+            return Ok(self.leaf_class_mask(0, classes).count_ones() as usize);
+        }
+
+        // Count leaf words, not individual matching trits. The level-one
+        // summaries let sparse classes skip 4,096-trit regions in one word;
+        // dense classes take a sequential packed-word pass instead of doing a
+        // hierarchy descent for every leaf.
+        let summary_records = div_ceil_64(self.base_words);
+        let plane = match classes {
+            NEGATIVE => 1,
+            ZERO => 2,
+            POSITIVE => 0,
+            _ => unreachable!("a checked trit has exactly one class"),
+        };
+        let words = self.backing.words();
+        let mut active_leaf_words = 0usize;
+        for record in 0..summary_records {
+            active_leaf_words +=
+                words[self.presence_index(1, record) + plane].count_ones() as usize;
+        }
+
         let mut count = 0usize;
-        let mut start = 0usize;
-        while start < self.len {
-            let index = self.find(classes, start);
-            if index == self.len {
-                break;
+        // A candidate bitmap is cheaper while at most half its leaf words are
+        // active; above that density, the sequential packed-word pass wins.
+        if active_leaf_words > self.base_words / 2 {
+            for word in 0..self.base_words {
+                count += self.leaf_class_mask(word, classes).count_ones() as usize;
             }
-            let word_index = index / 64;
-            count += self.leaf_class_mask(word_index, classes).count_ones() as usize;
-            start = ((word_index + 1) * 64).min(self.len);
+        } else {
+            for record in 0..summary_records {
+                let mut active = words[self.presence_index(1, record) + plane];
+                let valid = valid_bits(self.base_words.saturating_sub(record * 64).min(64));
+                active &= valid;
+                while active != 0 {
+                    let child = active.trailing_zeros() as usize;
+                    let word = record * 64 + child;
+                    count += self.leaf_class_mask(word, classes).count_ones() as usize;
+                    active &= active - 1;
+                }
+            }
         }
         Ok(count)
     }
@@ -703,30 +734,78 @@ impl<'a> TrnMap<'a> {
     }
 
     fn merge(&mut self, rhs: &Self, is_or: bool) {
-        let classes = if is_or {
-            ZERO | POSITIVE
-        } else {
-            NEGATIVE | ZERO
-        };
-        let mut start = 0usize;
-        while start < self.len {
-            let index = rhs.find(classes, start);
-            if index == rhs.len {
-                break;
-            }
-            let word_index = index / 64;
-            let lhs_word = self.read_leaf(word_index);
-            let rhs_word = rhs.read_leaf(word_index);
+        if self.level_count == 1 {
+            let lhs_word = self.read_leaf(0);
+            let rhs_word = rhs.read_leaf(0);
             let merged = if is_or {
                 lhs_word.kleene_or(rhs_word)
             } else {
                 lhs_word.kleene_and(rhs_word)
             };
             if merged != lhs_word {
-                self.write_leaf(word_index, merged);
-                self.recompute_summaries(word_index);
+                self.write_leaf(0, merged);
             }
-            start = ((word_index + 1) * 64).min(self.len);
+            return;
+        }
+        let summary_records = div_ceil_64(self.base_words);
+        for record in 0..summary_records {
+            let rhs_at = rhs.presence_index(1, record);
+            let rhs_planes = rhs.backing.words();
+            let mut candidates = if is_or {
+                rhs_planes[rhs_at] | rhs_planes[rhs_at + 2]
+            } else {
+                rhs_planes[rhs_at + 1] | rhs_planes[rhs_at + 2]
+            };
+            candidates &= valid_bits(self.base_words.saturating_sub(record * 64).min(64));
+            if candidates == 0 {
+                continue;
+            }
+
+            let lhs_at = self.presence_index(1, record);
+            let mut updated_planes = {
+                let words = self.backing.words();
+                [words[lhs_at], words[lhs_at + 1], words[lhs_at + 2]]
+            };
+            let mut changed = false;
+            while candidates != 0 {
+                let child = candidates.trailing_zeros() as usize;
+                let word_index = record * 64 + child;
+                let lhs_word = self.read_leaf(word_index);
+                let rhs_word = rhs.read_leaf(word_index);
+                let merged = if is_or {
+                    lhs_word.kleene_or(rhs_word)
+                } else {
+                    lhs_word.kleene_and(rhs_word)
+                };
+                if merged != lhs_word {
+                    self.write_leaf(word_index, merged);
+                    let valid = valid_bits(self.len.saturating_sub(word_index * 64).min(64));
+                    let bit = 1u64 << child;
+                    let present = [
+                        merged.p & valid != 0,
+                        !merged.u & valid != 0,
+                        merged.u & !merged.p & valid != 0,
+                    ];
+                    for plane in 0..3 {
+                        if present[plane] {
+                            updated_planes[plane] |= bit;
+                        } else {
+                            updated_planes[plane] &= !bit;
+                        }
+                    }
+                    changed = true;
+                }
+                candidates &= candidates - 1;
+            }
+            if changed {
+                let words = self.backing.words_mut();
+                words[lhs_at] = updated_planes[0];
+                words[lhs_at + 1] = updated_planes[1];
+                words[lhs_at + 2] = updated_planes[2];
+                if self.level_count > 2 {
+                    self.recompute_summary_node(2, record);
+                }
+            }
         }
     }
 
@@ -791,8 +870,11 @@ impl<'a> TrnMap<'a> {
     }
 
     fn recompute_summaries(&mut self, leaf_word: usize) {
-        let mut child = leaf_word;
-        for level in 1..self.level_count {
+        self.recompute_summary_node(1, leaf_word);
+    }
+
+    fn recompute_summary_node(&mut self, mut level: usize, mut child: usize) {
+        while level < self.level_count {
             let record = child / 64;
             let bit = 1u64 << (child & 63);
             let present = if level == 1 {
@@ -825,6 +907,7 @@ impl<'a> TrnMap<'a> {
                 }
             }
             child = record;
+            level += 1;
         }
     }
 

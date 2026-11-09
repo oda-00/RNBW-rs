@@ -22,9 +22,8 @@ const LEGACY_DESCRIPTOR_BYTES: usize = 24;
 const DESCRIPTOR_BYTES: usize = 32;
 const TOKEN_BYTES: usize = 4;
 const WINDOW_SIZE: usize = 1 << 16;
-const HASH_BITS_COMPACT: usize = 16;
+const HASH_BITS_COMPACT: usize = 18;
 const HASH_BITS_WIDE: usize = 18;
-const MAX_CHAIN: usize = 32;
 const MAX_MATCH: usize = 130;
 const PARALLEL_MIN_BYTES: usize = 16 * 1024;
 const LZ_BLOCK_BYTES: usize = 64 * 1024;
@@ -244,44 +243,21 @@ impl LaneLz {
         read_u32(&self.image, 8).expect("validated lane header") as usize
     }
 
-    /// Decodes each lane to its original bytes.
+    /// Decodes each lane to its original bytes, in lane order.
+    ///
+    /// Multiple lanes are decoded concurrently when the image contains at
+    /// least 16 KiB of raw data. A single lane stays on the serial path.
     pub fn decode_lanes(&self) -> Result<Vec<Vec<u8>>, CodecError> {
         // All constructors validate or generate this immutable image. Repeating
         // the full structural validation here would only re-read trusted bytes.
         let count = read_u16(&self.image, 6).expect("validated lane image") as usize;
         let version = read_u16(&self.image, 4).expect("validated lane image");
-        let is_legacy = version == LEGACY_VERSION;
-        let mut lanes = Vec::with_capacity(count);
-        for index in 0..count {
-            let descriptor = lane_descriptor_unchecked_version(&self.image, index, version);
-            let payload = &self.image
-                [descriptor.payload_offset..descriptor.payload_offset + descriptor.payload_len];
-            let model = if descriptor.model_len == 0 {
-                &[][..]
-            } else {
-                &self.image[descriptor.model_offset..descriptor.model_offset + descriptor.model_len]
-            };
-            let decoded = rans::entropy_decode(
-                descriptor.entropy_method,
-                descriptor.token_len,
-                model,
-                payload,
-            )?;
-            let lane = match descriptor.mode {
-                MODE_RAW => decoded,
-                MODE_LZ_ENTROPY if is_legacy => lz_decode_legacy(&decoded, descriptor.raw_len)?,
-                MODE_LZ_ENTROPY => lz_decode(
-                    &decoded,
-                    descriptor.token_count,
-                    descriptor.literal_len,
-                    descriptor.raw_len,
-                )?,
-                _ => return Err(CodecError::InvalidFormat("unknown RNBW lane mode")),
-            };
-            // Every accepted decoder branch enforces the descriptor length.
-            lanes.push(lane);
+        let decode = |index| decode_lane(&self.image, index, version);
+        if count > 1 && read_u32_unchecked(&self.image, 8) as usize >= PARALLEL_MIN_BYTES {
+            (0..count).into_par_iter().map(decode).collect()
+        } else {
+            (0..count).map(decode).collect()
         }
-        Ok(lanes)
     }
 
     /// Reassembles four little-endian byte planes into their ordered u32 values.
@@ -341,11 +317,13 @@ impl LaneLz {
             .ok_or(CodecError::LengthOverflow)?;
         if lanes.len() == 4 {
             let mut output = Vec::with_capacity(output_len);
-            for index in 0..lanes[0].len() {
-                output.push(lanes[0][index]);
-                output.push(lanes[1][index]);
-                output.push(lanes[2][index]);
-                output.push(lanes[3][index]);
+            for (((red, green), blue), alpha) in
+                lanes[0].iter().zip(&lanes[1]).zip(&lanes[2]).zip(&lanes[3])
+            {
+                output.push(*red);
+                output.push(*green);
+                output.push(*blue);
+                output.push(*alpha);
             }
             return Ok(Cow::Owned(output));
         }
@@ -718,6 +696,36 @@ fn lane_descriptor_unchecked_version(image: &[u8], index: usize, version: u16) -
     }
 }
 
+fn decode_lane(image: &[u8], index: usize, version: u16) -> Result<Vec<u8>, CodecError> {
+    let descriptor = lane_descriptor_unchecked_version(image, index, version);
+    let payload =
+        &image[descriptor.payload_offset..descriptor.payload_offset + descriptor.payload_len];
+    let model = if descriptor.model_len == 0 {
+        &[][..]
+    } else {
+        &image[descriptor.model_offset..descriptor.model_offset + descriptor.model_len]
+    };
+    let decoded = rans::entropy_decode(
+        descriptor.entropy_method,
+        descriptor.token_len,
+        model,
+        payload,
+    )?;
+    match descriptor.mode {
+        MODE_RAW => Ok(decoded),
+        MODE_LZ_ENTROPY if version == LEGACY_VERSION => {
+            lz_decode_legacy(&decoded, descriptor.raw_len)
+        }
+        MODE_LZ_ENTROPY => lz_decode(
+            &decoded,
+            descriptor.token_count,
+            descriptor.literal_len,
+            descriptor.raw_len,
+        ),
+        _ => Err(CodecError::InvalidFormat("unknown RNBW lane mode")),
+    }
+}
+
 fn validate_lanes(lanes: &[&[u8]]) -> Result<usize, CodecError> {
     if lanes.is_empty() || lanes.len() > u16::MAX as usize {
         return Err(CodecError::InvalidFormat("invalid RNBW lane count"));
@@ -908,18 +916,18 @@ unsafe fn split_four_avx2(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
     while record < vector_records {
         let bytes = unsafe { input.as_ptr().add(record * 4) };
         let interleaved = unsafe { _mm256_loadu_si256(bytes.cast()) };
-        for channel in 0..4 {
+        for (channel, lane) in lanes.iter_mut().enumerate() {
             let separated = _mm256_shuffle_epi8(interleaved, masks[channel]);
             let packed = _mm256_permutevar8x32_epi32(separated, pack);
-            let lane_out = unsafe { lanes[channel].as_mut_ptr().add(record).cast::<__m128i>() };
+            let lane_out = unsafe { lane.as_mut_ptr().add(record).cast::<__m128i>() };
             unsafe { _mm_storel_epi64(lane_out, _mm256_castsi256_si128(packed)) };
         }
         record += 8;
     }
     while record < records {
         let source = unsafe { input.as_ptr().add(record * 4) };
-        for channel in 0..4 {
-            lanes[channel][record] = unsafe { *source.add(channel) };
+        for (channel, lane) in lanes.iter_mut().enumerate() {
+            lane[record] = unsafe { *source.add(channel) };
         }
         record += 1;
     }
@@ -934,17 +942,31 @@ fn split_u32_byte_planes(values: &[u32], lanes: &mut Vec<Vec<u8>>) -> Result<(),
         return Err(CodecError::LengthOverflow);
     }
     prepare_split_lanes(lanes, 4, values.len());
-    let [b0, b1, b2, b3, ..] = lanes.as_mut_slice() else {
-        unreachable!("four byte-plane buffers were prepared")
-    };
-    for value in values {
-        let [x0, x1, x2, x3] = value.to_le_bytes();
-        b0.push(x0);
-        b1.push(x1);
-        b2.push(x2);
-        b3.push(x3);
+
+    // On little-endian targets the in-memory u32 representation is already the
+    // byte stream consumed by the four-lane splitter. Reuse its cached AVX2
+    // dispatch instead of materializing four scalar `to_le_bytes` pushes per
+    // value. The byte view is valid for exactly `raw_total` initialized bytes.
+    #[cfg(target_endian = "little")]
+    {
+        // SAFETY: `u32` has no padding, the checked length is `values.len() * 4`,
+        // and `u8` has alignment 1. The view does not outlive `values`.
+        let bytes = unsafe { std::slice::from_raw_parts(values.as_ptr().cast::<u8>(), raw_total) };
+        split_four_dispatch(bytes, &mut lanes[..4], values.len());
+        Ok(())
     }
-    Ok(())
+
+    #[cfg(target_endian = "big")]
+    {
+        for &value in values {
+            let [x0, x1, x2, x3] = value.to_le_bytes();
+            lanes[0].push(x0);
+            lanes[1].push(x1);
+            lanes[2].push(x2);
+            lanes[3].push(x3);
+        }
+        Ok(())
+    }
 }
 
 fn encode_lane(
@@ -1147,8 +1169,9 @@ fn encode_lane_from_lz(
 
 #[derive(Debug, Default)]
 struct LzWorkspace {
-    heads: Vec<u32>,
-    previous: Vec<u32>,
+    // Each hash slot packs its two newest matching positions. Directly
+    // testing both candidates avoids the dependent pointer chain.
+    heads: Vec<u64>,
     touched_heads: Vec<u32>,
     tokens: Vec<u8>,
     literal_bytes: Vec<u8>,
@@ -1169,7 +1192,6 @@ fn lz_encode_window(
 ) -> (usize, usize) {
     let LzWorkspace {
         heads,
-        previous,
         touched_heads,
         tokens: output,
         literal_bytes,
@@ -1188,20 +1210,16 @@ fn lz_encode_window(
         return finish_token_stream(output, literal_bytes);
     }
     for hash in touched_heads.drain(..) {
-        heads[hash as usize] = u32::MAX;
+        heads[hash as usize] = u64::MAX;
     }
     let hash_size = 1usize << hash_bits;
     if heads.len() != hash_size {
-        heads.resize(hash_size, u32::MAX);
+        heads.resize(hash_size, u64::MAX);
     }
-    if previous.is_empty() {
-        previous.resize(WINDOW_SIZE, u32::MAX);
-    }
-
     for index in 0..history_len {
         if index + 2 < input.len() {
             let hash = hash_at(input, index, hash_bits);
-            insert_position(index, hash, heads, previous, touched_heads);
+            insert_position(index, hash, heads, touched_heads);
         }
     }
 
@@ -1210,17 +1228,16 @@ fn lz_encode_window(
 
     while index < target_end && index + 2 < input.len() {
         let hash = hash_at(input, index, hash_bits);
-        let mut candidate = heads[hash];
+        let candidates = heads[hash];
+        insert_position(index, hash, heads, touched_heads);
         let mut best_len = 0usize;
         let mut best_distance = 0usize;
-        let mut probes = 0usize;
-        while candidate != u32::MAX && probes < MAX_CHAIN {
-            let candidate_index = candidate as usize;
+        let candidate0 = candidates as u32;
+        if candidate0 != u32::MAX {
+            let candidate_index = candidate0 as usize;
             let distance = index - candidate_index;
-            if distance > WINDOW_SIZE {
-                break;
-            }
-            if input[candidate_index] == input[index]
+            if distance <= WINDOW_SIZE
+                && input[candidate_index] == input[index]
                 && input[candidate_index + 1] == input[index + 1]
                 && input[candidate_index + 2] == input[index + 2]
             {
@@ -1228,35 +1245,47 @@ fn lz_encode_window(
                 if length > best_len {
                     best_len = length;
                     best_distance = distance;
-                    if index + length == input.len() {
-                        break;
-                    }
                 }
             }
-            candidate = previous[candidate_index % WINDOW_SIZE];
-            probes += 1;
         }
-
+        let candidate1 = (candidates >> 32) as u32;
+        if candidate1 != u32::MAX {
+            let candidate_index = candidate1 as usize;
+            let distance = index - candidate_index;
+            if distance <= WINDOW_SIZE
+                && input[candidate_index] == input[index]
+                && input[candidate_index + 1] == input[index + 1]
+                && input[candidate_index + 2] == input[index + 2]
+            {
+                let length = 3 + super::extend_match(input, candidate_index + 3, index + 3);
+                if length > best_len {
+                    best_len = length;
+                    best_distance = distance;
+                }
+            }
+        }
         best_len = best_len.min(target_end - index);
         if best_len >= 3 {
             emit_literals(output, literal_bytes, &input[literal_start..index]);
             emit_matches(output, best_len, best_distance);
-            let match_start = index;
             let end = index + best_len;
+            // The current position was inserted before candidate matching.
+            // Insert the rest of the accepted match so following positions can
+            // still match against every byte covered by it.
+            index += 1;
             while index < end {
                 if index + 2 < input.len() {
-                    let inserted_hash = if index == match_start {
-                        hash
-                    } else {
-                        hash_at(input, index, hash_bits)
-                    };
-                    insert_position(index, inserted_hash, heads, previous, touched_heads);
+                    insert_position(
+                        index,
+                        hash_at(input, index, hash_bits),
+                        heads,
+                        touched_heads,
+                    );
                 }
                 index += 1;
             }
             literal_start = index;
         } else {
-            insert_position(index, hash, heads, previous, touched_heads);
             index += 1;
         }
     }
@@ -1276,19 +1305,12 @@ fn hash_at(input: &[u8], index: usize, hash_bits: usize) -> usize {
     (value.wrapping_mul(0x1e35_a7bd) >> (32 - hash_bits)) as usize
 }
 
-fn insert_position(
-    index: usize,
-    hash: usize,
-    heads: &mut [u32],
-    previous: &mut [u32],
-    touched_heads: &mut Vec<u32>,
-) {
-    let slot = index % WINDOW_SIZE;
-    if heads[hash] == u32::MAX {
+fn insert_position(index: usize, hash: usize, heads: &mut [u64], touched_heads: &mut Vec<u32>) {
+    let previous = heads[hash];
+    if previous == u64::MAX {
         touched_heads.push(hash as u32);
     }
-    previous[slot] = heads[hash];
-    heads[hash] = index as u32;
+    heads[hash] = (u64::from(previous as u32) << 32) | index as u64;
 }
 
 fn emit_literals(output: &mut Vec<u8>, literal_bytes: &mut Vec<u8>, mut literal: &[u8]) {

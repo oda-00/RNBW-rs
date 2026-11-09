@@ -1,11 +1,13 @@
 use criterion::{Criterion, Throughput, criterion_group, criterion_main};
 use flate2::{Compression, read::ZlibDecoder, write::ZlibEncoder};
-use rnbw::{LaneLz, LaneLzEncoder, Rnbw};
+use rnbw::{LaneLz, LaneLzEncoder, Rnbw, trnmap::CLASS_ZERO};
 use std::{
     hint::black_box,
     io::{Read, Write},
-    path::PathBuf,
 };
+
+#[path = "support/trnmap_index.rs"]
+mod trnmap_index;
 
 #[derive(Clone, Copy)]
 enum ExternalCodec {
@@ -73,6 +75,7 @@ fn file_codecs(c: &mut Criterion) {
             pad_to(&mut bytes, lane_width);
         }
         let raw_len = bytes.len();
+        benchmark_raw_word_index(c, name, &bytes);
         let external: Vec<_> = EXTERNAL_CODECS
             .into_iter()
             .map(|codec| {
@@ -188,7 +191,127 @@ fn file_codecs(c: &mut Criterion) {
         }
         decode.bench_function("raw-copy-control", |b| b.iter(|| black_box(&bytes).clone()));
         decode.finish();
+
+        let mut roundtrip = c.benchmark_group(format!("file-roundtrip/{name}"));
+        roundtrip.throughput(Throughput::Bytes(raw_len as u64));
+        roundtrip.bench_function("rnbw-hybrid-lz-entropy-reuse-serial", |b| {
+            b.iter(|| {
+                let encoded = encode_rnbw_serial(
+                    &mut serial_encoder,
+                    &mut serial_field_workspace,
+                    black_box(&bytes),
+                    layout,
+                )
+                .unwrap();
+                black_box(decode_rnbw(&encoded, layout))
+            })
+        });
+        roundtrip.bench_function("rnbw-hybrid-lz-entropy-reuse-parallel", |b| {
+            b.iter(|| {
+                let encoded = encode_rnbw_parallel(
+                    &mut parallel_encoder,
+                    &mut parallel_field_workspace,
+                    black_box(&bytes),
+                    layout,
+                )
+                .unwrap();
+                black_box(decode_rnbw(&encoded, layout))
+            })
+        });
+        for codec in EXTERNAL_CODECS {
+            roundtrip.bench_function(format!("{}-encode-decode", codec.name()), |b| {
+                b.iter(|| {
+                    let compressed = external_encode(codec, black_box(&bytes));
+                    black_box(external_decode(codec, &compressed, raw_len))
+                })
+            });
+        }
+        roundtrip.finish();
     }
+}
+
+fn benchmark_raw_word_index(c: &mut Criterion, name: &str, bytes: &[u8]) {
+    let word_count = bytes.len().div_ceil(4);
+    let started = std::time::Instant::now();
+    let index = trnmap_index::build_raw_word_trnmap(bytes).expect("general file TRNMAP");
+    let build_time = started.elapsed();
+    let index_bytes = index.storage_bytes();
+    let zeros = index.count(0).expect("zero word count");
+    assert_eq!(
+        zeros,
+        trnmap_index::scalar_count_class(bytes, 0),
+        "file index count {name}"
+    );
+    let first_zero = index.find(CLASS_ZERO, 0);
+    assert_eq!(
+        first_zero,
+        trnmap_index::scalar_find_class(bytes, 0, 0),
+        "file index find {name}"
+    );
+
+    let positions: Vec<usize> = (0..1024).map(|i| i * word_count / 1024).collect();
+    assert!(positions.iter().all(|&position| {
+        index.get(position).unwrap() == trnmap_index::raw_word_class(bytes, position)
+    }));
+    let starts: Vec<usize> = (1..=32).map(|i| i * word_count / 33).collect();
+    assert!(starts.iter().all(|&start| {
+        index.find(CLASS_ZERO, start) == trnmap_index::scalar_find_class(bytes, start, 0)
+    }));
+
+    eprintln!(
+        "general-trnmap-index={name} bytes={} words={word_count} index-bytes={index_bytes} build={build_time:?} zero-words={zeros} first-zero={first_zero}",
+        bytes.len()
+    );
+
+    let mut get = c.benchmark_group(format!("file-undecoded-index-get/{name}"));
+    get.throughput(Throughput::Elements(positions.len() as u64));
+    get.bench_function("trnmap-1024-even-positions", |b| {
+        b.iter(|| {
+            black_box(&positions)
+                .iter()
+                .map(|&position| index.get(position).unwrap())
+                .fold(0i64, |sum, value| sum + i64::from(value))
+        })
+    });
+    get.bench_function("raw-word-classify-1024", |b| {
+        b.iter(|| {
+            black_box(&positions)
+                .iter()
+                .map(|&position| trnmap_index::raw_word_class(bytes, position))
+                .fold(0i64, |sum, value| sum + i64::from(value))
+        })
+    });
+    get.finish();
+
+    let mut find = c.benchmark_group(format!("file-undecoded-index-find-zero/{name}"));
+    find.throughput(Throughput::Elements(starts.len() as u64));
+    find.bench_function("trnmap-hierarchical-32-starts", |b| {
+        b.iter(|| {
+            black_box(&starts)
+                .iter()
+                .map(|&start| index.find(CLASS_ZERO, start))
+                .sum::<usize>()
+        })
+    });
+    find.bench_function("raw-linear-32-starts", |b| {
+        b.iter(|| {
+            black_box(&starts)
+                .iter()
+                .map(|&start| trnmap_index::scalar_find_class(bytes, start, 0))
+                .sum::<usize>()
+        })
+    });
+    find.finish();
+
+    let mut count = c.benchmark_group(format!("file-undecoded-index-count-zero/{name}"));
+    count.throughput(Throughput::Elements(word_count as u64));
+    count.bench_function("trnmap-summary-count", |b| {
+        b.iter(|| black_box(&index).count(0).unwrap())
+    });
+    count.bench_function("raw-linear-count", |b| {
+        b.iter(|| trnmap_index::scalar_count_class(black_box(bytes), 0))
+    });
+    count.finish();
 }
 
 fn encode_rnbw(input: &[u8], layout: LaneLayout) -> Result<LaneLz, String> {
@@ -523,15 +646,7 @@ fn shader_words() -> Vec<u8> {
 }
 
 fn shader_source() -> Vec<u8> {
-    let mut out = Vec::new();
-    for source in [
-        include_bytes!("../src/lane_lz/encode.wgsl").as_slice(),
-        include_bytes!("../src/lane_lz/decode.wgsl").as_slice(),
-    ] {
-        out.extend_from_slice(source);
-        out.push(b'\n');
-    }
-    out
+    include_bytes!("data/graphics-wgsl-source.txt").to_vec()
 }
 
 fn model_weights() -> Vec<u8> {
@@ -550,9 +665,7 @@ fn model_weights() -> Vec<u8> {
 }
 
 fn executable_bytes() -> Vec<u8> {
-    let path: PathBuf = std::env::current_exe().expect("current benchmark executable path");
-    std::fs::read(&path)
-        .unwrap_or_else(|error| panic!("read benchmark executable {path:?}: {error}"))
+    include_bytes!("data/native-executable-binary.exe").to_vec()
 }
 
 fn binary_records() -> Vec<u8> {
@@ -561,7 +674,7 @@ fn binary_records() -> Vec<u8> {
     for id in 0..32_768u32 {
         state = xorshift(state);
         out.extend_from_slice(&id.to_le_bytes());
-        out.extend_from_slice(&((id / 32) as u32).to_le_bytes());
+        out.extend_from_slice(&(id / 32).to_le_bytes());
         out.extend_from_slice(&(state as u32).to_le_bytes());
         out.extend_from_slice(&((state >> 32) as u32).to_le_bytes());
     }
@@ -591,33 +704,11 @@ fn random_bytes(length: usize, mut state: u64) -> Vec<u8> {
 }
 
 fn repository_source() -> Vec<u8> {
-    let mut out = Vec::new();
-    for source in [
-        include_bytes!("../src/lib.rs").as_slice(),
-        include_bytes!("../src/store.rs").as_slice(),
-        include_bytes!("../src/trnmap.rs").as_slice(),
-        include_bytes!("../src/lane_lz.rs").as_slice(),
-        include_bytes!("../src/rans.rs").as_slice(),
-        include_bytes!("../src/main.rs").as_slice(),
-    ] {
-        out.extend_from_slice(source);
-        out.push(b'\n');
-    }
-    out
+    include_bytes!("data/repository-rust-source.txt").to_vec()
 }
 
 fn repository_prose() -> Vec<u8> {
-    let mut out = Vec::new();
-    for text in [
-        include_bytes!("../README.md").as_slice(),
-        include_bytes!("../docs/benchmarks/trnmap.md").as_slice(),
-        include_bytes!("../docs/benchmarks/lane-lz-reuse.md").as_slice(),
-        include_bytes!("../Cargo.toml").as_slice(),
-    ] {
-        out.extend_from_slice(text);
-        out.extend_from_slice(b"\n\n");
-    }
-    out
+    include_bytes!("data/repository-technical-prose.txt").to_vec()
 }
 
 fn natural_prose() -> Vec<u8> {

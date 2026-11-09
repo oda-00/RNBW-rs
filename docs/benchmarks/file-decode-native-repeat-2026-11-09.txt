@@ -1,0 +1,47 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.19s
+     Running benches\files.rs (target\release\deps\files-2776eabebfe7ec4f.exe)
+Gnuplot not found, using plotters backend
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=46.8µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=21.8µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw=0.9283 rnbw-parallel=0.9283 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=15.8µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=36.5µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=3.1µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw=0.3610 rnbw-parallel=0.3610 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=127.5µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+general-trnmap-index=native-executable-binary bytes=5455360 words=1363840 index-bytes=522736 build=651.9µs zero-words=53456 first-zero=5
+file-dataset=native-executable-binary bytes=5455360 structural-lanes=1-byte-lane rnbw=0.5577 rnbw-parallel=0.5577 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5544 snappy=0.5618 zstd-fast-3=0.5517 zstd-level-1=0.4344 brotli-quality-0=0.4533 brotli-quality-5=0.3470 zlib-fast=0.4509 zlib-default=0.3818 cow-borrowed=false
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Warming up for 200.00 ms
+
+Warning: Unable to complete 20 samples in 500.0ms. You may wish to increase target time to 1.4s, or reduce sample count to 10.
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 1.3962 s (20 iterations)
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+                        time:   [62.232 ms 65.474 ms 69.555 ms]
+                        thrpt:  [74.799 MiB/s 79.461 MiB/s 83.601 MiB/s]
+
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=109.7µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=175µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=144.1µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+general-trnmap-index=repository-rust-source bytes=275654 words=68914 index-bytes=26840 build=53.9µs zero-words=0 first-zero=68914
+file-dataset=repository-rust-source bytes=275654 structural-lanes=1-byte-lane rnbw=0.3161 rnbw-parallel=0.3162 parallel-size-delta=+0.02% raw=1.0000 lz4-fast=0.3333 snappy=0.3289 zstd-fast-3=0.2977 zstd-level-1=0.2351 brotli-quality-0=0.2544 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2020 cow-borrowed=false
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=13.6µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw=0.5937 rnbw-parallel=0.5937 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=100.3µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw=0.1535 rnbw-parallel=0.1535 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=193.5µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=127.6µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=213.2µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false

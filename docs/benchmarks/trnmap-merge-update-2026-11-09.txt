@@ -1,0 +1,24 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.20s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/merge-or-1m-clustered
+Benchmarking trnmap/merge-or-1m-clustered: Warming up for 100.00 ms
+Benchmarking trnmap/merge-or-1m-clustered: Collecting 10 samples in estimated 156.74 ms (935 iterations)
+Benchmarking trnmap/merge-or-1m-clustered: Analyzing
+trnmap/merge-or-1m-clustered
+                        time:   [57.811 µs 62.682 µs 66.254 µs]
+
+Benchmarking trnmap/merge-and-1m-clustered
+Benchmarking trnmap/merge-and-1m-clustered: Warming up for 100.00 ms
+Benchmarking trnmap/merge-and-1m-clustered: Collecting 10 samples in estimated 154.17 ms (880 iterations)
+Benchmarking trnmap/merge-and-1m-clustered: Analyzing
+trnmap/merge-and-1m-clustered
+                        time:   [49.176 µs 51.022 µs 53.752 µs]
+

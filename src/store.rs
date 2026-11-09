@@ -573,8 +573,8 @@ impl RnbwStore {
             let n = u16::try_from(image.len()).map_err(|_| StoreError::TooLarge)?;
             rec.extend_from_slice(&n.to_le_bytes());
             rec.extend_from_slice(image);
-            for i in 0..16 {
-                if forms[i] == Form::Quot {
+            for (i, form) in forms.iter().enumerate() {
+                if *form == Form::Quot {
                     put_desc(&mut rec, i, Form::Quot, start)?;
                 }
             }
@@ -816,8 +816,12 @@ impl RnbwStore {
     pub fn dirty_chunks(&mut self) -> Result<Vec<usize>, StoreError> {
         let mut out = Vec::new();
         let mut w = 0;
-        while self.tiers.next_dirty(w) >= 0 {
-            let i = self.tiers.next_dirty(w) as usize;
+        loop {
+            let next = self.tiers.next_dirty(w);
+            if next < 0 {
+                break;
+            }
+            let i = next as usize;
             let bits = self.tiers.take_dirty(i)?;
             for b in 0..64 {
                 if bits & (1 << b) != 0 {
@@ -833,7 +837,7 @@ impl RnbwStore {
     }
 }
 
-fn put_desc(r: &mut Vec<u8>, i: usize, f: Form, o: u16) -> Result<(), StoreError> {
+fn put_desc(r: &mut [u8], i: usize, f: Form, o: u16) -> Result<(), StoreError> {
     let p = i * 3;
     r[p] = f as u8;
     r[p + 1..p + 3].copy_from_slice(&o.to_le_bytes());

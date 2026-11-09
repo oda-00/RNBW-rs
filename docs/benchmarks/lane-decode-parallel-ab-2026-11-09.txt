@@ -1,0 +1,27 @@
+RNBW lane decode: serial versus lane-parallel A/B
+Date: 2026-11-09
+Both versions ran `cargo bench --offline --locked --bench files -- file-decode --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet`. Each run analyzed all 175 decode groups across 16 workloads; AVX2 host.
+The serial version was measured first. The parallel version decodes independent lanes with Rayon only when lane_count > 1 and raw bytes >= 16 KiB. Codec bytes and token formats are unchanged. Frozen corpus files and deterministic generators kept the same 16 dataset names and byte lengths between runs.
+
+dataset | serial median (Criterion interval) | parallel median (Criterion interval) | speedup
+--- | ---: | ---: | ---:
+ai-model-int8-tensor-synthetic | 1.8702 ms 1.8795 ms 1.8869 ms | 1.6241 ms 1.6437 ms 1.6622 ms | 1.14x
+csv-table | 7.5968 ms 7.6993 ms 7.8205 ms | 7.7994 ms 7.9266 ms 8.0609 ms | 0.97x
+graphics-shader-machine-words-synthetic | 404.82 µs 408.94 µs 417.43 µs | 409.97 µs 413.60 µs 421.54 µs | 0.99x
+graphics-wgsl-source | 49.652 µs 51.099 µs 52.163 µs | 47.699 µs 48.070 µs 48.486 µs | 1.06x
+image-png-compressed-deflate | 2.0146 µs 2.0201 µs 2.0228 µs | 1.7598 µs 1.7861 µs 1.8147 µs | 1.13x
+image-png-stored-deflate | 1.4143 ms 1.4272 ms 1.4337 ms | 1.3451 ms 1.3525 ms 1.3671 ms | 1.06x
+image-rgba8-raster | 4.1731 ms 4.1919 ms 4.2025 ms | 2.8649 ms 2.8935 ms 2.9218 ms | 1.45x
+json-records | 4.3228 ms 4.3961 ms 4.4370 ms | 4.2621 ms 4.3452 ms 4.4317 ms | 1.01x
+native-executable-binary | 34.500 ms 34.977 ms 35.433 ms | 33.328 ms 33.604 ms 33.873 ms | 1.04x
+natural-style-prose-generated | 1.6613 ms 1.6730 ms 1.6846 ms | 1.7106 ms 1.7443 ms 1.7825 ms | 0.96x
+random-binary-incompressible | 212.63 µs 226.86 µs 238.77 µs | 232.29 µs 250.74 µs 260.60 µs | 0.90x
+repository-rust-source | 1.8062 ms 1.8131 ms 1.8209 ms | 1.7666 ms 1.8039 ms 1.8253 ms | 1.01x
+repository-technical-prose | 312.54 µs 317.13 µs 321.70 µs | 308.11 µs 311.66 µs 316.10 µs | 1.02x
+server-log-records | 7.3128 ms 7.4161 ms 7.5278 ms | 7.4901 ms 7.5695 ms 7.6427 ms | 0.98x
+sparse-binary | 1.0196 ms 1.0264 ms 1.0358 ms | 988.31 µs 993.95 µs 1.0015 ms | 1.03x
+structured-binary-records | 1.0359 ms 1.0459 ms 1.0704 ms | 1.0528 ms 1.0565 ms 1.0604 ms | 0.99x
+
+Result: RGBA8 decode improved 1.45x (4.1919 ms to 2.8935 ms); the 16-lane synthetic int8 tensor improved 1.14x (1.8795 ms to 1.6437 ms). Other multi-lane examples were statistically flat at this sample size: shader words 408.94 to 413.60 us and structured records 1.0459 to 1.0565 ms. Single-lane differences are not caused by the parallel branch; treat small shifts as noise.
+
+Correctness: `cargo test --offline --locked` passed after the implementation: 38 library tests, 3 binary tests, 1 deterministic codec mutation fuzz test, and 3 TRNMAP fuzz tests.

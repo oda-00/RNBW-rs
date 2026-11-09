@@ -1,0 +1,27 @@
+RNBW general corpus: end-to-end encode + decode
+Date: 2026-11-09
+Run: cargo bench --offline --locked --bench files -- file-roundtrip --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Criterion measured compression followed by decompression in each iteration. Ten samples per group; slow groups were automatically extended. Values are medians; exact intervals are in the raw Criterion capture. Host SIMD backend: AVX2.
+The input corpus and RNBW format match the fixed-corpus encode/decode matrix. RNBW serial and parallel paths use reusable encoder/workspace state; parallel decode dispatch remains enabled for multi-lane inputs >= 16 KiB. All codec roundtrips were validated before timing.
+These are measured RNBW codec timings and external comparator timings; the separate TRNMAP raw-word index is not used during codec encode or decode.
+
+dataset | raw bytes | size ratio RNBW / LZ4 / Zstd-3 | RNBW serial | RNBW parallel | LZ4 | Snappy | Zstd-3 | Zstd-1 | Brotli-0 | Brotli-5 | zlib-fast | zlib-default
+--- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---:
+ai-model-int8-tensor-synthetic | 1048576 | 0.0206 / 0.0190 / 0.0019 | 7.2075 ms | 5.0426 ms | 941.57 µs | 584.66 µs | 762.53 µs | 845.28 µs | 1.6184 ms | 8.2220 ms | 2.0799 ms | 8.3142 ms
+csv-table | 995409 | 0.4314 / 0.5051 / 0.5033 | 16.401 ms | 12.545 ms | 2.2665 ms | 2.6065 ms | 3.0016 ms | 4.7359 ms | 11.367 ms | 46.066 ms | 8.7996 ms | 62.813 ms
+graphics-shader-machine-words-synthetic | 262144 | 0.0140 / 0.0509 / 0.0471 | 1.5001 ms | 1.1605 ms | 66.253 µs | 68.141 µs | 53.009 µs | 89.081 µs | 453.16 µs | 2.5853 ms | 3.3202 ms | 1.2673 ms
+graphics-wgsl-source | 8267 | 0.3610 / 0.3698 / 0.3197 | 373.54 µs | 213.99 µs | 16.901 µs | 14.514 µs | 42.031 µs | 58.937 µs | 104.76 µs | 707.49 µs | 65.827 µs | 158.71 µs
+image-png-compressed-deflate | 89883 | 1.0007 / 1.0040 / 1.0001 | 1.5469 ms | 1.5992 ms | 22.381 µs | 12.056 µs | 23.886 µs | 243.60 µs | 88.126 µs | 4.3687 ms | 1.0587 ms | 3.6205 ms
+image-png-stored-deflate | 131278 | 0.9283 / 0.9962 / 0.9545 | 4.5999 ms | 7.3639 ms | 142.57 µs | 12.639 µs | 205.71 µs | 232.25 µs | 2.1854 ms | 9.3943 ms | 1.2705 ms | 7.5090 ms
+image-rgba8-raster | 524288 | 0.5630 / 1.0020 / 0.9746 | 9.2681 ms | 6.3366 ms | 284.00 µs | 76.149 µs | 648.14 µs | 1.9871 ms | 6.5621 ms | 39.761 ms | 7.8028 ms | 21.846 ms
+json-records | 1209516 | 0.1966 / 0.2395 / 0.2037 | 10.094 ms | 16.110 ms | 1.9668 ms | 1.8453 ms | 3.4052 ms | 4.1836 ms | 5.4204 ms | 27.067 ms | 6.2348 ms | 36.237 ms
+native-executable-binary | 5437440 | 0.5560 / 0.5544 / 0.5503 | 141.39 ms | 110.67 ms | 16.153 ms | 16.927 ms | 18.379 ms | 30.456 ms | 89.468 ms | 378.64 ms | 56.647 ms | 302.23 ms
+natural-style-prose-generated | 586022 | 0.1535 / 0.1558 / 0.0952 | 5.1341 ms | 3.4109 ms | 726.11 µs | 786.57 µs | 1.0746 ms | 1.4444 ms | 3.2066 ms | 6.4965 ms | 1.6994 ms | 10.311 ms
+random-binary-incompressible | 1048576 | 1.0001 / 1.0039 / 1.0000 | 1.3269 ms | 816.47 µs | 1.3967 ms | 706.35 µs | 1.1651 ms | 2.1834 ms | 2.1586 ms | 7.1155 ms | 9.6258 ms | 38.943 ms
+repository-rust-source | 275729 | 0.3161 / 0.3332 / 0.2975 | 3.9064 ms | 3.2815 ms | 998.84 µs | 638.15 µs | 851.22 µs | 1.7056 ms | 1.7222 ms | 7.5515 ms | 1.9834 ms | 11.640 ms
+repository-technical-prose | 26666 | 0.5937 / 0.5840 / 0.5777 | 774.83 µs | 729.32 µs | 101.41 µs | 49.833 µs | 87.265 µs | 116.82 µs | 421.60 µs | 2.7320 ms | 288.86 µs | 937.64 µs
+server-log-records | 1398527 | 0.2819 / 0.3256 / 0.3104 | 16.076 ms | 12.084 ms | 1.9299 ms | 2.4340 ms | 2.9797 ms | 7.1519 ms | 8.4733 ms | 52.645 ms | 11.073 ms | 25.345 ms
+sparse-binary | 1048576 | 0.0462 / 0.0382 / 0.0336 | 4.1483 ms | 5.5646 ms | 1.2813 ms | 592.36 µs | 575.78 µs | 1.2863 ms | 1.9682 ms | 8.5757 ms | 1.2765 ms | 7.6724 ms
+structured-binary-records | 524288 | 0.6725 / 0.7595 / 0.6997 | 4.0214 ms | 3.6238 ms | 1.1622 ms | 754.08 µs | 1.4380 ms | 3.6658 ms | 5.0181 ms | 24.357 ms | 4.5598 ms | 27.624 ms
+
+Detailed separate encode and decode runs: general-encode-current-2026-11-09.txt and general-decode-current-2026-11-09.txt. Source corpus and hashes: benches/data/README.md.

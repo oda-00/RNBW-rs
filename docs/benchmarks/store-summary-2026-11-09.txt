@@ -1,0 +1,119 @@
+RNBW L2/L3 store benchmark (retained code)
+Date: 2026-11-09
+Run: cargo bench --offline --locked --bench store -- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Host: AVX2; 1,000,000 requested keys per workload. Query cases batch 1,024 probes. Criterion medians; it lengthened slow groups.
+
+STORAGE / PROMOTION
+dataset | keys | layout | L2 bytes | L3 bytes | total bytes | bits/key | promoted | spills
+--- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---:
+uniform | 999882 | p32 | 4288232 | 2097152 | 6385384 | 51.089 | 52402 | 13134
+uniform | 999882 | p64 | 4288232 | 2097152 | 6385384 | 51.089 | 56332 | 9204
+clustered | 1000000 | p32 | 354152 | 0 | 354152 | 2.833 | 0 | 15625
+clustered | 1000000 | p64 | 354152 | 0 | 354152 | 2.833 | 0 | 15625
+dense | 1000000 | p32 | 157544 | 0 | 157544 | 1.260 | 0 | 16
+dense | 1000000 | p64 | 157544 | 0 | 157544 | 1.260 | 0 | 16
+morton-shell | 1000000 | p32 | 2387688 | 2097152 | 4484840 | 35.879 | 432 | 3397
+morton-shell | 1000000 | p64 | 2387688 | 2097152 | 4484840 | 35.879 | 351 | 3478
+ecs | 1000000 | p32 | 297576 | 0 | 297576 | 2.381 | 0 | 17
+ecs | 1000000 | p64 | 297576 | 0 | 297576 | 2.381 | 0 | 17
+
+ALL CRITERION MEDIANS
+benchmark | median time | median throughput
+--- | ---: | ---:
+store-build/uniform/rnbw-l2-p32 | 47.738 ms | 20.945 Melem/s
+store-build/uniform/rnbw-l2-p64 | 50.514 ms | 19.794 Melem/s
+store-build/uniform/rnbw-query-image | 23.293 ms | 42.927 Melem/s
+store-contains/uniform/rnbw-image/hits | 130.77 µs | 7.8306 Melem/s
+store-contains/uniform/roaring/hits | 67.968 µs | 15.066 Melem/s
+store-contains/uniform/rnbw-image/misses | 99.260 µs | 10.316 Melem/s
+store-contains/uniform/roaring/misses | 65.810 µs | 15.560 Melem/s
+store-contains/uniform/l2-p32/hits/1024 | 103.16 µs | 9.9263 Melem/s
+store-contains/uniform/l2-p32/misses/1024 | 96.986 µs | 10.558 Melem/s
+store-contains/uniform/l2-l3-p32/hits/1024 | 48.608 µs | 21.066 Melem/s
+store-contains/uniform/l2-l3-p32/misses/1024 | 41.875 µs | 24.454 Melem/s
+store-contains/uniform/l2-p64/hits/1024 | 103.78 µs | 9.8669 Melem/s
+store-contains/uniform/l2-p64/misses/1024 | 99.280 µs | 10.314 Melem/s
+store-contains/uniform/l2-l3-p64/hits/1024 | 42.991 µs | 23.819 Melem/s
+store-contains/uniform/l2-l3-p64/misses/1024 | 39.749 µs | 25.762 Melem/s
+store-decode/uniform/l2-p32 | 33.474 ms | 29.870 Melem/s
+store-decode/uniform/l2-l3-p32 | 35.207 ms | 28.400 Melem/s
+store-decode/uniform/l2-p64 | 36.178 ms | 27.638 Melem/s
+store-decode/uniform/l2-l3-p64 | 35.100 ms | 28.486 Melem/s
+store-build/clustered/rnbw-l2-p32 | 7.6042 ms | 131.51 Melem/s
+store-build/clustered/rnbw-l2-p64 | 7.1486 ms | 139.89 Melem/s
+store-build/clustered/rnbw-query-image | 25.368 ms | 39.420 Melem/s
+store-contains/clustered/rnbw-image/hits | 465.07 µs | 2.2018 Melem/s
+store-contains/clustered/roaring/hits | 25.094 µs | 40.807 Melem/s
+store-contains/clustered/rnbw-image/misses | 57.130 µs | 17.924 Melem/s
+store-contains/clustered/roaring/misses | 21.664 µs | 47.267 Melem/s
+store-contains/clustered/l2-p32/hits/1024 | 10.221 µs | 100.19 Melem/s
+store-contains/clustered/l2-p32/misses/1024 | 4.9280 µs | 207.79 Melem/s
+store-contains/clustered/l2-l3-p32/hits/1024 | 11.077 µs | 92.443 Melem/s
+store-contains/clustered/l2-l3-p32/misses/1024 | 4.9820 µs | 205.54 Melem/s
+store-contains/clustered/l2-p64/hits/1024 | 9.6838 µs | 105.74 Melem/s
+store-contains/clustered/l2-p64/misses/1024 | 4.6251 µs | 221.40 Melem/s
+store-contains/clustered/l2-l3-p64/hits/1024 | 10.536 µs | 97.187 Melem/s
+store-contains/clustered/l2-l3-p64/misses/1024 | 5.1451 µs | 199.03 Melem/s
+store-decode/clustered/l2-p32 | 1.5274 ms | 654.70 Melem/s
+store-decode/clustered/l2-l3-p32 | 1.5843 ms | 631.18 Melem/s
+store-decode/clustered/l2-p64 | 1.4717 ms | 679.49 Melem/s
+store-decode/clustered/l2-l3-p64 | 1.4378 ms | 695.49 Melem/s
+store-build/dense/rnbw-l2-p32 | 1.7643 ms | 566.81 Melem/s
+store-build/dense/rnbw-l2-p64 | 1.6253 ms | 615.26 Melem/s
+store-build/dense/rnbw-query-image | 23.531 ms | 42.496 Melem/s
+store-contains/dense/rnbw-image/hits | 382.81 µs | 2.6750 Melem/s
+store-contains/dense/roaring/hits | 4.8148 µs | 212.68 Melem/s
+store-contains/dense/rnbw-image/misses | 16.411 µs | 62.396 Melem/s
+store-contains/dense/roaring/misses | 2.6254 µs | 390.04 Melem/s
+store-contains/dense/l2-p32/hits/1024 | 6.3482 µs | 161.31 Melem/s
+store-contains/dense/l2-p32/misses/1024 | 3.2951 µs | 310.76 Melem/s
+store-contains/dense/l2-l3-p32/hits/1024 | 5.7448 µs | 178.25 Melem/s
+store-contains/dense/l2-l3-p32/misses/1024 | 2.9650 µs | 345.36 Melem/s
+store-contains/dense/l2-p64/hits/1024 | 5.7557 µs | 177.91 Melem/s
+store-contains/dense/l2-p64/misses/1024 | 3.0299 µs | 337.96 Melem/s
+store-contains/dense/l2-l3-p64/hits/1024 | 5.7951 µs | 176.70 Melem/s
+store-contains/dense/l2-l3-p64/misses/1024 | 3.1031 µs | 330.00 Melem/s
+store-decode/dense/l2-p32 | 903.52 µs | 1.1068 Gelem/s
+store-decode/dense/l2-l3-p32 | 905.07 µs | 1.1049 Gelem/s
+store-decode/dense/l2-p64 | 1.0392 ms | 962.28 Melem/s
+store-decode/dense/l2-l3-p64 | 918.56 µs | 1.0887 Gelem/s
+store-build/morton-shell/rnbw-l2-p32 | 24.783 ms | 40.351 Melem/s
+store-build/morton-shell/rnbw-l2-p64 | 24.930 ms | 40.112 Melem/s
+store-build/morton-shell/rnbw-query-image | 24.559 ms | 40.718 Melem/s
+store-contains/morton-shell/rnbw-image/hits | 368.82 µs | 2.7764 Melem/s
+store-contains/morton-shell/roaring/hits | 42.643 µs | 24.013 Melem/s
+store-contains/morton-shell/rnbw-image/misses | 41.583 µs | 24.625 Melem/s
+store-contains/morton-shell/roaring/misses | 13.046 µs | 78.494 Melem/s
+store-contains/morton-shell/l2-p32/hits/1024 | 199.74 µs | 5.1267 Melem/s
+store-contains/morton-shell/l2-p32/misses/1024 | 8.7244 µs | 117.37 Melem/s
+store-contains/morton-shell/l2-l3-p32/hits/1024 | 187.07 µs | 5.4738 Melem/s
+store-contains/morton-shell/l2-l3-p32/misses/1024 | 9.3459 µs | 109.57 Melem/s
+store-contains/morton-shell/l2-p64/hits/1024 | 192.30 µs | 5.3249 Melem/s
+store-contains/morton-shell/l2-p64/misses/1024 | 9.4139 µs | 108.77 Melem/s
+store-contains/morton-shell/l2-l3-p64/hits/1024 | 188.04 µs | 5.4457 Melem/s
+store-contains/morton-shell/l2-l3-p64/misses/1024 | 8.9906 µs | 113.90 Melem/s
+store-decode/morton-shell/l2-p32 | 28.992 ms | 34.493 Melem/s
+store-decode/morton-shell/l2-l3-p32 | 30.238 ms | 33.071 Melem/s
+store-decode/morton-shell/l2-p64 | 29.216 ms | 34.228 Melem/s
+store-decode/morton-shell/l2-l3-p64 | 31.018 ms | 32.239 Melem/s
+store-build/ecs/rnbw-l2-p32 | 3.0748 ms | 325.22 Melem/s
+store-build/ecs/rnbw-l2-p64 | 2.8522 ms | 350.61 Melem/s
+store-build/ecs/rnbw-query-image | 23.076 ms | 43.335 Melem/s
+store-contains/ecs/rnbw-image/hits | 463.95 µs | 2.2071 Melem/s
+store-contains/ecs/roaring/hits | 4.8612 µs | 210.65 Melem/s
+store-contains/ecs/rnbw-image/misses | 16.484 µs | 62.120 Melem/s
+store-contains/ecs/roaring/misses | 3.4087 µs | 300.41 Melem/s
+store-contains/ecs/l2-p32/hits/1024 | 7.6534 µs | 133.80 Melem/s
+store-contains/ecs/l2-p32/misses/1024 | 3.0914 µs | 331.24 Melem/s
+store-contains/ecs/l2-l3-p32/hits/1024 | 7.0705 µs | 144.83 Melem/s
+store-contains/ecs/l2-l3-p32/misses/1024 | 3.1030 µs | 330.00 Melem/s
+store-contains/ecs/l2-p64/hits/1024 | 7.3176 µs | 139.94 Melem/s
+store-contains/ecs/l2-p64/misses/1024 | 3.3129 µs | 309.10 Melem/s
+store-contains/ecs/l2-l3-p64/hits/1024 | 7.0256 µs | 145.75 Melem/s
+store-contains/ecs/l2-l3-p64/misses/1024 | 3.1057 µs | 329.72 Melem/s
+store-decode/ecs/l2-p32 | 1.9890 ms | 502.77 Melem/s
+store-decode/ecs/l2-l3-p32 | 1.9118 ms | 523.06 Melem/s
+store-decode/ecs/l2-p64 | 1.8831 ms | 531.03 Melem/s
+store-decode/ecs/l2-l3-p64 | 1.9823 ms | 504.47 Melem/s
+
+VALIDATION: 10 storage rows, 95/95 Criterion timing groups parsed; each store query/decode benchmark setup validates returned membership or decoded values before measurement.

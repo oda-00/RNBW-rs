@@ -1,0 +1,45 @@
+TRNMAP count and merge optimization evidence
+Date: 2026-11-09
+Current command: cargo bench --offline --locked --bench trnmap -- count- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Current code chooses summary-bit enumeration when active leaf-word density is at most 50%, and a sequential packed-word pass above 50%. Round-trip/reference checks are in the test suite; the fuzzer compared operations and merges to scalar references.
+Reported values are Criterion medians. Prior values come from docs/benchmarks/trnmap.md (2026-11-08) on the same Windows runner class; they are sequential historical comparisons, not an interleaved A/B. The direct threshold experiment below was measured consecutively in the current worktree.
+
+COUNT MATRIX: current 50% threshold vs prior report. Pair entries are map / raw scalar scan.
+shape | n | current map | current scalar | prior map | prior-to-current speedup
+All negative | 65,536 | 2.7157 µs | 18.761 µs | 6.76 µs | 2.49x
+All zero | 65,536 | 2.8194 µs | 18.313 µs | 6.77 µs | 2.40x
+Uniform ternary | 65,536 | 2.7418 µs | 18.157 µs | 6.68 µs | 2.44x
+Alternating −1/+1 | 65,536 | 2.7504 µs | 18.331 µs | 7.07 µs | 2.57x
+4,096-trit clusters | 65,536 | 1.0191 µs | 18.359 µs | 2.17 µs | 2.13x
+Positive 1/4,096 | 65,536 | 89.926 ns | 18.078 µs | 282.1 ns | 3.14x
+All negative | 1,000,000 | 40.151 µs | 280.85 µs | 110.36 µs | 2.75x
+All zero | 1,000,000 | 42.056 µs | 276.11 µs | 108.77 µs | 2.59x
+Uniform ternary | 1,000,000 | 42.049 µs | 283.19 µs | 101.97 µs | 2.43x
+Alternating −1/+1 | 1,000,000 | 41.32 µs | 279.58 µs | 103.48 µs | 2.50x
+4,096-trit clusters | 1,000,000 | 16.893 µs | 275.42 µs | 37.33 µs | 2.21x
+Positive 1/4,096 | 1,000,000 | 1.3883 µs | 280.08 µs | 4.53 µs | 3.26x
+All negative | 16,000,000 | 670.45 µs | 4.542 ms | 1.66 ms | 2.48x
+All zero | 16,000,000 | 656.57 µs | 4.5782 ms | 1.675 ms | 2.55x
+Uniform ternary | 16,000,000 | 648.14 µs | 4.4915 ms | 1.658 ms | 2.56x
+Alternating −1/+1 | 16,000,000 | 664.07 µs | 4.4692 ms | 1.634 ms | 2.46x
+4,096-trit clusters | 16,000,000 | 295.21 µs | 4.4742 ms | 603.38 µs | 2.04x
+Positive 1/4,096 | 16,000,000 | 21.733 µs | 4.4807 ms | 75.12 µs | 3.46x
+
+DIRECT THRESHOLD A/B: summary candidate enumeration vs packed sequential scan on clustered maps.
+n | prior 12.5% cutoff | new 50% cutoff | improvement
+65,536 | 2.7152 µs | 1.0191 µs | 2.66x
+1,000,000 | 41.808 µs | 16.893 µs | 2.47x
+16,000,000 | 652.87 µs | 295.21 µs | 2.21x
+
+MERGE: current summary-guided merge vs prior report.
+operation | prior | current | speedup
+merge-or-1m-clustered | 165.56 µs | 62.682 µs | 2.64x
+merge-and-1m-clustered | 66.5 µs | 51.022 µs | 1.30x
+
+RAW RUNS
+Threshold before A/B (12.5%): docs/benchmarks/trnmap-count-update-2026-11-09.txt
+Threshold after A/B (50%): docs/benchmarks/trnmap-count-threshold-half-2026-11-09.txt
+Merge: docs/benchmarks/trnmap-merge-update-2026-11-09.txt
+
+Interpretation: the 50% path makes the 4,096-trit-cluster count roughly 2.2x faster than the immediately preceding 12.5% cutoff at 1M and 16M. Against the prior report, it improves count across the listed large shapes; the largest measured win is sparse 16M (~3.45x). The prior 12.5% threshold also showed a clustered regression; that branch was replaced. OR improves about 2.64x and AND 1.30x versus the prior report.
+No storage-format bytes changed. Timing variations of a few percent on other shapes are within run-to-run noise; raw Criterion intervals are in the linked run files.

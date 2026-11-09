@@ -1,5 +1,11 @@
 # `trnmap` local measurements
 
+> **Updated count/merge paths:** the 2026-11-09 implementation changes and
+> refreshed measurements are appended in
+> [trnmap-count-merge-optimization-2026-11-09.txt](trnmap-count-merge-optimization-2026-11-09.txt).
+> Its count and merge values supersede the corresponding older measurements in
+> this historical full matrix; other rows have not been rebenchmarked here.
+
 Run date: 2026-11-08. Toolchain: `rustc 1.95.0`. Host identifier reported by the
 Windows runner: `AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD`; the exact CPU
 SKU and cache sizes were not exposed, so cache-tier claims are intentionally omitted.

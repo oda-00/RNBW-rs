@@ -17,6 +17,7 @@ criterion = "=0.8.2"
 flate2 = "=1.1.11"
 lz4_flex = "=0.14.0"
 roaring = "=0.11.5"
+serde_json = "=1.0.154"
 snap = "=1.1.2"
 zstd = "=0.14.3"
 
@@ -34,6 +35,10 @@ harness = false
 
 [[bench]]
 name = "files"
+harness = false
+
+[[bench]]
+name = "ai_corpus"
 harness = false
 
 [[bench]]

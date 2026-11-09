@@ -12,6 +12,8 @@ const RANS_SCALE: u32 = 1 << RANS_SCALE_BITS;
 const RANS_LOWER_BOUND: u32 = 1 << 23;
 const RANS_MODEL_BYTES: usize = 256 * 2;
 const HUFFMAN_MODEL_BYTES: usize = 256;
+type EntropyImage = (u8, Vec<u8>, Vec<u8>);
+type EntropyCandidate = Option<EntropyImage>;
 const METHOD_RAW: u8 = 0;
 const METHOD_RANS: u8 = 1;
 const METHOD_HUFFMAN: u8 = 2;
@@ -51,7 +53,7 @@ struct RawMetadata {
     streams: Vec<RawStream>,
 }
 
-pub(super) fn entropy_encode(input: &[u8]) -> Result<(u8, Vec<u8>, Vec<u8>), CodecError> {
+pub(super) fn entropy_encode(input: &[u8]) -> Result<EntropyImage, CodecError> {
     if input.is_empty() {
         return Ok((METHOD_RAW, Vec::new(), Vec::new()));
     }
@@ -64,9 +66,7 @@ pub(super) fn entropy_encode(input: &[u8]) -> Result<(u8, Vec<u8>, Vec<u8>), Cod
 /// Returns an entropy representation only when its complete model+payload is
 /// smaller than the source. Callers choosing among larger codec candidates can
 /// defer copying the raw source until raw actually wins.
-pub(super) fn entropy_encode_candidate(
-    input: &[u8],
-) -> Result<Option<(u8, Vec<u8>, Vec<u8>)>, CodecError> {
+pub(super) fn entropy_encode_candidate(input: &[u8]) -> Result<EntropyCandidate, CodecError> {
     entropy_encode_candidate_with_hint(input, false)
 }
 
@@ -76,17 +76,17 @@ pub(super) fn entropy_encode_candidate(
 pub(super) fn entropy_encode_candidate_with_hint(
     input: &[u8],
     prefer_huffman: bool,
-) -> Result<Option<(u8, Vec<u8>, Vec<u8>)>, CodecError> {
+) -> Result<EntropyCandidate, CodecError> {
     if input.is_empty() {
         return Ok(None);
     }
     // Both entropy coders need the same symbol histogram. Count it once, then
     // reuse it for rANS normalization and Huffman tree construction.
     let frequencies = symbol_histogram(input);
-    if prefer_huffman {
-        if let Some((lengths, payload)) = huffman_encode(input, &frequencies, input.len()) {
-            return Ok(Some((METHOD_HUFFMAN, lengths.to_vec(), payload)));
-        }
+    if prefer_huffman
+        && let Some((lengths, payload)) = huffman_encode(input, &frequencies, input.len())
+    {
+        return Ok(Some((METHOD_HUFFMAN, lengths.to_vec(), payload)));
     }
     let rans_model = build_model(&frequencies, input.len());
     let rans_payload = rans_encode(input, &rans_model)?;
@@ -99,12 +99,12 @@ pub(super) fn entropy_encode_candidate_with_hint(
     };
     let best_payload = rans_selected.then_some(rans_payload);
 
-    if !prefer_huffman {
-        if let Some((lengths, huffman_payload)) = huffman_encode(input, &frequencies, best_size) {
-            let huffman_size = huffman_payload.len() + HUFFMAN_MODEL_BYTES;
-            debug_assert!(huffman_size < best_size);
-            return Ok(Some((METHOD_HUFFMAN, lengths.to_vec(), huffman_payload)));
-        }
+    if !prefer_huffman
+        && let Some((lengths, huffman_payload)) = huffman_encode(input, &frequencies, best_size)
+    {
+        let huffman_size = huffman_payload.len() + HUFFMAN_MODEL_BYTES;
+        debug_assert!(huffman_size < best_size);
+        return Ok(Some((METHOD_HUFFMAN, lengths.to_vec(), huffman_payload)));
     }
 
     if let Some(payload) = best_payload {

@@ -1,0 +1,732 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 6.18s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4288232B l3=2097152B total=6385384B bits/key=51.089 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4288232B l3=2097152B total=6385384B bits/key=51.089 promoted=56332 spills=9204
+Benchmarking store-build/uniform/rnbw-l2-p32
+Benchmarking store-build/uniform/rnbw-l2-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 459.1ms.
+Benchmarking store-build/uniform/rnbw-l2-p32: Collecting 10 samples in estimated 459.12 ms (10 iterations)
+Benchmarking store-build/uniform/rnbw-l2-p32: Analyzing
+store-build/uniform/rnbw-l2-p32
+                        time:   [44.268 ms 44.822 ms 45.384 ms]
+                        thrpt:  [22.032 Melem/s 22.308 Melem/s 22.587 Melem/s]
+Benchmarking store-build/uniform/rnbw-l2-p64
+Benchmarking store-build/uniform/rnbw-l2-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 495.9ms.
+Benchmarking store-build/uniform/rnbw-l2-p64: Collecting 10 samples in estimated 495.94 ms (10 iterations)
+Benchmarking store-build/uniform/rnbw-l2-p64: Analyzing
+store-build/uniform/rnbw-l2-p64
+                        time:   [51.393 ms 52.425 ms 53.800 ms]
+                        thrpt:  [18.585 Melem/s 19.073 Melem/s 19.456 Melem/s]
+Benchmarking store-build/uniform/rnbw-query-image
+Benchmarking store-build/uniform/rnbw-query-image: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 228.7ms.
+Benchmarking store-build/uniform/rnbw-query-image: Collecting 10 samples in estimated 228.71 ms (10 iterations)
+Benchmarking store-build/uniform/rnbw-query-image: Analyzing
+store-build/uniform/rnbw-query-image
+                        time:   [23.014 ms 23.325 ms 23.742 ms]
+                        thrpt:  [42.115 Melem/s 42.868 Melem/s 43.446 Melem/s]
+
+Benchmarking store-contains/uniform/rnbw-image/hits
+Benchmarking store-contains/uniform/rnbw-image/hits: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/rnbw-image/hits: Collecting 10 samples in estimated 152.75 ms (1155 iterations)
+Benchmarking store-contains/uniform/rnbw-image/hits: Analyzing
+store-contains/uniform/rnbw-image/hits
+                        time:   [126.40 µs 128.53 µs 132.00 µs]
+                        thrpt:  [7.7576 Melem/s 7.9673 Melem/s 8.1014 Melem/s]
+Benchmarking store-contains/uniform/roaring/hits
+Benchmarking store-contains/uniform/roaring/hits: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/roaring/hits: Collecting 10 samples in estimated 150.83 ms (2200 iterations)
+Benchmarking store-contains/uniform/roaring/hits: Analyzing
+store-contains/uniform/roaring/hits
+                        time:   [67.541 µs 68.075 µs 68.815 µs]
+                        thrpt:  [14.880 Melem/s 15.042 Melem/s 15.161 Melem/s]
+Benchmarking store-contains/uniform/rnbw-image/misses
+Benchmarking store-contains/uniform/rnbw-image/misses: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/rnbw-image/misses: Collecting 10 samples in estimated 153.79 ms (1430 iterations)
+Benchmarking store-contains/uniform/rnbw-image/misses: Analyzing
+store-contains/uniform/rnbw-image/misses
+                        time:   [92.892 µs 94.222 µs 95.875 µs]
+                        thrpt:  [10.681 Melem/s 10.868 Melem/s 11.024 Melem/s]
+Benchmarking store-contains/uniform/roaring/misses
+Benchmarking store-contains/uniform/roaring/misses: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/roaring/misses: Collecting 10 samples in estimated 152.37 ms (2200 iterations)
+Benchmarking store-contains/uniform/roaring/misses: Analyzing
+store-contains/uniform/roaring/misses
+                        time:   [65.926 µs 66.110 µs 66.334 µs]
+                        thrpt:  [15.437 Melem/s 15.489 Melem/s 15.533 Melem/s]
+Benchmarking store-contains/uniform/l2-p32/hits/1024
+Benchmarking store-contains/uniform/l2-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-p32/hits/1024: Collecting 10 samples in estimated 154.29 ms (1485 iterations)
+Benchmarking store-contains/uniform/l2-p32/hits/1024: Analyzing
+store-contains/uniform/l2-p32/hits/1024
+                        time:   [104.99 µs 105.66 µs 106.51 µs]
+                        thrpt:  [9.6144 Melem/s 9.6917 Melem/s 9.7532 Melem/s]
+Benchmarking store-contains/uniform/l2-p32/misses/1024
+Benchmarking store-contains/uniform/l2-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-p32/misses/1024: Collecting 10 samples in estimated 151.74 ms (1540 iterations)
+Benchmarking store-contains/uniform/l2-p32/misses/1024: Analyzing
+store-contains/uniform/l2-p32/misses/1024
+                        time:   [98.143 µs 98.847 µs 99.378 µs]
+                        thrpt:  [10.304 Melem/s 10.359 Melem/s 10.434 Melem/s]
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 151.15 ms (3080 iterations)
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024: Analyzing
+store-contains/uniform/l2-l3-p32/hits/1024
+                        time:   [46.485 µs 47.050 µs 47.476 µs]
+                        thrpt:  [21.569 Melem/s 21.764 Melem/s 22.029 Melem/s]
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 150.23 ms (3630 iterations)
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024: Analyzing
+store-contains/uniform/l2-l3-p32/misses/1024
+                        time:   [41.163 µs 42.768 µs 44.954 µs]
+                        thrpt:  [22.779 Melem/s 23.943 Melem/s 24.876 Melem/s]
+Benchmarking store-contains/uniform/l2-p64/hits/1024
+Benchmarking store-contains/uniform/l2-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-p64/hits/1024: Collecting 10 samples in estimated 150.54 ms (1430 iterations)
+Benchmarking store-contains/uniform/l2-p64/hits/1024: Analyzing
+store-contains/uniform/l2-p64/hits/1024
+                        time:   [103.00 µs 104.09 µs 105.84 µs]
+                        thrpt:  [9.6750 Melem/s 9.8380 Melem/s 9.9413 Melem/s]
+Benchmarking store-contains/uniform/l2-p64/misses/1024
+Benchmarking store-contains/uniform/l2-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-p64/misses/1024: Collecting 10 samples in estimated 153.37 ms (1485 iterations)
+Benchmarking store-contains/uniform/l2-p64/misses/1024: Analyzing
+store-contains/uniform/l2-p64/misses/1024
+                        time:   [100.70 µs 102.57 µs 104.40 µs]
+                        thrpt:  [9.8083 Melem/s 9.9837 Melem/s 10.169 Melem/s]
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 152.17 ms (3465 iterations)
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024: Analyzing
+store-contains/uniform/l2-l3-p64/hits/1024
+                        time:   [43.335 µs 43.824 µs 44.446 µs]
+                        thrpt:  [23.039 Melem/s 23.366 Melem/s 23.630 Melem/s]
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 150.32 ms (3960 iterations)
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024: Analyzing
+store-contains/uniform/l2-l3-p64/misses/1024
+                        time:   [37.203 µs 37.426 µs 37.769 µs]
+                        thrpt:  [27.112 Melem/s 27.361 Melem/s 27.525 Melem/s]
+
+Benchmarking store-decode/uniform/l2-p32
+Benchmarking store-decode/uniform/l2-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 344.9ms.
+Benchmarking store-decode/uniform/l2-p32: Collecting 10 samples in estimated 344.86 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-p32: Analyzing
+store-decode/uniform/l2-p32
+                        time:   [34.837 ms 35.346 ms 35.897 ms]
+                        thrpt:  [27.854 Melem/s 28.288 Melem/s 28.701 Melem/s]
+Benchmarking store-decode/uniform/l2-l3-p32
+Benchmarking store-decode/uniform/l2-l3-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 370.1ms.
+Benchmarking store-decode/uniform/l2-l3-p32: Collecting 10 samples in estimated 370.06 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-l3-p32: Analyzing
+store-decode/uniform/l2-l3-p32
+                        time:   [35.516 ms 35.967 ms 36.413 ms]
+                        thrpt:  [27.460 Melem/s 27.800 Melem/s 28.153 Melem/s]
+Benchmarking store-decode/uniform/l2-p64
+Benchmarking store-decode/uniform/l2-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 359.6ms.
+Benchmarking store-decode/uniform/l2-p64: Collecting 10 samples in estimated 359.64 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-p64: Analyzing
+store-decode/uniform/l2-p64
+                        time:   [35.209 ms 35.609 ms 36.018 ms]
+                        thrpt:  [27.761 Melem/s 28.080 Melem/s 28.398 Melem/s]
+Benchmarking store-decode/uniform/l2-l3-p64
+Benchmarking store-decode/uniform/l2-l3-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 360.1ms.
+Benchmarking store-decode/uniform/l2-l3-p64: Collecting 10 samples in estimated 360.13 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-l3-p64: Analyzing
+store-decode/uniform/l2-l3-p64
+                        time:   [34.489 ms 35.169 ms 36.359 ms]
+                        thrpt:  [27.500 Melem/s 28.431 Melem/s 28.992 Melem/s]
+
+store dataset=clustered keys=1000000 layout=p32 l2=354152B l3=0B total=354152B bits/key=2.833 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=354152B l3=0B total=354152B bits/key=2.833 promoted=0 spills=15625
+Benchmarking store-build/clustered/rnbw-l2-p32
+Benchmarking store-build/clustered/rnbw-l2-p32: Warming up for 100.00 ms
+Benchmarking store-build/clustered/rnbw-l2-p32: Collecting 10 samples in estimated 151.64 ms (20 iterations)
+Benchmarking store-build/clustered/rnbw-l2-p32: Analyzing
+store-build/clustered/rnbw-l2-p32
+                        time:   [7.4691 ms 7.5697 ms 7.6512 ms]
+                        thrpt:  [130.70 Melem/s 132.11 Melem/s 133.89 Melem/s]
+Benchmarking store-build/clustered/rnbw-l2-p64
+Benchmarking store-build/clustered/rnbw-l2-p64: Warming up for 100.00 ms
+Benchmarking store-build/clustered/rnbw-l2-p64: Collecting 10 samples in estimated 221.36 ms (30 iterations)
+Benchmarking store-build/clustered/rnbw-l2-p64: Analyzing
+store-build/clustered/rnbw-l2-p64
+                        time:   [7.5827 ms 7.6743 ms 7.8036 ms]
+                        thrpt:  [128.15 Melem/s 130.30 Melem/s 131.88 Melem/s]
+Benchmarking store-build/clustered/rnbw-query-image
+Benchmarking store-build/clustered/rnbw-query-image: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 235.7ms.
+Benchmarking store-build/clustered/rnbw-query-image: Collecting 10 samples in estimated 235.73 ms (10 iterations)
+Benchmarking store-build/clustered/rnbw-query-image: Analyzing
+store-build/clustered/rnbw-query-image
+                        time:   [23.338 ms 23.425 ms 23.515 ms]
+                        thrpt:  [42.526 Melem/s 42.690 Melem/s 42.848 Melem/s]
+
+Benchmarking store-contains/clustered/rnbw-image/hits
+Benchmarking store-contains/clustered/rnbw-image/hits: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/rnbw-image/hits: Collecting 10 samples in estimated 156.68 ms (330 iterations)
+Benchmarking store-contains/clustered/rnbw-image/hits: Analyzing
+store-contains/clustered/rnbw-image/hits
+                        time:   [477.58 µs 482.11 µs 485.39 µs]
+                        thrpt:  [2.1097 Melem/s 2.1240 Melem/s 2.1442 Melem/s]
+Benchmarking store-contains/clustered/roaring/hits
+Benchmarking store-contains/clustered/roaring/hits: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/roaring/hits: Collecting 10 samples in estimated 150.93 ms (5665 iterations)
+Benchmarking store-contains/clustered/roaring/hits: Analyzing
+store-contains/clustered/roaring/hits
+                        time:   [26.330 µs 26.530 µs 26.689 µs]
+                        thrpt:  [38.368 Melem/s 38.598 Melem/s 38.891 Melem/s]
+Benchmarking store-contains/clustered/rnbw-image/misses
+Benchmarking store-contains/clustered/rnbw-image/misses: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/rnbw-image/misses: Collecting 10 samples in estimated 152.08 ms (2695 iterations)
+Benchmarking store-contains/clustered/rnbw-image/misses: Analyzing
+store-contains/clustered/rnbw-image/misses
+                        time:   [54.938 µs 55.232 µs 55.736 µs]
+                        thrpt:  [18.372 Melem/s 18.540 Melem/s 18.639 Melem/s]
+Benchmarking store-contains/clustered/roaring/misses
+Benchmarking store-contains/clustered/roaring/misses: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/roaring/misses: Collecting 10 samples in estimated 150.08 ms (6985 iterations)
+Benchmarking store-contains/clustered/roaring/misses: Analyzing
+store-contains/clustered/roaring/misses
+                        time:   [21.362 µs 21.467 µs 21.594 µs]
+                        thrpt:  [47.421 Melem/s 47.702 Melem/s 47.937 Melem/s]
+Benchmarking store-contains/clustered/l2-p32/hits/1024
+Benchmarking store-contains/clustered/l2-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-p32/hits/1024: Collecting 10 samples in estimated 150.14 ms (15k iterations)
+Benchmarking store-contains/clustered/l2-p32/hits/1024: Analyzing
+store-contains/clustered/l2-p32/hits/1024
+                        time:   [10.243 µs 10.435 µs 10.739 µs]
+                        thrpt:  [95.356 Melem/s 98.135 Melem/s 99.969 Melem/s]
+Benchmarking store-contains/clustered/l2-p32/misses/1024
+Benchmarking store-contains/clustered/l2-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-p32/misses/1024: Collecting 10 samples in estimated 150.09 ms (32k iterations)
+Benchmarking store-contains/clustered/l2-p32/misses/1024: Analyzing
+store-contains/clustered/l2-p32/misses/1024
+                        time:   [4.9284 µs 4.9572 µs 4.9925 µs]
+                        thrpt:  [205.11 Melem/s 206.57 Melem/s 207.78 Melem/s]
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 150.23 ms (15k iterations)
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024: Analyzing
+store-contains/clustered/l2-l3-p32/hits/1024
+                        time:   [10.311 µs 10.377 µs 10.424 µs]
+                        thrpt:  [98.239 Melem/s 98.683 Melem/s 99.309 Melem/s]
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 150.02 ms (31k iterations)
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024: Analyzing
+store-contains/clustered/l2-l3-p32/misses/1024
+                        time:   [4.9617 µs 4.9806 µs 5.0014 µs]
+                        thrpt:  [204.74 Melem/s 205.60 Melem/s 206.38 Melem/s]
+Benchmarking store-contains/clustered/l2-p64/hits/1024
+Benchmarking store-contains/clustered/l2-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-p64/hits/1024: Collecting 10 samples in estimated 150.02 ms (15k iterations)
+Benchmarking store-contains/clustered/l2-p64/hits/1024: Analyzing
+store-contains/clustered/l2-p64/hits/1024
+                        time:   [9.7825 µs 9.8277 µs 9.8781 µs]
+                        thrpt:  [103.66 Melem/s 104.20 Melem/s 104.68 Melem/s]
+Benchmarking store-contains/clustered/l2-p64/misses/1024
+Benchmarking store-contains/clustered/l2-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-p64/misses/1024: Collecting 10 samples in estimated 150.18 ms (32k iterations)
+Benchmarking store-contains/clustered/l2-p64/misses/1024: Analyzing
+store-contains/clustered/l2-p64/misses/1024
+                        time:   [4.6481 µs 4.6759 µs 4.7009 µs]
+                        thrpt:  [217.83 Melem/s 219.00 Melem/s 220.31 Melem/s]
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 150.47 ms (15k iterations)
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024: Analyzing
+store-contains/clustered/l2-l3-p64/hits/1024
+                        time:   [10.320 µs 10.358 µs 10.415 µs]
+                        thrpt:  [98.321 Melem/s 98.865 Melem/s 99.222 Melem/s]
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 150.06 ms (30k iterations)
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024: Analyzing
+store-contains/clustered/l2-l3-p64/misses/1024
+                        time:   [4.9091 µs 4.9400 µs 4.9625 µs]
+                        thrpt:  [206.35 Melem/s 207.29 Melem/s 208.59 Melem/s]
+
+Benchmarking store-decode/clustered/l2-p32
+Benchmarking store-decode/clustered/l2-p32: Warming up for 100.00 ms
+Benchmarking store-decode/clustered/l2-p32: Collecting 10 samples in estimated 165.92 ms (110 iterations)
+Benchmarking store-decode/clustered/l2-p32: Analyzing
+store-decode/clustered/l2-p32
+                        time:   [1.4687 ms 1.4906 ms 1.5254 ms]
+                        thrpt:  [655.55 Melem/s 670.85 Melem/s 680.88 Melem/s]
+Benchmarking store-decode/clustered/l2-l3-p32
+Benchmarking store-decode/clustered/l2-l3-p32: Warming up for 100.00 ms
+Benchmarking store-decode/clustered/l2-l3-p32: Collecting 10 samples in estimated 164.19 ms (110 iterations)
+Benchmarking store-decode/clustered/l2-l3-p32: Analyzing
+store-decode/clustered/l2-l3-p32
+                        time:   [1.4093 ms 1.4290 ms 1.4586 ms]
+                        thrpt:  [685.61 Melem/s 699.80 Melem/s 709.56 Melem/s]
+Benchmarking store-decode/clustered/l2-p64
+Benchmarking store-decode/clustered/l2-p64: Warming up for 100.00 ms
+Benchmarking store-decode/clustered/l2-p64: Collecting 10 samples in estimated 181.96 ms (110 iterations)
+Benchmarking store-decode/clustered/l2-p64: Analyzing
+store-decode/clustered/l2-p64
+                        time:   [1.5619 ms 1.5831 ms 1.5959 ms]
+                        thrpt:  [626.59 Melem/s 631.66 Melem/s 640.24 Melem/s]
+Benchmarking store-decode/clustered/l2-l3-p64
+Benchmarking store-decode/clustered/l2-l3-p64: Warming up for 100.00 ms
+Benchmarking store-decode/clustered/l2-l3-p64: Collecting 10 samples in estimated 182.42 ms (110 iterations)
+Benchmarking store-decode/clustered/l2-l3-p64: Analyzing
+store-decode/clustered/l2-l3-p64
+                        time:   [1.4437 ms 1.4699 ms 1.5314 ms]
+                        thrpt:  [653.01 Melem/s 680.33 Melem/s 692.67 Melem/s]
+
+store dataset=dense keys=1000000 layout=p32 l2=157544B l3=0B total=157544B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157544B l3=0B total=157544B bits/key=1.260 promoted=0 spills=16
+Benchmarking store-build/dense/rnbw-l2-p32
+Benchmarking store-build/dense/rnbw-l2-p32: Warming up for 100.00 ms
+Benchmarking store-build/dense/rnbw-l2-p32: Collecting 10 samples in estimated 180.66 ms (110 iterations)
+Benchmarking store-build/dense/rnbw-l2-p32: Analyzing
+store-build/dense/rnbw-l2-p32
+                        time:   [1.6053 ms 1.6322 ms 1.6624 ms]
+                        thrpt:  [601.53 Melem/s 612.68 Melem/s 622.92 Melem/s]
+Benchmarking store-build/dense/rnbw-l2-p64
+Benchmarking store-build/dense/rnbw-l2-p64: Warming up for 100.00 ms
+Benchmarking store-build/dense/rnbw-l2-p64: Collecting 10 samples in estimated 186.35 ms (110 iterations)
+Benchmarking store-build/dense/rnbw-l2-p64: Analyzing
+store-build/dense/rnbw-l2-p64
+                        time:   [1.6324 ms 1.6555 ms 1.6780 ms]
+                        thrpt:  [595.93 Melem/s 604.06 Melem/s 612.60 Melem/s]
+Benchmarking store-build/dense/rnbw-query-image
+Benchmarking store-build/dense/rnbw-query-image: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 238.9ms.
+Benchmarking store-build/dense/rnbw-query-image: Collecting 10 samples in estimated 238.88 ms (10 iterations)
+Benchmarking store-build/dense/rnbw-query-image: Analyzing
+store-build/dense/rnbw-query-image
+                        time:   [23.916 ms 24.176 ms 24.402 ms]
+                        thrpt:  [40.981 Melem/s 41.363 Melem/s 41.813 Melem/s]
+
+Benchmarking store-contains/dense/rnbw-image/hits
+Benchmarking store-contains/dense/rnbw-image/hits: Warming up for 100.00 ms
+Benchmarking store-contains/dense/rnbw-image/hits: Collecting 10 samples in estimated 160.34 ms (440 iterations)
+Benchmarking store-contains/dense/rnbw-image/hits: Analyzing
+store-contains/dense/rnbw-image/hits
+                        time:   [360.03 µs 361.57 µs 363.54 µs]
+                        thrpt:  [2.8168 Melem/s 2.8321 Melem/s 2.8442 Melem/s]
+Benchmarking store-contains/dense/roaring/hits
+Benchmarking store-contains/dense/roaring/hits: Warming up for 100.00 ms
+Benchmarking store-contains/dense/roaring/hits: Collecting 10 samples in estimated 150.03 ms (32k iterations)
+Benchmarking store-contains/dense/roaring/hits: Analyzing
+store-contains/dense/roaring/hits
+                        time:   [4.7642 µs 4.7802 µs 4.8008 µs]
+                        thrpt:  [213.30 Melem/s 214.22 Melem/s 214.94 Melem/s]
+Benchmarking store-contains/dense/rnbw-image/misses
+Benchmarking store-contains/dense/rnbw-image/misses: Warming up for 100.00 ms
+Benchmarking store-contains/dense/rnbw-image/misses: Collecting 10 samples in estimated 150.06 ms (9350 iterations)
+Benchmarking store-contains/dense/rnbw-image/misses: Analyzing
+store-contains/dense/rnbw-image/misses
+                        time:   [16.188 µs 16.743 µs 17.398 µs]
+                        thrpt:  [58.858 Melem/s 61.158 Melem/s 63.257 Melem/s]
+Benchmarking store-contains/dense/roaring/misses
+Benchmarking store-contains/dense/roaring/misses: Warming up for 100.00 ms
+Benchmarking store-contains/dense/roaring/misses: Collecting 10 samples in estimated 150.14 ms (56k iterations)
+Benchmarking store-contains/dense/roaring/misses: Analyzing
+store-contains/dense/roaring/misses
+                        time:   [2.6629 µs 2.6705 µs 2.6814 µs]
+                        thrpt:  [381.89 Melem/s 383.45 Melem/s 384.55 Melem/s]
+Benchmarking store-contains/dense/l2-p32/hits/1024
+Benchmarking store-contains/dense/l2-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-p32/hits/1024: Collecting 10 samples in estimated 150.21 ms (25k iterations)
+Benchmarking store-contains/dense/l2-p32/hits/1024: Analyzing
+store-contains/dense/l2-p32/hits/1024
+                        time:   [6.1739 µs 6.2247 µs 6.2932 µs]
+                        thrpt:  [162.72 Melem/s 164.51 Melem/s 165.86 Melem/s]
+Benchmarking store-contains/dense/l2-p32/misses/1024
+Benchmarking store-contains/dense/l2-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-p32/misses/1024: Collecting 10 samples in estimated 150.03 ms (48k iterations)
+Benchmarking store-contains/dense/l2-p32/misses/1024: Analyzing
+store-contains/dense/l2-p32/misses/1024
+                        time:   [3.0212 µs 3.0458 µs 3.0612 µs]
+                        thrpt:  [334.51 Melem/s 336.20 Melem/s 338.94 Melem/s]
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 150.05 ms (25k iterations)
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024: Analyzing
+store-contains/dense/l2-l3-p32/hits/1024
+                        time:   [6.3192 µs 6.4106 µs 6.5848 µs]
+                        thrpt:  [155.51 Melem/s 159.74 Melem/s 162.05 Melem/s]
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 150.12 ms (49k iterations)
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024: Analyzing
+store-contains/dense/l2-l3-p32/misses/1024
+                        time:   [2.8279 µs 2.8663 µs 2.9444 µs]
+                        thrpt:  [347.78 Melem/s 357.25 Melem/s 362.11 Melem/s]
+Benchmarking store-contains/dense/l2-p64/hits/1024
+Benchmarking store-contains/dense/l2-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-p64/hits/1024: Collecting 10 samples in estimated 150.34 ms (24k iterations)
+Benchmarking store-contains/dense/l2-p64/hits/1024: Analyzing
+store-contains/dense/l2-p64/hits/1024
+                        time:   [6.2048 µs 6.2446 µs 6.2705 µs]
+                        thrpt:  [163.30 Melem/s 163.98 Melem/s 165.03 Melem/s]
+Benchmarking store-contains/dense/l2-p64/misses/1024
+Benchmarking store-contains/dense/l2-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-p64/misses/1024: Collecting 10 samples in estimated 150.15 ms (46k iterations)
+Benchmarking store-contains/dense/l2-p64/misses/1024: Analyzing
+store-contains/dense/l2-p64/misses/1024
+                        time:   [3.0546 µs 3.0757 µs 3.1224 µs]
+                        thrpt:  [327.96 Melem/s 332.93 Melem/s 335.23 Melem/s]
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 150.02 ms (22k iterations)
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024: Analyzing
+store-contains/dense/l2-l3-p64/hits/1024
+                        time:   [6.2953 µs 6.3493 µs 6.4140 µs]
+                        thrpt:  [159.65 Melem/s 161.28 Melem/s 162.66 Melem/s]
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 150.12 ms (51k iterations)
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024: Analyzing
+store-contains/dense/l2-l3-p64/misses/1024
+                        time:   [2.9991 µs 3.0366 µs 3.0648 µs]
+                        thrpt:  [334.11 Melem/s 337.22 Melem/s 341.44 Melem/s]
+
+Benchmarking store-decode/dense/l2-p32
+Benchmarking store-decode/dense/l2-p32: Warming up for 100.00 ms
+Benchmarking store-decode/dense/l2-p32: Collecting 10 samples in estimated 184.35 ms (165 iterations)
+Benchmarking store-decode/dense/l2-p32: Analyzing
+store-decode/dense/l2-p32
+                        time:   [929.08 µs 963.88 µs 1.0155 ms]
+                        thrpt:  [984.77 Melem/s 1.0375 Gelem/s 1.0763 Gelem/s]
+Benchmarking store-decode/dense/l2-l3-p32
+Benchmarking store-decode/dense/l2-l3-p32: Warming up for 100.00 ms
+Benchmarking store-decode/dense/l2-l3-p32: Collecting 10 samples in estimated 191.48 ms (165 iterations)
+Benchmarking store-decode/dense/l2-l3-p32: Analyzing
+store-decode/dense/l2-l3-p32
+                        time:   [1.0097 ms 1.0418 ms 1.1059 ms]
+                        thrpt:  [904.28 Melem/s 959.85 Melem/s 990.37 Melem/s]
+Benchmarking store-decode/dense/l2-p64
+Benchmarking store-decode/dense/l2-p64: Warming up for 100.00 ms
+Benchmarking store-decode/dense/l2-p64: Collecting 10 samples in estimated 164.65 ms (165 iterations)
+Benchmarking store-decode/dense/l2-p64: Analyzing
+store-decode/dense/l2-p64
+                        time:   [773.67 µs 802.15 µs 848.30 µs]
+                        thrpt:  [1.1788 Gelem/s 1.2467 Gelem/s 1.2925 Gelem/s]
+Benchmarking store-decode/dense/l2-l3-p64
+Benchmarking store-decode/dense/l2-l3-p64: Warming up for 100.00 ms
+Benchmarking store-decode/dense/l2-l3-p64: Collecting 10 samples in estimated 174.56 ms (220 iterations)
+Benchmarking store-decode/dense/l2-l3-p64: Analyzing
+store-decode/dense/l2-l3-p64
+                        time:   [755.95 µs 769.72 µs 786.70 µs]
+                        thrpt:  [1.2711 Gelem/s 1.2992 Gelem/s 1.3228 Gelem/s]
+
+store dataset=morton-shell keys=1000000 layout=p32 l2=2387688B l3=2097152B total=4484840B bits/key=35.879 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2387688B l3=2097152B total=4484840B bits/key=35.879 promoted=351 spills=3478
+Benchmarking store-build/morton-shell/rnbw-l2-p32
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 246.9ms.
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Collecting 10 samples in estimated 246.86 ms (10 iterations)
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Analyzing
+store-build/morton-shell/rnbw-l2-p32
+                        time:   [24.297 ms 24.462 ms 24.631 ms]
+                        thrpt:  [40.600 Melem/s 40.879 Melem/s 41.158 Melem/s]
+Benchmarking store-build/morton-shell/rnbw-l2-p64
+Benchmarking store-build/morton-shell/rnbw-l2-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 233.5ms.
+Benchmarking store-build/morton-shell/rnbw-l2-p64: Collecting 10 samples in estimated 233.47 ms (10 iterations)
+Benchmarking store-build/morton-shell/rnbw-l2-p64: Analyzing
+store-build/morton-shell/rnbw-l2-p64
+                        time:   [23.226 ms 23.316 ms 23.425 ms]
+                        thrpt:  [42.689 Melem/s 42.889 Melem/s 43.055 Melem/s]
+Benchmarking store-build/morton-shell/rnbw-query-image
+Benchmarking store-build/morton-shell/rnbw-query-image: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 231.4ms.
+Benchmarking store-build/morton-shell/rnbw-query-image: Collecting 10 samples in estimated 231.42 ms (10 iterations)
+Benchmarking store-build/morton-shell/rnbw-query-image: Analyzing
+store-build/morton-shell/rnbw-query-image
+                        time:   [23.550 ms 23.965 ms 24.361 ms]
+                        thrpt:  [41.049 Melem/s 41.727 Melem/s 42.462 Melem/s]
+
+Benchmarking store-contains/morton-shell/rnbw-image/hits
+Benchmarking store-contains/morton-shell/rnbw-image/hits: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/rnbw-image/hits: Collecting 10 samples in estimated 160.34 ms (440 iterations)
+Benchmarking store-contains/morton-shell/rnbw-image/hits: Analyzing
+store-contains/morton-shell/rnbw-image/hits
+                        time:   [360.37 µs 364.49 µs 369.70 µs]
+                        thrpt:  [2.7698 Melem/s 2.8094 Melem/s 2.8416 Melem/s]
+Benchmarking store-contains/morton-shell/roaring/hits
+Benchmarking store-contains/morton-shell/roaring/hits: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/roaring/hits: Collecting 10 samples in estimated 151.89 ms (3630 iterations)
+Benchmarking store-contains/morton-shell/roaring/hits: Analyzing
+store-contains/morton-shell/roaring/hits
+                        time:   [41.897 µs 42.426 µs 42.883 µs]
+                        thrpt:  [23.879 Melem/s 24.136 Melem/s 24.441 Melem/s]
+Benchmarking store-contains/morton-shell/rnbw-image/misses
+Benchmarking store-contains/morton-shell/rnbw-image/misses: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/rnbw-image/misses: Collecting 10 samples in estimated 151.89 ms (3685 iterations)
+Benchmarking store-contains/morton-shell/rnbw-image/misses: Analyzing
+store-contains/morton-shell/rnbw-image/misses
+                        time:   [41.038 µs 41.332 µs 41.875 µs]
+                        thrpt:  [24.453 Melem/s 24.775 Melem/s 24.953 Melem/s]
+Benchmarking store-contains/morton-shell/roaring/misses
+Benchmarking store-contains/morton-shell/roaring/misses: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/roaring/misses: Collecting 10 samples in estimated 150.52 ms (11k iterations)
+Benchmarking store-contains/morton-shell/roaring/misses: Analyzing
+store-contains/morton-shell/roaring/misses
+                        time:   [13.074 µs 13.169 µs 13.264 µs]
+                        thrpt:  [77.200 Melem/s 77.758 Melem/s 78.322 Melem/s]
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024: Collecting 10 samples in estimated 153.87 ms (825 iterations)
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024: Analyzing
+store-contains/morton-shell/l2-p32/hits/1024
+                        time:   [190.00 µs 193.27 µs 196.64 µs]
+                        thrpt:  [5.2075 Melem/s 5.2982 Melem/s 5.3896 Melem/s]
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024: Collecting 10 samples in estimated 150.09 ms (17k iterations)
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024: Analyzing
+store-contains/morton-shell/l2-p32/misses/1024
+                        time:   [8.7134 µs 8.8263 µs 8.9478 µs]
+                        thrpt:  [114.44 Melem/s 116.02 Melem/s 117.52 Melem/s]
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 152.98 ms (825 iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024: Analyzing
+store-contains/morton-shell/l2-l3-p32/hits/1024
+                        time:   [185.56 µs 186.61 µs 188.37 µs]
+                        thrpt:  [5.4362 Melem/s 5.4873 Melem/s 5.5183 Melem/s]
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 150.10 ms (16k iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024: Analyzing
+store-contains/morton-shell/l2-l3-p32/misses/1024
+                        time:   [9.5563 µs 10.252 µs 10.867 µs]
+                        thrpt:  [94.229 Melem/s 99.879 Melem/s 107.15 Melem/s]
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024: Collecting 10 samples in estimated 157.83 ms (825 iterations)
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024: Analyzing
+store-contains/morton-shell/l2-p64/hits/1024
+                        time:   [187.01 µs 189.42 µs 192.48 µs]
+                        thrpt:  [5.3200 Melem/s 5.4059 Melem/s 5.4756 Melem/s]
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024: Collecting 10 samples in estimated 150.28 ms (17k iterations)
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024: Analyzing
+store-contains/morton-shell/l2-p64/misses/1024
+                        time:   [8.9924 µs 9.1499 µs 9.2622 µs]
+                        thrpt:  [110.56 Melem/s 111.91 Melem/s 113.87 Melem/s]
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 157.06 ms (825 iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024: Analyzing
+store-contains/morton-shell/l2-l3-p64/hits/1024
+                        time:   [183.96 µs 187.21 µs 193.14 µs]
+                        thrpt:  [5.3017 Melem/s 5.4697 Melem/s 5.5665 Melem/s]
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 150.45 ms (16k iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024: Analyzing
+store-contains/morton-shell/l2-l3-p64/misses/1024
+                        time:   [9.1507 µs 9.1929 µs 9.3135 µs]
+                        thrpt:  [109.95 Melem/s 111.39 Melem/s 111.90 Melem/s]
+
+Benchmarking store-decode/morton-shell/l2-p32
+Benchmarking store-decode/morton-shell/l2-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 303.6ms.
+Benchmarking store-decode/morton-shell/l2-p32: Collecting 10 samples in estimated 303.59 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-p32: Analyzing
+store-decode/morton-shell/l2-p32
+                        time:   [29.216 ms 29.533 ms 29.833 ms]
+                        thrpt:  [33.520 Melem/s 33.861 Melem/s 34.228 Melem/s]
+Benchmarking store-decode/morton-shell/l2-l3-p32
+Benchmarking store-decode/morton-shell/l2-l3-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 291.3ms.
+Benchmarking store-decode/morton-shell/l2-l3-p32: Collecting 10 samples in estimated 291.32 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-l3-p32: Analyzing
+store-decode/morton-shell/l2-l3-p32
+                        time:   [29.081 ms 29.373 ms 29.681 ms]
+                        thrpt:  [33.691 Melem/s 34.045 Melem/s 34.387 Melem/s]
+Benchmarking store-decode/morton-shell/l2-p64
+Benchmarking store-decode/morton-shell/l2-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 302.6ms.
+Benchmarking store-decode/morton-shell/l2-p64: Collecting 10 samples in estimated 302.57 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-p64: Analyzing
+store-decode/morton-shell/l2-p64
+                        time:   [29.521 ms 29.786 ms 30.036 ms]
+                        thrpt:  [33.294 Melem/s 33.573 Melem/s 33.875 Melem/s]
+Benchmarking store-decode/morton-shell/l2-l3-p64
+Benchmarking store-decode/morton-shell/l2-l3-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 302.0ms.
+Benchmarking store-decode/morton-shell/l2-l3-p64: Collecting 10 samples in estimated 302.02 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-l3-p64: Analyzing
+store-decode/morton-shell/l2-l3-p64
+                        time:   [29.652 ms 29.777 ms 29.953 ms]
+                        thrpt:  [33.386 Melem/s 33.583 Melem/s 33.725 Melem/s]
+
+store dataset=ecs keys=1000000 layout=p32 l2=297576B l3=0B total=297576B bits/key=2.381 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=297576B l3=0B total=297576B bits/key=2.381 promoted=0 spills=17
+Benchmarking store-build/ecs/rnbw-l2-p32
+Benchmarking store-build/ecs/rnbw-l2-p32: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 164.3ms or enable flat sampling.
+Benchmarking store-build/ecs/rnbw-l2-p32: Collecting 10 samples in estimated 164.26 ms (55 iterations)
+Benchmarking store-build/ecs/rnbw-l2-p32: Analyzing
+store-build/ecs/rnbw-l2-p32
+                        time:   [2.8959 ms 2.9377 ms 3.0107 ms]
+                        thrpt:  [332.15 Melem/s 340.40 Melem/s 345.32 Melem/s]
+Benchmarking store-build/ecs/rnbw-l2-p64
+Benchmarking store-build/ecs/rnbw-l2-p64: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 168.3ms or enable flat sampling.
+Benchmarking store-build/ecs/rnbw-l2-p64: Collecting 10 samples in estimated 168.26 ms (55 iterations)
+Benchmarking store-build/ecs/rnbw-l2-p64: Analyzing
+store-build/ecs/rnbw-l2-p64
+                        time:   [2.9750 ms 3.0015 ms 3.0297 ms]
+                        thrpt:  [330.06 Melem/s 333.16 Melem/s 336.13 Melem/s]
+Benchmarking store-build/ecs/rnbw-query-image
+Benchmarking store-build/ecs/rnbw-query-image: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 233.9ms.
+Benchmarking store-build/ecs/rnbw-query-image: Collecting 10 samples in estimated 233.91 ms (10 iterations)
+Benchmarking store-build/ecs/rnbw-query-image: Analyzing
+store-build/ecs/rnbw-query-image
+                        time:   [23.153 ms 23.240 ms 23.330 ms]
+                        thrpt:  [42.864 Melem/s 43.029 Melem/s 43.190 Melem/s]
+
+Benchmarking store-contains/ecs/rnbw-image/hits
+Benchmarking store-contains/ecs/rnbw-image/hits: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/rnbw-image/hits: Collecting 10 samples in estimated 166.15 ms (440 iterations)
+Benchmarking store-contains/ecs/rnbw-image/hits: Analyzing
+store-contains/ecs/rnbw-image/hits
+                        time:   [382.00 µs 384.12 µs 388.27 µs]
+                        thrpt:  [2.6374 Melem/s 2.6658 Melem/s 2.6806 Melem/s]
+Benchmarking store-contains/ecs/roaring/hits
+Benchmarking store-contains/ecs/roaring/hits: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/roaring/hits: Collecting 10 samples in estimated 150.15 ms (31k iterations)
+Benchmarking store-contains/ecs/roaring/hits: Analyzing
+store-contains/ecs/roaring/hits
+                        time:   [4.9723 µs 5.0889 µs 5.2209 µs]
+                        thrpt:  [196.13 Melem/s 201.22 Melem/s 205.94 Melem/s]
+Benchmarking store-contains/ecs/rnbw-image/misses
+Benchmarking store-contains/ecs/rnbw-image/misses: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/rnbw-image/misses: Collecting 10 samples in estimated 150.25 ms (9020 iterations)
+Benchmarking store-contains/ecs/rnbw-image/misses: Analyzing
+store-contains/ecs/rnbw-image/misses
+                        time:   [16.171 µs 16.390 µs 16.510 µs]
+                        thrpt:  [62.023 Melem/s 62.478 Melem/s 63.322 Melem/s]
+Benchmarking store-contains/ecs/roaring/misses
+Benchmarking store-contains/ecs/roaring/misses: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/roaring/misses: Collecting 10 samples in estimated 150.10 ms (44k iterations)
+Benchmarking store-contains/ecs/roaring/misses: Analyzing
+store-contains/ecs/roaring/misses
+                        time:   [3.3979 µs 3.4112 µs 3.4198 µs]
+                        thrpt:  [299.43 Melem/s 300.19 Melem/s 301.37 Melem/s]
+Benchmarking store-contains/ecs/l2-p32/hits/1024
+Benchmarking store-contains/ecs/l2-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-p32/hits/1024: Collecting 10 samples in estimated 150.48 ms (11k iterations)
+Benchmarking store-contains/ecs/l2-p32/hits/1024: Analyzing
+store-contains/ecs/l2-p32/hits/1024
+                        time:   [8.1131 µs 8.1364 µs 8.1664 µs]
+                        thrpt:  [125.39 Melem/s 125.85 Melem/s 126.22 Melem/s]
+Benchmarking store-contains/ecs/l2-p32/misses/1024
+Benchmarking store-contains/ecs/l2-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-p32/misses/1024: Collecting 10 samples in estimated 150.18 ms (45k iterations)
+Benchmarking store-contains/ecs/l2-p32/misses/1024: Analyzing
+store-contains/ecs/l2-p32/misses/1024
+                        time:   [3.2729 µs 3.2791 µs 3.2890 µs]
+                        thrpt:  [311.34 Melem/s 312.28 Melem/s 312.87 Melem/s]
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 150.38 ms (19k iterations)
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024: Analyzing
+store-contains/ecs/l2-l3-p32/hits/1024
+                        time:   [7.8475 µs 7.8853 µs 7.9351 µs]
+                        thrpt:  [129.05 Melem/s 129.86 Melem/s 130.49 Melem/s]
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 150.08 ms (53k iterations)
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024: Analyzing
+store-contains/ecs/l2-l3-p32/misses/1024
+                        time:   [2.7804 µs 2.8111 µs 2.8422 µs]
+                        thrpt:  [360.28 Melem/s 364.26 Melem/s 368.29 Melem/s]
+Benchmarking store-contains/ecs/l2-p64/hits/1024
+Benchmarking store-contains/ecs/l2-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-p64/hits/1024: Collecting 10 samples in estimated 150.08 ms (20k iterations)
+Benchmarking store-contains/ecs/l2-p64/hits/1024: Analyzing
+store-contains/ecs/l2-p64/hits/1024
+                        time:   [7.3161 µs 7.3709 µs 7.4500 µs]
+                        thrpt:  [137.45 Melem/s 138.92 Melem/s 139.96 Melem/s]
+Benchmarking store-contains/ecs/l2-p64/misses/1024
+Benchmarking store-contains/ecs/l2-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-p64/misses/1024: Collecting 10 samples in estimated 150.10 ms (46k iterations)
+Benchmarking store-contains/ecs/l2-p64/misses/1024: Analyzing
+store-contains/ecs/l2-p64/misses/1024
+                        time:   [3.2291 µs 3.2470 µs 3.2710 µs]
+                        thrpt:  [313.06 Melem/s 315.37 Melem/s 317.12 Melem/s]
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 150.37 ms (19k iterations)
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024: Analyzing
+store-contains/ecs/l2-l3-p64/hits/1024
+                        time:   [7.4688 µs 7.5718 µs 7.6521 µs]
+                        thrpt:  [133.82 Melem/s 135.24 Melem/s 137.10 Melem/s]
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024: Warming up for 100.00 ms
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 150.05 ms (53k iterations)
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024: Analyzing
+store-contains/ecs/l2-l3-p64/misses/1024
+                        time:   [2.7805 µs 2.8085 µs 2.8559 µs]
+                        thrpt:  [358.55 Melem/s 364.61 Melem/s 368.28 Melem/s]
+
+Benchmarking store-decode/ecs/l2-p32
+Benchmarking store-decode/ecs/l2-p32: Warming up for 100.00 ms
+Benchmarking store-decode/ecs/l2-p32: Collecting 10 samples in estimated 220.34 ms (110 iterations)
+Benchmarking store-decode/ecs/l2-p32: Analyzing
+store-decode/ecs/l2-p32 time:   [1.9729 ms 2.0020 ms 2.0385 ms]
+                        thrpt:  [490.56 Melem/s 499.51 Melem/s 506.88 Melem/s]
+Benchmarking store-decode/ecs/l2-l3-p32
+Benchmarking store-decode/ecs/l2-l3-p32: Warming up for 100.00 ms
+Benchmarking store-decode/ecs/l2-l3-p32: Collecting 10 samples in estimated 220.30 ms (110 iterations)
+Benchmarking store-decode/ecs/l2-l3-p32: Analyzing
+store-decode/ecs/l2-l3-p32
+                        time:   [1.8618 ms 1.9066 ms 1.9472 ms]
+                        thrpt:  [513.56 Melem/s 524.50 Melem/s 537.10 Melem/s]
+Benchmarking store-decode/ecs/l2-p64
+Benchmarking store-decode/ecs/l2-p64: Warming up for 100.00 ms
+Benchmarking store-decode/ecs/l2-p64: Collecting 10 samples in estimated 219.65 ms (110 iterations)
+Benchmarking store-decode/ecs/l2-p64: Analyzing
+store-decode/ecs/l2-p64 time:   [1.9594 ms 2.0635 ms 2.2050 ms]
+                        thrpt:  [453.51 Melem/s 484.60 Melem/s 510.36 Melem/s]
+Benchmarking store-decode/ecs/l2-l3-p64
+Benchmarking store-decode/ecs/l2-l3-p64: Warming up for 100.00 ms
+Benchmarking store-decode/ecs/l2-l3-p64: Collecting 10 samples in estimated 222.14 ms (110 iterations)
+Benchmarking store-decode/ecs/l2-l3-p64: Analyzing
+store-decode/ecs/l2-l3-p64
+                        time:   [2.0150 ms 2.0640 ms 2.1372 ms]
+                        thrpt:  [467.91 Melem/s 484.49 Melem/s 496.27 Melem/s]
+

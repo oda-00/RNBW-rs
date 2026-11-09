@@ -1,0 +1,473 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 6.96s
+     Running benches\trnmap.rs (target\release\deps\trnmap-5341ff1e5771a638.exe)
+Gnuplot not found, using plotters backend
+trnmap cache/workload matrix; timings are from this runner only
+trnmap len=64: 440 B (0.000 MiB), alignment budget=447 B, levels=2, leaf words=1
+trnmap len=4096: 1984 B (0.002 MiB), alignment budget=1991 B, levels=3, leaf words=64
+trnmap len=65536: 25536 B (0.024 MiB), alignment budget=25543 B, levels=4, leaf words=1024
+trnmap len=1000000: 383416 B (0.366 MiB), alignment budget=383423 B, levels=5, leaf words=15625
+trnmap len=16000000: 6127456 B (5.844 MiB), alignment budget=6127463 B, levels=5, leaf words=250000
+Benchmarking trnmap/scenario/all-negative/64/count-hierarchical
+Benchmarking trnmap/scenario/all-negative/64/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/64/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (20M iterations)
+Benchmarking trnmap/scenario/all-negative/64/count-hierarchical: Analyzing
+trnmap/scenario/all-negative/64/count-hierarchical
+                        time:   [7.6643 ns 7.7188 ns 7.7711 ns]
+                        thrpt:  [128.68 Melem/s 129.55 Melem/s 130.47 Melem/s]
+Benchmarking trnmap/scenario/all-negative/64/count-scalar-scan
+Benchmarking trnmap/scenario/all-negative/64/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/64/count-scalar-scan: Collecting 10 samples in estimated 150.00 ms (8.1M iterations)
+Benchmarking trnmap/scenario/all-negative/64/count-scalar-scan: Analyzing
+trnmap/scenario/all-negative/64/count-scalar-scan
+                        time:   [18.657 ns 18.946 ns 19.244 ns]
+                        thrpt:  [51.963 Melem/s 52.782 Melem/s 53.599 Melem/s]
+
+Benchmarking trnmap/scenario/all-zero/64/count-hierarchical
+Benchmarking trnmap/scenario/all-zero/64/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/64/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (21M iterations)
+Benchmarking trnmap/scenario/all-zero/64/count-hierarchical: Analyzing
+trnmap/scenario/all-zero/64/count-hierarchical
+                        time:   [7.2956 ns 7.3252 ns 7.3458 ns]
+                        thrpt:  [136.13 Melem/s 136.52 Melem/s 137.07 Melem/s]
+Benchmarking trnmap/scenario/all-zero/64/count-scalar-scan
+Benchmarking trnmap/scenario/all-zero/64/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/64/count-scalar-scan: Collecting 10 samples in estimated 150.00 ms (8.2M iterations)
+Benchmarking trnmap/scenario/all-zero/64/count-scalar-scan: Analyzing
+trnmap/scenario/all-zero/64/count-scalar-scan
+                        time:   [18.289 ns 18.876 ns 19.300 ns]
+                        thrpt:  [51.813 Melem/s 52.977 Melem/s 54.678 Melem/s]
+
+Benchmarking trnmap/scenario/uniform-ternary/64/count-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/64/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/64/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (20M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/64/count-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/64/count-hierarchical
+                        time:   [7.2518 ns 7.2679 ns 7.2950 ns]
+                        thrpt:  [137.08 Melem/s 137.59 Melem/s 137.90 Melem/s]
+Benchmarking trnmap/scenario/uniform-ternary/64/count-scalar-scan
+Benchmarking trnmap/scenario/uniform-ternary/64/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/64/count-scalar-scan: Collecting 10 samples in estimated 150.00 ms (8.1M iterations)
+Benchmarking trnmap/scenario/uniform-ternary/64/count-scalar-scan: Analyzing
+trnmap/scenario/uniform-ternary/64/count-scalar-scan
+                        time:   [18.702 ns 19.638 ns 20.794 ns]
+                        thrpt:  [48.090 Melem/s 50.923 Melem/s 53.471 Melem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (20M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/64/count-hierarchical
+                        time:   [7.8246 ns 7.9961 ns 8.0975 ns]
+                        thrpt:  [123.50 Melem/s 125.06 Melem/s 127.80 Melem/s]
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-scalar-scan
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-scalar-scan: Collecting 10 samples in estimated 150.00 ms (7.9M iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/64/count-scalar-scan: Analyzing
+trnmap/scenario/alternating-negative-positive/64/count-scalar-scan
+                        time:   [18.475 ns 18.699 ns 18.936 ns]
+                        thrpt:  [52.808 Melem/s 53.480 Melem/s 54.128 Melem/s]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (23M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/64/count-hierarchical
+                        time:   [6.7526 ns 6.8823 ns 6.9667 ns]
+                        thrpt:  [143.54 Melem/s 145.30 Melem/s 148.09 Melem/s]
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-scalar-scan
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-scalar-scan: Collecting 10 samples in estimated 150.00 ms (8.1M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/64/count-scalar-scan: Analyzing
+trnmap/scenario/4096-trit-clusters/64/count-scalar-scan
+                        time:   [18.300 ns 18.417 ns 18.513 ns]
+                        thrpt:  [54.015 Melem/s 54.298 Melem/s 54.645 Melem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (20M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/64/count-hierarchical
+                        time:   [7.2843 ns 7.3740 ns 7.5001 ns]
+                        thrpt:  [133.33 Melem/s 135.61 Melem/s 137.28 Melem/s]
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-scalar-scan
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-scalar-scan: Collecting 10 samples in estimated 150.00 ms (8.1M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/64/count-scalar-scan: Analyzing
+trnmap/scenario/positive-1-in-4096/64/count-scalar-scan
+                        time:   [18.423 ns 18.533 ns 18.597 ns]
+                        thrpt:  [53.772 Melem/s 53.958 Melem/s 54.279 Melem/s]
+
+Benchmarking trnmap/scenario/all-negative/4096/count-hierarchical
+Benchmarking trnmap/scenario/all-negative/4096/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/4096/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (808k iterations)
+Benchmarking trnmap/scenario/all-negative/4096/count-hierarchical: Analyzing
+trnmap/scenario/all-negative/4096/count-hierarchical
+                        time:   [182.33 ns 185.24 ns 189.72 ns]
+                        thrpt:  [5.2708 Melem/s 5.3983 Melem/s 5.4846 Melem/s]
+Benchmarking trnmap/scenario/all-negative/4096/count-scalar-scan
+Benchmarking trnmap/scenario/all-negative/4096/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/4096/count-scalar-scan: Collecting 10 samples in estimated 150.04 ms (131k iterations)
+Benchmarking trnmap/scenario/all-negative/4096/count-scalar-scan: Analyzing
+trnmap/scenario/all-negative/4096/count-scalar-scan
+                        time:   [1.1387 µs 1.1476 µs 1.1556 µs]
+                        thrpt:  [865.37 Kelem/s 871.38 Kelem/s 878.23 Kelem/s]
+
+Benchmarking trnmap/scenario/all-zero/4096/count-hierarchical
+Benchmarking trnmap/scenario/all-zero/4096/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/4096/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (821k iterations)
+Benchmarking trnmap/scenario/all-zero/4096/count-hierarchical: Analyzing
+trnmap/scenario/all-zero/4096/count-hierarchical
+                        time:   [182.83 ns 185.33 ns 190.03 ns]
+                        thrpt:  [5.2624 Melem/s 5.3957 Melem/s 5.4697 Melem/s]
+Benchmarking trnmap/scenario/all-zero/4096/count-scalar-scan
+Benchmarking trnmap/scenario/all-zero/4096/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/4096/count-scalar-scan: Collecting 10 samples in estimated 150.02 ms (131k iterations)
+Benchmarking trnmap/scenario/all-zero/4096/count-scalar-scan: Analyzing
+trnmap/scenario/all-zero/4096/count-scalar-scan
+                        time:   [1.1246 µs 1.1273 µs 1.1332 µs]
+                        thrpt:  [882.42 Kelem/s 887.06 Kelem/s 889.23 Kelem/s]
+
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (865k iterations)
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/4096/count-hierarchical
+                        time:   [178.29 ns 179.37 ns 181.09 ns]
+                        thrpt:  [5.5220 Melem/s 5.5751 Melem/s 5.6089 Melem/s]
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-scalar-scan
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-scalar-scan: Collecting 10 samples in estimated 150.01 ms (131k iterations)
+Benchmarking trnmap/scenario/uniform-ternary/4096/count-scalar-scan: Analyzing
+trnmap/scenario/uniform-ternary/4096/count-scalar-scan
+                        time:   [1.1440 µs 1.1461 µs 1.1479 µs]
+                        thrpt:  [871.14 Kelem/s 872.56 Kelem/s 874.09 Kelem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-hierarchical: Collecting 10 samples in estimated 150.01 ms (829k iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/4096/count-hierarchical
+                        time:   [176.67 ns 177.93 ns 180.08 ns]
+                        thrpt:  [5.5532 Melem/s 5.6203 Melem/s 5.6603 Melem/s]
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-scalar-scan
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-scalar-scan: Collecting 10 samples in estimated 150.05 ms (131k iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/4096/count-scalar-scan: Analyzing
+trnmap/scenario/alternating-negative-positive/4096/count-scalar-scan
+                        time:   [1.1436 µs 1.1515 µs 1.1586 µs]
+                        thrpt:  [863.13 Kelem/s 868.45 Kelem/s 874.47 Kelem/s]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (24M iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/4096/count-hierarchical
+                        time:   [6.1089 ns 6.1408 ns 6.1666 ns]
+                        thrpt:  [162.16 Melem/s 162.84 Melem/s 163.70 Melem/s]
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-scalar-scan
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-scalar-scan: Collecting 10 samples in estimated 150.01 ms (131k iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/4096/count-scalar-scan: Analyzing
+trnmap/scenario/4096-trit-clusters/4096/count-scalar-scan
+                        time:   [1.1406 µs 1.1439 µs 1.1484 µs]
+                        thrpt:  [870.77 Kelem/s 874.23 Kelem/s 876.71 Kelem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (16M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/4096/count-hierarchical
+                        time:   [9.5406 ns 9.5730 ns 9.6170 ns]
+                        thrpt:  [103.98 Melem/s 104.46 Melem/s 104.82 Melem/s]
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-scalar-scan
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-scalar-scan: Collecting 10 samples in estimated 150.05 ms (130k iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/4096/count-scalar-scan: Analyzing
+trnmap/scenario/positive-1-in-4096/4096/count-scalar-scan
+                        time:   [1.1319 µs 1.1398 µs 1.1462 µs]
+                        thrpt:  [872.46 Kelem/s 877.36 Kelem/s 883.43 Kelem/s]
+
+Benchmarking trnmap/scenario/all-negative/65536/count-hierarchical
+Benchmarking trnmap/scenario/all-negative/65536/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/65536/count-hierarchical: Collecting 10 samples in estimated 150.12 ms (55k iterations)
+Benchmarking trnmap/scenario/all-negative/65536/count-hierarchical: Analyzing
+trnmap/scenario/all-negative/65536/count-hierarchical
+                        time:   [2.6992 µs 2.7157 µs 2.7397 µs]
+                        thrpt:  [365.00 Kelem/s 368.23 Kelem/s 370.47 Kelem/s]
+Benchmarking trnmap/scenario/all-negative/65536/count-scalar-scan
+Benchmarking trnmap/scenario/all-negative/65536/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/65536/count-scalar-scan: Collecting 10 samples in estimated 150.34 ms (8305 iterations)
+Benchmarking trnmap/scenario/all-negative/65536/count-scalar-scan: Analyzing
+trnmap/scenario/all-negative/65536/count-scalar-scan
+                        time:   [18.348 µs 18.761 µs 19.132 µs]
+                        thrpt:  [52.269 Kelem/s 53.301 Kelem/s 54.502 Kelem/s]
+
+Benchmarking trnmap/scenario/all-zero/65536/count-hierarchical
+Benchmarking trnmap/scenario/all-zero/65536/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/65536/count-hierarchical: Collecting 10 samples in estimated 150.13 ms (56k iterations)
+Benchmarking trnmap/scenario/all-zero/65536/count-hierarchical: Analyzing
+trnmap/scenario/all-zero/65536/count-hierarchical
+                        time:   [2.7647 µs 2.8194 µs 2.8505 µs]
+                        thrpt:  [350.82 Kelem/s 354.68 Kelem/s 361.71 Kelem/s]
+Benchmarking trnmap/scenario/all-zero/65536/count-scalar-scan
+Benchmarking trnmap/scenario/all-zero/65536/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/65536/count-scalar-scan: Collecting 10 samples in estimated 150.09 ms (8085 iterations)
+Benchmarking trnmap/scenario/all-zero/65536/count-scalar-scan: Analyzing
+trnmap/scenario/all-zero/65536/count-scalar-scan
+                        time:   [18.252 µs 18.313 µs 18.382 µs]
+                        thrpt:  [54.401 Kelem/s 54.606 Kelem/s 54.789 Kelem/s]
+
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-hierarchical: Collecting 10 samples in estimated 150.07 ms (56k iterations)
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/65536/count-hierarchical
+                        time:   [2.7303 µs 2.7418 µs 2.7566 µs]
+                        thrpt:  [362.77 Kelem/s 364.72 Kelem/s 366.26 Kelem/s]
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-scalar-scan
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-scalar-scan: Collecting 10 samples in estimated 150.78 ms (8195 iterations)
+Benchmarking trnmap/scenario/uniform-ternary/65536/count-scalar-scan: Analyzing
+trnmap/scenario/uniform-ternary/65536/count-scalar-scan
+                        time:   [18.112 µs 18.157 µs 18.231 µs]
+                        thrpt:  [54.852 Kelem/s 55.074 Kelem/s 55.213 Kelem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-hierarchical: Collecting 10 samples in estimated 150.11 ms (55k iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/65536/count-hierarchical
+                        time:   [2.7336 µs 2.7504 µs 2.7761 µs]
+                        thrpt:  [360.21 Kelem/s 363.59 Kelem/s 365.81 Kelem/s]
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-scalar-scan
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-scalar-scan: Collecting 10 samples in estimated 150.57 ms (8250 iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/65536/count-scalar-scan: Analyzing
+trnmap/scenario/alternating-negative-positive/65536/count-scalar-scan
+                        time:   [18.289 µs 18.331 µs 18.415 µs]
+                        thrpt:  [54.304 Kelem/s 54.552 Kelem/s 54.677 Kelem/s]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-hierarchical: Collecting 10 samples in estimated 150.03 ms (149k iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/65536/count-hierarchical
+                        time:   [1.0096 µs 1.0191 µs 1.0265 µs]
+                        thrpt:  [974.14 Kelem/s 981.23 Kelem/s 990.46 Kelem/s]
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-scalar-scan
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-scalar-scan: Collecting 10 samples in estimated 150.53 ms (8140 iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/65536/count-scalar-scan: Analyzing
+trnmap/scenario/4096-trit-clusters/65536/count-scalar-scan
+                        time:   [18.285 µs 18.359 µs 18.416 µs]
+                        thrpt:  [54.301 Kelem/s 54.469 Kelem/s 54.690 Kelem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-hierarchical: Collecting 10 samples in estimated 150.00 ms (1.7M iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/65536/count-hierarchical
+                        time:   [89.569 ns 89.926 ns 90.351 ns]
+                        thrpt:  [11.068 Melem/s 11.120 Melem/s 11.165 Melem/s]
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-scalar-scan
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-scalar-scan: Collecting 10 samples in estimated 150.01 ms (8250 iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/65536/count-scalar-scan: Analyzing
+trnmap/scenario/positive-1-in-4096/65536/count-scalar-scan
+                        time:   [18.029 µs 18.078 µs 18.122 µs]
+                        thrpt:  [55.182 Kelem/s 55.315 Kelem/s 55.467 Kelem/s]
+
+Benchmarking trnmap/scenario/all-negative/1000000/count-hierarchical
+Benchmarking trnmap/scenario/all-negative/1000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/1000000/count-hierarchical: Collecting 10 samples in estimated 150.87 ms (3740 iterations)
+Benchmarking trnmap/scenario/all-negative/1000000/count-hierarchical: Analyzing
+trnmap/scenario/all-negative/1000000/count-hierarchical
+                        time:   [39.984 µs 40.151 µs 40.359 µs]
+                        thrpt:  [24.778 Kelem/s 24.906 Kelem/s 25.010 Kelem/s]
+Benchmarking trnmap/scenario/all-negative/1000000/count-scalar-scan
+Benchmarking trnmap/scenario/all-negative/1000000/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/1000000/count-scalar-scan: Collecting 10 samples in estimated 154.45 ms (550 iterations)
+Benchmarking trnmap/scenario/all-negative/1000000/count-scalar-scan: Analyzing
+trnmap/scenario/all-negative/1000000/count-scalar-scan
+                        time:   [279.39 µs 280.85 µs 282.11 µs]
+                        thrpt:  [3.5447 Kelem/s 3.5606 Kelem/s 3.5792 Kelem/s]
+
+Benchmarking trnmap/scenario/all-zero/1000000/count-hierarchical
+Benchmarking trnmap/scenario/all-zero/1000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/1000000/count-hierarchical: Collecting 10 samples in estimated 151.27 ms (3520 iterations)
+Benchmarking trnmap/scenario/all-zero/1000000/count-hierarchical: Analyzing
+trnmap/scenario/all-zero/1000000/count-hierarchical
+                        time:   [41.891 µs 42.056 µs 42.262 µs]
+                        thrpt:  [23.662 Kelem/s 23.778 Kelem/s 23.871 Kelem/s]
+Benchmarking trnmap/scenario/all-zero/1000000/count-scalar-scan
+Benchmarking trnmap/scenario/all-zero/1000000/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/1000000/count-scalar-scan: Collecting 10 samples in estimated 154.23 ms (550 iterations)
+Benchmarking trnmap/scenario/all-zero/1000000/count-scalar-scan: Analyzing
+trnmap/scenario/all-zero/1000000/count-scalar-scan
+                        time:   [275.38 µs 276.11 µs 276.87 µs]
+                        thrpt:  [3.6118 Kelem/s 3.6218 Kelem/s 3.6314 Kelem/s]
+
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-hierarchical: Collecting 10 samples in estimated 150.35 ms (3575 iterations)
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/1000000/count-hierarchical
+                        time:   [41.870 µs 42.049 µs 42.307 µs]
+                        thrpt:  [23.637 Kelem/s 23.782 Kelem/s 23.883 Kelem/s]
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-scalar-scan
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-scalar-scan: Collecting 10 samples in estimated 155.62 ms (550 iterations)
+Benchmarking trnmap/scenario/uniform-ternary/1000000/count-scalar-scan: Analyzing
+trnmap/scenario/uniform-ternary/1000000/count-scalar-scan
+                        time:   [282.80 µs 283.19 µs 283.67 µs]
+                        thrpt:  [3.5252 Kelem/s 3.5312 Kelem/s 3.5361 Kelem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-hierarchical: Collecting 10 samples in estimated 151.28 ms (3740 iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/1000000/count-hierarchical
+                        time:   [40.832 µs 41.320 µs 41.759 µs]
+                        thrpt:  [23.947 Kelem/s 24.202 Kelem/s 24.491 Kelem/s]
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-scalar-scan
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-scalar-scan: Collecting 10 samples in estimated 154.76 ms (550 iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/1000000/count-scalar-scan: Analyzing
+trnmap/scenario/alternating-negative-positive/1000000/count-scalar-scan
+                        time:   [278.85 µs 279.58 µs 280.42 µs]
+                        thrpt:  [3.5660 Kelem/s 3.5768 Kelem/s 3.5861 Kelem/s]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-hierarchical: Collecting 10 samples in estimated 150.80 ms (9075 iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/1000000/count-hierarchical
+                        time:   [16.796 µs 16.893 µs 16.959 µs]
+                        thrpt:  [58.966 Kelem/s 59.195 Kelem/s 59.539 Kelem/s]
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-scalar-scan
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-scalar-scan: Collecting 10 samples in estimated 156.47 ms (550 iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/1000000/count-scalar-scan: Analyzing
+trnmap/scenario/4096-trit-clusters/1000000/count-scalar-scan
+                        time:   [273.74 µs 275.42 µs 276.81 µs]
+                        thrpt:  [3.6126 Kelem/s 3.6309 Kelem/s 3.6531 Kelem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-hierarchical: Collecting 10 samples in estimated 150.05 ms (103k iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/1000000/count-hierarchical
+                        time:   [1.3729 µs 1.3883 µs 1.4194 µs]
+                        thrpt:  [704.54 Kelem/s 720.28 Kelem/s 728.40 Kelem/s]
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-scalar-scan
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-scalar-scan: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-scalar-scan: Collecting 10 samples in estimated 154.96 ms (550 iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/1000000/count-scalar-scan: Analyzing
+trnmap/scenario/positive-1-in-4096/1000000/count-scalar-scan
+                        time:   [276.40 µs 280.08 µs 286.82 µs]
+                        thrpt:  [3.4866 Kelem/s 3.5704 Kelem/s 3.6180 Kelem/s]
+
+Benchmarking trnmap/scenario/all-negative/16000000/count-hierarchical
+Benchmarking trnmap/scenario/all-negative/16000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-negative/16000000/count-hierarchical: Collecting 10 samples in estimated 186.43 ms (275 iterations)
+Benchmarking trnmap/scenario/all-negative/16000000/count-hierarchical: Analyzing
+trnmap/scenario/all-negative/16000000/count-hierarchical
+                        time:   [662.35 µs 670.45 µs 687.95 µs]
+                        thrpt:  [1.4536 Kelem/s 1.4915 Kelem/s 1.5098 Kelem/s]
+Benchmarking trnmap/scenario/all-negative/16000000/count-scalar-scan
+Benchmarking trnmap/scenario/all-negative/16000000/count-scalar-scan: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 248.8ms or enable flat sampling.
+Benchmarking trnmap/scenario/all-negative/16000000/count-scalar-scan: Collecting 10 samples in estimated 248.77 ms (55 iterations)
+Benchmarking trnmap/scenario/all-negative/16000000/count-scalar-scan: Analyzing
+trnmap/scenario/all-negative/16000000/count-scalar-scan
+                        time:   [4.4944 ms 4.5420 ms 4.5764 ms]
+                        thrpt:  [218.51  elem/s 220.17  elem/s 222.50  elem/s]
+
+Benchmarking trnmap/scenario/all-zero/16000000/count-hierarchical
+Benchmarking trnmap/scenario/all-zero/16000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/all-zero/16000000/count-hierarchical: Collecting 10 samples in estimated 181.03 ms (275 iterations)
+Benchmarking trnmap/scenario/all-zero/16000000/count-hierarchical: Analyzing
+trnmap/scenario/all-zero/16000000/count-hierarchical
+                        time:   [655.62 µs 656.57 µs 658.51 µs]
+                        thrpt:  [1.5186 Kelem/s 1.5231 Kelem/s 1.5253 Kelem/s]
+Benchmarking trnmap/scenario/all-zero/16000000/count-scalar-scan
+Benchmarking trnmap/scenario/all-zero/16000000/count-scalar-scan: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 248.1ms or enable flat sampling.
+Benchmarking trnmap/scenario/all-zero/16000000/count-scalar-scan: Collecting 10 samples in estimated 248.07 ms (55 iterations)
+Benchmarking trnmap/scenario/all-zero/16000000/count-scalar-scan: Analyzing
+trnmap/scenario/all-zero/16000000/count-scalar-scan
+                        time:   [4.5276 ms 4.5782 ms 4.6280 ms]
+                        thrpt:  [216.08  elem/s 218.43  elem/s 220.87  elem/s]
+
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-hierarchical
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-hierarchical: Collecting 10 samples in estimated 179.22 ms (275 iterations)
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-hierarchical: Analyzing
+trnmap/scenario/uniform-ternary/16000000/count-hierarchical
+                        time:   [643.96 µs 648.14 µs 651.56 µs]
+                        thrpt:  [1.5348 Kelem/s 1.5429 Kelem/s 1.5529 Kelem/s]
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-scalar-scan
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-scalar-scan: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 242.9ms or enable flat sampling.
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-scalar-scan: Collecting 10 samples in estimated 242.85 ms (55 iterations)
+Benchmarking trnmap/scenario/uniform-ternary/16000000/count-scalar-scan: Analyzing
+trnmap/scenario/uniform-ternary/16000000/count-scalar-scan
+                        time:   [4.4253 ms 4.4915 ms 4.5476 ms]
+                        thrpt:  [219.90  elem/s 222.64  elem/s 225.98  elem/s]
+
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-hierarchical
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-hierarchical: Collecting 10 samples in estimated 150.54 ms (220 iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-hierarchical: Analyzing
+trnmap/scenario/alternating-negative-positive/16000000/count-hierarchical
+                        time:   [659.38 µs 664.07 µs 667.95 µs]
+                        thrpt:  [1.4971 Kelem/s 1.5059 Kelem/s 1.5166 Kelem/s]
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-scalar-scan
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-scalar-scan: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 246.6ms or enable flat sampling.
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-scalar-scan: Collecting 10 samples in estimated 246.61 ms (55 iterations)
+Benchmarking trnmap/scenario/alternating-negative-positive/16000000/count-scalar-scan: Analyzing
+trnmap/scenario/alternating-negative-positive/16000000/count-scalar-scan
+                        time:   [4.4501 ms 4.4692 ms 4.4964 ms]
+                        thrpt:  [222.40  elem/s 223.75  elem/s 224.71  elem/s]
+
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-hierarchical
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-hierarchical: Collecting 10 samples in estimated 158.52 ms (550 iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-hierarchical: Analyzing
+trnmap/scenario/4096-trit-clusters/16000000/count-hierarchical
+                        time:   [289.84 µs 295.21 µs 299.99 µs]
+                        thrpt:  [3.3335 Kelem/s 3.3874 Kelem/s 3.4502 Kelem/s]
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-scalar-scan
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-scalar-scan: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 252.3ms or enable flat sampling.
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-scalar-scan: Collecting 10 samples in estimated 252.34 ms (55 iterations)
+Benchmarking trnmap/scenario/4096-trit-clusters/16000000/count-scalar-scan: Analyzing
+trnmap/scenario/4096-trit-clusters/16000000/count-scalar-scan
+                        time:   [4.4623 ms 4.4742 ms 4.4933 ms]
+                        thrpt:  [222.55  elem/s 223.50  elem/s 224.10  elem/s]
+
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-hierarchical
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-hierarchical: Warming up for 100.00 ms
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-hierarchical: Collecting 10 samples in estimated 150.31 ms (6710 iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-hierarchical: Analyzing
+trnmap/scenario/positive-1-in-4096/16000000/count-hierarchical
+                        time:   [21.336 µs 21.733 µs 22.020 µs]
+                        thrpt:  [45.413 Kelem/s 46.012 Kelem/s 46.869 Kelem/s]
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-scalar-scan
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-scalar-scan: Warming up for 100.00 ms
+
+Warning: Unable to complete 10 samples in 150.0ms. You may wish to increase target time to 248.4ms or enable flat sampling.
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-scalar-scan: Collecting 10 samples in estimated 248.39 ms (55 iterations)
+Benchmarking trnmap/scenario/positive-1-in-4096/16000000/count-scalar-scan: Analyzing
+trnmap/scenario/positive-1-in-4096/16000000/count-scalar-scan
+                        time:   [4.4427 ms 4.4807 ms 4.5302 ms]
+                        thrpt:  [220.74  elem/s 223.18  elem/s 225.09  elem/s]
+
