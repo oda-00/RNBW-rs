@@ -12,6 +12,8 @@ const RANS_SCALE: u32 = 1 << RANS_SCALE_BITS;
 const RANS_LOWER_BOUND: u32 = 1 << 23;
 const RANS_MODEL_BYTES: usize = 256 * 2;
 const HUFFMAN_MODEL_BYTES: usize = 256;
+const HUFFMAN_FAST_BITS: usize = 10;
+const HUFFMAN_FAST_SIZE: usize = 1 << HUFFMAN_FAST_BITS;
 type EntropyImage = (u8, Vec<u8>, Vec<u8>);
 type EntropyCandidate = Option<EntropyImage>;
 const METHOD_RAW: u8 = 0;
@@ -934,6 +936,17 @@ fn huffman_decode(
     lengths: &[u8; HUFFMAN_MODEL_BYTES],
 ) -> Result<Vec<u8>, CodecError> {
     let codebook = huffman_codebook(lengths)?;
+    let mut fast_decode = [0u16; HUFFMAN_FAST_SIZE];
+    for (symbol, &length) in lengths.iter().enumerate() {
+        let length = length as usize;
+        if (1..=HUFFMAN_FAST_BITS).contains(&length) {
+            let suffix_bits = HUFFMAN_FAST_BITS - length;
+            let first = (codebook.codes[symbol] as usize) << suffix_bits;
+            let end = first + (1 << suffix_bits);
+            let entry = ((length as u16) << 8) | symbol as u16;
+            fast_decode[first..end].fill(entry);
+        }
+    }
     let bit_len = payload
         .len()
         .checked_mul(8)
@@ -944,6 +957,24 @@ fn huffman_decode(
         .try_reserve_exact(output_len)
         .map_err(|_| CodecError::LengthOverflow)?;
     for _ in 0..output_len {
+        let byte_index = bit_position >> 3;
+        if byte_index + 4 <= payload.len() {
+            let window = u32::from_be_bytes([
+                payload[byte_index],
+                payload[byte_index + 1],
+                payload[byte_index + 2],
+                payload[byte_index + 3],
+            ]);
+            let shift = 32 - HUFFMAN_FAST_BITS - (bit_position & 7);
+            let prefix = ((window >> shift) & (HUFFMAN_FAST_SIZE as u32 - 1)) as usize;
+            let entry = fast_decode[prefix];
+            if entry != 0 {
+                let length = (entry >> 8) as usize;
+                bit_position += length;
+                output.push(entry as u8);
+                continue;
+            }
+        }
         let mut code = 0u64;
         let mut found = None;
         for length in 1..=codebook.max_len {

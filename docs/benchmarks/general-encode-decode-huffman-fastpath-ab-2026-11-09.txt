@@ -1,0 +1,126 @@
+RNBW Huffman decode fast-table experiment: encode, decode, roundtrip
+Date: 2026-11-09
+
+Change kept: a 10-bit prefix lookup table inside canonical Huffman decode. The on-disk format and encoder are unchanged. Codes <=10 bits use one table lookup; codes >10 bits and short input tails retain the validated bit-at-a-time fallback. The decoder creates a fixed 1,024-entry u16 table (2,048 bytes) on the stack per active decode call; added format bytes: 0; added heap allocation: 0. Setup is O(1,024 + number of short-code expansions), then O(output bytes) for short codes, with the existing O(code length) fallback for long codes.
+
+Benchmark method: Criterion optimized profile, AVX2 selected, 10 samples, 100 ms warmup and 150 ms target measurement per case. Baseline is the full general-corpus run before the change; final run measures all RNBW encode/decode IDs on the same 16 datasets. These are separate runs, not interleaved paired samples. Values below are Criterion median point estimates; complete confidence intervals are in the raw logs.
+Baseline raw log: general-encode-decode-current-2026-11-09.txt
+Final RNBW-only raw log (includes roundtrip cases): general-rnbw-encode-decode-fastpath-2026-11-09.txt
+
+Summary: RNBW hybrid decode geomean speedup 1.421x (CI non-overlap: 11 faster, 1 slower, 4 overlap, out of 16). Parallel-form decode geomean 1.453x (CI non-overlap: 12 faster, 2 slower, 2 overlap). Encode source is unchanged: one-shot geomean 0.971x (CI non-overlap 0/2/14 faster/slower/overlap); reuse-serial 1.003x (7/5/4); reuse-parallel 1.012x (3/2/11). Encode timing movement is run noise, not a claimed improvement.
+
+Rejected encode-side experiment: replacing the canonical symbol builder's repeated alphabet scans with scattered one-pass bucket writes produced 0.927x geomean reuse-parallel encode speed (1.0 means no change) on the first full A/B; Criterion intervals showed it slower in 11 cases, faster in 2, and overlapping in 3. That code was reverted. The initial encode/decode capture logs are retained as evidence: general-encode-huffman-lookup-2026-11-09.txt and general-decode-huffman-lookup-2026-11-09.txt.
+
+Encode medians: baseline -> fast-table build (microseconds unless noted). The encoder is byte-for-byte unchanged; table is illustrative of run-to-run noise.
+
+One-shot: dataset | baseline -> current | old/current
+image-rgba8-raster | 6.921 ms -> 8.657 ms | 0.799x
+image-png-stored-deflate | 3.038 ms -> 3.225 ms | 0.942x
+image-png-compressed-deflate | 1.764 ms -> 1.785 ms | 0.988x
+graphics-shader-machine-words-synthetic | 969.44 us -> 909.78 us | 1.066x
+graphics-wgsl-source | 519.83 us -> 479.37 us | 1.084x
+ai-model-int8-tensor-synthetic | 4.324 ms -> 4.315 ms | 1.002x
+native-executable-binary | 66.245 ms -> 64.649 ms | 1.025x
+structured-binary-records | 2.834 ms -> 3.225 ms | 0.879x
+sparse-binary | 2.783 ms -> 2.905 ms | 0.958x
+random-binary-incompressible | 436.18 us -> 512.91 us | 0.850x
+repository-rust-source | 2.010 ms -> 2.057 ms | 0.977x
+repository-technical-prose | 869.73 us -> 843.40 us | 1.031x
+natural-style-prose-generated | 2.307 ms -> 2.279 ms | 1.012x
+json-records | 4.925 ms -> 4.936 ms | 0.998x
+csv-table | 6.131 ms -> 6.227 ms | 0.985x
+server-log-records | 6.699 ms -> 6.797 ms | 0.986x
+
+Reuse serial: dataset | baseline -> current | old/current
+image-rgba8-raster | 5.990 ms -> 5.744 ms | 1.043x
+image-png-stored-deflate | 2.620 ms -> 2.563 ms | 1.022x
+image-png-compressed-deflate | 1.320 ms -> 1.313 ms | 1.006x
+graphics-shader-machine-words-synthetic | 518.60 us -> 484.26 us | 1.071x
+graphics-wgsl-source | 54.18 us -> 52.16 us | 1.039x
+ai-model-int8-tensor-synthetic | 3.950 ms -> 3.987 ms | 0.991x
+native-executable-binary | 60.530 ms -> 63.710 ms | 0.950x
+structured-binary-records | 2.421 ms -> 2.403 ms | 1.007x
+sparse-binary | 2.115 ms -> 2.281 ms | 0.927x
+random-binary-incompressible | 384.82 us -> 430.74 us | 0.893x
+repository-rust-source | 1.525 ms -> 1.627 ms | 0.937x
+repository-technical-prose | 295.27 us -> 281.88 us | 1.048x
+natural-style-prose-generated | 1.932 ms -> 1.780 ms | 1.085x
+json-records | 4.632 ms -> 4.294 ms | 1.079x
+csv-table | 5.683 ms -> 5.972 ms | 0.952x
+server-log-records | 6.672 ms -> 6.474 ms | 1.031x
+
+Reuse parallel: dataset | baseline -> current | old/current
+image-rgba8-raster | 2.862 ms -> 2.748 ms | 1.041x
+image-png-stored-deflate | 2.508 ms -> 2.562 ms | 0.979x
+image-png-compressed-deflate | 1.182 ms -> 1.225 ms | 0.965x
+graphics-shader-machine-words-synthetic | 204.04 us -> 207.70 us | 0.982x
+graphics-wgsl-source | 55.82 us -> 53.35 us | 1.046x
+ai-model-int8-tensor-synthetic | 2.607 ms -> 2.585 ms | 1.009x
+native-executable-binary | 45.892 ms -> 46.580 ms | 0.985x
+structured-binary-records | 2.183 ms -> 2.174 ms | 1.004x
+sparse-binary | 760.00 us -> 768.76 us | 0.989x
+random-binary-incompressible | 523.19 us -> 414.94 us | 1.261x
+repository-rust-source | 1.036 ms -> 1.025 ms | 1.011x
+repository-technical-prose | 278.19 us -> 297.46 us | 0.935x
+natural-style-prose-generated | 1.131 ms -> 1.103 ms | 1.026x
+json-records | 2.763 ms -> 2.638 ms | 1.047x
+csv-table | 3.340 ms -> 3.427 ms | 0.975x
+server-log-records | 3.630 ms -> 3.719 ms | 0.976x
+
+Decode medians: baseline -> fast-table build, with speedup (old/current).
+
+Hybrid decode: dataset | baseline -> current | speedup
+image-rgba8-raster | 2.642 ms -> 1.598 ms | 1.653x
+image-png-stored-deflate | 1.423 ms -> 1.376 ms | 1.035x
+image-png-compressed-deflate | 2.00 us -> 1.92 us | 1.042x
+graphics-shader-machine-words-synthetic | 365.65 us -> 356.10 us | 1.027x
+graphics-wgsl-source | 50.97 us -> 27.24 us | 1.871x
+ai-model-int8-tensor-synthetic | 1.618 ms -> 1.601 ms | 1.010x
+native-executable-binary | 35.266 ms -> 35.744 ms | 0.987x
+structured-binary-records | 1.063 ms -> 1.060 ms | 1.003x
+sparse-binary | 977.52 us -> 664.83 us | 1.470x
+random-binary-incompressible | 197.81 us -> 225.14 us | 0.879x
+repository-rust-source | 1.812 ms -> 891.07 us | 2.033x
+repository-technical-prose | 310.82 us -> 164.86 us | 1.885x
+natural-style-prose-generated | 1.692 ms -> 731.79 us | 2.312x
+json-records | 4.242 ms -> 2.224 ms | 1.907x
+csv-table | 7.976 ms -> 4.499 ms | 1.773x
+server-log-records | 7.524 ms -> 3.626 ms | 2.075x
+
+Parallel-form decode: dataset | baseline -> current | speedup
+image-rgba8-raster | 2.675 ms -> 1.599 ms | 1.673x
+image-png-stored-deflate | 1.365 ms -> 1.350 ms | 1.011x
+image-png-compressed-deflate | 2.09 us -> 1.91 us | 1.096x
+graphics-shader-machine-words-synthetic | 370.76 us -> 356.13 us | 1.041x
+graphics-wgsl-source | 51.94 us -> 27.01 us | 1.923x
+ai-model-int8-tensor-synthetic | 1.635 ms -> 1.690 ms | 0.967x
+native-executable-binary | 33.710 ms -> 35.091 ms | 0.961x
+structured-binary-records | 1.066 ms -> 1.056 ms | 1.009x
+sparse-binary | 1.011 ms -> 681.79 us | 1.483x
+random-binary-incompressible | 256.35 us -> 199.31 us | 1.286x
+repository-rust-source | 1.757 ms -> 872.59 us | 2.014x
+repository-technical-prose | 310.09 us -> 162.13 us | 1.913x
+natural-style-prose-generated | 1.783 ms -> 736.25 us | 2.422x
+json-records | 4.209 ms -> 2.230 ms | 1.888x
+csv-table | 7.671 ms -> 4.482 ms | 1.711x
+server-log-records | 7.305 ms -> 3.684 ms | 1.983x
+
+Fresh end-to-end RNBW roundtrip measurements (encode + decode; no prior roundtrip baseline in the baseline run): dataset | reuse serial | reuse parallel
+image-rgba8-raster | 7.766 ms | 4.779 ms
+image-png-stored-deflate | 4.128 ms | 4.285 ms
+image-png-compressed-deflate | 1.380 ms | 1.240 ms
+graphics-shader-machine-words-synthetic | 887.26 us | 550.93 us
+graphics-wgsl-source | 80.30 us | 83.91 us
+ai-model-int8-tensor-synthetic | 5.601 ms | 4.124 ms
+native-executable-binary | 97.793 ms | 80.633 ms
+structured-binary-records | 3.938 ms | 3.325 ms
+sparse-binary | 2.945 ms | 1.564 ms
+random-binary-incompressible | 892.04 us | 624.87 us
+repository-rust-source | 2.497 ms | 2.051 ms
+repository-technical-prose | 453.04 us | 475.23 us
+natural-style-prose-generated | 2.620 ms | 1.884 ms
+json-records | 6.964 ms | 4.918 ms
+csv-table | 10.556 ms | 8.100 ms
+server-log-records | 10.394 ms | 7.421 ms
+
+Validation: cargo test --offline --locked passed 52 tests, including deterministic codec mutation fuzzing and entropy/Huffman roundtrips; cargo clippy --offline --locked --all-targets -- -D warnings passed; cargo fmt --all -- --check passed; Criterion file bench asserts roundtrips before timing.
