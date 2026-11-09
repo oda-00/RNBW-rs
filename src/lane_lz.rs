@@ -1777,7 +1777,7 @@ mod tests {
             }
         }
         let mut scanlines = Vec::with_capacity(131_200);
-        for row in pixels.chunks_exact(1024).take(128) {
+        for row in pixels.as_chunks::<1024>().0.iter().take(128) {
             scanlines.push(0);
             scanlines.extend_from_slice(row);
         }

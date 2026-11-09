@@ -403,7 +403,7 @@ impl FieldLaneWorkspace {
             lane.clear();
             lane.reserve(records * 4);
         }
-        for record in input.chunks_exact(16) {
+        for record in input.as_chunks::<16>().0 {
             for (field, lane) in self.lanes.iter_mut().enumerate() {
                 lane.extend_from_slice(&record[field * 4..field * 4 + 4]);
             }

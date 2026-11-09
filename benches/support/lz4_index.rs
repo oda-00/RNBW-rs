@@ -187,7 +187,7 @@ impl Lz4Index {
             if !raw.len().is_multiple_of(4) {
                 return Err("LZ4 block has a partial key");
             }
-            for bytes in raw.chunks_exact(4) {
+            for bytes in raw.as_chunks::<4>().0 {
                 output.push(u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]]));
             }
         }
