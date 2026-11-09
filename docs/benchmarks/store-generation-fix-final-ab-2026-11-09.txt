@@ -1,0 +1,121 @@
+RNBW VarArena per-allocation generation: final A/B
+Date: 2026-11-09
+
+Before: `store-current-final-2026-11-09.txt`; after: `store-after-arena-generation-final-2026-11-09.txt`. Same host (AVX2), optimized Criterion build, 1M-key datasets, 10 samples, 100 ms warmup, 150 ms target with Criterion extending slow groups. Runs are sequential and unpaired; differences are directional, especially changes below a few percent.
+The correctness fix stores a per-allocation generation and live bit in the existing 8-byte VAR header; the handle remains `{generation:20,page:20,offset:24}`. It prevents stale-handle reuse without increasing allocated record bytes. The change also removes the redundant 8-byte generation field from each allocated page.
+
+Compared 95 of 95 timing groups. >3%: 16 faster, 48 slower. Median of per-group after/before ratios: +3.24%.
+
+| Benchmark | Before | After | Change |
+|---|---:|---:|---:|
+| store-build/clustered/rnbw-l2-p32 | 7.6042 ms | 8.2263 ms | +8.18% |
+| store-build/clustered/rnbw-l2-p64 | 7.1486 ms | 7.8878 ms | +10.34% |
+| store-build/clustered/rnbw-query-image | 25.368 ms | 24.948 ms | -1.66% |
+| store-build/dense/rnbw-l2-p32 | 1.7643 ms | 1.8386 ms | +4.21% |
+| store-build/dense/rnbw-l2-p64 | 1.6253 ms | 1.7681 ms | +8.79% |
+| store-build/dense/rnbw-query-image | 23.531 ms | 26.323 ms | +11.87% |
+| store-build/ecs/rnbw-l2-p32 | 3.0748 ms | 3.3414 ms | +8.67% |
+| store-build/ecs/rnbw-l2-p64 | 2.8522 ms | 3.1753 ms | +11.33% |
+| store-build/ecs/rnbw-query-image | 23.076 ms | 26.043 ms | +12.86% |
+| store-build/morton-shell/rnbw-l2-p32 | 24.783 ms | 24.261 ms | -2.11% |
+| store-build/morton-shell/rnbw-l2-p64 | 24.930 ms | 25.310 ms | +1.52% |
+| store-build/morton-shell/rnbw-query-image | 24.559 ms | 24.532 ms | -0.11% |
+| store-build/uniform/rnbw-l2-p32 | 47.738 ms | 49.013 ms | +2.67% |
+| store-build/uniform/rnbw-l2-p64 | 50.514 ms | 60.026 ms | +18.83% |
+| store-build/uniform/rnbw-query-image | 23.293 ms | 25.139 ms | +7.93% |
+| store-contains/clustered/l2-l3-p32/hits/1024 | 11.077 µs | 10.108 µs | -8.75% |
+| store-contains/clustered/l2-l3-p32/misses/1024 | 4.9820 µs | 4.6434 µs | -6.80% |
+| store-contains/clustered/l2-l3-p64/hits/1024 | 10.536 µs | 10.141 µs | -3.75% |
+| store-contains/clustered/l2-l3-p64/misses/1024 | 5.1451 µs | 4.6830 µs | -8.98% |
+| store-contains/clustered/l2-p32/hits/1024 | 10.221 µs | 10.312 µs | +0.89% |
+| store-contains/clustered/l2-p32/misses/1024 | 4.9280 µs | 5.2510 µs | +6.55% |
+| store-contains/clustered/l2-p64/hits/1024 | 9.6838 µs | 10.918 µs | +12.74% |
+| store-contains/clustered/l2-p64/misses/1024 | 4.6251 µs | 4.8657 µs | +5.20% |
+| store-contains/clustered/rnbw-image/hits | 465.07 µs | 500.60 µs | +7.64% |
+| store-contains/clustered/rnbw-image/misses | 57.130 µs | 54.477 µs | -4.64% |
+| store-contains/clustered/roaring/hits | 25.094 µs | 27.180 µs | +8.31% |
+| store-contains/clustered/roaring/misses | 21.664 µs | 21.416 µs | -1.14% |
+| store-contains/dense/l2-l3-p32/hits/1024 | 5.7448 µs | 6.5326 µs | +13.71% |
+| store-contains/dense/l2-l3-p32/misses/1024 | 2.9650 µs | 2.9182 µs | -1.58% |
+| store-contains/dense/l2-l3-p64/hits/1024 | 5.7951 µs | 7.7767 µs | +34.19% |
+| store-contains/dense/l2-l3-p64/misses/1024 | 3.1031 µs | 2.8506 µs | -8.14% |
+| store-contains/dense/l2-p32/hits/1024 | 6.3482 µs | 6.2683 µs | -1.26% |
+| store-contains/dense/l2-p32/misses/1024 | 3.2951 µs | 3.1246 µs | -5.17% |
+| store-contains/dense/l2-p64/hits/1024 | 5.7557 µs | 6.5136 µs | +13.17% |
+| store-contains/dense/l2-p64/misses/1024 | 3.0299 µs | 3.3077 µs | +9.17% |
+| store-contains/dense/rnbw-image/hits | 382.81 µs | 387.27 µs | +1.17% |
+| store-contains/dense/rnbw-image/misses | 16.411 µs | 16.516 µs | +0.64% |
+| store-contains/dense/roaring/hits | 4.8148 µs | 5.0599 µs | +5.09% |
+| store-contains/dense/roaring/misses | 2.6254 µs | 2.7422 µs | +4.45% |
+| store-contains/ecs/l2-l3-p32/hits/1024 | 7.0705 µs | 8.7345 µs | +23.53% |
+| store-contains/ecs/l2-l3-p32/misses/1024 | 3.1030 µs | 2.9155 µs | -6.04% |
+| store-contains/ecs/l2-l3-p64/hits/1024 | 7.0256 µs | 7.4408 µs | +5.91% |
+| store-contains/ecs/l2-l3-p64/misses/1024 | 3.1057 µs | 3.2134 µs | +3.47% |
+| store-contains/ecs/l2-p32/hits/1024 | 7.6534 µs | 7.3758 µs | -3.63% |
+| store-contains/ecs/l2-p32/misses/1024 | 3.0914 µs | 3.2230 µs | +4.26% |
+| store-contains/ecs/l2-p64/hits/1024 | 7.3176 µs | 7.4245 µs | +1.46% |
+| store-contains/ecs/l2-p64/misses/1024 | 3.3129 µs | 3.1553 µs | -4.76% |
+| store-contains/ecs/rnbw-image/hits | 463.95 µs | 375.66 µs | -19.03% |
+| store-contains/ecs/rnbw-image/misses | 16.484 µs | 17.806 µs | +8.02% |
+| store-contains/ecs/roaring/hits | 4.8612 µs | 4.9529 µs | +1.89% |
+| store-contains/ecs/roaring/misses | 3.4087 µs | 3.5637 µs | +4.55% |
+| store-contains/morton-shell/l2-l3-p32/hits/1024 | 187.07 µs | 190.56 µs | +1.87% |
+| store-contains/morton-shell/l2-l3-p32/misses/1024 | 9.3459 µs | 9.6608 µs | +3.37% |
+| store-contains/morton-shell/l2-l3-p64/hits/1024 | 188.04 µs | 188.93 µs | +0.47% |
+| store-contains/morton-shell/l2-l3-p64/misses/1024 | 8.9906 µs | 9.4081 µs | +4.64% |
+| store-contains/morton-shell/l2-p32/hits/1024 | 199.74 µs | 200.51 µs | +0.39% |
+| store-contains/morton-shell/l2-p32/misses/1024 | 8.7244 µs | 8.7654 µs | +0.47% |
+| store-contains/morton-shell/l2-p64/hits/1024 | 192.30 µs | 210.05 µs | +9.23% |
+| store-contains/morton-shell/l2-p64/misses/1024 | 9.4139 µs | 8.9578 µs | -4.84% |
+| store-contains/morton-shell/rnbw-image/hits | 368.82 µs | 400.87 µs | +8.69% |
+| store-contains/morton-shell/rnbw-image/misses | 41.583 µs | 41.792 µs | +0.50% |
+| store-contains/morton-shell/roaring/hits | 42.643 µs | 42.706 µs | +0.15% |
+| store-contains/morton-shell/roaring/misses | 13.046 µs | 13.637 µs | +4.53% |
+| store-contains/uniform/l2-l3-p32/hits/1024 | 48.608 µs | 50.185 µs | +3.24% |
+| store-contains/uniform/l2-l3-p32/misses/1024 | 41.875 µs | 41.760 µs | -0.27% |
+| store-contains/uniform/l2-l3-p64/hits/1024 | 42.991 µs | 44.616 µs | +3.78% |
+| store-contains/uniform/l2-l3-p64/misses/1024 | 39.749 µs | 38.816 µs | -2.35% |
+| store-contains/uniform/l2-p32/hits/1024 | 103.16 µs | 101.54 µs | -1.57% |
+| store-contains/uniform/l2-p32/misses/1024 | 96.986 µs | 96.703 µs | -0.29% |
+| store-contains/uniform/l2-p64/hits/1024 | 103.78 µs | 105.31 µs | +1.47% |
+| store-contains/uniform/l2-p64/misses/1024 | 99.280 µs | 103.37 µs | +4.12% |
+| store-contains/uniform/rnbw-image/hits | 130.77 µs | 130.87 µs | +0.08% |
+| store-contains/uniform/rnbw-image/misses | 99.260 µs | 93.333 µs | -5.97% |
+| store-contains/uniform/roaring/hits | 67.968 µs | 67.837 µs | -0.19% |
+| store-contains/uniform/roaring/misses | 65.810 µs | 67.689 µs | +2.86% |
+| store-decode/clustered/l2-l3-p32 | 1.5843 ms | 1.8422 ms | +16.28% |
+| store-decode/clustered/l2-l3-p64 | 1.4378 ms | 1.5535 ms | +8.05% |
+| store-decode/clustered/l2-p32 | 1.5274 ms | 1.6557 ms | +8.40% |
+| store-decode/clustered/l2-p64 | 1.4717 ms | 1.8203 ms | +23.69% |
+| store-decode/dense/l2-l3-p32 | 905.07 µs | 1.0577 ms | +16.86% |
+| store-decode/dense/l2-l3-p64 | 918.56 µs | 1.0334 ms | +12.50% |
+| store-decode/dense/l2-p32 | 903.52 µs | 909.31 µs | +0.64% |
+| store-decode/dense/l2-p64 | 1.0392 ms | 1.0424 ms | +0.31% |
+| store-decode/ecs/l2-l3-p32 | 1.9118 ms | 2.0931 ms | +9.48% |
+| store-decode/ecs/l2-l3-p64 | 1.9823 ms | 2.1193 ms | +6.91% |
+| store-decode/ecs/l2-p32 | 1.9890 ms | 1.9905 ms | +0.08% |
+| store-decode/ecs/l2-p64 | 1.8831 ms | 2.0810 ms | +10.51% |
+| store-decode/morton-shell/l2-l3-p32 | 30.238 ms | 28.616 ms | -5.36% |
+| store-decode/morton-shell/l2-l3-p64 | 31.018 ms | 29.665 ms | -4.36% |
+| store-decode/morton-shell/l2-p32 | 28.992 ms | 30.677 ms | +5.81% |
+| store-decode/morton-shell/l2-p64 | 29.216 ms | 30.328 ms | +3.81% |
+| store-decode/uniform/l2-l3-p32 | 35.207 ms | 34.022 ms | -3.37% |
+| store-decode/uniform/l2-l3-p64 | 35.100 ms | 38.029 ms | +8.34% |
+| store-decode/uniform/l2-p32 | 33.474 ms | 35.263 ms | +5.34% |
+| store-decode/uniform/l2-p64 | 36.178 ms | 36.761 ms | +1.61% |
+
+## Storage bytes per dataset/layout
+| Dataset | Layout | Keys | L2 bytes | L3 bytes | Total | Bits/key |
+|---|---|---:|---:|---:|---:|---:|
+| uniform | p32 | 999,882 | 4,287,720 | 2,097,152 | 6,384,872 | 51.085 |
+| uniform | p64 | 999,882 | 4,287,720 | 2,097,152 | 6,384,872 | 51.085 |
+| clustered | p32 | 1,000,000 | 354,120 | 0 | 354,120 | 2.833 |
+| clustered | p64 | 1,000,000 | 354,120 | 0 | 354,120 | 2.833 |
+| dense | p32 | 1,000,000 | 157,512 | 0 | 157,512 | 1.260 |
+| dense | p64 | 1,000,000 | 157,512 | 0 | 157,512 | 1.260 |
+| morton-shell | p32 | 1,000,000 | 2,387,176 | 2,097,152 | 4,484,328 | 35.875 |
+| morton-shell | p64 | 1,000,000 | 2,387,176 | 2,097,152 | 4,484,328 | 35.875 |
+| ecs | p32 | 1,000,000 | 297,544 | 0 | 297,544 | 2.380 |
+| ecs | p64 | 1,000,000 | 297,544 | 0 | 297,544 | 2.380 |
+
+Dedicated 50-sample dense L2 p32 hit-batch repeat after header packing and hot-path validation simplification: 6.59 µs for 1,024 probes (6.44 ns/probe), versus 6.35 µs in the pre-fix capture. The validation simplification improved the preceding 6.59 µs repeat by 1.2%, but the remaining baseline difference is +3.9%; it is not claimed as a speed win. See `store-dense-hit-arena-bounds-optimized-2026-11-09.txt` for the focused interval.

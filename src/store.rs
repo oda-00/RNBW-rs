@@ -14,6 +14,43 @@ const MAX_PAGE_BYTES: usize = 1 << 24;
 const ARENA_MIN_BLOCK_LOG2: usize = 3;
 const ARENA_SIZE_CLASSES: usize =
     MAX_PAGE_BYTES.trailing_zeros() as usize - ARENA_MIN_BLOCK_LOG2 + 1;
+const VAR_LEN_MASK: u64 = (1 << 24) - 1;
+const VAR_BLOCK_LOG_SHIFT: u32 = 24;
+const VAR_BLOCK_LOG_MASK: u64 = 0x1f;
+const VAR_GENERATION_SHIFT: u32 = 44;
+const VAR_GENERATION_MASK: u32 = (1 << 20) - 1;
+const VAR_HANDLE_GENERATION_MASK: u64 = (VAR_GENERATION_MASK as u64) << VAR_GENERATION_SHIFT;
+const VAR_LIVE_SHIFT: u32 = 43;
+const VAR_LIVE_MASK: u64 = 1 << VAR_LIVE_SHIFT;
+
+#[derive(Clone, Copy)]
+struct VarBlockHeader {
+    len: usize,
+    block_log2: usize,
+    generation: u32,
+    live: bool,
+}
+impl VarBlockHeader {
+    fn decode(raw: u64) -> Result<Self, StoreError> {
+        let block_class = ((raw >> VAR_BLOCK_LOG_SHIFT) & VAR_BLOCK_LOG_MASK) as usize;
+        if block_class >= ARENA_SIZE_CLASSES {
+            return Err(StoreError::InvalidRecord);
+        }
+        Ok(Self {
+            len: (raw & VAR_LEN_MASK) as usize,
+            block_log2: block_class + ARENA_MIN_BLOCK_LOG2,
+            generation: ((raw >> VAR_GENERATION_SHIFT) & u64::from(VAR_GENERATION_MASK)) as u32,
+            live: raw & (1 << VAR_LIVE_SHIFT) != 0,
+        })
+    }
+    fn encode(self) -> u64 {
+        // The 8-byte in-block header stores len:24, block_log2:5, generation:20, live:1.
+        (self.len as u64 & VAR_LEN_MASK)
+            | (((self.block_log2 - ARENA_MIN_BLOCK_LOG2) as u64) << VAR_BLOCK_LOG_SHIFT)
+            | (u64::from(self.generation) << VAR_GENERATION_SHIFT)
+            | (u64::from(self.live) << VAR_LIVE_SHIFT)
+    }
+}
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum PocketLayout {
@@ -76,14 +113,12 @@ impl Form {
 struct VarPage {
     words: Box<[u64]>,
     bump: usize,
-    generation: u32,
 }
 impl VarPage {
     fn new(bytes: usize) -> Self {
         Self {
             words: vec![0; bytes.div_ceil(8)].into_boxed_slice(),
             bump: 0,
-            generation: 1,
         }
     }
     fn len(&self) -> usize {
@@ -96,6 +131,34 @@ impl VarPage {
         let len = self.len();
         unsafe { std::slice::from_raw_parts_mut(self.words.as_mut_ptr().cast(), len) }
     }
+    #[inline]
+    fn header_raw(&self, offset: usize) -> Result<u64, StoreError> {
+        if offset & 7 != 0 {
+            return Err(StoreError::InvalidRecord);
+        }
+        let raw = *self
+            .words
+            .get(offset >> 3)
+            .ok_or(StoreError::InvalidRecord)?;
+        Ok(u64::from_le(raw))
+    }
+    #[inline]
+    fn set_header_raw(&mut self, offset: usize, raw: u64) -> Result<(), StoreError> {
+        if offset & 7 != 0 {
+            return Err(StoreError::InvalidRecord);
+        }
+        *self
+            .words
+            .get_mut(offset >> 3)
+            .ok_or(StoreError::InvalidRecord)? = raw.to_le();
+        Ok(())
+    }
+    fn header(&self, offset: usize) -> Result<VarBlockHeader, StoreError> {
+        VarBlockHeader::decode(self.header_raw(offset)?)
+    }
+    fn set_header(&mut self, offset: usize, header: VarBlockHeader) -> Result<(), StoreError> {
+        self.set_header_raw(offset, header.encode())
+    }
 }
 #[derive(Default)]
 struct VarArena {
@@ -107,9 +170,13 @@ struct VarArena {
 }
 impl VarArena {
     fn alloc(&mut self, record: &[u8]) -> Result<u64, StoreError> {
+        if record.len() as u64 > VAR_LEN_MASK {
+            return Err(StoreError::TooLarge);
+        }
         let need = (record.len().checked_add(8).ok_or(StoreError::TooLarge)?)
             .max(8)
-            .next_power_of_two();
+            .checked_next_power_of_two()
+            .ok_or(StoreError::TooLarge)?;
         if need > MAX_PAGE_BYTES {
             return Err(StoreError::TooLarge);
         }
@@ -117,82 +184,124 @@ impl VarArena {
             self.free.resize_with(ARENA_SIZE_CLASSES, Vec::new);
         }
         let min_class = need.trailing_zeros() as usize - ARENA_MIN_BLOCK_LOG2;
-        let reusable = self.free_mask & (u32::MAX << min_class);
-        let (page, off, block) = if reusable != 0 {
-            let mut class = reusable.trailing_zeros() as usize;
-            let (p, o) = self.free[class].pop().unwrap();
+        let reusable = loop {
+            let candidates = self.free_mask & (u32::MAX << min_class);
+            if candidates == 0 {
+                break None;
+            }
+            let class = candidates.trailing_zeros() as usize;
+            let (page, offset) = self.free[class].pop().ok_or(StoreError::InvalidRecord)?;
             if self.free[class].is_empty() {
                 self.free_mask &= !(1u32 << class);
             }
-            let mut block = 1usize << (class + ARENA_MIN_BLOCK_LOG2);
-            while block > need {
-                block >>= 1;
-                class -= 1;
-                self.free[class].push((p, o + block as u32));
-                self.free_mask |= 1u32 << class;
+            let header = self.pages[page as usize].header(offset as usize)?;
+            if header.live || header.block_log2 != class + ARENA_MIN_BLOCK_LOG2 {
+                return Err(StoreError::InvalidRecord);
             }
-            (p, o, need)
-        } else {
-            let p = if self
-                .pages
-                .last()
-                .is_some_and(|page| page.len() - page.bump >= need)
-            {
-                self.pages.len() - 1
-            } else {
-                if self.pages.len() >= 1 << 20 {
-                    return Err(StoreError::TooLarge);
-                }
-                let cap = PAGE_BYTES.max(need);
-                self.pages.push(VarPage::new(cap));
-                self.reserved_bytes += cap;
-                self.pages.len() - 1
-            };
-            let off = self.pages[p].bump;
-            self.pages[p].bump += need;
-            (p as u32, off as u32, need)
+            if header.generation == VAR_GENERATION_MASK {
+                continue;
+            }
+            break Some((page, offset, class, header.generation + 1));
         };
+        let (page, offset, block, generation) =
+            if let Some((page, offset, mut class, generation)) = reusable {
+                let mut block = 1usize << (class + ARENA_MIN_BLOCK_LOG2);
+                while block > need {
+                    block >>= 1;
+                    class -= 1;
+                    let sibling = offset as usize + block;
+                    self.pages[page as usize].set_header(
+                        sibling,
+                        VarBlockHeader {
+                            len: 0,
+                            block_log2: class + ARENA_MIN_BLOCK_LOG2,
+                            generation: 0,
+                            live: false,
+                        },
+                    )?;
+                    self.free[class].push((page, sibling as u32));
+                    self.free_mask |= 1u32 << class;
+                }
+                (page, offset, need, generation)
+            } else {
+                let p = if self
+                    .pages
+                    .last()
+                    .is_some_and(|page| page.len() - page.bump >= need)
+                {
+                    self.pages.len() - 1
+                } else {
+                    if self.pages.len() >= 1 << 20 {
+                        return Err(StoreError::TooLarge);
+                    }
+                    let cap = PAGE_BYTES.max(need);
+                    self.pages.push(VarPage::new(cap));
+                    self.reserved_bytes += cap;
+                    self.pages.len() - 1
+                };
+                let off = self.pages[p].bump;
+                self.pages[p].bump += need;
+                (p as u32, off as u32, need, 1)
+            };
         let p = &mut self.pages[page as usize];
-        let raw =
-            (u64::from(p.generation & 0xfffff) << 44) | (u64::from(page) << 24) | u64::from(off);
+        let raw = (u64::from(generation) << 44) | (u64::from(page) << 24) | u64::from(offset);
         let b = p.bytes_mut();
-        b[off as usize..off as usize + 4].copy_from_slice(&(block as u32).to_le_bytes());
-        b[off as usize + 4..off as usize + 8].copy_from_slice(&(record.len() as u32).to_le_bytes());
-        b[off as usize + 8..off as usize + 8 + record.len()].copy_from_slice(record);
+        b[offset as usize + 8..offset as usize + 8 + record.len()].copy_from_slice(record);
+        p.set_header(
+            offset as usize,
+            VarBlockHeader {
+                len: record.len(),
+                block_log2: block.trailing_zeros() as usize,
+                generation,
+                live: true,
+            },
+        )?;
         self.live_bytes += record.len() + 8;
         Ok(raw)
     }
-    fn parts(&self, h: u64) -> Result<(usize, usize, usize), StoreError> {
-        let generation = (h >> 44) as u32;
+    #[inline]
+    fn parts(&self, h: u64) -> Result<(usize, usize, u64), StoreError> {
+        let generation = h & VAR_HANDLE_GENERATION_MASK;
         let page = ((h >> 24) & 0xfffff) as usize;
         let off = (h & 0xffffff) as usize;
         let p = self.pages.get(page).ok_or(StoreError::InvalidRecord)?;
-        if p.generation & 0xfffff != generation {
+        if generation == 0 {
             return Err(StoreError::InvalidRecord);
         }
-        let b = p.bytes();
-        if off + 8 > b.len() {
+        let raw = p.header_raw(off)?;
+        let expected = generation | VAR_LIVE_MASK;
+        if raw & (VAR_HANDLE_GENERATION_MASK | VAR_LIVE_MASK) != expected {
             return Err(StoreError::InvalidRecord);
         }
-        let block = u32::from_le_bytes(b[off..off + 4].try_into().unwrap()) as usize;
-        let len = u32::from_le_bytes(b[off + 4..off + 8].try_into().unwrap()) as usize;
-        if off + 8 + len > b.len() || block < 8 + len {
+        let len = (raw & VAR_LEN_MASK) as usize;
+        if len > p.len() - off - 8 {
             return Err(StoreError::InvalidRecord);
         }
-        Ok((page, off, len))
+        Ok((page, off, raw))
     }
+    #[inline]
     fn get(&self, h: u64) -> Result<&[u8], StoreError> {
-        let (p, o, n) = self.parts(h)?;
-        Ok(&self.pages[p].bytes()[o + 8..o + 8 + n])
+        let (p, o, raw) = self.parts(h)?;
+        let len = (raw & VAR_LEN_MASK) as usize;
+        Ok(&self.pages[p].bytes()[o + 8..o + 8 + len])
     }
     fn retire(&mut self, h: u64) -> Result<(), StoreError> {
-        let (p, o, n) = self.parts(h)?;
-        let b = self.pages[p].bytes();
-        let block = u32::from_le_bytes(b[o..o + 4].try_into().unwrap()) as usize;
-        let class = block.trailing_zeros() as usize - ARENA_MIN_BLOCK_LOG2;
-        self.free[class].push((p as u32, o as u32));
+        let (page, offset, raw) = self.parts(h)?;
+        let block_class = ((raw >> VAR_BLOCK_LOG_SHIFT) & VAR_BLOCK_LOG_MASK) as usize;
+        if block_class >= ARENA_SIZE_CLASSES {
+            return Err(StoreError::InvalidRecord);
+        }
+        let block_log2 = block_class + ARENA_MIN_BLOCK_LOG2;
+        let block = 1usize << block_log2;
+        if offset + block > self.pages[page].len() {
+            return Err(StoreError::InvalidRecord);
+        }
+        let len = (raw & VAR_LEN_MASK) as usize;
+        self.pages[page].set_header_raw(offset, raw & !VAR_LIVE_MASK)?;
+        let class = block_log2 - ARENA_MIN_BLOCK_LOG2;
+        self.free[class].push((page as u32, offset as u32));
         self.free_mask |= 1u32 << class;
-        self.live_bytes -= n + 8;
+        self.live_bytes -= len + 8;
         Ok(())
     }
 }
@@ -277,8 +386,10 @@ impl BitmapArena {
             return Err(StoreError::InvalidRecord);
         }
         s.live = false;
-        s.generation = s.generation.wrapping_add(1).max(1);
-        self.free.push(index as u32);
+        if let Some(generation) = s.generation.checked_add(1) {
+            s.generation = generation;
+            self.free.push(index as u32);
+        }
         Ok(())
     }
 }
@@ -524,6 +635,8 @@ impl RnbwStore {
     }
     fn replace_group(&mut self, g: usize, chunks: &[Vec<u16>; 16]) -> Result<(), StoreError> {
         let old = self.group_handle(g);
+        let generation = (self.gen_table[g] >> 32) as u32;
+        let next_generation = generation.checked_add(1).ok_or(StoreError::TooLarge)?;
         let mut rec = vec![0u8; GROUP_HEADER];
         let mut forms = [Form::Empty; 16];
         let mut bitmap_new = Vec::new();
@@ -581,7 +694,17 @@ impl RnbwStore {
         }
         for i in 0..16 {
             if forms[i] == Form::Bitmap {
-                let slot = self.bitmaps.alloc(&chunks[i])?;
+                let slot = match self.bitmaps.alloc(&chunks[i]) {
+                    Ok(slot) => slot,
+                    Err(error) => {
+                        for slot in bitmap_new.drain(..) {
+                            self.bitmaps
+                                .retire(slot)
+                                .expect("new bitmap slot remains live during rollback");
+                        }
+                        return Err(error);
+                    }
+                };
                 bitmap_new.push(slot);
                 put_desc(&mut rec, i, Form::Bitmap, slot)?;
             }
@@ -599,9 +722,7 @@ impl RnbwStore {
                 }
             }
         };
-        let generation = (self.gen_table[g] >> 32) as u32;
-        let generation = generation.wrapping_add(1);
-        self.gen_table[g] = (u64::from(generation) << 32)
+        self.gen_table[g] = (u64::from(next_generation) << 32)
             | u64::from(if new.is_some() { g as u32 } else { ABSENT });
         self.group_handles[g] = new.unwrap_or(0);
         if let Some(h) = old {
@@ -1009,6 +1130,150 @@ fn contains64(b: &[u8], which: usize, x: u16) -> Result<bool, StoreError> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn var_arena_rejects_retired_handle_after_same_block_reuse() {
+        let mut arena = VarArena::default();
+        let stale = arena.alloc(b"old record").unwrap();
+        arena.retire(stale).unwrap();
+
+        let current = arena.alloc(b"new record").unwrap();
+        assert_eq!(stale & 0x00ff_ffff, current & 0x00ff_ffff);
+        assert_ne!(stale >> 44, current >> 44);
+        assert!(matches!(arena.get(stale), Err(StoreError::InvalidRecord)));
+        assert_eq!(arena.get(current).unwrap(), b"new record");
+        assert!(matches!(
+            arena.retire(stale),
+            Err(StoreError::InvalidRecord)
+        ));
+        assert_eq!(arena.live_bytes, b"new record".len() + 8);
+    }
+
+    #[test]
+    fn var_arena_split_blocks_get_independent_live_generations() {
+        let mut arena = VarArena::default();
+        let stale_large = arena.alloc(&[7; 40]).unwrap();
+        arena.retire(stale_large).unwrap();
+
+        let first = arena.alloc(&[1; 0]).unwrap();
+        let second = arena.alloc(&[2; 3]).unwrap();
+        let third = arena.alloc(&[3; 20]).unwrap();
+        assert_eq!(stale_large & 0x00ff_ffff, first & 0x00ff_ffff);
+        assert_ne!(first & 0x00ff_ffff, second & 0x00ff_ffff);
+        assert_ne!(second & 0x00ff_ffff, third & 0x00ff_ffff);
+        assert!(matches!(
+            arena.get(stale_large),
+            Err(StoreError::InvalidRecord)
+        ));
+        assert_eq!(arena.get(first).unwrap(), b"");
+        assert_eq!(arena.get(second).unwrap(), &[2; 3]);
+        assert_eq!(arena.get(third).unwrap(), &[3; 20]);
+    }
+
+    #[test]
+    fn var_arena_accepts_sequential_power_of_two_blocks_without_padding() {
+        let mut arena = VarArena::default();
+        let first = arena.alloc(&[1; 24]).unwrap();
+        let second = arena.alloc(&[2; 40]).unwrap();
+        assert_eq!(first & 0x00ff_ffff, 0);
+        assert_eq!(second & 0x00ff_ffff, 32);
+        assert_eq!(arena.get(first).unwrap(), &[1; 24]);
+        assert_eq!(arena.get(second).unwrap(), &[2; 40]);
+    }
+
+    #[test]
+    fn var_arena_retires_a_block_at_generation_exhaustion() {
+        let mut arena = VarArena::default();
+        let initial = arena.alloc(b"value").unwrap();
+        let (page, offset, raw) = arena.parts(initial).unwrap();
+        let mut header = VarBlockHeader::decode(raw).unwrap();
+        header.generation = VAR_GENERATION_MASK;
+        arena.pages[page].set_header(offset, header).unwrap();
+        let exhausted =
+            (initial & !(0x000f_ffff_u64 << 44)) | (u64::from(VAR_GENERATION_MASK) << 44);
+        arena.retire(exhausted).unwrap();
+
+        let replacement = arena.alloc(b"fresh").unwrap();
+        assert_ne!(replacement & 0x00ff_ffff, exhausted & 0x00ff_ffff);
+        assert!(matches!(
+            arena.get(exhausted),
+            Err(StoreError::InvalidRecord)
+        ));
+        assert_eq!(arena.get(replacement).unwrap(), b"fresh");
+    }
+
+    #[test]
+    fn deterministic_var_arena_mutation_fuzz_rejects_all_retired_handles() {
+        let mut arena = VarArena::default();
+        let mut live: Vec<(u64, Vec<u8>)> = Vec::new();
+        let mut retired = Vec::new();
+        let mut seed = 0x9e37_79b9_7f4a_7c15u64;
+
+        for step in 0..6000u32 {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            if live.is_empty() || (seed & 1 == 0 && live.len() < 64) {
+                let len = (seed as usize) & 0x1fff;
+                let value = vec![step as u8 ^ (seed >> 32) as u8; len];
+                let handle = arena.alloc(&value).unwrap();
+                live.push((handle, value));
+            } else {
+                let index = (seed as usize) % live.len();
+                let (handle, _) = live.swap_remove(index);
+                arena.retire(handle).unwrap();
+                retired.push(handle);
+            }
+
+            if step % 127 == 0 {
+                for (handle, value) in &live {
+                    assert_eq!(arena.get(*handle).unwrap(), value);
+                }
+                for &handle in retired.iter().rev().take(256) {
+                    assert!(matches!(arena.get(handle), Err(StoreError::InvalidRecord)));
+                }
+            }
+        }
+
+        for (handle, value) in &live {
+            assert_eq!(arena.get(*handle).unwrap(), value);
+        }
+        for handle in retired {
+            assert!(matches!(arena.get(handle), Err(StoreError::InvalidRecord)));
+        }
+    }
+
+    #[test]
+    fn bitmap_arena_does_not_wrap_an_exhausted_generation() {
+        let mut arena = BitmapArena::default();
+        let first = arena.alloc(&[1, 5, 9]).unwrap();
+        let slot = &mut arena.slots[first as usize];
+        slot.generation = u32::MAX;
+        arena.handles[first as usize] = (u64::from(u32::MAX) << 32) | u64::from(first);
+        arena.retire(first).unwrap();
+        assert!(!arena.free.contains(&(first as u32)));
+
+        let next = arena.alloc(&[2, 6, 10]).unwrap();
+        assert_ne!(next, first);
+        assert!(arena.contains(next, 2).unwrap());
+    }
+
+    #[test]
+    fn group_generation_exhaustion_leaves_the_group_unchanged() {
+        let mut store = RnbwStore::new(PocketLayout::PerChunk32).unwrap();
+        let exhausted = (u64::from(u32::MAX) << 32) | u64::from(ABSENT);
+        store.gen_table[0] = exhausted;
+        let chunks: [Vec<u16>; 16] = std::array::from_fn(|_| Vec::new());
+
+        assert!(matches!(
+            store.replace_group(0, &chunks),
+            Err(StoreError::TooLarge)
+        ));
+        assert_eq!(store.gen_table[0], exhausted);
+        assert_eq!(store.arena.live_bytes, 0);
+        assert_eq!(store.group_handles[0], 0);
+    }
+
     #[test]
     fn l2_forms_and_update_roundtrip() {
         let mut v = vec![
