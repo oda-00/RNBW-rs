@@ -1,0 +1,165 @@
+Capture: codec-histogram-full-candidate-2026-11-09.txt
+SHA256: bcb660d77d569ba4e215bef12181d0936220f21bf9f6285bb4e1f568241a2bc3
+Times are Criterion center estimates and reported intervals, converted to ns.
+Full-call time includes production allocations/destruction where the kernel returns owned output; reuse cases retain scratch capacity.
+Forced LZ/rANS/Huffman kernels may be skipped by the real hybrid selection. Do not sum independent stages or treat a forced-path win as an end-to-end win.
+Stage entropy denominators are actual token-stream bytes; file denominators are raw bytes; model and sampling calls use lane count.
+Compared with: codec-histogram-full-baseline-2026-11-09.txt
+Interval separation describes these captures only; it is not a paired statistical significance test.
+
+| Path | Full call low / center / high (ns) | Unit count | Normalized low / center / high (ns/unit) | Candidate/baseline | Interval comparison |
+|---|---:|---:|---:|---:|---|
+| `file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-one-shot` | 6232700.000 / 6332600.000 / 6437400.000 | 524288 raw-byte | 11.887932 / 12.078476 / 12.278366 | 1.0317 | overlap |
+| `file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-serial` | 6765900.000 / 7978100.000 / 9351100.000 | 524288 raw-byte | 12.904930 / 15.217018 / 17.835808 | 1.4364 | slower intervals |
+| `file-encode/image-rgba8-raster/rnbw-hybrid-lz-entropy-reuse-parallel` | 2602600.000 / 2622000.000 / 2644600.000 | 524288 raw-byte | 4.964066 / 5.001068 / 5.044174 | 0.9669 | faster intervals |
+| `file-encode/image-rgba8-raster/lz4-fast-encode` | 170480.000 / 174770.000 / 184110.000 | 524288 raw-byte | 0.325165 / 0.333347 / 0.351162 | 0.8337 | faster intervals |
+| `file-encode/image-rgba8-raster/snappy-encode` | 30163.000 / 31176.000 / 32399.000 | 524288 raw-byte | 0.057531 / 0.059464 / 0.061796 | 1.0482 | slower intervals |
+| `file-encode/image-rgba8-raster/zstd-level-1-encode` | 885530.000 / 893460.000 / 904460.000 | 524288 raw-byte | 1.689014 / 1.704140 / 1.725121 | 0.9991 | overlap |
+| `file-encode/image-rgba8-raster/raw-copy-control` | 10759.000 / 10956.000 / 11252.000 | 524288 raw-byte | 0.020521 / 0.020897 / 0.021461 | 0.9411 | overlap |
+| `file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy` | 1718100.000 / 1762700.000 / 1833100.000 | 524288 raw-byte | 3.277016 / 3.362083 / 3.496361 | 0.9977 | overlap |
+| `file-decode/image-rgba8-raster/lz4-fast-decode` | 20813.000 / 20928.000 / 21053.000 | 524288 raw-byte | 0.039698 / 0.039917 / 0.040155 | 0.9569 | faster intervals |
+| `file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-one-shot` | 3149100.000 / 3198900.000 / 3252700.000 | 131278 raw-byte | 23.988025 / 24.367373 / 24.777190 | 1.0255 | overlap |
+| `file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-serial` | 2730900.000 / 2759700.000 / 2800000.000 | 131278 raw-byte | 20.802419 / 21.021801 / 21.328783 | 1.0115 | overlap |
+| `file-encode/image-png-stored-deflate/rnbw-hybrid-lz-entropy-reuse-parallel` | 3002700.000 / 3166100.000 / 3338900.000 | 131278 raw-byte | 22.872835 / 24.117522 / 25.433812 | 1.1345 | slower intervals |
+| `file-encode/image-png-stored-deflate/lz4-fast-encode` | 67644.000 / 69064.000 / 70794.000 | 131278 raw-byte | 0.515273 / 0.526090 / 0.539268 | 1.0111 | overlap |
+| `file-encode/image-png-stored-deflate/snappy-encode` | 7573.200 / 8148.300 / 8521.800 | 131278 raw-byte | 0.057688 / 0.062069 / 0.064914 | 0.9954 | overlap |
+| `file-encode/image-png-stored-deflate/zstd-level-1-encode` | 123280.000 / 125070.000 / 127300.000 | 131278 raw-byte | 0.939076 / 0.952711 / 0.969698 | 1.0478 | slower intervals |
+| `file-encode/image-png-stored-deflate/raw-copy-control` | 2490.300 / 2647.500 / 2909.500 | 131278 raw-byte | 0.018970 / 0.020167 / 0.022163 | 1.0296 | overlap |
+| `file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy` | 1365500.000 / 1374000.000 / 1383600.000 | 131278 raw-byte | 10.401591 / 10.466339 / 10.539466 | 0.9996 | overlap |
+| `file-decode/image-png-stored-deflate/lz4-fast-decode` | 6673.000 / 6782.700 / 6872.600 | 131278 raw-byte | 0.050831 / 0.051667 / 0.052351 | 0.9569 | faster intervals |
+| `file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-one-shot` | 5830.800 / 5861.600 / 5890.200 | 89883 raw-byte | 0.064871 / 0.065214 / 0.065532 | 0.8906 | faster intervals |
+| `file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-serial` | 26901.000 / 27084.000 / 27439.000 | 89883 raw-byte | 0.299289 / 0.301325 / 0.305275 | 4.5774 | slower intervals |
+| `file-encode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy-reuse-parallel` | 5525.800 / 5576.000 / 5626.000 | 89883 raw-byte | 0.061478 / 0.062036 / 0.062592 | 0.8531 | faster intervals |
+| `file-encode/image-png-compressed-deflate/lz4-fast-encode` | 7496.000 / 7526.300 / 7565.400 | 89883 raw-byte | 0.083397 / 0.083734 / 0.084169 | 1.0686 | slower intervals |
+| `file-encode/image-png-compressed-deflate/snappy-encode` | 4973.100 / 5013.300 / 5059.800 | 89883 raw-byte | 0.055329 / 0.055776 / 0.056293 | 0.8900 | faster intervals |
+| `file-encode/image-png-compressed-deflate/zstd-level-1-encode` | 77770.000 / 78885.000 / 80030.000 | 89883 raw-byte | 0.865236 / 0.877641 / 0.890380 | 0.9805 | overlap |
+| `file-encode/image-png-compressed-deflate/raw-copy-control` | 1742.200 / 1760.500 / 1780.700 | 89883 raw-byte | 0.019383 / 0.019587 / 0.019811 | 0.9881 | overlap |
+| `file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy` | 1840.600 / 1849.500 / 1859.900 | 89883 raw-byte | 0.020478 / 0.020577 / 0.020692 | 0.9869 | overlap |
+| `file-decode/image-png-compressed-deflate/lz4-fast-decode` | 3367.100 / 3426.000 / 3517.400 | 89883 raw-byte | 0.037461 / 0.038116 / 0.039133 | 0.9628 | faster intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot` | 105800.000 / 106740.000 / 107560.000 | 262144 raw-byte | 0.403595 / 0.407181 / 0.410309 | 1.0643 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial` | 94502.000 / 95464.000 / 96475.000 | 262144 raw-byte | 0.360497 / 0.364166 / 0.368023 | 1.0600 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel` | 105110.000 / 105920.000 / 106780.000 | 262144 raw-byte | 0.400963 / 0.404053 / 0.407333 | 1.0235 | overlap |
+| `file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode` | 17072.000 / 17504.000 / 18248.000 | 262144 raw-byte | 0.065125 / 0.066772 / 0.069611 | 0.7680 | faster intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/snappy-encode` | 17804.000 / 18345.000 / 19251.000 | 262144 raw-byte | 0.067917 / 0.069981 / 0.073437 | 1.0266 | overlap |
+| `file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode` | 32808.000 / 32970.000 / 33158.000 | 262144 raw-byte | 0.125153 / 0.125771 / 0.126488 | 1.0406 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/raw-copy-control` | 5175.700 / 5216.300 / 5261.100 | 262144 raw-byte | 0.019744 / 0.019899 / 0.020070 | 0.9277 | faster intervals |
+| `file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy` | 364470.000 / 366110.000 / 368410.000 | 262144 raw-byte | 1.390343 / 1.396599 / 1.405373 | 1.0347 | slower intervals |
+| `file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode` | 12242.000 / 12406.000 / 12595.000 | 262144 raw-byte | 0.046700 / 0.047325 / 0.048046 | 1.2858 | slower intervals |
+| `file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-one-shot` | 52753.000 / 53258.000 / 53842.000 | 8267 raw-byte | 6.381154 / 6.442240 / 6.512883 | 0.9169 | faster intervals |
+| `file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-serial` | 51224.000 / 51986.000 / 53254.000 | 8267 raw-byte | 6.196202 / 6.288375 / 6.441756 | 0.9347 | faster intervals |
+| `file-encode/graphics-wgsl-source/rnbw-hybrid-lz-entropy-reuse-parallel` | 52373.000 / 52901.000 / 53357.000 | 8267 raw-byte | 6.335188 / 6.399056 / 6.454216 | 1.0309 | slower intervals |
+| `file-encode/graphics-wgsl-source/lz4-fast-encode` | 6953.800 / 7012.200 / 7105.600 | 8267 raw-byte | 0.841152 / 0.848216 / 0.859514 | 0.9845 | overlap |
+| `file-encode/graphics-wgsl-source/snappy-encode` | 6734.000 / 6771.700 / 6820.500 | 8267 raw-byte | 0.814564 / 0.819124 / 0.825027 | 1.0043 | overlap |
+| `file-encode/graphics-wgsl-source/zstd-level-1-encode` | 20694.000 / 20776.000 / 20859.000 | 8267 raw-byte | 2.503206 / 2.513124 / 2.523164 | 0.9607 | faster intervals |
+| `file-encode/graphics-wgsl-source/raw-copy-control` | 130.320 / 133.890 / 138.360 | 8267 raw-byte | 0.015764 / 0.016196 / 0.016736 | 0.8996 | faster intervals |
+| `file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy` | 27503.000 / 27664.000 / 27804.000 | 8267 raw-byte | 3.326842 / 3.346317 / 3.363251 | 1.0115 | overlap |
+| `file-decode/graphics-wgsl-source/lz4-fast-decode` | 2809.600 / 2819.700 / 2827.400 | 8267 raw-byte | 0.339857 / 0.341079 / 0.342010 | 0.9731 | faster intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot` | 2667300.000 / 2740600.000 / 2794700.000 | 1048576 raw-byte | 2.543736 / 2.613640 / 2.665234 | 1.0088 | overlap |
+| `file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial` | 2740400.000 / 2762700.000 / 2790200.000 | 1048576 raw-byte | 2.613449 / 2.634716 / 2.660942 | 1.0196 | slower intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel` | 2288000.000 / 2359800.000 / 2426000.000 | 1048576 raw-byte | 2.182007 / 2.250481 / 2.313614 | 1.0285 | overlap |
+| `file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode` | 115160.000 / 116520.000 / 118150.000 | 1048576 raw-byte | 0.109825 / 0.111122 / 0.112677 | 0.9259 | faster intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/snappy-encode` | 134720.000 / 138300.000 / 142060.000 | 1048576 raw-byte | 0.128479 / 0.131893 / 0.135479 | 0.9491 | faster intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode` | 109890.000 / 111730.000 / 113590.000 | 1048576 raw-byte | 0.104799 / 0.106554 / 0.108328 | 1.2012 | slower intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/raw-copy-control` | 208070.000 / 214400.000 / 222160.000 | 1048576 raw-byte | 0.198431 / 0.204468 / 0.211868 | 0.8636 | faster intervals |
+| `file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy` | 1584400.000 / 1611700.000 / 1642300.000 | 1048576 raw-byte | 1.511002 / 1.537037 / 1.566219 | 0.9896 | overlap |
+| `file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode` | 239830.000 / 252220.000 / 269250.000 | 1048576 raw-byte | 0.228720 / 0.240536 / 0.256777 | 0.9979 | overlap |
+| `file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-one-shot` | 62138000.000 / 63502000.000 / 65089000.000 | 5437440 raw-byte | 11.427804 / 11.678658 / 11.970523 | 0.9649 | overlap |
+| `file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-serial` | 59618000.000 / 60468000.000 / 61629000.000 | 5437440 raw-byte | 10.964351 / 11.120674 / 11.334194 | 0.9390 | faster intervals |
+| `file-encode/native-executable-binary/rnbw-hybrid-lz-entropy-reuse-parallel` | 48150000.000 / 50634000.000 / 53513000.000 | 5437440 raw-byte | 8.855270 / 9.312103 / 9.841580 | 0.9905 | overlap |
+| `file-encode/native-executable-binary/lz4-fast-encode` | 8331000.000 / 8420800.000 / 8533200.000 | 5437440 raw-byte | 1.532155 / 1.548670 / 1.569341 | 1.0436 | slower intervals |
+| `file-encode/native-executable-binary/snappy-encode` | 7749900.000 / 7800100.000 / 7847600.000 | 5437440 raw-byte | 1.425285 / 1.434517 / 1.443253 | 0.9351 | faster intervals |
+| `file-encode/native-executable-binary/zstd-level-1-encode` | 11864000.000 / 12387000.000 / 13135000.000 | 5437440 raw-byte | 2.181909 / 2.278094 / 2.415659 | 1.0199 | overlap |
+| `file-encode/native-executable-binary/raw-copy-control` | 678020.000 / 778140.000 / 879410.000 | 5437440 raw-byte | 0.124695 / 0.143108 / 0.161732 | 0.9172 | overlap |
+| `file-decode/native-executable-binary/rnbw-hybrid-lz-entropy` | 34912000.000 / 35154000.000 / 35407000.000 | 5437440 raw-byte | 6.420669 / 6.465175 / 6.511704 | 0.9734 | faster intervals |
+| `file-decode/native-executable-binary/lz4-fast-decode` | 2327000.000 / 2406400.000 / 2508700.000 | 5437440 raw-byte | 0.427959 / 0.442561 / 0.461375 | 1.0124 | overlap |
+| `file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-one-shot` | 2326900.000 / 2444300.000 / 2596700.000 | 524288 raw-byte | 4.438210 / 4.662132 / 4.952812 | 0.9089 | faster intervals |
+| `file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-serial` | 1961300.000 / 1999600.000 / 2036300.000 | 524288 raw-byte | 3.740883 / 3.813934 / 3.883934 | 0.8889 | faster intervals |
+| `file-encode/structured-binary-records/rnbw-hybrid-lz-entropy-reuse-parallel` | 1993900.000 / 2025200.000 / 2057800.000 | 524288 raw-byte | 3.803062 / 3.862762 / 3.924942 | 0.9314 | faster intervals |
+| `file-encode/structured-binary-records/lz4-fast-encode` | 715370.000 / 731860.000 / 749900.000 | 524288 raw-byte | 1.364460 / 1.395912 / 1.430321 | 0.9964 | overlap |
+| `file-encode/structured-binary-records/snappy-encode` | 454760.000 / 460270.000 / 467960.000 | 524288 raw-byte | 0.867386 / 0.877895 / 0.892563 | 0.9355 | faster intervals |
+| `file-encode/structured-binary-records/zstd-level-1-encode` | 1436800.000 / 1476600.000 / 1516000.000 | 524288 raw-byte | 2.740479 / 2.816391 / 2.891541 | 1.0348 | overlap |
+| `file-encode/structured-binary-records/raw-copy-control` | 11925.000 / 12207.000 / 12509.000 | 524288 raw-byte | 0.022745 / 0.023283 / 0.023859 | 1.0094 | overlap |
+| `file-decode/structured-binary-records/rnbw-hybrid-lz-entropy` | 1048900.000 / 1057800.000 / 1068900.000 | 524288 raw-byte | 2.000618 / 2.017593 / 2.038765 | 0.9820 | overlap |
+| `file-decode/structured-binary-records/lz4-fast-decode` | 202020.000 / 202740.000 / 203550.000 | 524288 raw-byte | 0.385323 / 0.386696 / 0.388241 | 1.0068 | overlap |
+| `file-encode/sparse-binary/rnbw-hybrid-lz-entropy-one-shot` | 965460.000 / 990770.000 / 1024300.000 | 1048576 raw-byte | 0.920734 / 0.944872 / 0.976849 | 0.9380 | overlap |
+| `file-encode/sparse-binary/rnbw-hybrid-lz-entropy-reuse-serial` | 563840.000 / 576690.000 / 594710.000 | 1048576 raw-byte | 0.537720 / 0.549974 / 0.567160 | 0.9619 | overlap |
+| `file-encode/sparse-binary/rnbw-hybrid-lz-entropy-reuse-parallel` | 593300.000 / 621760.000 / 654390.000 | 1048576 raw-byte | 0.565815 / 0.592957 / 0.624075 | 1.1096 | slower intervals |
+| `file-encode/sparse-binary/lz4-fast-encode` | 123210.000 / 126550.000 / 131550.000 | 1048576 raw-byte | 0.117502 / 0.120687 / 0.125456 | 0.8983 | faster intervals |
+| `file-encode/sparse-binary/snappy-encode` | 123610.000 / 127160.000 / 131790.000 | 1048576 raw-byte | 0.117884 / 0.121269 / 0.125685 | 1.0242 | overlap |
+| `file-encode/sparse-binary/zstd-level-1-encode` | 309440.000 / 313630.000 / 319010.000 | 1048576 raw-byte | 0.295105 / 0.299101 / 0.304232 | 1.0988 | slower intervals |
+| `file-encode/sparse-binary/raw-copy-control` | 242120.000 / 251320.000 / 265220.000 | 1048576 raw-byte | 0.230904 / 0.239677 / 0.252934 | 1.1153 | overlap |
+| `file-decode/sparse-binary/rnbw-hybrid-lz-entropy` | 650930.000 / 658550.000 / 668270.000 | 1048576 raw-byte | 0.620775 / 0.628042 / 0.637312 | 0.9536 | faster intervals |
+| `file-decode/sparse-binary/lz4-fast-decode` | 496000.000 / 508070.000 / 518890.000 | 1048576 raw-byte | 0.473022 / 0.484533 / 0.494852 | 0.9444 | faster intervals |
+| `file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-one-shot` | 222340.000 / 228270.000 / 235480.000 | 1048576 raw-byte | 0.212040 / 0.217695 / 0.224571 | 1.1567 | slower intervals |
+| `file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-serial` | 208500.000 / 216990.000 / 227090.000 | 1048576 raw-byte | 0.198841 / 0.206938 / 0.216570 | 1.0247 | overlap |
+| `file-encode/random-binary-incompressible/rnbw-hybrid-lz-entropy-reuse-parallel` | 232690.000 / 249410.000 / 269330.000 | 1048576 raw-byte | 0.221910 / 0.237856 / 0.256853 | 1.0757 | overlap |
+| `file-encode/random-binary-incompressible/lz4-fast-encode` | 435420.000 / 440910.000 / 446840.000 | 1048576 raw-byte | 0.415249 / 0.420485 / 0.426140 | 1.0189 | overlap |
+| `file-encode/random-binary-incompressible/snappy-encode` | 358480.000 / 362630.000 / 368540.000 | 1048576 raw-byte | 0.341873 / 0.345831 / 0.351467 | 1.0341 | overlap |
+| `file-encode/random-binary-incompressible/zstd-level-1-encode` | 552100.000 / 582520.000 / 639440.000 | 1048576 raw-byte | 0.526524 / 0.555534 / 0.609818 | 1.0647 | overlap |
+| `file-encode/random-binary-incompressible/raw-copy-control` | 221110.000 / 245230.000 / 262770.000 | 1048576 raw-byte | 0.210867 / 0.233870 / 0.250597 | 1.1003 | overlap |
+| `file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy` | 219830.000 / 230250.000 / 244150.000 | 1048576 raw-byte | 0.209646 / 0.219584 / 0.232840 | 1.1716 | slower intervals |
+| `file-decode/random-binary-incompressible/lz4-fast-decode` | 198070.000 / 202350.000 / 207580.000 | 1048576 raw-byte | 0.188894 / 0.192976 / 0.197964 | 1.0375 | overlap |
+| `file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-one-shot` | 2082300.000 / 2366600.000 / 2712200.000 | 275729 raw-byte | 7.551980 / 8.583065 / 9.836470 | 0.9051 | overlap |
+| `file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-serial` | 1577400.000 / 1604300.000 / 1636500.000 | 275729 raw-byte | 5.720835 / 5.818394 / 5.935175 | 0.9640 | faster intervals |
+| `file-encode/repository-rust-source/rnbw-hybrid-lz-entropy-reuse-parallel` | 1016500.000 / 1027800.000 / 1044400.000 | 275729 raw-byte | 3.686591 / 3.727573 / 3.787777 | 0.9687 | overlap |
+| `file-encode/repository-rust-source/lz4-fast-encode` | 410230.000 / 415310.000 / 423940.000 | 275729 raw-byte | 1.487801 / 1.506225 / 1.537524 | 0.9222 | faster intervals |
+| `file-encode/repository-rust-source/snappy-encode` | 363480.000 / 365460.000 / 367650.000 | 275729 raw-byte | 1.318251 / 1.325432 / 1.333374 | 0.9920 | overlap |
+| `file-encode/repository-rust-source/zstd-level-1-encode` | 672970.000 / 676640.000 / 681640.000 | 275729 raw-byte | 2.440694 / 2.454004 / 2.472137 | 1.0569 | slower intervals |
+| `file-encode/repository-rust-source/raw-copy-control` | 6250.500 / 6292.100 / 6325.900 | 275729 raw-byte | 0.022669 / 0.022820 / 0.022942 | 0.8986 | faster intervals |
+| `file-decode/repository-rust-source/rnbw-hybrid-lz-entropy` | 869730.000 / 886820.000 / 900030.000 | 275729 raw-byte | 3.154293 / 3.216274 / 3.264183 | 0.9846 | overlap |
+| `file-decode/repository-rust-source/lz4-fast-decode` | 90750.000 / 92949.000 / 94784.000 | 275729 raw-byte | 0.329128 / 0.337103 / 0.343758 | 0.9921 | overlap |
+| `file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-one-shot` | 267490.000 / 268330.000 / 269300.000 | 26666 raw-byte | 10.031126 / 10.062627 / 10.099002 | 0.9331 | faster intervals |
+| `file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-serial` | 268570.000 / 270840.000 / 273560.000 | 26666 raw-byte | 10.071627 / 10.156754 / 10.258756 | 0.9668 | faster intervals |
+| `file-encode/repository-technical-prose/rnbw-hybrid-lz-entropy-reuse-parallel` | 283170.000 / 285930.000 / 288260.000 | 26666 raw-byte | 10.619140 / 10.722643 / 10.810020 | 0.9910 | overlap |
+| `file-encode/repository-technical-prose/lz4-fast-encode` | 32918.000 / 33027.000 / 33123.000 | 26666 raw-byte | 1.234456 / 1.238543 / 1.242144 | 1.0638 | slower intervals |
+| `file-encode/repository-technical-prose/snappy-encode` | 27054.000 / 27733.000 / 28489.000 | 26666 raw-byte | 1.014550 / 1.040014 / 1.068364 | 0.9845 | overlap |
+| `file-encode/repository-technical-prose/zstd-level-1-encode` | 67309.000 / 67565.000 / 67833.000 | 26666 raw-byte | 2.524151 / 2.533751 / 2.543801 | 0.9355 | faster intervals |
+| `file-encode/repository-technical-prose/raw-copy-control` | 694.910 / 698.750 / 703.620 | 26666 raw-byte | 0.026060 / 0.026204 / 0.026386 | 1.1408 | slower intervals |
+| `file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy` | 164050.000 / 164660.000 / 165520.000 | 26666 raw-byte | 6.152029 / 6.174904 / 6.207155 | 0.9593 | faster intervals |
+| `file-decode/repository-technical-prose/lz4-fast-decode` | 11481.000 / 11738.000 / 11939.000 | 26666 raw-byte | 0.430548 / 0.440186 / 0.447724 | 1.0532 | slower intervals |
+| `file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-one-shot` | 2546400.000 / 2653200.000 / 2782300.000 | 586022 raw-byte | 4.345229 / 4.527475 / 4.747774 | 1.1159 | slower intervals |
+| `file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-serial` | 1971100.000 / 1979600.000 / 1988700.000 | 586022 raw-byte | 3.363526 / 3.378030 / 3.393559 | 1.0106 | overlap |
+| `file-encode/natural-style-prose-generated/rnbw-hybrid-lz-entropy-reuse-parallel` | 1031500.000 / 1044800.000 / 1057900.000 | 586022 raw-byte | 1.760173 / 1.782868 / 1.805222 | 0.8845 | faster intervals |
+| `file-encode/natural-style-prose-generated/lz4-fast-encode` | 302850.000 / 305880.000 / 310250.000 | 586022 raw-byte | 0.516789 / 0.521960 / 0.529417 | 1.0192 | overlap |
+| `file-encode/natural-style-prose-generated/snappy-encode` | 320600.000 / 323540.000 / 328570.000 | 586022 raw-byte | 0.547078 / 0.552095 / 0.560679 | 1.0262 | slower intervals |
+| `file-encode/natural-style-prose-generated/zstd-level-1-encode` | 547640.000 / 557080.000 / 564700.000 | 586022 raw-byte | 0.934504 / 0.950613 / 0.963616 | 0.9734 | overlap |
+| `file-encode/natural-style-prose-generated/raw-copy-control` | 12656.000 / 12727.000 / 12808.000 | 586022 raw-byte | 0.021596 / 0.021718 / 0.021856 | 0.9011 | faster intervals |
+| `file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy` | 746800.000 / 750130.000 / 754270.000 | 586022 raw-byte | 1.274355 / 1.280037 / 1.287102 | 1.0339 | slower intervals |
+| `file-decode/natural-style-prose-generated/lz4-fast-decode` | 135090.000 / 136570.000 / 138150.000 | 586022 raw-byte | 0.230520 / 0.233046 / 0.235742 | 0.9742 | faster intervals |
+| `file-encode/json-records/rnbw-hybrid-lz-entropy-one-shot` | 5531000.000 / 5580200.000 / 5631800.000 | 1209516 raw-byte | 4.572904 / 4.613581 / 4.656243 | 0.9609 | overlap |
+| `file-encode/json-records/rnbw-hybrid-lz-entropy-reuse-serial` | 4852400.000 / 4873300.000 / 4899400.000 | 1209516 raw-byte | 4.011853 / 4.029132 / 4.050711 | 0.9517 | faster intervals |
+| `file-encode/json-records/rnbw-hybrid-lz-entropy-reuse-parallel` | 2525500.000 / 2580300.000 / 2641300.000 | 1209516 raw-byte | 2.088025 / 2.133333 / 2.183766 | 0.8988 | faster intervals |
+| `file-encode/json-records/lz4-fast-encode` | 1090700.000 / 1106500.000 / 1122700.000 | 1209516 raw-byte | 0.901766 / 0.914829 / 0.928223 | 0.9960 | overlap |
+| `file-encode/json-records/snappy-encode` | 899520.000 / 903970.000 / 907010.000 | 1209516 raw-byte | 0.743702 / 0.747382 / 0.749895 | 1.0195 | overlap |
+| `file-encode/json-records/zstd-level-1-encode` | 1742500.000 / 1779200.000 / 1826200.000 | 1209516 raw-byte | 1.440659 / 1.471002 / 1.509860 | 0.9794 | overlap |
+| `file-encode/json-records/raw-copy-control` | 244270.000 / 251700.000 / 261490.000 | 1209516 raw-byte | 0.201957 / 0.208100 / 0.216194 | 0.9933 | overlap |
+| `file-decode/json-records/rnbw-hybrid-lz-entropy` | 2243900.000 / 2275600.000 / 2313600.000 | 1209516 raw-byte | 1.855205 / 1.881414 / 1.912831 | 1.0155 | overlap |
+| `file-decode/json-records/lz4-fast-decode` | 503620.000 / 515460.000 / 530070.000 | 1209516 raw-byte | 0.416381 / 0.426170 / 0.438250 | 1.0300 | overlap |
+| `file-encode/csv-table/rnbw-hybrid-lz-entropy-one-shot` | 6506900.000 / 6575500.000 / 6649500.000 | 995409 raw-byte | 6.536911 / 6.605827 / 6.680169 | 0.9159 | faster intervals |
+| `file-encode/csv-table/rnbw-hybrid-lz-entropy-reuse-serial` | 6567800.000 / 6705500.000 / 6872500.000 | 995409 raw-byte | 6.598092 / 6.736427 / 6.904197 | 1.0497 | slower intervals |
+| `file-encode/csv-table/rnbw-hybrid-lz-entropy-reuse-parallel` | 3186100.000 / 3244200.000 / 3314500.000 | 995409 raw-byte | 3.200795 / 3.259163 / 3.329787 | 0.8868 | faster intervals |
+| `file-encode/csv-table/lz4-fast-encode` | 1710200.000 / 1744700.000 / 1791300.000 | 995409 raw-byte | 1.718088 / 1.752747 / 1.799562 | 0.9784 | overlap |
+| `file-encode/csv-table/snappy-encode` | 1599400.000 / 1615900.000 / 1633700.000 | 995409 raw-byte | 1.606777 / 1.623353 / 1.641235 | 1.0248 | slower intervals |
+| `file-encode/csv-table/zstd-level-1-encode` | 2358000.000 / 2408600.000 / 2468200.000 | 995409 raw-byte | 2.368876 / 2.419709 / 2.479584 | 1.0048 | overlap |
+| `file-encode/csv-table/raw-copy-control` | 20587.000 / 20896.000 / 21318.000 | 995409 raw-byte | 0.020682 / 0.020992 / 0.021416 | 0.9567 | faster intervals |
+| `file-decode/csv-table/rnbw-hybrid-lz-entropy` | 4734000.000 / 4779000.000 / 4822400.000 | 995409 raw-byte | 4.755834 / 4.801042 / 4.844642 | 1.0311 | slower intervals |
+| `file-decode/csv-table/lz4-fast-decode` | 374880.000 / 377350.000 / 380830.000 | 995409 raw-byte | 0.376609 / 0.379090 / 0.382586 | 0.9670 | overlap |
+| `file-encode/server-log-records/rnbw-hybrid-lz-entropy-one-shot` | 7436300.000 / 7570500.000 / 7719000.000 | 1398527 raw-byte | 5.317237 / 5.413195 / 5.519379 | 0.9724 | overlap |
+| `file-encode/server-log-records/rnbw-hybrid-lz-entropy-reuse-serial` | 7209100.000 / 7322500.000 / 7429700.000 | 1398527 raw-byte | 5.154781 / 5.235866 / 5.312518 | 1.0419 | slower intervals |
+| `file-encode/server-log-records/rnbw-hybrid-lz-entropy-reuse-parallel` | 3596800.000 / 3688500.000 / 3785100.000 | 1398527 raw-byte | 2.571849 / 2.637418 / 2.706490 | 0.9516 | faster intervals |
+| `file-encode/server-log-records/lz4-fast-encode` | 1345700.000 / 1361300.000 / 1390300.000 | 1398527 raw-byte | 0.962227 / 0.973381 / 0.994117 | 0.9455 | faster intervals |
+| `file-encode/server-log-records/snappy-encode` | 1244100.000 / 1250200.000 / 1256400.000 | 1398527 raw-byte | 0.889579 / 0.893941 / 0.898374 | 0.9387 | faster intervals |
+| `file-encode/server-log-records/zstd-level-1-encode` | 2208400.000 / 2249000.000 / 2292000.000 | 1398527 raw-byte | 1.579090 / 1.608121 / 1.638867 | 0.9842 | overlap |
+| `file-encode/server-log-records/raw-copy-control` | 246040.000 / 251180.000 / 258150.000 | 1398527 raw-byte | 0.175928 / 0.179603 / 0.184587 | 0.7626 | faster intervals |
+| `file-decode/server-log-records/rnbw-hybrid-lz-entropy` | 3603100.000 / 3626400.000 / 3649400.000 | 1398527 raw-byte | 2.576354 / 2.593014 / 2.609460 | 1.0025 | overlap |
+| `file-decode/server-log-records/lz4-fast-decode` | 468710.000 / 483990.000 / 496390.000 | 1398527 raw-byte | 0.335145 / 0.346071 / 0.354938 | 1.0410 | overlap |
+
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy-one-shot: 0.9790 (16 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy-reuse-serial: 1.1114 (16 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy-reuse-parallel: 0.9797 (16 matched datasets)
+Geomean candidate/baseline, lz4-fast-encode: 0.9636 (16 matched datasets)
+Geomean candidate/baseline, snappy-encode: 0.9882 (16 matched datasets)
+Geomean candidate/baseline, zstd-level-1-encode: 1.0221 (16 matched datasets)
+Geomean candidate/baseline, raw-copy-control: 0.9605 (16 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy: 1.0069 (16 matched datasets)
+Geomean candidate/baseline, lz4-fast-decode: 1.0093 (16 matched datasets)

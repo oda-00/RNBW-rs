@@ -9,6 +9,10 @@ use std::{
 #[path = "support/trnmap_index.rs"]
 mod trnmap_index;
 
+#[cfg(feature = "bench-internals")]
+#[path = "support/stages.rs"]
+mod stages;
+
 #[derive(Clone, Copy)]
 enum ExternalCodec {
     Lz4,
@@ -880,5 +884,8 @@ fn xorshift(mut state: u64) -> u64 {
     state ^ (state << 17)
 }
 
+#[cfg(not(feature = "bench-internals"))]
 criterion_group!(benches, file_codecs);
+#[cfg(feature = "bench-internals")]
+criterion_group!(benches, stages::benchmarks, file_codecs);
 criterion_main!(benches);

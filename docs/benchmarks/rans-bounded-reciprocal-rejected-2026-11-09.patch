@@ -1,0 +1,99 @@
+--- division-reference
++++ bounded-reciprocal-rejected
+@@ -1,11 +1,58 @@
++#[derive(Clone, Copy, Default)]
++struct RansEncodeSymbol {
++    reciprocal: u32,
++    threshold: u32,
++    bias: u16,
++    complement: u16,
++    shift: u8,
++}
++
++impl RansEncodeSymbol {
++    fn new(frequency: u32, cumulative: u32) -> Self {
++        if frequency == 0 {
++            return Self::default();
++        }
++        let threshold = ((RANS_LOWER_BOUND >> RANS_SCALE_BITS) << 8) * frequency;
++        let complement = (RANS_SCALE - frequency) as u16;
++        if frequency == 1 {
++            // mulhi(x, 2^32-1) = x-1 for positive x; bias repairs that
++            // one-unit quotient difference without a per-symbol branch.
++            return Self {
++                reciprocal: u32::MAX,
++                threshold,
++                bias: (cumulative + RANS_SCALE - 1) as u16,
++                complement,
++                shift: 0,
++            };
++        }
++        let shift = u32::BITS - (frequency - 1).leading_zeros();
++        Self {
++            reciprocal: (1u64 << (31 + shift)).div_ceil(u64::from(frequency)) as u32,
++            threshold,
++            bias: cumulative as u16,
++            complement,
++            shift: (shift - 1) as u8,
++        }
++    }
++
++    #[inline]
++    fn advance(self, state: u32) -> u32 {
++        // State is positive and below f*2^19 <= 2^31 after renormalization.
++        // For f>=2, ceil(2^(31+ceil(log2(f)))/f) yields exact floor(state/f):
++        // its rounding error contributes strictly less than 1/f to the quotient.
++        let quotient =
++            (((u64::from(state) * u64::from(self.reciprocal)) >> 32) as u32) >> self.shift;
++        state + quotient * u32::from(self.complement) + u32::from(self.bias)
++    }
++}
++
+ fn rans_encode(input: &[u8], frequencies: &[u16; 256]) -> Result<Vec<u8>, CodecError> {
+     if input.is_empty() {
+         return Ok(Vec::new());
+     }
+-    let mut cumulative = [0u32; 256];
++    let mut symbols = [RansEncodeSymbol::default(); 256];
+     let mut total = 0u32;
+-    for (symbol, frequency) in frequencies.iter().copied().enumerate() {
+-        cumulative[symbol] = total;
++    for frequency in frequencies.iter().copied() {
+         total += frequency as u32;
+     }
+     if total != RANS_SCALE {
+@@ -13,25 +60,26 @@
+             "rANS frequencies do not sum to 4096",
+         ));
+     }
++    let mut cumulative = 0;
++    for (entry, &frequency) in symbols.iter_mut().zip(frequencies) {
++        *entry = RansEncodeSymbol::new(u32::from(frequency), cumulative);
++        cumulative += u32::from(frequency);
++    }
+     let mut states = [RANS_LOWER_BOUND; 4];
+     let mut emitted: [Vec<u8>; 4] = std::array::from_fn(|_| Vec::new());
+     for index in (0..input.len()).rev() {
+-        let symbol = input[index] as usize;
++        let symbol = symbols[input[index] as usize];
+         let lane = index & 3;
+-        let frequency = frequencies[symbol] as u32;
+-        if frequency == 0 {
++        if symbol.threshold == 0 {
+             return Err(CodecError::InvalidFormat(
+                 "rANS model omits an input symbol",
+             ));
+         }
+-        let threshold = ((RANS_LOWER_BOUND >> RANS_SCALE_BITS) << 8) * frequency;
+-        while states[lane] >= threshold {
++        while states[lane] >= symbol.threshold {
+             emitted[lane].push(states[lane] as u8);
+             states[lane] >>= 8;
+         }
+-        states[lane] = ((states[lane] / frequency) << RANS_SCALE_BITS)
+-            + (states[lane] % frequency)
+-            + cumulative[symbol];
++        states[lane] = symbol.advance(states[lane]);
+     }
+     for lane in &mut emitted {
+         lane.reverse();

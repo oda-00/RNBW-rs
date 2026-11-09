@@ -1,0 +1,30 @@
+--- serial-histogram
++++ three-extra-banks-rejected
+@@ -1,7 +1,26 @@
+ fn symbol_histogram(input: &[u8]) -> [u64; 256] {
+     let mut counts = [0u64; 256];
+-    for &symbol in input {
++    if input.len() < 1024 {
++        for &symbol in input {
++            counts[symbol as usize] += 1;
++        }
++        return counts;
++    }
++    // Independent banks break repeated-symbol store dependencies. Fixed-size
++    // reduction can be vectorized; the short-input branch avoids its setup cost.
++    let mut banks = [[0u64; 256]; 3];
++    let (chunks, tail) = input.as_chunks::<4>();
++    for &[a, b, c, d] in chunks {
++        counts[a as usize] += 1;
++        banks[0][b as usize] += 1;
++        banks[1][c as usize] += 1;
++        banks[2][d as usize] += 1;
++    }
++    for &symbol in tail {
+         counts[symbol as usize] += 1;
++    }
++    for (symbol, count) in counts.iter_mut().enumerate() {
++        *count += banks[0][symbol] + banks[1][symbol] + banks[2][symbol];
+     }
+     counts
+ }

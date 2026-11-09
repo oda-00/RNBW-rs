@@ -1,0 +1,31 @@
+==24== Callgrind, a call-graph generating cache profiler
+==24== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==24== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==24== Command: /tmp/rnbw-linux-target/release/examples/lane_profile decode reports/lane-profile/synthetic-int8.bin 16 10
+==24== 
+--24-- warning: L3 cache found, using its data for the LL simulation.
+==24== For interactive control, run 'callgrind_control -h'.
+operation=decode raw_bytes=1048576 lane_width=16 iterations=10 total_ns=454844989 ns_per_call=45484498.900
+==24== 
+==24== Events    : Ir Dr Dw I1mr D1mr D1mw ILmr DLmr DLmw Bc Bcm Bi Bim
+==24== Collected : 64415015 13769816 7859188 4290 274513 425817 3795 51145 76190 10374554 268679 572330 674
+==24== 
+==24== I   refs:      64,415,015
+==24== I1  misses:         4,290
+==24== LLi misses:         3,795
+==24== I1  miss rate:       0.01%
+==24== LLi miss rate:       0.01%
+==24== 
+==24== D   refs:      21,629,004  (13,769,816 rd + 7,859,188 wr)
+==24== D1  misses:       700,330  (   274,513 rd +   425,817 wr)
+==24== LLd misses:       127,335  (    51,145 rd +    76,190 wr)
+==24== D1  miss rate:        3.2% (       2.0%   +       5.4%  )
+==24== LLd miss rate:        0.6% (       0.4%   +       1.0%  )
+==24== 
+==24== LL refs:          704,620  (   278,803 rd +   425,817 wr)
+==24== LL misses:        131,130  (    54,940 rd +    76,190 wr)
+==24== LL miss rate:         0.2% (       0.1%   +       1.0%  )
+==24== 
+==24== Branches:      10,946,884  (10,374,554 cond +   572,330 ind)
+==24== Mispredicts:      269,353  (   268,679 cond +       674 ind)
+==24== Mispred rate:         2.5% (       2.6%     +       0.1%   )

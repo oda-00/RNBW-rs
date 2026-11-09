@@ -20,6 +20,54 @@ const METHOD_RAW: u8 = 0;
 const METHOD_RANS: u8 = 1;
 const METHOD_HUFFMAN: u8 = 2;
 
+/// Direct access to production kernels for the opt-in Criterion stage harness.
+#[cfg(feature = "bench-internals")]
+#[doc(hidden)]
+pub mod stage_bench {
+    use super::*;
+
+    pub fn histogram(input: &[u8]) -> [u64; 256] {
+        symbol_histogram(input)
+    }
+
+    /// Previous production loop, retained only as the experiment control.
+    pub fn histogram_serial_reference(input: &[u8]) -> [u64; 256] {
+        let mut counts = [0; 256];
+        for &byte in input {
+            counts[byte as usize] += 1;
+        }
+        counts
+    }
+
+    pub fn normalize(counts: &[u64; 256], input_len: usize) -> [u16; 256] {
+        build_model(counts, input_len)
+    }
+
+    pub fn encode_rans(input: &[u8], model: &[u16; 256]) -> Result<Vec<u8>, CodecError> {
+        rans_encode(input, model)
+    }
+
+    pub fn decode_rans(
+        payload: &[u8],
+        len: usize,
+        model: &[u16; 256],
+    ) -> Result<Vec<u8>, CodecError> {
+        rans_decode(payload, len, model)
+    }
+
+    pub fn encode_huffman(input: &[u8], counts: &[u64; 256]) -> Option<([u8; 256], Vec<u8>)> {
+        huffman_encode(input, counts, usize::MAX)
+    }
+
+    pub fn decode_huffman(
+        payload: &[u8],
+        len: usize,
+        lengths: &[u8; 256],
+    ) -> Result<Vec<u8>, CodecError> {
+        huffman_decode(payload, len, lengths)
+    }
+}
+
 #[derive(Clone, Copy)]
 struct RawStream {
     kind: u8,
@@ -1181,6 +1229,33 @@ fn read_model(bytes: &[u8]) -> Result<[u16; 256], CodecError> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn histogram_matches_independent_counts_across_threshold_and_tails() {
+        let mut seed = 0x9e37_79b9u32;
+        for length in [0, 1, 2, 3, 4, 1023, 1024, 1025, 1026, 1027, 4096, 65537] {
+            for alphabet in [1, 3, 16, 256] {
+                let input: Vec<_> = (0..length)
+                    .map(|_| {
+                        seed ^= seed << 13;
+                        seed ^= seed >> 17;
+                        seed ^= seed << 5;
+                        (seed % alphabet) as u8
+                    })
+                    .collect();
+                let counts = symbol_histogram(&input);
+                for (symbol, &count) in counts.iter().enumerate() {
+                    assert_eq!(
+                        count as usize,
+                        input
+                            .iter()
+                            .filter(|&&byte| byte as usize == symbol)
+                            .count()
+                    );
+                }
+            }
+        }
+    }
 
     #[test]
     fn four_state_rans_roundtrips_short_and_all_symbol_streams() {

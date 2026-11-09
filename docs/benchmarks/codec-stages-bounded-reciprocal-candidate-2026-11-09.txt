@@ -1,0 +1,684 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 10.52s
+     Running benches\files.rs (target\release\deps\files-fb51285c343af799.exe)
+Gnuplot not found, using plotters backend
+stage dataset=image-rgba8-raster raw_bytes=524288 lanes=4 stream_bytes=526842 sampled_raw_lanes=0
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection: Collecting 20 samples in estimated 224.80 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection: Analyzing
+stage/image-rgba8-raster/hybrid-entropy-selection
+                        time:   [2.1983 ms 2.2083 ms 2.2197 ms]
+                        thrpt:  [226.36 MiB/s 227.52 MiB/s 228.56 MiB/s]
+                 change:
+                        time:   [−7.8679% −7.1009% −6.2926%] (p = 0.00 < 0.05)
+                        thrpt:  [+6.7152% +7.6437% +8.5398%]
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high severe
+Benchmarking stage/image-rgba8-raster/rans-encode
+Benchmarking stage/image-rgba8-raster/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/rans-encode: Collecting 20 samples in estimated 232.35 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/rans-encode: Analyzing
+stage/image-rgba8-raster/rans-encode
+                        time:   [2.2894 ms 2.3186 ms 2.3512 ms]
+                        thrpt:  [213.69 MiB/s 216.69 MiB/s 219.46 MiB/s]
+                 change:
+                        time:   [−11.375% −10.089% −8.4527%] (p = 0.00 < 0.05)
+                        thrpt:  [+9.2331% +11.221% +12.835%]
+                        Performance has improved.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high mild
+Benchmarking stage/image-rgba8-raster/rans-decode
+Benchmarking stage/image-rgba8-raster/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/rans-decode: Collecting 20 samples in estimated 228.04 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/rans-decode: Analyzing
+stage/image-rgba8-raster/rans-decode
+                        time:   [2.3967 ms 2.4965 ms 2.6084 ms]
+                        thrpt:  [192.62 MiB/s 201.26 MiB/s 209.64 MiB/s]
+                 change:
+                        time:   [+9.7996% +14.238% +19.417%] (p = 0.00 < 0.05)
+                        thrpt:  [−16.260% −12.464% −8.9250%]
+                        Performance has regressed.
+
+stage dataset=image-png-stored-deflate raw_bytes=131278 lanes=1 stream_bytes=228230 sampled_raw_lanes=0
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection: Collecting 20 samples in estimated 239.38 ms (100 iterations)
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection: Analyzing
+stage/image-png-stored-deflate/hybrid-entropy-selection
+                        time:   [2.2146 ms 2.5053 ms 2.8438 ms]
+                        thrpt:  [76.538 MiB/s 86.879 MiB/s 98.283 MiB/s]
+                 change:
+                        time:   [+60.612% +82.490% +105.71%] (p = 0.00 < 0.05)
+                        thrpt:  [−51.389% −45.202% −37.738%]
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking stage/image-png-stored-deflate/rans-encode
+Benchmarking stage/image-png-stored-deflate/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 305.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/rans-encode: Collecting 20 samples in estimated 305.01 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/rans-encode: Analyzing
+stage/image-png-stored-deflate/rans-encode
+                        time:   [1.2617 ms 1.3882 ms 1.5192 ms]
+                        thrpt:  [143.27 MiB/s 156.80 MiB/s 172.50 MiB/s]
+                 change:
+                        time:   [+5.6132% +12.613% +20.024%] (p = 0.00 < 0.05)
+                        thrpt:  [−16.683% −11.200% −5.3149%]
+                        Performance has regressed.
+Benchmarking stage/image-png-stored-deflate/rans-decode
+Benchmarking stage/image-png-stored-deflate/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 222.6ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/rans-decode: Collecting 20 samples in estimated 222.64 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/rans-decode: Analyzing
+stage/image-png-stored-deflate/rans-decode
+                        time:   [1.0146 ms 1.0293 ms 1.0410 ms]
+                        thrpt:  [209.09 MiB/s 211.46 MiB/s 214.53 MiB/s]
+                 change:
+                        time:   [−0.2304% +1.1573% +2.4471%] (p = 0.11 > 0.05)
+                        thrpt:  [−2.3886% −1.1440% +0.2309%]
+                        No change in performance detected.
+Found 4 outliers among 20 measurements (20.00%)
+  3 (15.00%) high mild
+  1 (5.00%) high severe
+
+stage dataset=image-png-compressed-deflate raw_bytes=89883 lanes=1 stream_bytes=116044 sampled_raw_lanes=1
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection: Collecting 20 samples in estimated 250.36 ms (420 iterations)
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection: Analyzing
+stage/image-png-compressed-deflate/hybrid-entropy-selection
+                        time:   [586.81 µs 601.49 µs 616.49 µs]
+                        thrpt:  [179.51 MiB/s 183.99 MiB/s 188.59 MiB/s]
+                 change:
+                        time:   [−6.0037% −3.5791% −1.1218%] (p = 0.01 < 0.05)
+                        thrpt:  [+1.1345% +3.7119% +6.3871%]
+                        Performance has improved.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/image-png-compressed-deflate/rans-encode
+Benchmarking stage/image-png-compressed-deflate/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/rans-encode: Collecting 20 samples in estimated 222.44 ms (420 iterations)
+Benchmarking stage/image-png-compressed-deflate/rans-encode: Analyzing
+stage/image-png-compressed-deflate/rans-encode
+                        time:   [509.14 µs 539.81 µs 585.88 µs]
+                        thrpt:  [188.89 MiB/s 205.01 MiB/s 217.36 MiB/s]
+                 change:
+                        time:   [+3.3547% +10.341% +17.366%] (p = 0.00 < 0.05)
+                        thrpt:  [−14.797% −9.3715% −3.2458%]
+                        Performance has regressed.
+Benchmarking stage/image-png-compressed-deflate/rans-decode
+Benchmarking stage/image-png-compressed-deflate/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/rans-decode: Collecting 20 samples in estimated 247.23 ms (630 iterations)
+Benchmarking stage/image-png-compressed-deflate/rans-decode: Analyzing
+stage/image-png-compressed-deflate/rans-decode
+                        time:   [378.35 µs 387.47 µs 400.89 µs]
+                        thrpt:  [276.06 MiB/s 285.62 MiB/s 292.50 MiB/s]
+                 change:
+                        time:   [−2.0075% +2.0385% +5.7694%] (p = 0.33 > 0.05)
+                        thrpt:  [−5.4547% −1.9978% +2.0486%]
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+stage dataset=graphics-shader-machine-words-synthetic raw_bytes=262144 lanes=4 stream_bytes=9530 sampled_raw_lanes=0
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection: Collecting 20 samples in estimated 206.97 ms (5460 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection: Analyzing
+stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection
+                        time:   [37.427 µs 38.032 µs 38.721 µs]
+                        thrpt:  [234.72 MiB/s 238.97 MiB/s 242.83 MiB/s]
+                 change:
+                        time:   [−0.6311% +0.7504% +2.1952%] (p = 0.32 > 0.05)
+                        thrpt:  [−2.1481% −0.7448% +0.6351%]
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode: Collecting 20 samples in estimated 203.57 ms (7140 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode: Analyzing
+stage/graphics-shader-machine-words-synthetic/rans-encode
+                        time:   [27.408 µs 27.810 µs 28.468 µs]
+                        thrpt:  [319.25 MiB/s 326.80 MiB/s 331.61 MiB/s]
+                 change:
+                        time:   [−16.192% −14.240% −11.513%] (p = 0.00 < 0.05)
+                        thrpt:  [+13.011% +16.604% +19.321%]
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode: Collecting 20 samples in estimated 202.07 ms (7770 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode: Analyzing
+stage/graphics-shader-machine-words-synthetic/rans-decode
+                        time:   [18.417 µs 18.533 µs 18.649 µs]
+                        thrpt:  [487.34 MiB/s 490.41 MiB/s 493.48 MiB/s]
+                 change:
+                        time:   [+0.6679% +2.5832% +4.8304%] (p = 0.03 < 0.05)
+                        thrpt:  [−4.6079% −2.5182% −0.6635%]
+                        Change within noise threshold.
+Found 5 outliers among 20 measurements (25.00%)
+  1 (5.00%) low mild
+  4 (20.00%) high severe
+
+stage dataset=graphics-wgsl-source raw_bytes=8267 lanes=1 stream_bytes=4324 sampled_raw_lanes=0
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection: Collecting 20 samples in estimated 200.53 ms (8610 iterations)
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection: Analyzing
+stage/graphics-wgsl-source/hybrid-entropy-selection
+                        time:   [23.294 µs 24.636 µs 26.469 µs]
+                        thrpt:  [155.80 MiB/s 167.39 MiB/s 177.03 MiB/s]
+                 change:
+                        time:   [−0.2699% +2.9831% +8.0293%] (p = 0.17 > 0.05)
+                        thrpt:  [−7.4325% −2.8967% +0.2707%]
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/graphics-wgsl-source/rans-encode
+Benchmarking stage/graphics-wgsl-source/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/rans-encode: Collecting 20 samples in estimated 201.49 ms (15k iterations)
+Benchmarking stage/graphics-wgsl-source/rans-encode: Analyzing
+stage/graphics-wgsl-source/rans-encode
+                        time:   [13.737 µs 13.792 µs 13.878 µs]
+                        thrpt:  [297.13 MiB/s 298.99 MiB/s 300.18 MiB/s]
+                 change:
+                        time:   [−11.527% −10.287% −9.0055%] (p = 0.00 < 0.05)
+                        thrpt:  [+9.8968% +11.466% +13.029%]
+                        Performance has improved.
+Benchmarking stage/graphics-wgsl-source/rans-decode
+Benchmarking stage/graphics-wgsl-source/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/rans-decode: Collecting 20 samples in estimated 200.01 ms (20k iterations)
+Benchmarking stage/graphics-wgsl-source/rans-decode: Analyzing
+stage/graphics-wgsl-source/rans-decode
+                        time:   [9.7825 µs 9.9376 µs 10.182 µs]
+                        thrpt:  [405.00 MiB/s 414.96 MiB/s 421.54 MiB/s]
+                 change:
+                        time:   [+1.5418% +2.9092% +4.8564%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.6315% −2.8269% −1.5184%]
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+
+stage dataset=ai-model-int8-tensor-synthetic raw_bytes=1048576 lanes=16 stream_bytes=50017 sampled_raw_lanes=0
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection: Collecting 20 samples in estimated 214.03 ms (1680 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection: Analyzing
+stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection
+                        time:   [124.53 µs 126.72 µs 130.84 µs]
+                        thrpt:  [364.56 MiB/s 376.43 MiB/s 383.04 MiB/s]
+                 change:
+                        time:   [+1.4690% +3.2039% +5.8405%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.5182% −3.1044% −1.4477%]
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode: Collecting 20 samples in estimated 209.33 ms (1050 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode: Analyzing
+stage/ai-model-int8-tensor-synthetic/rans-encode
+                        time:   [205.76 µs 208.32 µs 210.70 µs]
+                        thrpt:  [226.38 MiB/s 228.98 MiB/s 231.82 MiB/s]
+                 change:
+                        time:   [−10.513% −8.4125% −6.2556%] (p = 0.00 < 0.05)
+                        thrpt:  [+6.6730% +9.1852% +11.748%]
+                        Performance has improved.
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode: Collecting 20 samples in estimated 231.18 ms (1470 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode: Analyzing
+stage/ai-model-int8-tensor-synthetic/rans-decode
+                        time:   [154.36 µs 155.13 µs 155.85 µs]
+                        thrpt:  [306.07 MiB/s 307.49 MiB/s 309.03 MiB/s]
+                 change:
+                        time:   [−3.5304% −1.6944% −0.1940%] (p = 0.06 > 0.05)
+                        thrpt:  [+0.1943% +1.7236% +3.6597%]
+                        No change in performance detected.
+
+stage dataset=native-executable-binary raw_bytes=5437440 lanes=1 stream_bytes=5088105 sampled_raw_lanes=0
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 621.0ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection: Collecting 20 samples in estimated 621.00 ms (20 iterations)
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection: Analyzing
+stage/native-executable-binary/hybrid-entropy-selection
+                        time:   [30.697 ms 31.004 ms 31.372 ms]
+                        thrpt:  [154.67 MiB/s 156.51 MiB/s 158.08 MiB/s]
+                 change:
+                        time:   [−6.9302% −5.6918% −4.3600%] (p = 0.00 < 0.05)
+                        thrpt:  [+4.5588% +6.0353% +7.4463%]
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/native-executable-binary/rans-encode
+Benchmarking stage/native-executable-binary/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 553.5ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/rans-encode: Collecting 20 samples in estimated 553.48 ms (20 iterations)
+Benchmarking stage/native-executable-binary/rans-encode: Analyzing
+stage/native-executable-binary/rans-encode
+                        time:   [27.414 ms 27.685 ms 27.956 ms]
+                        thrpt:  [173.57 MiB/s 175.27 MiB/s 177.00 MiB/s]
+                 change:
+                        time:   [−8.8014% −5.8037% −3.5944%] (p = 0.00 < 0.05)
+                        thrpt:  [+3.7284% +6.1613% +9.6508%]
+                        Performance has improved.
+Benchmarking stage/native-executable-binary/rans-decode
+Benchmarking stage/native-executable-binary/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 483.9ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/rans-decode: Collecting 20 samples in estimated 483.94 ms (20 iterations)
+Benchmarking stage/native-executable-binary/rans-decode: Analyzing
+stage/native-executable-binary/rans-decode
+                        time:   [24.343 ms 24.600 ms 24.874 ms]
+                        thrpt:  [195.08 MiB/s 197.25 MiB/s 199.33 MiB/s]
+                 change:
+                        time:   [+1.3583% +2.7329% +4.2206%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.0497% −2.6602% −1.3401%]
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+stage dataset=structured-binary-records raw_bytes=524288 lanes=4 stream_bytes=576177 sampled_raw_lanes=2
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection: Collecting 20 samples in estimated 210.83 ms (80 iterations)
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection: Analyzing
+stage/structured-binary-records/hybrid-entropy-selection
+                        time:   [2.6648 ms 2.6828 ms 2.6993 ms]
+                        thrpt:  [203.57 MiB/s 204.82 MiB/s 206.20 MiB/s]
+                 change:
+                        time:   [−8.5874% −7.7355% −6.8485%] (p = 0.00 < 0.05)
+                        thrpt:  [+7.3520% +8.3840% +9.3941%]
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) low mild
+Benchmarking stage/structured-binary-records/rans-encode
+Benchmarking stage/structured-binary-records/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 373.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/structured-binary-records/rans-encode: Collecting 20 samples in estimated 373.53 ms (210 iterations)
+Benchmarking stage/structured-binary-records/rans-encode: Analyzing
+stage/structured-binary-records/rans-encode
+                        time:   [1.6623 ms 1.7139 ms 1.7665 ms]
+                        thrpt:  [311.06 MiB/s 320.61 MiB/s 330.55 MiB/s]
+                 change:
+                        time:   [−16.090% −14.499% −12.791%] (p = 0.00 < 0.05)
+                        thrpt:  [+14.667% +16.958% +19.175%]
+                        Performance has improved.
+Found 6 outliers among 20 measurements (30.00%)
+  2 (10.00%) low mild
+  3 (15.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/structured-binary-records/rans-decode
+Benchmarking stage/structured-binary-records/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 263.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/structured-binary-records/rans-decode: Collecting 20 samples in estimated 263.11 ms (210 iterations)
+Benchmarking stage/structured-binary-records/rans-decode: Analyzing
+stage/structured-binary-records/rans-decode
+                        time:   [1.2838 ms 1.3040 ms 1.3341 ms]
+                        thrpt:  [411.88 MiB/s 421.40 MiB/s 428.01 MiB/s]
+                 change:
+                        time:   [−0.5207% +0.9706% +2.6091%] (p = 0.23 > 0.05)
+                        thrpt:  [−2.5428% −0.9612% +0.5235%]
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+stage dataset=sparse-binary raw_bytes=1048576 lanes=1 stream_bytes=71951 sampled_raw_lanes=0
+Benchmarking stage/sparse-binary/hybrid-entropy-selection
+Benchmarking stage/sparse-binary/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/hybrid-entropy-selection: Collecting 20 samples in estimated 207.41 ms (1050 iterations)
+Benchmarking stage/sparse-binary/hybrid-entropy-selection: Analyzing
+stage/sparse-binary/hybrid-entropy-selection
+                        time:   [202.42 µs 204.20 µs 205.63 µs]
+                        thrpt:  [333.69 MiB/s 336.03 MiB/s 338.99 MiB/s]
+                 change:
+                        time:   [+8.1738% +9.8146% +11.324%] (p = 0.00 < 0.05)
+                        thrpt:  [−10.172% −8.9375% −7.5562%]
+                        Performance has regressed.
+Benchmarking stage/sparse-binary/rans-encode
+Benchmarking stage/sparse-binary/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/rans-encode: Collecting 20 samples in estimated 255.06 ms (840 iterations)
+Benchmarking stage/sparse-binary/rans-encode: Analyzing
+stage/sparse-binary/rans-encode
+                        time:   [297.93 µs 300.71 µs 304.08 µs]
+                        thrpt:  [225.66 MiB/s 228.19 MiB/s 230.31 MiB/s]
+                 change:
+                        time:   [−9.4294% −7.8104% −6.1713%] (p = 0.00 < 0.05)
+                        thrpt:  [+6.5771% +8.4721% +10.411%]
+                        Performance has improved.
+Benchmarking stage/sparse-binary/rans-decode
+Benchmarking stage/sparse-binary/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/rans-decode: Collecting 20 samples in estimated 203.02 ms (840 iterations)
+Benchmarking stage/sparse-binary/rans-decode: Analyzing
+stage/sparse-binary/rans-decode
+                        time:   [239.68 µs 243.57 µs 248.78 µs]
+                        thrpt:  [275.82 MiB/s 281.71 MiB/s 286.29 MiB/s]
+                 change:
+                        time:   [−0.8832% +0.3992% +1.6957%] (p = 0.56 > 0.05)
+                        thrpt:  [−1.6675% −0.3976% +0.8911%]
+                        No change in performance detected.
+
+stage dataset=random-binary-incompressible raw_bytes=1048576 lanes=1 stream_bytes=1092937 sampled_raw_lanes=1
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection: Collecting 20 samples in estimated 270.97 ms (60 iterations)
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection: Analyzing
+stage/random-binary-incompressible/hybrid-entropy-selection
+                        time:   [4.5858 ms 4.7199 ms 4.8522 ms]
+                        thrpt:  [214.81 MiB/s 220.83 MiB/s 227.29 MiB/s]
+                 change:
+                        time:   [−8.7696% −6.1023% −2.9938%] (p = 0.00 < 0.05)
+                        thrpt:  [+3.0862% +6.4988% +9.6126%]
+                        Performance has improved.
+Benchmarking stage/random-binary-incompressible/rans-encode
+Benchmarking stage/random-binary-incompressible/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/rans-encode: Collecting 20 samples in estimated 245.01 ms (60 iterations)
+Benchmarking stage/random-binary-incompressible/rans-encode: Analyzing
+stage/random-binary-incompressible/rans-encode
+                        time:   [3.7675 ms 3.8455 ms 3.9288 ms]
+                        thrpt:  [265.30 MiB/s 271.05 MiB/s 276.66 MiB/s]
+                 change:
+                        time:   [−9.6041% −7.2528% −4.8391%] (p = 0.00 < 0.05)
+                        thrpt:  [+5.0852% +7.8200% +10.625%]
+                        Performance has improved.
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high mild
+Benchmarking stage/random-binary-incompressible/rans-decode
+Benchmarking stage/random-binary-incompressible/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/rans-decode: Collecting 20 samples in estimated 208.40 ms (80 iterations)
+Benchmarking stage/random-binary-incompressible/rans-decode: Analyzing
+stage/random-binary-incompressible/rans-decode
+                        time:   [2.5451 ms 2.5650 ms 2.5859 ms]
+                        thrpt:  [403.07 MiB/s 406.36 MiB/s 409.54 MiB/s]
+                 change:
+                        time:   [−4.0844% −3.1685% −2.2928%] (p = 0.00 < 0.05)
+                        thrpt:  [+2.3466% +3.2722% +4.2583%]
+                        Performance has improved.
+
+stage dataset=repository-rust-source raw_bytes=275729 lanes=1 stream_bytes=131722 sampled_raw_lanes=0
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection: Collecting 20 samples in estimated 219.73 ms (420 iterations)
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection: Analyzing
+stage/repository-rust-source/hybrid-entropy-selection
+                        time:   [503.98 µs 508.02 µs 512.66 µs]
+                        thrpt:  [245.04 MiB/s 247.27 MiB/s 249.25 MiB/s]
+                 change:
+                        time:   [+4.9339% +5.8686% +6.6989%] (p = 0.00 < 0.05)
+                        thrpt:  [−6.2783% −5.5433% −4.7019%]
+                        Performance has regressed.
+Benchmarking stage/repository-rust-source/rans-encode
+Benchmarking stage/repository-rust-source/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/rans-encode: Collecting 20 samples in estimated 286.05 ms (420 iterations)
+Benchmarking stage/repository-rust-source/rans-encode: Analyzing
+stage/repository-rust-source/rans-encode
+                        time:   [673.13 µs 674.66 µs 676.36 µs]
+                        thrpt:  [185.73 MiB/s 186.20 MiB/s 186.62 MiB/s]
+                 change:
+                        time:   [−7.4768% −6.5156% −5.5285%] (p = 0.00 < 0.05)
+                        thrpt:  [+5.8521% +6.9697% +8.0810%]
+                        Performance has improved.
+Benchmarking stage/repository-rust-source/rans-decode
+Benchmarking stage/repository-rust-source/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/rans-decode: Collecting 20 samples in estimated 250.32 ms (420 iterations)
+Benchmarking stage/repository-rust-source/rans-decode: Analyzing
+stage/repository-rust-source/rans-decode
+                        time:   [583.66 µs 589.67 µs 595.13 µs]
+                        thrpt:  [211.08 MiB/s 213.03 MiB/s 215.23 MiB/s]
+                 change:
+                        time:   [−5.6550% −4.8841% −4.0869%] (p = 0.00 < 0.05)
+                        thrpt:  [+4.2611% +5.1349% +5.9939%]
+                        Performance has improved.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) low mild
+
+stage dataset=repository-technical-prose raw_bytes=26666 lanes=1 stream_bytes=24878 sampled_raw_lanes=0
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection: Collecting 20 samples in estimated 201.83 ms (1890 iterations)
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection: Analyzing
+stage/repository-technical-prose/hybrid-entropy-selection
+                        time:   [106.40 µs 108.15 µs 110.42 µs]
+                        thrpt:  [214.87 MiB/s 219.39 MiB/s 222.99 MiB/s]
+                 change:
+                        time:   [+10.324% +12.073% +14.396%] (p = 0.00 < 0.05)
+                        thrpt:  [−12.584% −10.773% −9.3577%]
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/repository-technical-prose/rans-encode
+Benchmarking stage/repository-technical-prose/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/rans-encode: Collecting 20 samples in estimated 214.36 ms (1890 iterations)
+Benchmarking stage/repository-technical-prose/rans-encode: Analyzing
+stage/repository-technical-prose/rans-encode
+                        time:   [109.56 µs 111.48 µs 113.81 µs]
+                        thrpt:  [208.47 MiB/s 212.83 MiB/s 216.55 MiB/s]
+                 change:
+                        time:   [−9.2165% −7.8620% −6.2209%] (p = 0.00 < 0.05)
+                        thrpt:  [+6.6336% +8.5329% +10.152%]
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/repository-technical-prose/rans-decode
+Benchmarking stage/repository-technical-prose/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/rans-decode: Collecting 20 samples in estimated 215.11 ms (2310 iterations)
+Benchmarking stage/repository-technical-prose/rans-decode: Analyzing
+stage/repository-technical-prose/rans-decode
+                        time:   [90.464 µs 92.107 µs 93.973 µs]
+                        thrpt:  [252.47 MiB/s 257.59 MiB/s 262.27 MiB/s]
+                 change:
+                        time:   [+0.7678% +3.1290% +6.4398%] (p = 0.03 < 0.05)
+                        thrpt:  [−6.0501% −3.0341% −0.7619%]
+                        Change within noise threshold.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+
+stage dataset=natural-style-prose-generated raw_bytes=586022 lanes=1 stream_bytes=126363 sampled_raw_lanes=0
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection: Collecting 20 samples in estimated 262.94 ms (630 iterations)
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection: Analyzing
+stage/natural-style-prose-generated/hybrid-entropy-selection
+                        time:   [422.01 µs 424.44 µs 427.00 µs]
+                        thrpt:  [282.22 MiB/s 283.93 MiB/s 285.56 MiB/s]
+                 change:
+                        time:   [+6.1629% +6.8936% +7.6403%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.0980% −6.4491% −5.8051%]
+                        Performance has regressed.
+Benchmarking stage/natural-style-prose-generated/rans-encode
+Benchmarking stage/natural-style-prose-generated/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/rans-encode: Collecting 20 samples in estimated 236.18 ms (420 iterations)
+Benchmarking stage/natural-style-prose-generated/rans-encode: Analyzing
+stage/natural-style-prose-generated/rans-encode
+                        time:   [577.76 µs 580.32 µs 582.01 µs]
+                        thrpt:  [207.06 MiB/s 207.66 MiB/s 208.58 MiB/s]
+                 change:
+                        time:   [−11.758% −10.908% −10.172%] (p = 0.00 < 0.05)
+                        thrpt:  [+11.323% +12.244% +13.325%]
+                        Performance has improved.
+Benchmarking stage/natural-style-prose-generated/rans-decode
+Benchmarking stage/natural-style-prose-generated/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/rans-decode: Collecting 20 samples in estimated 213.06 ms (420 iterations)
+Benchmarking stage/natural-style-prose-generated/rans-decode: Analyzing
+stage/natural-style-prose-generated/rans-decode
+                        time:   [481.35 µs 493.54 µs 504.07 µs]
+                        thrpt:  [239.07 MiB/s 244.17 MiB/s 250.36 MiB/s]
+                 change:
+                        time:   [+2.7551% +4.4149% +6.2523%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.8844% −4.2282% −2.6812%]
+                        Performance has regressed.
+
+stage dataset=json-records raw_bytes=1209516 lanes=1 stream_bytes=362754 sampled_raw_lanes=0
+Benchmarking stage/json-records/hybrid-entropy-selection
+Benchmarking stage/json-records/hybrid-entropy-selection: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 266.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/hybrid-entropy-selection: Collecting 20 samples in estimated 266.11 ms (210 iterations)
+Benchmarking stage/json-records/hybrid-entropy-selection: Analyzing
+stage/json-records/hybrid-entropy-selection
+                        time:   [1.2571 ms 1.2646 ms 1.2731 ms]
+                        thrpt:  [271.73 MiB/s 273.55 MiB/s 275.19 MiB/s]
+                 change:
+                        time:   [+3.6328% +4.1391% +4.6383%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.4327% −3.9746% −3.5054%]
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high mild
+Benchmarking stage/json-records/rans-encode
+Benchmarking stage/json-records/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 375.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/rans-encode: Collecting 20 samples in estimated 374.98 ms (210 iterations)
+Benchmarking stage/json-records/rans-encode: Analyzing
+stage/json-records/rans-encode
+                        time:   [1.7853 ms 1.7952 ms 1.8031 ms]
+                        thrpt:  [191.87 MiB/s 192.71 MiB/s 193.78 MiB/s]
+                 change:
+                        time:   [−8.0139% −7.4827% −6.9711%] (p = 0.00 < 0.05)
+                        thrpt:  [+7.4935% +8.0878% +8.7120%]
+                        Performance has improved.
+Benchmarking stage/json-records/rans-decode
+Benchmarking stage/json-records/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 331.9ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/rans-decode: Collecting 20 samples in estimated 331.88 ms (210 iterations)
+Benchmarking stage/json-records/rans-decode: Analyzing
+stage/json-records/rans-decode
+                        time:   [1.5891 ms 1.5995 ms 1.6155 ms]
+                        thrpt:  [214.14 MiB/s 216.29 MiB/s 217.70 MiB/s]
+                 change:
+                        time:   [+2.9905% +4.6021% +6.1748%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.8157% −4.3997% −2.9036%]
+                        Performance has regressed.
+
+stage dataset=csv-table raw_bytes=995409 lanes=1 stream_bytes=682500 sampled_raw_lanes=0
+Benchmarking stage/csv-table/hybrid-entropy-selection
+Benchmarking stage/csv-table/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/csv-table/hybrid-entropy-selection: Collecting 20 samples in estimated 238.22 ms (100 iterations)
+Benchmarking stage/csv-table/hybrid-entropy-selection: Analyzing
+stage/csv-table/hybrid-entropy-selection
+                        time:   [2.3287 ms 2.3345 ms 2.3407 ms]
+                        thrpt:  [278.07 MiB/s 278.81 MiB/s 279.51 MiB/s]
+                 change:
+                        time:   [+0.9475% +1.9826% +2.8883%] (p = 0.00 < 0.05)
+                        thrpt:  [−2.8072% −1.9440% −0.9386%]
+                        Change within noise threshold.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/csv-table/rans-encode
+Benchmarking stage/csv-table/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/csv-table/rans-encode: Collecting 20 samples in estimated 256.25 ms (80 iterations)
+Benchmarking stage/csv-table/rans-encode: Analyzing
+stage/csv-table/rans-encode
+                        time:   [3.1852 ms 3.2149 ms 3.2452 ms]
+                        thrpt:  [200.57 MiB/s 202.46 MiB/s 204.35 MiB/s]
+                 change:
+                        time:   [−9.5574% −8.3081% −7.1295%] (p = 0.00 < 0.05)
+                        thrpt:  [+7.6768% +9.0609% +10.567%]
+                        Performance has improved.
+Benchmarking stage/csv-table/rans-decode
+Benchmarking stage/csv-table/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/csv-table/rans-decode: Collecting 20 samples in estimated 228.24 ms (80 iterations)
+Benchmarking stage/csv-table/rans-decode: Analyzing
+stage/csv-table/rans-decode
+                        time:   [2.8061 ms 2.8337 ms 2.8632 ms]
+                        thrpt:  [227.33 MiB/s 229.70 MiB/s 231.95 MiB/s]
+                 change:
+                        time:   [−0.4151% +0.5979% +1.7018%] (p = 0.28 > 0.05)
+                        thrpt:  [−1.6733% −0.5943% +0.4168%]
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+stage dataset=server-log-records raw_bytes=1398527 lanes=1 stream_bytes=579319 sampled_raw_lanes=0
+Benchmarking stage/server-log-records/hybrid-entropy-selection
+Benchmarking stage/server-log-records/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/hybrid-entropy-selection: Collecting 20 samples in estimated 213.30 ms (100 iterations)
+Benchmarking stage/server-log-records/hybrid-entropy-selection: Analyzing
+stage/server-log-records/hybrid-entropy-selection
+                        time:   [2.0210 ms 2.0474 ms 2.0731 ms]
+                        thrpt:  [266.49 MiB/s 269.85 MiB/s 273.37 MiB/s]
+                 change:
+                        time:   [+6.6549% +8.5259% +10.421%] (p = 0.00 < 0.05)
+                        thrpt:  [−9.4379% −7.8561% −6.2396%]
+                        Performance has regressed.
+Benchmarking stage/server-log-records/rans-encode
+Benchmarking stage/server-log-records/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/rans-encode: Collecting 20 samples in estimated 217.48 ms (80 iterations)
+Benchmarking stage/server-log-records/rans-encode: Analyzing
+stage/server-log-records/rans-encode
+                        time:   [2.6883 ms 2.7174 ms 2.7452 ms]
+                        thrpt:  [201.25 MiB/s 203.31 MiB/s 205.52 MiB/s]
+                 change:
+                        time:   [−6.3622% −5.1790% −4.0445%] (p = 0.00 < 0.05)
+                        thrpt:  [+4.2149% +5.4619% +6.7944%]
+                        Performance has improved.
+Benchmarking stage/server-log-records/rans-decode
+Benchmarking stage/server-log-records/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/rans-decode: Collecting 20 samples in estimated 237.62 ms (100 iterations)
+Benchmarking stage/server-log-records/rans-decode: Analyzing
+stage/server-log-records/rans-decode
+                        time:   [2.3319 ms 2.3538 ms 2.3749 ms]
+                        thrpt:  [232.64 MiB/s 234.72 MiB/s 236.92 MiB/s]
+                 change:
+                        time:   [+3.7108% +5.9574% +7.8418%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.2715% −5.6225% −3.5780%]
+                        Performance has regressed.
+Found 4 outliers among 20 measurements (20.00%)
+  2 (10.00%) low mild
+  2 (10.00%) high mild
+
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=68.3µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw-bytes=295200 rnbw-parallel-bytes=295200 rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=18.5µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw-bytes=121864 rnbw-parallel-bytes=121872 rnbw=0.9283 rnbw-parallel=0.9284 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=14µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw-bytes=89944 rnbw-parallel-bytes=89944 rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=32.3µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw-bytes=3672 rnbw-parallel-bytes=3672 rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=2.2µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw-bytes=2992 rnbw-parallel-bytes=2992 rnbw=0.3619 rnbw-parallel=0.3619 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=111.9µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw-bytes=21568 rnbw-parallel-bytes=21568 rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+general-trnmap-index=native-executable-binary bytes=5437440 words=1359360 index-bytes=521024 build=613µs zero-words=53080 first-zero=5
+file-dataset=native-executable-binary bytes=5437440 structural-lanes=1-byte-lane rnbw-bytes=3023424 rnbw-parallel-bytes=3022768 rnbw=0.5560 rnbw-parallel=0.5559 parallel-size-delta=-0.02% raw=1.0000 lz4-fast=0.5544 snappy=0.5636 zstd-fast-3=0.5503 zstd-level-1=0.4342 brotli-quality-0=0.4538 brotli-quality-5=0.3469 zlib-fast=0.4514 zlib-default=0.3823 cow-borrowed=false
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=84.6µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw-bytes=352584 rnbw-parallel-bytes=352584 rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=139.2µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=48424 rnbw-parallel-bytes=48440 rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=140.2µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=1048632 rnbw-parallel-bytes=1048632 rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+general-trnmap-index=repository-rust-source bytes=275729 words=68933 index-bytes=26864 build=40.6µs zero-words=0 first-zero=68933
+file-dataset=repository-rust-source bytes=275729 structural-lanes=1-byte-lane rnbw-bytes=87216 rnbw-parallel-bytes=87248 rnbw=0.3163 rnbw-parallel=0.3164 parallel-size-delta=+0.04% raw=1.0000 lz4-fast=0.3332 snappy=0.3288 zstd-fast-3=0.2975 zstd-level-1=0.2350 brotli-quality-0=0.2542 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2021 cow-borrowed=false
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=5.6µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw-bytes=15840 rnbw-parallel-bytes=15840 rnbw=0.5940 rnbw-parallel=0.5940 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=57.1µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw-bytes=89832 rnbw-parallel-bytes=89848 rnbw=0.1533 rnbw-parallel=0.1533 parallel-size-delta=+0.02% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=133.7µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw-bytes=237792 rnbw-parallel-bytes=237816 rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=111.1µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw-bytes=429432 rnbw-parallel-bytes=429456 rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=158.5µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw-bytes=394256 rnbw-parallel-bytes=394296 rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false

@@ -1,4 +1,4 @@
-use rnbw::{LaneLz, Rnbw, RnbwView};
+use rnbw::{LaneLz, LaneLzEncoder, Rnbw, RnbwView};
 
 const FUZZ_CASES: usize = 12_000;
 
@@ -77,6 +77,10 @@ fn deterministic_mutation_fuzzer_checks_raw_and_entropy_parsers() {
     let lane_stream = LaneLz::encode_interleaved(&interleaved, 4).expect("lane fuzz seed encodes");
     assert_eq!(lane_stream.decode_interleaved().unwrap(), interleaved);
     corpus.push(lane_stream.as_bytes().to_vec());
+    let lane_stream =
+        LaneLz::encode_interleaved(&interleaved, 16).expect("sixteen-lane SIMD fuzz seed encodes");
+    assert_eq!(lane_stream.decode_interleaved().unwrap(), interleaved);
+    corpus.push(lane_stream.as_bytes().to_vec());
     let lane_stream = LaneLz::encode(&[&interleaved[..2048], &interleaved[2048..]])
         .expect("multi-lane fuzz seed encodes");
     assert_eq!(
@@ -136,6 +140,57 @@ fn deterministic_mutation_fuzzer_checks_raw_and_entropy_parsers() {
     println!(
         "fuzzed {exercised} deterministic raw, entropy, and multi-lane streams, including {directed_header_mutations} directed header mutations"
     );
+}
+
+#[test]
+fn randomized_lane_widths_reuse_and_simd_roundtrip() {
+    let mut rng = Rng(0x32f1_87d9_6b0a_c45e);
+    let mut encoder = LaneLzEncoder::default();
+    let widths = [1, 2, 4, 8, 16, 17, 32];
+    for case in 0..96 {
+        let width = if case % 3 == 0 {
+            16
+        } else {
+            widths[rng.bounded(widths.len())]
+        };
+        let records = match case % 8 {
+            0 => 0,
+            1 => 31,
+            2 => 32,
+            3 => 33,
+            _ => rng.bounded(4097),
+        };
+        let offset = rng.bounded(32);
+        let mut input = vec![0u8; offset + width * records];
+        for (i, byte) in input[offset..].iter_mut().enumerate() {
+            *byte = match case % 4 {
+                0 => 0,
+                1 => (i % width) as u8,
+                2 => (rng.next() & 7) as u8,
+                _ => rng.next() as u8,
+            };
+        }
+        let input = &input[offset..];
+        let lanes: Vec<Vec<u8>> = (0..width)
+            .map(|lane| {
+                input
+                    .chunks_exact(width)
+                    .map(|record| record[lane])
+                    .collect()
+            })
+            .collect();
+        let expected =
+            LaneLz::encode(&lanes.iter().map(Vec::as_slice).collect::<Vec<_>>()).unwrap();
+        let serial = encoder.encode_interleaved(input, width).unwrap();
+        assert_eq!(
+            serial.as_bytes(),
+            expected.as_bytes(),
+            "case={case}, width={width}"
+        );
+        assert_eq!(serial.decode_interleaved().unwrap(), input);
+        let parallel = encoder.encode_interleaved_parallel(input, width).unwrap();
+        assert_eq!(parallel.decode_interleaved().unwrap(), input);
+    }
 }
 
 fn mutate(seed: &[u8], rng: &mut Rng) -> Vec<u8> {
@@ -224,5 +279,13 @@ fn check_candidate(bytes: &[u8]) {
             decoded.iter().map(Vec::len).sum::<usize>(),
             lanes.raw_bytes()
         );
+        if let Some(first) = decoded.first()
+            && decoded.iter().all(|lane| lane.len() == first.len())
+        {
+            let expected: Vec<u8> = (0..first.len())
+                .flat_map(|record| decoded.iter().map(move |lane| lane[record]))
+                .collect();
+            assert_eq!(lanes.decode_interleaved().unwrap(), expected);
+        }
     }
 }

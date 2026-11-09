@@ -1,0 +1,58 @@
+Capture: histogram-cutoff-2026-11-09.txt
+SHA256: 5c50d5adbf642477865675c57788d555fef127a4ce5603134c12a96ad5ac34d8
+Times are Criterion center estimates and reported intervals, converted to ns.
+Full-call time includes production allocations/destruction where the kernel returns owned output; reuse cases retain scratch capacity.
+Forced LZ/rANS/Huffman kernels may be skipped by the real hybrid selection. Do not sum independent stages or treat a forced-path win as an end-to-end win.
+Stage entropy denominators are actual token-stream bytes; file denominators are raw bytes; model and sampling calls use lane count.
+
+| Path | Full call low / center / high (ns) | Unit count | Normalized low / center / high (ns/unit) | Candidate/baseline | Interval comparison |
+|---|---:|---:|---:|---:|---|
+| `histogram-cutoff/constant/64/production` | 67.813 / 72.029 / 78.513 | 64 raw-byte | 1.059578 / 1.125453 / 1.226766 | — | — |
+| `histogram-cutoff/constant/64/serial-reference` | 68.488 / 69.738 / 70.996 | 64 raw-byte | 1.070125 / 1.089656 / 1.109312 | — | — |
+| `histogram-cutoff/constant/256/production` | 115.680 / 116.390 / 117.050 | 256 raw-byte | 0.451875 / 0.454648 / 0.457227 | — | — |
+| `histogram-cutoff/constant/256/serial-reference` | 117.500 / 120.230 / 125.130 | 256 raw-byte | 0.458984 / 0.469648 / 0.488789 | — | — |
+| `histogram-cutoff/constant/512/production` | 183.520 / 184.710 / 186.070 | 512 raw-byte | 0.358438 / 0.360762 / 0.363418 | — | — |
+| `histogram-cutoff/constant/512/serial-reference` | 388.490 / 390.630 / 393.320 | 512 raw-byte | 0.758770 / 0.762949 / 0.768203 | — | — |
+| `histogram-cutoff/constant/1023/production` | 323.190 / 326.860 / 332.240 | 1023 raw-byte | 0.315924 / 0.319511 / 0.324770 | — | — |
+| `histogram-cutoff/constant/1023/serial-reference` | 330.540 / 332.330 / 334.530 | 1023 raw-byte | 0.323109 / 0.324858 / 0.327009 | — | — |
+| `histogram-cutoff/constant/1024/production` | 547.040 / 553.440 / 560.120 | 1024 raw-byte | 0.534219 / 0.540469 / 0.546992 | — | — |
+| `histogram-cutoff/constant/1024/serial-reference` | 324.600 / 326.390 / 328.510 | 1024 raw-byte | 0.316992 / 0.318740 / 0.320811 | — | — |
+| `histogram-cutoff/constant/2048/production` | 974.390 / 978.750 / 984.290 | 2048 raw-byte | 0.475776 / 0.477905 / 0.480610 | — | — |
+| `histogram-cutoff/constant/2048/serial-reference` | 586.640 / 592.490 / 596.670 | 2048 raw-byte | 0.286445 / 0.289302 / 0.291343 | — | — |
+| `histogram-cutoff/constant/4096/production` | 1632.900 / 1644.100 / 1662.900 | 4096 raw-byte | 0.398657 / 0.401392 / 0.405981 | — | — |
+| `histogram-cutoff/constant/4096/serial-reference` | 1131.200 / 1140.300 / 1148.300 | 4096 raw-byte | 0.276172 / 0.278394 / 0.280347 | — | — |
+| `histogram-cutoff/constant/16384/production` | 6215.100 / 6235.400 / 6261.800 | 16384 raw-byte | 0.379340 / 0.380579 / 0.382190 | — | — |
+| `histogram-cutoff/constant/16384/serial-reference` | 4463.000 / 4481.300 / 4508.400 | 16384 raw-byte | 0.272400 / 0.273517 / 0.275171 | — | — |
+| `histogram-cutoff/four-symbol/64/production` | 83.840 / 84.106 / 84.351 | 64 raw-byte | 1.310000 / 1.314156 / 1.317984 | — | — |
+| `histogram-cutoff/four-symbol/64/serial-reference` | 83.668 / 85.231 / 86.916 | 64 raw-byte | 1.307313 / 1.331734 / 1.358062 | — | — |
+| `histogram-cutoff/four-symbol/256/production` | 183.300 / 184.870 / 186.680 | 256 raw-byte | 0.716016 / 0.722148 / 0.729219 | — | — |
+| `histogram-cutoff/four-symbol/256/serial-reference` | 182.460 / 183.570 / 185.170 | 256 raw-byte | 0.712734 / 0.717070 / 0.723320 | — | — |
+| `histogram-cutoff/four-symbol/512/production` | 307.600 / 309.430 / 311.510 | 512 raw-byte | 0.600781 / 0.604355 / 0.608418 | — | — |
+| `histogram-cutoff/four-symbol/512/serial-reference` | 304.880 / 307.100 / 309.660 | 512 raw-byte | 0.595469 / 0.599805 / 0.604805 | — | — |
+| `histogram-cutoff/four-symbol/1023/production` | 546.740 / 549.420 / 551.980 | 1023 raw-byte | 0.534448 / 0.537067 / 0.539570 | — | — |
+| `histogram-cutoff/four-symbol/1023/serial-reference` | 542.450 / 547.260 / 551.060 | 1023 raw-byte | 0.530254 / 0.534956 / 0.538671 | — | — |
+| `histogram-cutoff/four-symbol/1024/production` | 467.910 / 473.150 / 477.190 | 1024 raw-byte | 0.456943 / 0.462061 / 0.466006 | — | — |
+| `histogram-cutoff/four-symbol/1024/serial-reference` | 540.400 / 545.050 / 548.510 | 1024 raw-byte | 0.527734 / 0.532275 / 0.535654 | — | — |
+| `histogram-cutoff/four-symbol/2048/production` | 751.440 / 759.590 / 769.450 | 2048 raw-byte | 0.366914 / 0.370894 / 0.375708 | — | — |
+| `histogram-cutoff/four-symbol/2048/serial-reference` | 1060.900 / 1070.400 / 1084.100 | 2048 raw-byte | 0.518018 / 0.522656 / 0.529346 | — | — |
+| `histogram-cutoff/four-symbol/4096/production` | 1335.100 / 1353.100 / 1364.500 | 4096 raw-byte | 0.325952 / 0.330347 / 0.333130 | — | — |
+| `histogram-cutoff/four-symbol/4096/serial-reference` | 2028.000 / 2035.600 / 2043.000 | 4096 raw-byte | 0.495117 / 0.496973 / 0.498779 | — | — |
+| `histogram-cutoff/four-symbol/16384/production` | 4610.000 / 4666.500 / 4730.400 | 16384 raw-byte | 0.281372 / 0.284821 / 0.288721 | — | — |
+| `histogram-cutoff/four-symbol/16384/serial-reference` | 8287.300 / 8345.700 / 8426.100 | 16384 raw-byte | 0.505817 / 0.509381 / 0.514288 | — | — |
+| `histogram-cutoff/uniform/64/production` | 73.587 / 75.095 / 76.473 | 64 raw-byte | 1.149797 / 1.173359 / 1.194891 | — | — |
+| `histogram-cutoff/uniform/64/serial-reference` | 68.512 / 82.947 / 93.488 | 64 raw-byte | 1.070500 / 1.296047 / 1.460750 | — | — |
+| `histogram-cutoff/uniform/256/production` | 117.910 / 119.920 / 122.380 | 256 raw-byte | 0.460586 / 0.468438 / 0.478047 | — | — |
+| `histogram-cutoff/uniform/256/serial-reference` | 121.790 / 122.520 / 123.460 | 256 raw-byte | 0.475742 / 0.478594 / 0.482266 | — | — |
+| `histogram-cutoff/uniform/512/production` | 182.020 / 183.680 / 185.800 | 512 raw-byte | 0.355508 / 0.358750 / 0.362891 | — | — |
+| `histogram-cutoff/uniform/512/serial-reference` | 183.290 / 186.330 / 189.720 | 512 raw-byte | 0.357988 / 0.363926 / 0.370547 | — | — |
+| `histogram-cutoff/uniform/1023/production` | 321.450 / 326.540 / 330.650 | 1023 raw-byte | 0.314223 / 0.319198 / 0.323216 | — | — |
+| `histogram-cutoff/uniform/1023/serial-reference` | 317.560 / 324.910 / 333.560 | 1023 raw-byte | 0.310420 / 0.317605 / 0.326061 | — | — |
+| `histogram-cutoff/uniform/1024/production` | 421.720 / 424.910 / 428.770 | 1024 raw-byte | 0.411836 / 0.414951 / 0.418721 | — | — |
+| `histogram-cutoff/uniform/1024/serial-reference` | 312.170 / 333.940 / 362.080 | 1024 raw-byte | 0.304854 / 0.326113 / 0.353594 | — | — |
+| `histogram-cutoff/uniform/2048/production` | 936.860 / 980.850 / 1032.900 | 2048 raw-byte | 0.457451 / 0.478931 / 0.504346 | — | — |
+| `histogram-cutoff/uniform/2048/serial-reference` | 613.250 / 621.860 / 637.360 | 2048 raw-byte | 0.299438 / 0.303643 / 0.311211 | — | — |
+| `histogram-cutoff/uniform/4096/production` | 1184.800 / 1207.500 / 1225.900 | 4096 raw-byte | 0.289258 / 0.294800 / 0.299292 | — | — |
+| `histogram-cutoff/uniform/4096/serial-reference` | 1043.400 / 1050.700 / 1056.100 | 4096 raw-byte | 0.254736 / 0.256519 / 0.257837 | — | — |
+| `histogram-cutoff/uniform/16384/production` | 4239.600 / 4302.100 / 4350.000 | 16384 raw-byte | 0.258765 / 0.262579 / 0.265503 | — | — |
+| `histogram-cutoff/uniform/16384/serial-reference` | 4616.700 / 4680.200 / 4736.800 | 16384 raw-byte | 0.281781 / 0.285657 / 0.289111 | — | — |
+

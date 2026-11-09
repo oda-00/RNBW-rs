@@ -20,7 +20,7 @@ jobs:
       - name: Format
         run: cargo fmt --all -- --check
       - name: Clippy
-        run: cargo clippy --locked --all-targets -- -D warnings
+        run: cargo clippy --locked --all-targets --features bench-internals -- -D warnings
       - name: Unit tests
         run: cargo test --locked --lib --bins
       - name: Deterministic mutation fuzz harness
@@ -33,6 +33,8 @@ jobs:
         run: cargo bench --locked --bench codec -- --sample-size 10 --warm-up-time 1 --measurement-time 1 --noplot
       - name: Run cross-codec file workload matrix
         run: cargo bench --locked --bench files -- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.2 --noplot
+      - name: Run production codec stage measurements
+        run: cargo bench --locked --features bench-internals --bench files -- 'stage/' --sample-size 10 --warm-up-time 0.1 --measurement-time 0.2 --noplot
       - name: Run trnmap Criterion measurements
         run: cargo bench --locked --bench trnmap -- --sample-size 10 --warm-up-time 0.1 --measurement-time 0.1 --noplot
       - uses: actions/upload-artifact@v4
@@ -60,6 +62,18 @@ jobs:
           done
       - name: Run Valgrind profiling
         run: bash scripts/valgrind.sh clustered 100000
+      - name: Profile byte-codec transforms and encoding
+        run: |
+          CARGO_PROFILE_RELEASE_DEBUG=1 cargo build --locked --release --features bench-internals --example lane_profile
+          mkdir -p reports/lanes
+          for operation in split interleave; do
+            valgrind --tool=memcheck --leak-check=full --error-exitcode=99 target/release/examples/lane_profile "$operation" benches/data/native-executable-binary.exe 16 3
+          done
+          hyperfine --shell=none --warmup 2 --runs 5 --export-json reports/lanes/hyperfine.json \
+            'target/release/examples/lane_profile encode benches/data/native-executable-binary.exe 16 3' \
+            'target/release/examples/lane_profile decode benches/data/native-executable-binary.exe 16 3'
+          RAYON_NUM_THREADS=1 valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=reports/lanes/callgrind.out target/release/examples/lane_profile encode benches/data/native-executable-binary.exe 16 3
+          callgrind_annotate --inclusive=yes reports/lanes/callgrind.out > reports/lanes/callgrind.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:

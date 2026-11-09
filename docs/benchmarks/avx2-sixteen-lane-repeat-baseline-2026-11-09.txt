@@ -1,0 +1,912 @@
+Gnuplot not found, using plotters backend
+Benchmarking stage/image-rgba8-raster/split-reuse
+Benchmarking stage/image-rgba8-raster/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/split-reuse: Collecting 30 samples in estimated 300.76 ms (12k iterations)
+Benchmarking stage/image-rgba8-raster/split-reuse: Analyzing
+stage/image-rgba8-raster/split-reuse
+                        time:   [25.346 µs 25.793 µs 26.207 µs]
+                        thrpt:  [18.632 GiB/s 18.931 GiB/s 19.264 GiB/s]
+                 change:
+                        time:   [−0.1728% +3.6144% +8.7591%] (p = 0.15 > 0.05)
+                        thrpt:  [−8.0536% −3.4884% +0.1731%]
+                        No change in performance detected.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+stage dataset=image-rgba8-raster raw_bytes=524288 lanes=4 stream_bytes=526842 sampled_raw_lanes=0
+
+Benchmarking stage/image-png-stored-deflate/split-reuse
+Benchmarking stage/image-png-stored-deflate/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/split-reuse: Collecting 30 samples in estimated 302.64 ms (1860 iterations)
+Benchmarking stage/image-png-stored-deflate/split-reuse: Analyzing
+stage/image-png-stored-deflate/split-reuse
+                        time:   [164.74 µs 167.18 µs 169.99 µs]
+                        thrpt:  [736.48 MiB/s 748.87 MiB/s 759.98 MiB/s]
+                 change:
+                        time:   [+0.1473% +2.6960% +5.4596%] (p = 0.05 < 0.05)
+                        thrpt:  [−5.1769% −2.6252% −0.1471%]
+                        Change within noise threshold.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+stage dataset=image-png-stored-deflate raw_bytes=131278 lanes=1 stream_bytes=228230 sampled_raw_lanes=0
+
+Benchmarking stage/image-png-compressed-deflate/split-reuse
+Benchmarking stage/image-png-compressed-deflate/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/split-reuse: Collecting 30 samples in estimated 309.96 ms (2790 iterations)
+Benchmarking stage/image-png-compressed-deflate/split-reuse: Analyzing
+stage/image-png-compressed-deflate/split-reuse
+                        time:   [115.28 µs 116.75 µs 118.13 µs]
+                        thrpt:  [725.66 MiB/s 734.23 MiB/s 743.60 MiB/s]
+                 change:
+                        time:   [+0.6728% +3.1871% +5.3536%] (p = 0.01 < 0.05)
+                        thrpt:  [−5.0815% −3.0887% −0.6683%]
+                        Change within noise threshold.
+Found 5 outliers among 30 measurements (16.67%)
+  4 (13.33%) low mild
+  1 (3.33%) high mild
+stage dataset=image-png-compressed-deflate raw_bytes=89883 lanes=1 stream_bytes=116044 sampled_raw_lanes=1
+
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse: Collecting 30 samples in estimated 303.74 ms (20k iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse: Analyzing
+stage/graphics-shader-machine-words-synthetic/split-reuse
+                        time:   [13.187 µs 13.877 µs 14.949 µs]
+                        thrpt:  [16.332 GiB/s 17.593 GiB/s 18.514 GiB/s]
+                 change:
+                        time:   [+15.238% +23.856% +32.826%] (p = 0.00 < 0.05)
+                        thrpt:  [−24.713% −19.261% −13.223%]
+                        Performance has regressed.
+stage dataset=graphics-shader-machine-words-synthetic raw_bytes=262144 lanes=4 stream_bytes=9530 sampled_raw_lanes=0
+
+Benchmarking stage/graphics-wgsl-source/split-reuse
+Benchmarking stage/graphics-wgsl-source/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/split-reuse: Collecting 30 samples in estimated 303.52 ms (30k iterations)
+Benchmarking stage/graphics-wgsl-source/split-reuse: Analyzing
+stage/graphics-wgsl-source/split-reuse
+                        time:   [10.324 µs 10.473 µs 10.666 µs]
+                        thrpt:  [739.15 MiB/s 752.76 MiB/s 763.68 MiB/s]
+                 change:
+                        time:   [+2.0678% +3.4413% +4.9202%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.6895% −3.3268% −2.0259%]
+                        Performance has regressed.
+stage dataset=graphics-wgsl-source raw_bytes=8267 lanes=1 stream_bytes=4324 sampled_raw_lanes=0
+
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse: Collecting 30 samples in estimated 332.94 ms (150 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse: Analyzing
+stage/ai-model-int8-tensor-synthetic/split-reuse
+                        time:   [2.3509 ms 2.4129 ms 2.4811 ms]
+                        thrpt:  [403.05 MiB/s 414.45 MiB/s 425.38 MiB/s]
+                 change:
+                        time:   [+4586.6% +4750.7% +4932.1%] (p = 0.00 < 0.05)
+                        thrpt:  [−98.013% −97.938% −97.866%]
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+stage dataset=ai-model-int8-tensor-synthetic raw_bytes=1048576 lanes=16 stream_bytes=50017 sampled_raw_lanes=0
+
+Benchmarking stage/native-executable-binary/split-reuse
+Benchmarking stage/native-executable-binary/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/native-executable-binary/split-reuse: Collecting 30 samples in estimated 428.09 ms (60 iterations)
+Benchmarking stage/native-executable-binary/split-reuse: Analyzing
+stage/native-executable-binary/split-reuse
+                        time:   [6.7305 ms 6.9069 ms 7.1142 ms]
+                        thrpt:  [728.90 MiB/s 750.78 MiB/s 770.45 MiB/s]
+                 change:
+                        time:   [+5.2494% +7.9093% +11.019%] (p = 0.00 < 0.05)
+                        thrpt:  [−9.9255% −7.3296% −4.9875%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+stage dataset=native-executable-binary raw_bytes=5437440 lanes=1 stream_bytes=5088105 sampled_raw_lanes=0
+
+Benchmarking stage/structured-binary-records/split-reuse
+Benchmarking stage/structured-binary-records/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/split-reuse: Collecting 30 samples in estimated 326.53 ms (4185 iterations)
+Benchmarking stage/structured-binary-records/split-reuse: Analyzing
+stage/structured-binary-records/split-reuse
+                        time:   [78.933 µs 81.265 µs 84.056 µs]
+                        thrpt:  [5.8090 GiB/s 6.0085 GiB/s 6.1860 GiB/s]
+                 change:
+                        time:   [−2.5574% +0.0176% +3.3755%] (p = 0.99 > 0.05)
+                        thrpt:  [−3.2653% −0.0176% +2.6245%]
+                        No change in performance detected.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+stage dataset=structured-binary-records raw_bytes=524288 lanes=4 stream_bytes=576177 sampled_raw_lanes=2
+
+Benchmarking stage/sparse-binary/split-reuse
+Benchmarking stage/sparse-binary/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/split-reuse: Collecting 30 samples in estimated 320.54 ms (240 iterations)
+Benchmarking stage/sparse-binary/split-reuse: Analyzing
+stage/sparse-binary/split-reuse
+                        time:   [1.2873 ms 1.3070 ms 1.3312 ms]
+                        thrpt:  [751.22 MiB/s 765.14 MiB/s 776.84 MiB/s]
+                 change:
+                        time:   [+3.7600% +5.8622% +7.9562%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.3698% −5.5376% −3.6238%]
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+stage dataset=sparse-binary raw_bytes=1048576 lanes=1 stream_bytes=71951 sampled_raw_lanes=0
+
+Benchmarking stage/random-binary-incompressible/split-reuse
+Benchmarking stage/random-binary-incompressible/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/split-reuse: Collecting 30 samples in estimated 323.67 ms (240 iterations)
+Benchmarking stage/random-binary-incompressible/split-reuse: Analyzing
+stage/random-binary-incompressible/split-reuse
+                        time:   [1.3515 ms 1.3670 ms 1.3819 ms]
+                        thrpt:  [723.66 MiB/s 731.51 MiB/s 739.90 MiB/s]
+                 change:
+                        time:   [+5.0604% +6.3913% +7.6975%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.1473% −6.0073% −4.8167%]
+                        Performance has regressed.
+stage dataset=random-binary-incompressible raw_bytes=1048576 lanes=1 stream_bytes=1092937 sampled_raw_lanes=1
+
+Benchmarking stage/repository-rust-source/split-reuse
+Benchmarking stage/repository-rust-source/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/split-reuse: Collecting 30 samples in estimated 340.06 ms (930 iterations)
+Benchmarking stage/repository-rust-source/split-reuse: Analyzing
+stage/repository-rust-source/split-reuse
+                        time:   [352.61 µs 354.13 µs 356.19 µs]
+                        thrpt:  [738.25 MiB/s 742.54 MiB/s 745.73 MiB/s]
+                 change:
+                        time:   [+1.0487% +2.1835% +3.3406%] (p = 0.00 < 0.05)
+                        thrpt:  [−3.2326% −2.1368% −1.0378%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+stage dataset=repository-rust-source raw_bytes=275729 lanes=1 stream_bytes=131722 sampled_raw_lanes=0
+
+Benchmarking stage/repository-technical-prose/split-reuse
+Benchmarking stage/repository-technical-prose/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/split-reuse: Collecting 30 samples in estimated 313.94 ms (9765 iterations)
+Benchmarking stage/repository-technical-prose/split-reuse: Analyzing
+stage/repository-technical-prose/split-reuse
+                        time:   [32.858 µs 33.577 µs 34.636 µs]
+                        thrpt:  [734.22 MiB/s 757.39 MiB/s 773.95 MiB/s]
+                 change:
+                        time:   [+2.0423% +3.8206% +5.9770%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.6399% −3.6800% −2.0014%]
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+stage dataset=repository-technical-prose raw_bytes=26666 lanes=1 stream_bytes=24878 sampled_raw_lanes=0
+
+Benchmarking stage/natural-style-prose-generated/split-reuse
+Benchmarking stage/natural-style-prose-generated/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 30 samples in 300.0ms. You may wish to increase target time to 354.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/natural-style-prose-generated/split-reuse: Collecting 30 samples in estimated 354.55 ms (465 iterations)
+Benchmarking stage/natural-style-prose-generated/split-reuse: Analyzing
+stage/natural-style-prose-generated/split-reuse
+                        time:   [771.05 µs 780.36 µs 791.23 µs]
+                        thrpt:  [706.34 MiB/s 716.17 MiB/s 724.82 MiB/s]
+                 change:
+                        time:   [+7.9733% +10.474% +13.786%] (p = 0.00 < 0.05)
+                        thrpt:  [−12.116% −9.4810% −7.3845%]
+                        Performance has regressed.
+Found 8 outliers among 30 measurements (26.67%)
+  2 (6.67%) low severe
+  3 (10.00%) low mild
+  3 (10.00%) high severe
+stage dataset=natural-style-prose-generated raw_bytes=586022 lanes=1 stream_bytes=126363 sampled_raw_lanes=0
+
+Benchmarking stage/json-records/split-reuse
+Benchmarking stage/json-records/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/json-records/split-reuse: Collecting 30 samples in estimated 325.65 ms (210 iterations)
+Benchmarking stage/json-records/split-reuse: Analyzing
+stage/json-records/split-reuse
+                        time:   [1.5730 ms 1.5916 ms 1.6192 ms]
+                        thrpt:  [712.36 MiB/s 724.72 MiB/s 733.28 MiB/s]
+                 change:
+                        time:   [+11.320% +12.652% +15.019%] (p = 0.00 < 0.05)
+                        thrpt:  [−13.058% −11.231% −10.169%]
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+stage dataset=json-records raw_bytes=1209516 lanes=1 stream_bytes=362754 sampled_raw_lanes=0
+
+Benchmarking stage/csv-table/split-reuse
+Benchmarking stage/csv-table/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 30 samples in 300.0ms. You may wish to increase target time to 571.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/csv-table/split-reuse: Collecting 30 samples in estimated 571.16 ms (465 iterations)
+Benchmarking stage/csv-table/split-reuse: Analyzing
+stage/csv-table/split-reuse
+                        time:   [1.3151 ms 1.3448 ms 1.3868 ms]
+                        thrpt:  [684.51 MiB/s 705.89 MiB/s 721.85 MiB/s]
+                 change:
+                        time:   [+4.7333% +8.0834% +11.321%] (p = 0.00 < 0.05)
+                        thrpt:  [−10.170% −7.4788% −4.5194%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+stage dataset=csv-table raw_bytes=995409 lanes=1 stream_bytes=682500 sampled_raw_lanes=0
+
+Benchmarking stage/server-log-records/split-reuse
+Benchmarking stage/server-log-records/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/split-reuse: Collecting 30 samples in estimated 331.83 ms (180 iterations)
+Benchmarking stage/server-log-records/split-reuse: Analyzing
+stage/server-log-records/split-reuse
+                        time:   [1.7992 ms 1.8243 ms 1.8597 ms]
+                        thrpt:  [717.16 MiB/s 731.09 MiB/s 741.31 MiB/s]
+                 change:
+                        time:   [+8.7256% +10.680% +12.830%] (p = 0.00 < 0.05)
+                        thrpt:  [−11.371% −9.6491% −8.0253%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+stage dataset=server-log-records raw_bytes=1398527 lanes=1 stream_bytes=579319 sampled_raw_lanes=0
+
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=52µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw-bytes=295200 rnbw-parallel-bytes=295200 rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=19.7µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw-bytes=121864 rnbw-parallel-bytes=121872 rnbw=0.9283 rnbw-parallel=0.9284 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=14µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw-bytes=89944 rnbw-parallel-bytes=89944 rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=32.2µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw-bytes=3672 rnbw-parallel-bytes=3672 rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot: Collecting 30 samples in estimated 325.09 ms (3255 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot
+                        time:   [102.01 µs 103.08 µs 104.34 µs]
+                        thrpt:  [2.3398 GiB/s 2.3686 GiB/s 2.3932 GiB/s]
+                 change:
+                        time:   [−1.2567% −0.2155% +0.7860%] (p = 0.69 > 0.05)
+                        thrpt:  [−0.7799% +0.2160% +1.2726%]
+                        No change in performance detected.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial: Collecting 30 samples in estimated 300.65 ms (3255 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [90.945 µs 91.483 µs 92.141 µs]
+                        thrpt:  [2.6496 GiB/s 2.6687 GiB/s 2.6845 GiB/s]
+                 change:
+                        time:   [−12.673% −6.4049% −1.2416%] (p = 0.02 < 0.05)
+                        thrpt:  [+1.2573% +6.8432% +14.512%]
+                        Performance has improved.
+Found 4 outliers among 30 measurements (13.33%)
+  2 (6.67%) high mild
+  2 (6.67%) high severe
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel: Collecting 30 samples in estimated 310.05 ms (3255 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [94.301 µs 95.485 µs 96.791 µs]
+                        thrpt:  [2.5224 GiB/s 2.5569 GiB/s 2.5889 GiB/s]
+                 change:
+                        time:   [+0.5855% +3.2499% +6.8093%] (p = 0.03 < 0.05)
+                        thrpt:  [−6.3752% −3.1476% −0.5821%]
+                        Change within noise threshold.
+Found 5 outliers among 30 measurements (16.67%)
+  2 (6.67%) high mild
+  3 (10.00%) high severe
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode: Collecting 30 samples in estimated 304.11 ms (13k iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode
+                        time:   [22.507 µs 22.696 µs 22.898 µs]
+                        thrpt:  [10.662 GiB/s 10.757 GiB/s 10.847 GiB/s]
+                 change:
+                        time:   [+35.025% +37.072% +38.936%] (p = 0.00 < 0.05)
+                        thrpt:  [−28.024% −27.046% −25.940%]
+                        Performance has regressed.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/snappy-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/snappy-encode: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/snappy-encode: Collecting 30 samples in estimated 302.07 ms (16k iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/snappy-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/snappy-encode
+                        time:   [18.097 µs 18.269 µs 18.462 µs]
+                        thrpt:  [13.224 GiB/s 13.364 GiB/s 13.491 GiB/s]
+                 change:
+                        time:   [+1.9660% +3.3691% +4.8371%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.6139% −3.2593% −1.9281%]
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-fast-3-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-fast-3-encode: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-fast-3-encode: Collecting 30 samples in estimated 305.96 ms (13k iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-fast-3-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/zstd-fast-3-encode
+                        time:   [24.210 µs 24.399 µs 24.647 µs]
+                        thrpt:  [9.9055 GiB/s 10.006 GiB/s 10.084 GiB/s]
+                 change:
+                        time:   [+26.529% +28.621% +30.419%] (p = 0.00 < 0.05)
+                        thrpt:  [−23.324% −22.252% −20.967%]
+                        Performance has regressed.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode: Collecting 30 samples in estimated 303.80 ms (8835 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode
+                        time:   [32.647 µs 32.795 µs 32.953 µs]
+                        thrpt:  [7.4088 GiB/s 7.4445 GiB/s 7.4782 GiB/s]
+                 change:
+                        time:   [+2.1970% +3.3097% +4.4306%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.2427% −3.2036% −2.1498%]
+                        Performance has regressed.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-0-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-0-encode: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-0-encode: Collecting 30 samples in estimated 317.58 ms (1860 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-0-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/brotli-quality-0-encode
+                        time:   [168.04 µs 169.52 µs 170.96 µs]
+                        thrpt:  [1.4280 GiB/s 1.4402 GiB/s 1.4528 GiB/s]
+                 change:
+                        time:   [+0.9111% +1.7785% +2.7972%] (p = 0.00 < 0.05)
+                        thrpt:  [−2.7211% −1.7474% −0.9029%]
+                        Change within noise threshold.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-5-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-5-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 30 samples in 300.0ms. You may wish to increase target time to 484.9ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-5-encode: Collecting 30 samples in estimated 484.92 ms (465 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/brotli-quality-5-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/brotli-quality-5-encode
+                        time:   [923.86 µs 956.30 µs 996.82 µs]
+                        thrpt:  [250.80 MiB/s 261.43 MiB/s 270.60 MiB/s]
+                 change:
+                        time:   [−1.3881% +4.0821% +9.4908%] (p = 0.14 > 0.05)
+                        thrpt:  [−8.6681% −3.9220% +1.4076%]
+                        No change in performance detected.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-fast-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-fast-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 30 samples in 300.0ms. You may wish to increase target time to 575.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-fast-encode: Collecting 30 samples in estimated 575.46 ms (465 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-fast-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/zlib-fast-encode
+                        time:   [1.2555 ms 1.2843 ms 1.3117 ms]
+                        thrpt:  [190.59 MiB/s 194.66 MiB/s 199.12 MiB/s]
+                 change:
+                        time:   [−9.5070% −8.1180% −6.5687%] (p = 0.00 < 0.05)
+                        thrpt:  [+7.0306% +8.8353% +10.506%]
+                        Performance has improved.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-default-encode
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-default-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 30 samples in 300.0ms. You may wish to increase target time to 368.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-default-encode: Collecting 30 samples in estimated 368.71 ms (465 iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/zlib-default-encode: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/zlib-default-encode
+                        time:   [780.19 µs 792.34 µs 806.58 µs]
+                        thrpt:  [309.95 MiB/s 315.52 MiB/s 320.44 MiB/s]
+                 change:
+                        time:   [+0.2062% +1.3563% +2.5533%] (p = 0.03 < 0.05)
+                        thrpt:  [−2.4897% −1.3381% −0.2058%]
+                        Change within noise threshold.
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/raw-copy-control
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/raw-copy-control: Collecting 30 samples in estimated 300.87 ms (50k iterations)
+Benchmarking file-encode/graphics-shader-machine-words-synthetic/raw-copy-control: Analyzing
+file-encode/graphics-shader-machine-words-synthetic/raw-copy-control
+                        time:   [5.8429 µs 5.8754 µs 5.9109 µs]
+                        thrpt:  [41.303 GiB/s 41.553 GiB/s 41.784 GiB/s]
+                 change:
+                        time:   [+9.8089% +11.010% +12.328%] (p = 0.00 < 0.05)
+                        thrpt:  [−10.975% −9.9184% −8.9327%]
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) low mild
+  1 (3.33%) high severe
+
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible: Collecting 30 samples in estimated 334.99 ms (930 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-cow-borrow-when-possible
+                        time:   [357.18 µs 359.08 µs 361.93 µs]
+                        thrpt:  [690.74 MiB/s 696.23 MiB/s 699.93 MiB/s]
+                 change:
+                        time:   [−0.7940% −0.0726% +0.7541%] (p = 0.86 > 0.05)
+                        thrpt:  [−0.7485% +0.0726% +0.8004%]
+                        No change in performance detected.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Collecting 30 samples in estimated 343.43 ms (930 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [366.87 µs 369.66 µs 373.35 µs]
+                        thrpt:  [669.61 MiB/s 676.30 MiB/s 681.43 MiB/s]
+                 change:
+                        time:   [+0.3919% +1.4176% +2.4571%] (p = 0.01 < 0.05)
+                        thrpt:  [−2.3982% −1.3978% −0.3903%]
+                        Change within noise threshold.
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Collecting 30 samples in estimated 334.07 ms (930 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+                        time:   [355.34 µs 356.91 µs 358.06 µs]
+                        thrpt:  [698.20 MiB/s 700.46 MiB/s 703.55 MiB/s]
+                 change:
+                        time:   [−2.2529% −1.4279% −0.3200%] (p = 0.00 < 0.05)
+                        thrpt:  [+0.3210% +1.4486% +2.3048%]
+                        Change within noise threshold.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode: Collecting 30 samples in estimated 302.04 ms (32k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode
+                        time:   [9.6144 µs 9.6953 µs 9.7669 µs]
+                        thrpt:  [24.997 GiB/s 25.181 GiB/s 25.393 GiB/s]
+                 change:
+                        time:   [−21.580% −20.824% −20.065%] (p = 0.00 < 0.05)
+                        thrpt:  [+25.101% +26.301% +27.518%]
+                        Performance has improved.
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode: Collecting 30 samples in estimated 304.45 ms (11k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/snappy-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/snappy-decode
+                        time:   [27.233 µs 27.506 µs 27.838 µs]
+                        thrpt:  [8.7700 GiB/s 8.8761 GiB/s 8.9649 GiB/s]
+                 change:
+                        time:   [+70.890% +73.544% +76.181%] (p = 0.00 < 0.05)
+                        thrpt:  [−43.240% −42.378% −41.483%]
+                        Performance has regressed.
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode: Collecting 30 samples in estimated 300.02 ms (45k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zstd-fast-3-decode
+                        time:   [6.3526 µs 6.5324 µs 6.7604 µs]
+                        thrpt:  [36.113 GiB/s 37.374 GiB/s 38.431 GiB/s]
+                 change:
+                        time:   [+4.4550% +5.9397% +7.7432%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.1867% −5.6067% −4.2650%]
+                        Performance has regressed.
+Found 6 outliers among 30 measurements (20.00%)
+  4 (13.33%) low mild
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode: Collecting 30 samples in estimated 302.70 ms (17k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zstd-level-1-decode
+                        time:   [17.744 µs 17.823 µs 17.884 µs]
+                        thrpt:  [13.651 GiB/s 13.698 GiB/s 13.759 GiB/s]
+                 change:
+                        time:   [+4.1980% +5.0055% +5.7855%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.4690% −4.7669% −4.0289%]
+                        Performance has regressed.
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode: Collecting 30 samples in estimated 304.56 ms (5115 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-0-decode
+                        time:   [57.271 µs 57.567 µs 57.998 µs]
+                        thrpt:  [4.2095 GiB/s 4.2410 GiB/s 4.2629 GiB/s]
+                 change:
+                        time:   [+2.9135% +4.1304% +5.5222%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.2332% −3.9666% −2.8310%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode: Collecting 30 samples in estimated 310.87 ms (4650 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/brotli-quality-5-decode
+                        time:   [66.017 µs 66.804 µs 67.564 µs]
+                        thrpt:  [3.6135 GiB/s 3.6546 GiB/s 3.6982 GiB/s]
+                 change:
+                        time:   [−1.2834% +0.2324% +1.6018%] (p = 0.77 > 0.05)
+                        thrpt:  [−1.5766% −0.2319% +1.3001%]
+                        No change in performance detected.
+Found 3 outliers among 30 measurements (10.00%)
+  3 (10.00%) high mild
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 30 samples in 300.0ms. You may wish to increase target time to 326.1ms, enable flat sampling, or reduce sample count to 20.
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode: Collecting 30 samples in estimated 326.06 ms (465 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zlib-fast-decode
+                        time:   [691.33 µs 693.73 µs 696.79 µs]
+                        thrpt:  [358.79 MiB/s 360.37 MiB/s 361.62 MiB/s]
+                 change:
+                        time:   [+1.2789% +2.1899% +3.0028%] (p = 0.00 < 0.05)
+                        thrpt:  [−2.9153% −2.1429% −1.2627%]
+                        Performance has regressed.
+Found 6 outliers among 30 measurements (20.00%)
+  1 (3.33%) low severe
+  2 (6.67%) low mild
+  3 (10.00%) high severe
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode: Collecting 30 samples in estimated 325.83 ms (5115 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/zlib-default-decode
+                        time:   [63.929 µs 64.479 µs 64.978 µs]
+                        thrpt:  [3.7573 GiB/s 3.7863 GiB/s 3.8190 GiB/s]
+                 change:
+                        time:   [−8.0112% −2.6790% +1.0609%] (p = 0.37 > 0.05)
+                        thrpt:  [−1.0498% +2.7528% +8.7089%]
+                        No change in performance detected.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control: Collecting 30 samples in estimated 302.03 ms (58k iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/raw-copy-control: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/raw-copy-control
+                        time:   [5.2389 µs 5.4163 µs 5.6624 µs]
+                        thrpt:  [43.116 GiB/s 45.075 GiB/s 46.602 GiB/s]
+                 change:
+                        time:   [−47.022% −44.550% −41.878%] (p = 0.00 < 0.05)
+                        thrpt:  [+72.050% +80.341% +88.758%]
+                        Performance has improved.
+Found 4 outliers among 30 measurements (13.33%)
+  4 (13.33%) high severe
+
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=3.5µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw-bytes=2992 rnbw-parallel-bytes=2992 rnbw=0.3619 rnbw-parallel=0.3619 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=143µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw-bytes=21568 rnbw-parallel-bytes=21568 rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot: Collecting 30 samples in estimated 346.78 ms (120 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot
+                        time:   [2.8864 ms 2.9205 ms 2.9549 ms]
+                        thrpt:  [338.42 MiB/s 342.40 MiB/s 346.45 MiB/s]
+                 change:
+                        time:   [+369.89% +378.04% +385.98%] (p = 0.00 < 0.05)
+                        thrpt:  [−79.423% −79.081% −78.718%]
+                        Performance has regressed.
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial: Collecting 30 samples in estimated 326.83 ms (120 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial
+                        time:   [2.7283 ms 2.7732 ms 2.8356 ms]
+                        thrpt:  [352.66 MiB/s 360.60 MiB/s 366.53 MiB/s]
+                 change:
+                        time:   [+371.05% +378.93% +390.50%] (p = 0.00 < 0.05)
+                        thrpt:  [−79.613% −79.120% −78.771%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  3 (10.00%) high severe
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel: Collecting 30 samples in estimated 353.75 ms (150 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel
+                        time:   [2.2401 ms 2.3024 ms 2.3556 ms]
+                        thrpt:  [424.52 MiB/s 434.34 MiB/s 446.41 MiB/s]
+                 change:
+                        time:   [+942.39% +989.96% +1040.3%] (p = 0.00 < 0.05)
+                        thrpt:  [−91.230% −90.825% −90.407%]
+                        Performance has regressed.
+Found 4 outliers among 30 measurements (13.33%)
+  3 (10.00%) low severe
+  1 (3.33%) low mild
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode: Collecting 30 samples in estimated 312.63 ms (2325 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode
+                        time:   [131.83 µs 132.88 µs 134.04 µs]
+                        thrpt:  [7.2857 GiB/s 7.3494 GiB/s 7.4077 GiB/s]
+                 change:
+                        time:   [+10.551% +11.626% +12.625%] (p = 0.00 < 0.05)
+                        thrpt:  [−11.210% −10.415% −9.5438%]
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) low mild
+  1 (3.33%) high mild
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/snappy-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/snappy-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/snappy-encode: Collecting 30 samples in estimated 326.56 ms (2325 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/snappy-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/snappy-encode
+                        time:   [139.22 µs 141.13 µs 142.91 µs]
+                        thrpt:  [6.8332 GiB/s 6.9196 GiB/s 7.0146 GiB/s]
+                 change:
+                        time:   [+2.3110% +3.6643% +5.0830%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.8372% −3.5348% −2.2588%]
+                        Performance has regressed.
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-fast-3-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-fast-3-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-fast-3-encode: Collecting 30 samples in estimated 325.88 ms (4185 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-fast-3-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/zstd-fast-3-encode
+                        time:   [82.316 µs 83.480 µs 84.642 µs]
+                        thrpt:  [11.538 GiB/s 11.698 GiB/s 11.864 GiB/s]
+                 change:
+                        time:   [+4.3759% +6.9574% +9.6315%] (p = 0.00 < 0.05)
+                        thrpt:  [−8.7853% −6.5049% −4.1925%]
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode: Collecting 30 samples in estimated 342.02 ms (3720 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode
+                        time:   [88.902 µs 89.559 µs 90.193 µs]
+                        thrpt:  [10.827 GiB/s 10.904 GiB/s 10.985 GiB/s]
+                 change:
+                        time:   [−15.007% −14.180% −13.294%] (p = 0.00 < 0.05)
+                        thrpt:  [+15.333% +16.523% +17.656%]
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) low mild
+  1 (3.33%) high severe
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-0-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-0-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-0-encode: Collecting 30 samples in estimated 519.31 ms (930 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-0-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/brotli-quality-0-encode
+                        time:   [559.46 µs 562.42 µs 565.61 µs]
+                        thrpt:  [1.7266 GiB/s 1.7364 GiB/s 1.7455 GiB/s]
+                 change:
+                        time:   [−3.7670% −1.7255% −0.0857%] (p = 0.07 > 0.05)
+                        thrpt:  [+0.0858% +1.7558% +3.9145%]
+                        No change in performance detected.
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-5-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-5-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-5-encode: Collecting 30 samples in estimated 328.09 ms (90 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/brotli-quality-5-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/brotli-quality-5-encode
+                        time:   [3.3992 ms 3.5154 ms 3.6389 ms]
+                        thrpt:  [274.81 MiB/s 284.46 MiB/s 294.19 MiB/s]
+                 change:
+                        time:   [+3.7431% +7.6485% +11.523%] (p = 0.00 < 0.05)
+                        thrpt:  [−10.333% −7.1050% −3.6080%]
+                        Performance has regressed.
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-fast-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-fast-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-fast-encode: Collecting 30 samples in estimated 561.54 ms (930 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-fast-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/zlib-fast-encode
+                        time:   [594.53 µs 599.15 µs 603.83 µs]
+                        thrpt:  [1.6173 GiB/s 1.6299 GiB/s 1.6426 GiB/s]
+                 change:
+                        time:   [+4.2731% +5.3196% +6.3454%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.9668% −5.0509% −4.0980%]
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-default-encode
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-default-encode: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-default-encode: Collecting 30 samples in estimated 310.44 ms (60 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/zlib-default-encode: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/zlib-default-encode
+                        time:   [5.1411 ms 5.1836 ms 5.2236 ms]
+                        thrpt:  [191.44 MiB/s 192.92 MiB/s 194.51 MiB/s]
+                 change:
+                        time:   [+2.7424% +3.6789% +4.4300%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.2421% −3.5484% −2.6692%]
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) low mild
+  1 (3.33%) high mild
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/raw-copy-control
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/raw-copy-control: Collecting 30 samples in estimated 313.63 ms (1395 iterations)
+Benchmarking file-encode/ai-model-int8-tensor-synthetic/raw-copy-control: Analyzing
+file-encode/ai-model-int8-tensor-synthetic/raw-copy-control
+                        time:   [194.34 µs 212.33 µs 235.24 µs]
+                        thrpt:  [4.1514 GiB/s 4.5992 GiB/s 5.0250 GiB/s]
+                 change:
+                        time:   [−9.5415% −5.2270% +0.0334%] (p = 0.04 < 0.05)
+                        thrpt:  [−0.0333% +5.5153% +10.548%]
+                        Change within noise threshold.
+Found 6 outliers among 30 measurements (20.00%)
+  5 (16.67%) high mild
+  1 (3.33%) high severe
+
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible: Collecting 30 samples in estimated 347.55 ms (210 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-cow-borrow-when-possible
+                        time:   [1.5874 ms 1.6534 ms 1.7707 ms]
+                        thrpt:  [564.74 MiB/s 604.83 MiB/s 629.95 MiB/s]
+                 change:
+                        time:   [−2.1532% +2.1884% +9.8806%] (p = 0.67 > 0.05)
+                        thrpt:  [−8.9922% −2.1415% +2.2006%]
+                        No change in performance detected.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) low mild
+  1 (3.33%) high severe
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Collecting 30 samples in estimated 348.81 ms (210 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [1.6330 ms 1.6491 ms 1.6670 ms]
+                        thrpt:  [599.87 MiB/s 606.37 MiB/s 612.39 MiB/s]
+                 change:
+                        time:   [−0.7774% +0.7910% +2.4982%] (p = 0.36 > 0.05)
+                        thrpt:  [−2.4373% −0.7848% +0.7835%]
+                        No change in performance detected.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Collecting 30 samples in estimated 309.98 ms (180 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+                        time:   [1.6270 ms 1.6830 ms 1.7574 ms]
+                        thrpt:  [569.02 MiB/s 594.19 MiB/s 614.64 MiB/s]
+                 change:
+                        time:   [−0.5297% +3.3311% +7.9346%] (p = 0.14 > 0.05)
+                        thrpt:  [−7.3513% −3.2237% +0.5325%]
+                        No change in performance detected.
+Found 5 outliers among 30 measurements (16.67%)
+  2 (6.67%) low mild
+  3 (10.00%) high severe
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode: Collecting 30 samples in estimated 369.69 ms (1395 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode
+                        time:   [213.86 µs 222.29 µs 230.77 µs]
+                        thrpt:  [4.2318 GiB/s 4.3932 GiB/s 4.5663 GiB/s]
+                 change:
+                        time:   [−2.3836% +1.1507% +5.4655%] (p = 0.56 > 0.05)
+                        thrpt:  [−5.1823% −1.1376% +2.4418%]
+                        No change in performance detected.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode: Collecting 30 samples in estimated 308.11 ms (930 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/snappy-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/snappy-decode
+                        time:   [282.82 µs 314.51 µs 361.35 µs]
+                        thrpt:  [2.7025 GiB/s 3.1051 GiB/s 3.4529 GiB/s]
+                 change:
+                        time:   [+32.385% +50.293% +66.847%] (p = 0.00 < 0.05)
+                        thrpt:  [−40.065% −33.463% −24.463%]
+                        Performance has regressed.
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode: Collecting 30 samples in estimated 390.90 ms (1395 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zstd-fast-3-decode
+                        time:   [241.07 µs 247.48 µs 254.48 µs]
+                        thrpt:  [3.8375 GiB/s 3.9461 GiB/s 4.0509 GiB/s]
+                 change:
+                        time:   [+1.7093% +7.1990% +13.312%] (p = 0.02 < 0.05)
+                        thrpt:  [−11.748% −6.7156% −1.6806%]
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode: Collecting 30 samples in estimated 405.41 ms (1395 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zstd-level-1-decode
+                        time:   [251.53 µs 257.01 µs 262.72 µs]
+                        thrpt:  [3.7171 GiB/s 3.7997 GiB/s 3.8825 GiB/s]
+                 change:
+                        time:   [−19.509% −16.471% −13.290%] (p = 0.00 < 0.05)
+                        thrpt:  [+15.327% +19.719% +24.238%]
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode: Collecting 30 samples in estimated 427.70 ms (930 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-0-decode
+                        time:   [431.85 µs 453.50 µs 475.42 µs]
+                        thrpt:  [2.0541 GiB/s 2.1534 GiB/s 2.2614 GiB/s]
+                 change:
+                        time:   [−3.2052% +2.1183% +6.7303%] (p = 0.44 > 0.05)
+                        thrpt:  [−6.3059% −2.0744% +3.3113%]
+                        No change in performance detected.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode: Collecting 30 samples in estimated 396.70 ms (930 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/brotli-quality-5-decode
+                        time:   [405.89 µs 413.12 µs 422.55 µs]
+                        thrpt:  [2.3111 GiB/s 2.3639 GiB/s 2.4060 GiB/s]
+                 change:
+                        time:   [−14.771% −10.537% −5.9658%] (p = 0.00 < 0.05)
+                        thrpt:  [+6.3443% +11.779% +17.331%]
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode: Collecting 30 samples in estimated 453.33 ms (930 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zlib-fast-decode
+                        time:   [500.49 µs 511.55 µs 522.26 µs]
+                        thrpt:  [1.8699 GiB/s 1.9090 GiB/s 1.9512 GiB/s]
+                 change:
+                        time:   [−7.2382% −4.3197% −1.6311%] (p = 0.01 < 0.05)
+                        thrpt:  [+1.6581% +4.5147% +7.8030%]
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  3 (10.00%) high mild
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode: Collecting 30 samples in estimated 499.65 ms (930 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/zlib-default-decode
+                        time:   [475.22 µs 484.88 µs 496.92 µs]
+                        thrpt:  [1.9652 GiB/s 2.0140 GiB/s 2.0550 GiB/s]
+                 change:
+                        time:   [−9.8277% −7.4568% −5.0841%] (p = 0.00 < 0.05)
+                        thrpt:  [+5.3564% +8.0576% +10.899%]
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control: Warming up for 100.00 ms
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control: Collecting 30 samples in estimated 360.21 ms (1395 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/raw-copy-control: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/raw-copy-control
+                        time:   [209.09 µs 216.77 µs 226.02 µs]
+                        thrpt:  [4.3207 GiB/s 4.5050 GiB/s 4.6704 GiB/s]
+                 change:
+                        time:   [−12.016% −6.9936% −1.7398%] (p = 0.02 < 0.05)
+                        thrpt:  [+1.7706% +7.5195% +13.658%]
+                        Performance has improved.
+Found 4 outliers among 30 measurements (13.33%)
+  1 (3.33%) low mild
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+
+general-trnmap-index=native-executable-binary bytes=5437440 words=1359360 index-bytes=521024 build=857.1µs zero-words=53080 first-zero=5
+file-dataset=native-executable-binary bytes=5437440 structural-lanes=1-byte-lane rnbw-bytes=3023424 rnbw-parallel-bytes=3022768 rnbw=0.5560 rnbw-parallel=0.5559 parallel-size-delta=-0.02% raw=1.0000 lz4-fast=0.5544 snappy=0.5636 zstd-fast-3=0.5503 zstd-level-1=0.4342 brotli-quality-0=0.4538 brotli-quality-5=0.3469 zlib-fast=0.4514 zlib-default=0.3823 cow-borrowed=false
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=67.6µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw-bytes=352584 rnbw-parallel-bytes=352584 rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=127.6µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=48424 rnbw-parallel-bytes=48440 rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=120.9µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=1048632 rnbw-parallel-bytes=1048632 rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+general-trnmap-index=repository-rust-source bytes=275729 words=68933 index-bytes=26864 build=30.7µs zero-words=0 first-zero=68933
+file-dataset=repository-rust-source bytes=275729 structural-lanes=1-byte-lane rnbw-bytes=87216 rnbw-parallel-bytes=87248 rnbw=0.3163 rnbw-parallel=0.3164 parallel-size-delta=+0.04% raw=1.0000 lz4-fast=0.3332 snappy=0.3288 zstd-fast-3=0.2975 zstd-level-1=0.2350 brotli-quality-0=0.2542 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2021 cow-borrowed=false
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=4.8µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw-bytes=15840 rnbw-parallel-bytes=15840 rnbw=0.5940 rnbw-parallel=0.5940 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=58µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw-bytes=89832 rnbw-parallel-bytes=89848 rnbw=0.1533 rnbw-parallel=0.1533 parallel-size-delta=+0.02% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=159.5µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw-bytes=237792 rnbw-parallel-bytes=237816 rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=140.5µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw-bytes=429432 rnbw-parallel-bytes=429456 rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=181.8µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw-bytes=394256 rnbw-parallel-bytes=394296 rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false

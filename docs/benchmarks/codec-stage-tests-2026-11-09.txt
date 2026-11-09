@@ -1,0 +1,99 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.65s
+     Running unittests src\lib.rs (target\debug\deps\rnbw-d3ddbefa90f57c78.exe)
+
+running 57 tests
+test lane_lz::tests::fixed_width_lane_tokens_roundtrip_overlap_and_reject_bad_fields ... ok
+test lane_lz::tests::lz_hash_table_tracks_active_input_size ... ok
+test lane_lz::tests::four_lane_avx2_split_matches_scalar_for_all_vector_tails ... ok
+test lane_lz::tests::single_raw_lane_decode_borrows_the_image_payload ... ok
+test lane_lz::tests::encoded_lane_uses_version_two_fixed_width_token_records ... ok
+test rans::tests::four_state_rans_roundtrips_short_and_all_symbol_streams ... ok
+test lane_lz::tests::interleaved_lanes_roundtrip_and_reject_bad_widths ... ok
+test rans::tests::version_three_rans_streams_remain_readable ... ok
+test lane_lz::tests::multi_window_lanes_roundtrip_repeated_and_random_data ... ok
+test lane_lz::tests::reusable_split_buffers_support_changing_lane_widths ... ok
+test rans::tests::repetition_hint_uses_light_huffman_before_rans ... ok
+test store::tests::arena_handles_are_tagged_generational_and_option_niche_sized ... ok
+test store::tests::direct_run_records_match_maximal_sorted_runs ... ok
+test rans::tests::canonical_huffman_roundtrips_skewed_and_full_alphabets ... ok
+test store::tests::group_generation_exhaustion_leaves_the_group_unchanged ... ok
+test store::tests::deterministic_var_arena_mutation_fuzz_rejects_all_retired_handles ... ok
+test store::tests::paired_pocket_matches_l2_across_pair ... ok
+test store::tests::dense_chunks_use_arena_backed_trnmap_without_bitmap_storage ... ok
+test store::tests::pockets_dirty_and_spill_are_exact ... ok
+test store::tests::l3_is_allocated_only_when_a_chunk_promotes ... ok
+test store::tests::var_arena_accepts_sequential_power_of_two_blocks_without_padding ... ok
+test lane_lz::tests::u32_byte_planes_roundtrip_and_corruption_is_rejected ... ok
+test store::tests::var_arena_rejects_retired_handle_after_same_block_reuse ... ok
+test store::tests::var_arena_retires_a_block_at_generation_exhaustion ... ok
+test store::tests::var_arena_split_blocks_get_independent_live_generations ... ok
+test tests::fused_analysis_preserves_validation_error_precedence ... ok
+test tests::empty_singleton_and_unsorted_inputs ... ok
+test store::tests::range_promotion_batches_groups_and_respects_partial_group_bounds ... ok
+test tests::membership_kernel_is_selected_once ... ok
+test rans::tests::entropy_image_roundtrips_and_rejects_corruption ... ok
+test store::tests::l2_forms_and_update_roundtrip ... ok
+test tests::plain_ef_normalizes_high_offset_dense_ranges ... ok
+test lane_lz::tests::reusable_serial_and_parallel_encoders_match_one_shot_output ... ok
+test tests::plain_ef_reference_is_correct ... ok
+test tests::rejects_corrupt_headers_directories_and_streams ... ok
+test tests::selected_simd_kernels_match_scalar_for_hits_misses_and_tails ... ok
+test trnmap::tests::caller_buffer_alignment_and_canaries_are_preserved ... ok
+test trnmap::tests::exact_layout_matches_symbolic_byte_budget ... ok
+test trnmap::tests::hierarchy_boundaries_search_counts_and_dirty_are_exact ... ok
+test trnmap::tests::invalid_inputs_and_tail_padding_are_checked ... ok
+test trnmap::tests::trit_word_matches_scalar_kleene_algebra ... ok
+test trnmap::tests::unchecked_find_matches_checked_for_valid_starts ... ok
+test trnmap::tests::unchecked_reads_match_checked_reads_at_leaf_boundaries ... ok
+test trnmap::tests::merges_and_not_match_scalar_kleene_results ... ok
+test tests::selected_match_length_kernel_matches_scalar_for_vector_tails ... ok
+test lane_lz::tests::compressed_png_sample_uses_raw_fast_path_and_roundtrips ... ok
+test store::tests::deterministic_dense_trnmap_mutations_match_btree_set ... ok
+test lane_lz::tests::entropy_sample_skips_random_bytes_but_not_uniform_periodic_sequences ... ok
+test tests::width_specific_chunks_roundtrip ... ok
+test tests::deterministic_random_and_clustered_roundtrips ... ok
+test lane_lz::tests::single_lane_parallel_blocks_roundtrip_across_boundaries_without_density_loss ... ok
+test tests::one_pass_prefix_counts_match_direct_prefix_sets ... ok
+test lane_lz::tests::sixteen_lane_split_matches_scalar_with_unaligned_input_and_every_tail ... ok
+test trnmap::tests::randomized_operations_match_naive_map ... ok
+test tests::fused_level_masks_match_per_level_reference ... ok
+test rans::tests::histogram_matches_independent_counts_across_threshold_and_tails ... ok
+test store::tests::deterministic_store_mutation_fuzz_matches_btree_set ... ok
+
+test result: ok. 57 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.74s
+
+     Running unittests src\main.rs (target\debug\deps\rnbw-aaa74de048373045.exe)
+
+running 3 tests
+test datasets::tests::unknown_workload_is_an_error ... ok
+test datasets::tests::ecs_workload_is_dense_with_ten_percent_holes ... ok
+test datasets::tests::workloads_are_repeatable_sorted_and_unique ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running tests\fuzz_codec.rs (target\debug\deps\fuzz_codec-0385cd7f5cd21804.exe)
+
+running 2 tests
+test randomized_lane_widths_reuse_and_simd_roundtrip ... ok
+fuzzed 20523 deterministic raw, entropy, and multi-lane streams, including 224 directed header mutations
+test deterministic_mutation_fuzzer_checks_raw_and_entropy_parsers ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.55s
+
+     Running tests\fuzz_trnmap.rs (target\debug\deps\fuzz_trnmap-1986184417c82a2d.exe)
+
+running 3 tests
+test every_class_code_and_out_of_range_start_are_total ... ok
+test deterministic_merge_fuzzer_matches_scalar_operators ... ok
+test deterministic_operation_fuzz_matches_naive_map ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+
+   Doc-tests rnbw
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

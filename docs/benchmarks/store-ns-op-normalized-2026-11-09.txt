@@ -182,9 +182,9 @@ Only center estimates are normalized here. Use the source summary for the full c
 | `store-demote-noop/ecs/p64/full-range` | 3.4078 µs | 256 demote-call | 13.312 ns/demote-call |
 | `store-promote/ecs/p32/full-range-refresh` | 1.3 ms | 65536 chunk | 19.836 ns/chunk |
 | `store-promote/ecs/p64/full-range-refresh` | 1.261 ms | 65536 chunk | 19.241 ns/chunk |
-| `store-dense-trnmap-build/rnbw-store` | 99.088 µs | 1000000 key | 0.099 ns/key |
-| `store-dense-trnmap-build/rnbw-image` | 474.54 µs | 1000000 key | 0.475 ns/key |
-| `store-dense-trnmap-build/roaring` | 190.05 µs | 1000000 key | 0.190 ns/key |
+| `store-dense-trnmap-build/rnbw-store` | 99.088 µs | 32768 key | 3.024 ns/key |
+| `store-dense-trnmap-build/rnbw-image` | 474.54 µs | 32768 key | 14.482 ns/key |
+| `store-dense-trnmap-build/roaring` | 190.05 µs | 32768 key | 5.800 ns/key |
 | `store-dense-trnmap-contains/rnbw-store/hits-1024` | 14.759 µs | 1024 probe | 14.413 ns/probe |
 | `store-dense-trnmap-contains/rnbw-image/hits-1024` | 52.985 µs | 1024 probe | 51.743 ns/probe |
 | `store-dense-trnmap-contains/roaring/hits-1024` | 1.4248 µs | 1024 probe | 1.391 ns/probe |
@@ -192,6 +192,8 @@ Only center estimates are normalized here. Use the source summary for the full c
 | `store-dense-trnmap-contains/rnbw-image/misses-1024` | 52.959 µs | 1024 probe | 51.718 ns/probe |
 | `store-dense-trnmap-contains/roaring/misses-1024` | 1.4699 µs | 1024 probe | 1.435 ns/probe |
 | `store-dense-trnmap-update/insert-remove-pair` | 229.82 ns | 2 mutation | 114.910 ns/mutation |
-| `store-dense-trnmap-decode/rnbw-store` | 147.76 µs | 1000000 key | 0.148 ns/key |
-| `store-dense-trnmap-decode/rnbw-image` | 756.05 µs | 1000000 key | 0.756 ns/key |
-| `store-dense-trnmap-decode/roaring` | 169.6 µs | 1000000 key | 0.170 ns/key |
+| `store-dense-trnmap-decode/rnbw-store` | 147.76 µs | 32768 key | 4.509 ns/key |
+| `store-dense-trnmap-decode/rnbw-image` | 756.05 µs | 32768 key | 23.073 ns/key |
+| `store-dense-trnmap-decode/roaring` | 169.6 µs | 32768 key | 5.176 ns/key |
+
+Correction (2026-11-09): the six store-dense-trnmap build/decode rows contain 32,768 keys, as constructed by (0..65_536).step_by(2) in benches/store.rs. The earlier 1,000,000-key denominator understated their ns/key values by 30.517578125 times; full-call timings are unchanged.

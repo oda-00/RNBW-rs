@@ -11,6 +11,9 @@ use std::sync::OnceLock;
 
 pub mod lane_lz;
 mod rans;
+#[cfg(feature = "bench-internals")]
+#[doc(hidden)]
+pub use rans::stage_bench as entropy_stage_bench;
 pub mod store;
 pub mod trnmap;
 

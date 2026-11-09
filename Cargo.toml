@@ -50,8 +50,13 @@ required-features = ["wgpu"]
 name = "rnbw"
 path = "src/main.rs"
 
+[[example]]
+name = "lane_profile"
+required-features = ["bench-internals"]
+
 [profile.bench]
 debug = true
 
 [features]
+bench-internals = []
 wgpu = ["dep:wgpu"]

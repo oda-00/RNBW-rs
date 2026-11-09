@@ -14,6 +14,85 @@ use std::arch::x86_64::*;
 #[cfg(feature = "wgpu")]
 pub mod gpu;
 
+/// Fixtures call the production kernels; setup is outside Criterion timing.
+#[cfg(feature = "bench-internals")]
+#[doc(hidden)]
+pub mod stage_bench {
+    use super::*;
+
+    pub fn split(
+        input: &[u8],
+        width: usize,
+        lanes: &mut Vec<Vec<u8>>,
+    ) -> Result<usize, CodecError> {
+        split_interleaved(input, width, lanes)
+    }
+
+    pub fn join_sixteen(lanes: &[Vec<u8>]) -> Result<Vec<u8>, CodecError> {
+        if lanes.len() != 16 || lanes.iter().any(|lane| lane.len() != lanes[0].len()) {
+            return Err(CodecError::InvalidFormat("expected sixteen equal lanes"));
+        }
+        lanes[0]
+            .len()
+            .checked_mul(16)
+            .ok_or(CodecError::LengthOverflow)?;
+        Ok(join_sixteen_dispatch(lanes, lanes[0].len()))
+    }
+
+    pub struct Lane {
+        input: Vec<u8>,
+        workspace: LzWorkspace,
+        token_count: usize,
+        literal_len: usize,
+    }
+
+    impl Lane {
+        pub fn new(input: Vec<u8>) -> Self {
+            let mut lane = Self {
+                input,
+                workspace: LzWorkspace::default(),
+                token_count: 0,
+                literal_len: 0,
+            };
+            lane.parse();
+            lane
+        }
+
+        pub fn sample(&self) -> bool {
+            should_skip_lz_sample(&self.input)
+        }
+
+        pub fn parse(&mut self) -> (usize, usize) {
+            (self.token_count, self.literal_len) =
+                lz_encode(&self.input, &mut self.workspace, HASH_BITS_MAX);
+            (self.token_count, self.literal_len)
+        }
+
+        pub fn stream(&self) -> &[u8] {
+            &self.workspace.tokens
+        }
+
+        pub fn expand(&self) -> Result<Vec<u8>, CodecError> {
+            lz_decode(
+                self.stream(),
+                self.token_count,
+                self.literal_len,
+                self.input.len(),
+            )
+        }
+
+        pub fn hybrid_select(&self) -> Result<(u8, Vec<u8>, Vec<u8>), CodecError> {
+            let data = choose_lane_data(
+                &self.input,
+                self.stream(),
+                self.token_count,
+                self.literal_len,
+            )?;
+            Ok((data.entropy_method, data.model, data.payload))
+        }
+    }
+}
+
 const MAGIC: &[u8; 4] = b"RNLZ";
 const VERSION: u16 = 2;
 const LEGACY_VERSION: u16 = 1;
@@ -35,8 +114,11 @@ const METHOD_RAW: u8 = 0;
 const METHOD_RANS: u8 = 1;
 const METHOD_HUFFMAN: u8 = 2;
 
-type SplitFourFn = fn(&[u8], &mut [Vec<u8>], usize);
-static SPLIT_FOUR_DISPATCH: OnceLock<SplitFourFn> = OnceLock::new();
+type SplitFn = fn(&[u8], &mut [Vec<u8>], usize);
+static SPLIT_FOUR_DISPATCH: OnceLock<SplitFn> = OnceLock::new();
+static SPLIT_SIXTEEN_DISPATCH: OnceLock<SplitFn> = OnceLock::new();
+type JoinFn = fn(&[Vec<u8>], usize) -> Vec<u8>;
+static JOIN_SIXTEEN_DISPATCH: OnceLock<JoinFn> = OnceLock::new();
 static RAYON_WORKERS: OnceLock<usize> = OnceLock::new();
 
 #[derive(Clone, Debug)]
@@ -356,6 +438,9 @@ impl LaneLz {
             .len()
             .checked_mul(lanes.len())
             .ok_or(CodecError::LengthOverflow)?;
+        if lanes.len() == 16 {
+            return Ok(Cow::Owned(join_sixteen_dispatch(&lanes, lanes[0].len())));
+        }
         if lanes.len() == 4 {
             let mut output = Vec::with_capacity(output_len);
             for (((red, green), blue), alpha) in
@@ -901,6 +986,10 @@ fn split_interleaved(
         split_four_dispatch(input, &mut lanes[..4], records);
         return Ok(input.len());
     }
+    if lane_width == 16 {
+        split_sixteen_dispatch(input, &mut lanes[..16], records);
+        return Ok(input.len());
+    }
     for record in input.chunks_exact(lane_width) {
         for (lane, byte) in lanes.iter_mut().zip(record) {
             lane.push(*byte);
@@ -984,6 +1073,195 @@ unsafe fn split_four_avx2(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
         }
         record += 1;
     }
+}
+
+fn split_sixteen_dispatch(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    let split = *SPLIT_SIXTEEN_DISPATCH.get_or_init(|| {
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+        if std::is_x86_feature_detected!("avx2") {
+            return split_sixteen_avx2_entry;
+        }
+        split_sixteen_scalar
+    });
+    split(input, lanes, records);
+}
+
+fn split_sixteen_scalar(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    for (channel, lane) in lanes.iter_mut().enumerate() {
+        lane.clear();
+        lane.reserve(records);
+        lane.extend(
+            input
+                .as_chunks::<16>()
+                .0
+                .iter()
+                .map(|record| record[channel]),
+        );
+    }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+fn split_sixteen_avx2_entry(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    // Selected only after cached AVX2 feature detection.
+    unsafe { split_sixteen_avx2(input, lanes, records) }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[target_feature(enable = "avx2")]
+unsafe fn split_sixteen_avx2(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    debug_assert_eq!(lanes.len(), 16);
+    debug_assert_eq!(input.len(), records * 16);
+    for lane in lanes.iter_mut() {
+        lane.clear();
+        lane.reserve(records);
+    }
+    let end = records & !31;
+    for record in (0..end).step_by(32) {
+        // Each YMM holds two 16-byte records. Unpacking transposes the even
+        // records in its low half and the odd records in its high half.
+        let mut rows = [_mm256_setzero_si256(); 16];
+        for (i, row) in rows.iter_mut().enumerate() {
+            // The complete 32-record tile is in input (512 bytes).
+            *row = unsafe { _mm256_loadu_si256(input.as_ptr().add(record * 16 + i * 32).cast()) };
+        }
+        let rows = unsafe { transpose_sixteen(rows) };
+        for (lane, column) in lanes.iter_mut().zip(rows) {
+            let even = _mm256_castsi256_si128(column);
+            let odd = _mm256_extracti128_si256::<1>(column);
+            // Capacity >= records. These stores initialize exactly this lane's
+            // next 32 output bytes; lengths are published after the tail.
+            unsafe {
+                _mm_storeu_si128(
+                    lane.as_mut_ptr().add(record).cast(),
+                    _mm_unpacklo_epi8(even, odd),
+                );
+                _mm_storeu_si128(
+                    lane.as_mut_ptr().add(record + 16).cast(),
+                    _mm_unpackhi_epi8(even, odd),
+                );
+            }
+        }
+    }
+    for record in end..records {
+        for (channel, lane) in lanes.iter_mut().enumerate() {
+            unsafe {
+                lane.as_mut_ptr()
+                    .add(record)
+                    .write(input[record * 16 + channel]);
+            }
+        }
+    }
+    for lane in lanes {
+        // Every byte in 0..records was initialized by one tile or the tail.
+        unsafe {
+            lane.set_len(records);
+        }
+    }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[target_feature(enable = "avx2")]
+#[inline]
+unsafe fn transpose_sixteen(mut rows: [__m256i; 16]) -> [__m256i; 16] {
+    let mut temp = rows;
+    for i in 0..8 {
+        temp[2 * i] = _mm256_unpacklo_epi8(rows[2 * i], rows[2 * i + 1]);
+        temp[2 * i + 1] = _mm256_unpackhi_epi8(rows[2 * i], rows[2 * i + 1]);
+    }
+    for group in 0..4 {
+        for j in 0..2 {
+            rows[group * 4 + 2 * j] =
+                _mm256_unpacklo_epi16(temp[group * 4 + j], temp[group * 4 + j + 2]);
+            rows[group * 4 + 2 * j + 1] =
+                _mm256_unpackhi_epi16(temp[group * 4 + j], temp[group * 4 + j + 2]);
+        }
+    }
+    for group in 0..2 {
+        for j in 0..4 {
+            temp[group * 8 + 2 * j] =
+                _mm256_unpacklo_epi32(rows[group * 8 + j], rows[group * 8 + j + 4]);
+            temp[group * 8 + 2 * j + 1] =
+                _mm256_unpackhi_epi32(rows[group * 8 + j], rows[group * 8 + j + 4]);
+        }
+    }
+    for j in 0..8 {
+        rows[2 * j] = _mm256_unpacklo_epi64(temp[j], temp[j + 8]);
+        rows[2 * j + 1] = _mm256_unpackhi_epi64(temp[j], temp[j + 8]);
+    }
+    rows
+}
+
+fn join_sixteen_dispatch(lanes: &[Vec<u8>], records: usize) -> Vec<u8> {
+    let join = *JOIN_SIXTEEN_DISPATCH.get_or_init(|| {
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+        if std::is_x86_feature_detected!("avx2") {
+            return join_sixteen_avx2_entry;
+        }
+        join_sixteen_scalar
+    });
+    join(lanes, records)
+}
+
+fn join_sixteen_scalar(lanes: &[Vec<u8>], records: usize) -> Vec<u8> {
+    let mut output = Vec::with_capacity(records * 16);
+    for record in 0..records {
+        for lane in lanes {
+            output.push(lane[record]);
+        }
+    }
+    output
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+fn join_sixteen_avx2_entry(lanes: &[Vec<u8>], records: usize) -> Vec<u8> {
+    // Cached hardware dispatch and checked equal lane lengths precede this call.
+    unsafe { join_sixteen_avx2(lanes, records) }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[target_feature(enable = "avx2")]
+unsafe fn join_sixteen_avx2(lanes: &[Vec<u8>], records: usize) -> Vec<u8> {
+    debug_assert_eq!(lanes.len(), 16);
+    debug_assert!(lanes.iter().all(|lane| lane.len() == records));
+    // The caller has checked this multiplication for overflow.
+    let mut output = Vec::<u8>::with_capacity(records * 16);
+    let end = records & !31;
+    for record in (0..end).step_by(32) {
+        let mut rows = [_mm256_setzero_si256(); 16];
+        for (row, lane) in rows.iter_mut().zip(lanes) {
+            *row = unsafe { _mm256_loadu_si256(lane.as_ptr().add(record).cast()) };
+        }
+        let rows = unsafe { transpose_sixteen(rows) };
+        for (i, row) in rows.into_iter().enumerate() {
+            // Each half is now one full record. The two 16-record output
+            // regions are disjoint and fill exactly this 512-byte tile.
+            unsafe {
+                _mm_storeu_si128(
+                    output.as_mut_ptr().add((record + i) * 16).cast(),
+                    _mm256_castsi256_si128(row),
+                );
+                _mm_storeu_si128(
+                    output.as_mut_ptr().add((record + i + 16) * 16).cast(),
+                    _mm256_extracti128_si256::<1>(row),
+                );
+            }
+        }
+    }
+    for record in end..records {
+        for (channel, lane) in lanes.iter().enumerate() {
+            unsafe {
+                output
+                    .as_mut_ptr()
+                    .add(record * 16 + channel)
+                    .write(lane[record]);
+            }
+        }
+    }
+    // All records, including the tail, have been initialized exactly once.
+    unsafe {
+        output.set_len(records * 16);
+    }
+    output
 }
 
 fn split_u32_byte_planes(values: &[u32], lanes: &mut Vec<Vec<u8>>) -> Result<(), CodecError> {
@@ -1652,6 +1930,43 @@ mod tests {
         assert_eq!(second.decode_interleaved().unwrap(), rg);
         let third = encoder.encode_interleaved_parallel(&rgba, 4).unwrap();
         assert_eq!(third.decode_interleaved().unwrap(), rgba);
+    }
+
+    #[test]
+    fn sixteen_lane_split_matches_scalar_with_unaligned_input_and_every_tail() {
+        let mut seed = 0x9e37_79b9u32;
+        let mut actual: [Vec<u8>; 16] = std::array::from_fn(|_| Vec::new());
+        for records in (0..=97).chain([1024, 65536]) {
+            for offset in [0, 1, 7, 15, 31] {
+                let input: Vec<_> = (0..records * 16 + offset)
+                    .map(|_| {
+                        seed ^= seed << 13;
+                        seed ^= seed >> 17;
+                        seed ^= seed << 5;
+                        seed as u8
+                    })
+                    .collect();
+                let mut expected: [Vec<u8>; 16] = std::array::from_fn(|_| Vec::new());
+                split_sixteen_scalar(&input[offset..], &mut expected, records);
+                split_sixteen_dispatch(&input[offset..], &mut actual, records);
+                assert_eq!(actual, expected, "records={records}, offset={offset}");
+                assert_eq!(join_sixteen_dispatch(&actual, records), input[offset..]);
+                assert_eq!(join_sixteen_scalar(&expected, records), input[offset..]);
+                for (channel, lane) in actual.iter().enumerate() {
+                    for (record, &byte) in lane.iter().enumerate() {
+                        assert_eq!(byte, input[offset + record * 16 + channel]);
+                    }
+                }
+            }
+        }
+        let input: Vec<_> = (0..16 * 1027).map(|i| (i ^ (i >> 8)) as u8).collect();
+        let mut expected: [Vec<u8>; 16] = std::array::from_fn(|_| Vec::new());
+        split_sixteen_scalar(&input, &mut expected, 1027);
+        let expected_image =
+            LaneLz::encode(&expected.iter().map(Vec::as_slice).collect::<Vec<_>>()).unwrap();
+        let image = LaneLz::encode_interleaved(&input, 16).unwrap();
+        assert_eq!(image.as_bytes(), expected_image.as_bytes());
+        assert_eq!(image.decode_interleaved().unwrap(), input);
     }
 
     #[test]

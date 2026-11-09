@@ -1,0 +1,1672 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.20s
+     Running benches\files.rs (target\release\deps\files-fb51285c343af799.exe)
+Gnuplot not found, using plotters backend
+Benchmarking stage/image-rgba8-raster/split-reuse
+Benchmarking stage/image-rgba8-raster/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/split-reuse: Collecting 20 samples in estimated 202.87 ms (7980 iterations)
+Benchmarking stage/image-rgba8-raster/split-reuse: Analyzing
+stage/image-rgba8-raster/split-reuse
+                        time:   [25.587 µs 25.702 µs 25.789 µs]
+                        thrpt:  [18.934 GiB/s 18.998 GiB/s 19.083 GiB/s]
+stage dataset=image-rgba8-raster raw_bytes=524288 lanes=4 stream_bytes=526842 sampled_raw_lanes=0
+Benchmarking stage/image-rgba8-raster/sample
+Benchmarking stage/image-rgba8-raster/sample: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/sample: Collecting 20 samples in estimated 202.46 ms (12k iterations)
+Benchmarking stage/image-rgba8-raster/sample: Analyzing
+stage/image-rgba8-raster/sample
+                        time:   [18.009 µs 19.227 µs 20.849 µs]
+                        thrpt:  [23.420 GiB/s 25.396 GiB/s 27.113 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/image-rgba8-raster/lz-parse-reuse
+Benchmarking stage/image-rgba8-raster/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/lz-parse-reuse: Collecting 20 samples in estimated 217.78 ms (60 iterations)
+Benchmarking stage/image-rgba8-raster/lz-parse-reuse: Analyzing
+stage/image-rgba8-raster/lz-parse-reuse
+                        time:   [3.2673 ms 3.3176 ms 3.3688 ms]
+                        thrpt:  [148.42 MiB/s 150.71 MiB/s 153.03 MiB/s]
+Benchmarking stage/image-rgba8-raster/lz-expand
+Benchmarking stage/image-rgba8-raster/lz-expand: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 215.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-rgba8-raster/lz-expand: Collecting 20 samples in estimated 215.55 ms (210 iterations)
+Benchmarking stage/image-rgba8-raster/lz-expand: Analyzing
+stage/image-rgba8-raster/lz-expand
+                        time:   [1.0374 ms 1.0733 ms 1.1069 ms]
+                        thrpt:  [451.72 MiB/s 465.87 MiB/s 481.97 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) low severe
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection: Collecting 20 samples in estimated 246.10 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/hybrid-entropy-selection: Analyzing
+stage/image-rgba8-raster/hybrid-entropy-selection
+                        time:   [2.1945 ms 2.2211 ms 2.2478 ms]
+                        thrpt:  [223.52 MiB/s 226.21 MiB/s 228.95 MiB/s]
+Benchmarking stage/image-rgba8-raster/histogram
+Benchmarking stage/image-rgba8-raster/histogram: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/histogram: Collecting 20 samples in estimated 214.29 ms (630 iterations)
+Benchmarking stage/image-rgba8-raster/histogram: Analyzing
+stage/image-rgba8-raster/histogram
+                        time:   [328.61 µs 332.45 µs 338.12 µs]
+                        thrpt:  [1.4511 GiB/s 1.4759 GiB/s 1.4931 GiB/s]
+Benchmarking stage/image-rgba8-raster/normalize-model
+Benchmarking stage/image-rgba8-raster/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/normalize-model: Collecting 20 samples in estimated 201.44 ms (21k iterations)
+Benchmarking stage/image-rgba8-raster/normalize-model: Analyzing
+stage/image-rgba8-raster/normalize-model
+                        time:   [8.4580 µs 8.6226 µs 8.8849 µs]
+                        thrpt:  [450.20 Kelem/s 463.90 Kelem/s 472.92 Kelem/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/image-rgba8-raster/rans-encode
+Benchmarking stage/image-rgba8-raster/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/rans-encode: Collecting 20 samples in estimated 214.30 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/rans-encode: Analyzing
+stage/image-rgba8-raster/rans-encode
+                        time:   [2.1746 ms 2.2475 ms 2.3360 ms]
+                        thrpt:  [215.08 MiB/s 223.55 MiB/s 231.05 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/image-rgba8-raster/rans-decode
+Benchmarking stage/image-rgba8-raster/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/rans-decode: Collecting 20 samples in estimated 228.28 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/rans-decode: Analyzing
+stage/image-rgba8-raster/rans-decode
+                        time:   [2.1550 ms 2.1818 ms 2.2107 ms]
+                        thrpt:  [227.27 MiB/s 230.29 MiB/s 233.15 MiB/s]
+Benchmarking stage/image-rgba8-raster/huffman-encode-model-and-payload
+Benchmarking stage/image-rgba8-raster/huffman-encode-model-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 357.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-rgba8-raster/huffman-encode-model-and-payload: Collecting 20 samples in estimated 357.14 ms (210 iterations)
+Benchmarking stage/image-rgba8-raster/huffman-encode-model-and-payload: Analyzing
+stage/image-rgba8-raster/huffman-encode-model-and-payload
+                        time:   [1.6011 ms 1.6220 ms 1.6425 ms]
+                        thrpt:  [305.90 MiB/s 309.77 MiB/s 313.81 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/image-rgba8-raster/huffman-decode-table-and-payload
+Benchmarking stage/image-rgba8-raster/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/image-rgba8-raster/huffman-decode-table-and-payload: Collecting 20 samples in estimated 228.40 ms (100 iterations)
+Benchmarking stage/image-rgba8-raster/huffman-decode-table-and-payload: Analyzing
+stage/image-rgba8-raster/huffman-decode-table-and-payload
+                        time:   [2.2366 ms 2.2411 ms 2.2471 ms]
+                        thrpt:  [223.60 MiB/s 224.20 MiB/s 224.64 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+
+Benchmarking stage/image-png-stored-deflate/split-reuse
+Benchmarking stage/image-png-stored-deflate/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/split-reuse: Collecting 20 samples in estimated 212.05 ms (1260 iterations)
+Benchmarking stage/image-png-stored-deflate/split-reuse: Analyzing
+stage/image-png-stored-deflate/split-reuse
+                        time:   [171.67 µs 175.16 µs 180.22 µs]
+                        thrpt:  [694.69 MiB/s 714.77 MiB/s 729.27 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+stage dataset=image-png-stored-deflate raw_bytes=131278 lanes=1 stream_bytes=228230 sampled_raw_lanes=0
+Benchmarking stage/image-png-stored-deflate/sample
+Benchmarking stage/image-png-stored-deflate/sample: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/sample: Collecting 20 samples in estimated 200.99 ms (24k iterations)
+Benchmarking stage/image-png-stored-deflate/sample: Analyzing
+stage/image-png-stored-deflate/sample
+                        time:   [8.4813 µs 8.5493 µs 8.6052 µs]
+                        thrpt:  [14.208 GiB/s 14.301 GiB/s 14.415 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/image-png-stored-deflate/lz-parse-reuse
+Benchmarking stage/image-png-stored-deflate/lz-parse-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 340.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/lz-parse-reuse: Collecting 20 samples in estimated 340.68 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/lz-parse-reuse: Analyzing
+stage/image-png-stored-deflate/lz-parse-reuse
+                        time:   [1.5528 ms 1.5709 ms 1.5956 ms]
+                        thrpt:  [78.465 MiB/s 79.695 MiB/s 80.627 MiB/s]
+Benchmarking stage/image-png-stored-deflate/lz-expand
+Benchmarking stage/image-png-stored-deflate/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/lz-expand: Collecting 20 samples in estimated 237.86 ms (630 iterations)
+Benchmarking stage/image-png-stored-deflate/lz-expand: Analyzing
+stage/image-png-stored-deflate/lz-expand
+                        time:   [362.30 µs 370.33 µs 381.14 µs]
+                        thrpt:  [328.48 MiB/s 338.07 MiB/s 345.56 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 249.4ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection: Collecting 20 samples in estimated 249.36 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/hybrid-entropy-selection: Analyzing
+stage/image-png-stored-deflate/hybrid-entropy-selection
+                        time:   [1.1717 ms 1.1956 ms 1.2249 ms]
+                        thrpt:  [177.70 MiB/s 182.06 MiB/s 185.76 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/image-png-stored-deflate/histogram
+Benchmarking stage/image-png-stored-deflate/histogram: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/histogram: Collecting 20 samples in estimated 230.64 ms (1260 iterations)
+Benchmarking stage/image-png-stored-deflate/histogram: Analyzing
+stage/image-png-stored-deflate/histogram
+                        time:   [172.49 µs 173.07 µs 173.69 µs]
+                        thrpt:  [1.2238 GiB/s 1.2281 GiB/s 1.2323 GiB/s]
+Benchmarking stage/image-png-stored-deflate/normalize-model
+Benchmarking stage/image-png-stored-deflate/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/normalize-model: Collecting 20 samples in estimated 200.16 ms (71k iterations)
+Benchmarking stage/image-png-stored-deflate/normalize-model: Analyzing
+stage/image-png-stored-deflate/normalize-model
+                        time:   [2.7495 µs 2.7733 µs 2.8042 µs]
+                        thrpt:  [356.60 Kelem/s 360.58 Kelem/s 363.71 Kelem/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/image-png-stored-deflate/rans-encode
+Benchmarking stage/image-png-stored-deflate/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 219.8ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/rans-encode: Collecting 20 samples in estimated 219.81 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/rans-encode: Analyzing
+stage/image-png-stored-deflate/rans-encode
+                        time:   [932.48 µs 953.04 µs 976.24 µs]
+                        thrpt:  [222.96 MiB/s 228.38 MiB/s 233.42 MiB/s]
+Benchmarking stage/image-png-stored-deflate/rans-decode
+Benchmarking stage/image-png-stored-deflate/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 219.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/rans-decode: Collecting 20 samples in estimated 219.66 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/rans-decode: Analyzing
+stage/image-png-stored-deflate/rans-decode
+                        time:   [1.0526 ms 1.0671 ms 1.0791 ms]
+                        thrpt:  [201.70 MiB/s 203.98 MiB/s 206.78 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high mild
+Benchmarking stage/image-png-stored-deflate/huffman-encode-model-and-payload
+Benchmarking stage/image-png-stored-deflate/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/image-png-stored-deflate/huffman-encode-model-and-payload: Collecting 20 samples in estimated 325.66 ms (420 iterations)
+Benchmarking stage/image-png-stored-deflate/huffman-encode-model-and-payload: Analyzing
+stage/image-png-stored-deflate/huffman-encode-model-and-payload
+                        time:   [739.15 µs 751.86 µs 768.21 µs]
+                        thrpt:  [283.33 MiB/s 289.49 MiB/s 294.47 MiB/s]
+Benchmarking stage/image-png-stored-deflate/huffman-decode-table-and-payload
+Benchmarking stage/image-png-stored-deflate/huffman-decode-table-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 225.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/image-png-stored-deflate/huffman-decode-table-and-payload: Collecting 20 samples in estimated 224.96 ms (210 iterations)
+Benchmarking stage/image-png-stored-deflate/huffman-decode-table-and-payload: Analyzing
+stage/image-png-stored-deflate/huffman-decode-table-and-payload
+                        time:   [1.0894 ms 1.1063 ms 1.1252 ms]
+                        thrpt:  [193.44 MiB/s 196.75 MiB/s 199.79 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking stage/image-png-compressed-deflate/split-reuse
+Benchmarking stage/image-png-compressed-deflate/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/split-reuse: Collecting 20 samples in estimated 210.21 ms (1890 iterations)
+Benchmarking stage/image-png-compressed-deflate/split-reuse: Analyzing
+stage/image-png-compressed-deflate/split-reuse
+                        time:   [110.20 µs 112.80 µs 115.67 µs]
+                        thrpt:  [741.09 MiB/s 759.94 MiB/s 777.87 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+stage dataset=image-png-compressed-deflate raw_bytes=89883 lanes=1 stream_bytes=116044 sampled_raw_lanes=1
+Benchmarking stage/image-png-compressed-deflate/sample
+Benchmarking stage/image-png-compressed-deflate/sample: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/sample: Collecting 20 samples in estimated 200.60 ms (55k iterations)
+Benchmarking stage/image-png-compressed-deflate/sample: Analyzing
+stage/image-png-compressed-deflate/sample
+                        time:   [3.5233 µs 3.5751 µs 3.6403 µs]
+                        thrpt:  [22.996 GiB/s 23.414 GiB/s 23.759 GiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/image-png-compressed-deflate/lz-parse-reuse
+Benchmarking stage/image-png-compressed-deflate/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/lz-parse-reuse: Collecting 20 samples in estimated 369.01 ms (420 iterations)
+Benchmarking stage/image-png-compressed-deflate/lz-parse-reuse: Analyzing
+stage/image-png-compressed-deflate/lz-parse-reuse
+                        time:   [861.37 µs 871.77 µs 882.21 µs]
+                        thrpt:  [97.164 MiB/s 98.328 MiB/s 99.515 MiB/s]
+Benchmarking stage/image-png-compressed-deflate/lz-expand
+Benchmarking stage/image-png-compressed-deflate/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/lz-expand: Collecting 20 samples in estimated 215.88 ms (2520 iterations)
+Benchmarking stage/image-png-compressed-deflate/lz-expand: Analyzing
+stage/image-png-compressed-deflate/lz-expand
+                        time:   [84.968 µs 85.646 µs 86.626 µs]
+                        thrpt:  [989.53 MiB/s 1000.9 MiB/s 1008.8 MiB/s]
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection: Collecting 20 samples in estimated 214.10 ms (420 iterations)
+Benchmarking stage/image-png-compressed-deflate/hybrid-entropy-selection: Analyzing
+stage/image-png-compressed-deflate/hybrid-entropy-selection
+                        time:   [527.98 µs 529.93 µs 532.45 µs]
+                        thrpt:  [207.85 MiB/s 208.83 MiB/s 209.61 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/image-png-compressed-deflate/histogram
+Benchmarking stage/image-png-compressed-deflate/histogram: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/histogram: Collecting 20 samples in estimated 210.05 ms (3990 iterations)
+Benchmarking stage/image-png-compressed-deflate/histogram: Analyzing
+stage/image-png-compressed-deflate/histogram
+                        time:   [51.575 µs 52.106 µs 52.913 µs]
+                        thrpt:  [2.0425 GiB/s 2.0741 GiB/s 2.0955 GiB/s]
+Benchmarking stage/image-png-compressed-deflate/normalize-model
+Benchmarking stage/image-png-compressed-deflate/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/normalize-model: Collecting 20 samples in estimated 200.48 ms (71k iterations)
+Benchmarking stage/image-png-compressed-deflate/normalize-model: Analyzing
+stage/image-png-compressed-deflate/normalize-model
+                        time:   [2.7903 µs 2.8251 µs 2.8734 µs]
+                        thrpt:  [348.03 Kelem/s 353.97 Kelem/s 358.38 Kelem/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/image-png-compressed-deflate/rans-encode
+Benchmarking stage/image-png-compressed-deflate/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/rans-encode: Collecting 20 samples in estimated 251.61 ms (630 iterations)
+Benchmarking stage/image-png-compressed-deflate/rans-encode: Analyzing
+stage/image-png-compressed-deflate/rans-encode
+                        time:   [406.04 µs 410.12 µs 417.96 µs]
+                        thrpt:  [264.78 MiB/s 269.84 MiB/s 272.56 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking stage/image-png-compressed-deflate/rans-decode
+Benchmarking stage/image-png-compressed-deflate/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/rans-decode: Collecting 20 samples in estimated 251.26 ms (630 iterations)
+Benchmarking stage/image-png-compressed-deflate/rans-decode: Analyzing
+stage/image-png-compressed-deflate/rans-decode
+                        time:   [397.67 µs 398.67 µs 399.66 µs]
+                        thrpt:  [276.91 MiB/s 277.59 MiB/s 278.29 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) low mild
+Benchmarking stage/image-png-compressed-deflate/huffman-encode-model-and-payload
+Benchmarking stage/image-png-compressed-deflate/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/huffman-encode-model-and-payload: Collecting 20 samples in estimated 258.56 ms (840 iterations)
+Benchmarking stage/image-png-compressed-deflate/huffman-encode-model-and-payload: Analyzing
+stage/image-png-compressed-deflate/huffman-encode-model-and-payload
+                        time:   [303.12 µs 306.52 µs 310.73 µs]
+                        thrpt:  [356.16 MiB/s 361.05 MiB/s 365.10 MiB/s]
+Benchmarking stage/image-png-compressed-deflate/huffman-decode-table-and-payload
+Benchmarking stage/image-png-compressed-deflate/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/image-png-compressed-deflate/huffman-decode-table-and-payload: Collecting 20 samples in estimated 254.80 ms (630 iterations)
+Benchmarking stage/image-png-compressed-deflate/huffman-decode-table-and-payload: Analyzing
+stage/image-png-compressed-deflate/huffman-decode-table-and-payload
+                        time:   [398.90 µs 401.89 µs 404.05 µs]
+                        thrpt:  [273.90 MiB/s 275.37 MiB/s 277.43 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) low mild
+
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse: Collecting 20 samples in estimated 200.97 ms (16k iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/split-reuse: Analyzing
+stage/graphics-shader-machine-words-synthetic/split-reuse
+                        time:   [12.173 µs 12.382 µs 12.596 µs]
+                        thrpt:  [19.382 GiB/s 19.717 GiB/s 20.055 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+stage dataset=graphics-shader-machine-words-synthetic raw_bytes=262144 lanes=4 stream_bytes=9530 sampled_raw_lanes=0
+Benchmarking stage/graphics-shader-machine-words-synthetic/sample
+Benchmarking stage/graphics-shader-machine-words-synthetic/sample: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/sample: Collecting 20 samples in estimated 200.71 ms (13k iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/sample: Analyzing
+stage/graphics-shader-machine-words-synthetic/sample
+                        time:   [15.103 µs 15.230 µs 15.314 µs]
+                        thrpt:  [15.943 GiB/s 16.030 GiB/s 16.165 GiB/s]
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-parse-reuse
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-parse-reuse: Collecting 20 samples in estimated 202.70 ms (7770 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-parse-reuse: Analyzing
+stage/graphics-shader-machine-words-synthetic/lz-parse-reuse
+                        time:   [24.801 µs 25.289 µs 25.828 µs]
+                        thrpt:  [9.4525 GiB/s 9.6541 GiB/s 9.8441 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-expand
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-expand: Collecting 20 samples in estimated 202.67 ms (5040 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/lz-expand: Analyzing
+stage/graphics-shader-machine-words-synthetic/lz-expand
+                        time:   [37.797 µs 38.211 µs 38.853 µs]
+                        thrpt:  [6.2837 GiB/s 6.3893 GiB/s 6.4592 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection: Collecting 20 samples in estimated 205.71 ms (5460 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection: Analyzing
+stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection
+                        time:   [38.853 µs 39.180 µs 39.445 µs]
+                        thrpt:  [230.41 MiB/s 231.97 MiB/s 233.92 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/graphics-shader-machine-words-synthetic/histogram
+Benchmarking stage/graphics-shader-machine-words-synthetic/histogram: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/histogram: Collecting 20 samples in estimated 200.54 ms (45k iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/histogram: Analyzing
+stage/graphics-shader-machine-words-synthetic/histogram
+                        time:   [4.3435 µs 4.4037 µs 4.4664 µs]
+                        thrpt:  [1.9872 GiB/s 2.0155 GiB/s 2.0434 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/graphics-shader-machine-words-synthetic/normalize-model
+Benchmarking stage/graphics-shader-machine-words-synthetic/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/normalize-model: Collecting 20 samples in estimated 200.70 ms (44k iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/normalize-model: Analyzing
+stage/graphics-shader-machine-words-synthetic/normalize-model
+                        time:   [4.4033 µs 4.4855 µs 4.5953 µs]
+                        thrpt:  [870.46 Kelem/s 891.76 Kelem/s 908.41 Kelem/s]
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode: Collecting 20 samples in estimated 201.04 ms (9240 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-encode: Analyzing
+stage/graphics-shader-machine-words-synthetic/rans-encode
+                        time:   [22.360 µs 22.623 µs 22.840 µs]
+                        thrpt:  [397.93 MiB/s 401.74 MiB/s 406.47 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode: Collecting 20 samples in estimated 200.05 ms (10k iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/rans-decode: Analyzing
+stage/graphics-shader-machine-words-synthetic/rans-decode
+                        time:   [19.811 µs 19.998 µs 20.139 µs]
+                        thrpt:  [451.28 MiB/s 454.48 MiB/s 458.77 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high severe
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-encode-model-and-payload
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-encode-model-and-payload: Collecting 20 samples in estimated 204.13 ms (6090 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-encode-model-and-payload: Analyzing
+stage/graphics-shader-machine-words-synthetic/huffman-encode-model-and-payload
+                        time:   [32.205 µs 33.105 µs 33.834 µs]
+                        thrpt:  [268.62 MiB/s 274.54 MiB/s 282.21 MiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  3 (15.00%) high severe
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-decode-table-and-payload
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-decode-table-and-payload: Collecting 20 samples in estimated 200.81 ms (5040 iterations)
+Benchmarking stage/graphics-shader-machine-words-synthetic/huffman-decode-table-and-payload: Analyzing
+stage/graphics-shader-machine-words-synthetic/huffman-decode-table-and-payload
+                        time:   [39.101 µs 39.310 µs 39.621 µs]
+                        thrpt:  [229.39 MiB/s 231.20 MiB/s 232.44 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking stage/graphics-wgsl-source/split-reuse
+Benchmarking stage/graphics-wgsl-source/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/split-reuse: Collecting 20 samples in estimated 200.74 ms (18k iterations)
+Benchmarking stage/graphics-wgsl-source/split-reuse: Analyzing
+stage/graphics-wgsl-source/split-reuse
+                        time:   [10.038 µs 10.171 µs 10.366 µs]
+                        thrpt:  [760.57 MiB/s 775.17 MiB/s 785.38 MiB/s]
+stage dataset=graphics-wgsl-source raw_bytes=8267 lanes=1 stream_bytes=4324 sampled_raw_lanes=0
+Benchmarking stage/graphics-wgsl-source/sample
+Benchmarking stage/graphics-wgsl-source/sample: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/sample: Collecting 20 samples in estimated 200.07 ms (48k iterations)
+Benchmarking stage/graphics-wgsl-source/sample: Analyzing
+stage/graphics-wgsl-source/sample
+                        time:   [4.1867 µs 4.2291 µs 4.2858 µs]
+                        thrpt:  [1.7964 GiB/s 1.8205 GiB/s 1.8390 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/graphics-wgsl-source/lz-parse-reuse
+Benchmarking stage/graphics-wgsl-source/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/lz-parse-reuse: Collecting 20 samples in estimated 202.28 ms (8610 iterations)
+Benchmarking stage/graphics-wgsl-source/lz-parse-reuse: Analyzing
+stage/graphics-wgsl-source/lz-parse-reuse
+                        time:   [23.745 µs 24.315 µs 25.019 µs]
+                        thrpt:  [315.12 MiB/s 324.24 MiB/s 332.03 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/graphics-wgsl-source/lz-expand
+Benchmarking stage/graphics-wgsl-source/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/lz-expand: Collecting 20 samples in estimated 201.02 ms (28k iterations)
+Benchmarking stage/graphics-wgsl-source/lz-expand: Analyzing
+stage/graphics-wgsl-source/lz-expand
+                        time:   [6.7840 µs 6.9454 µs 7.1136 µs]
+                        thrpt:  [1.0823 GiB/s 1.1085 GiB/s 1.1349 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection: Collecting 20 samples in estimated 200.33 ms (8190 iterations)
+Benchmarking stage/graphics-wgsl-source/hybrid-entropy-selection: Analyzing
+stage/graphics-wgsl-source/hybrid-entropy-selection
+                        time:   [23.160 µs 23.608 µs 24.334 µs]
+                        thrpt:  [169.46 MiB/s 174.67 MiB/s 178.05 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) high mild
+  3 (15.00%) high severe
+Benchmarking stage/graphics-wgsl-source/histogram
+Benchmarking stage/graphics-wgsl-source/histogram: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/histogram: Collecting 20 samples in estimated 200.03 ms (67k iterations)
+Benchmarking stage/graphics-wgsl-source/histogram: Analyzing
+stage/graphics-wgsl-source/histogram
+                        time:   [2.9559 µs 2.9723 µs 2.9940 µs]
+                        thrpt:  [1.3450 GiB/s 1.3548 GiB/s 1.3624 GiB/s]
+Found 6 outliers among 20 measurements (30.00%)
+  3 (15.00%) low mild
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/graphics-wgsl-source/normalize-model
+Benchmarking stage/graphics-wgsl-source/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/normalize-model: Collecting 20 samples in estimated 200.21 ms (78k iterations)
+Benchmarking stage/graphics-wgsl-source/normalize-model: Analyzing
+stage/graphics-wgsl-source/normalize-model
+                        time:   [2.5279 µs 2.5587 µs 2.5843 µs]
+                        thrpt:  [386.96 Kelem/s 390.82 Kelem/s 395.59 Kelem/s]
+Benchmarking stage/graphics-wgsl-source/rans-encode
+Benchmarking stage/graphics-wgsl-source/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/rans-encode: Collecting 20 samples in estimated 201.13 ms (18k iterations)
+Benchmarking stage/graphics-wgsl-source/rans-encode: Analyzing
+stage/graphics-wgsl-source/rans-encode
+                        time:   [10.587 µs 11.465 µs 12.949 µs]
+                        thrpt:  [318.46 MiB/s 359.68 MiB/s 389.50 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/graphics-wgsl-source/rans-decode
+Benchmarking stage/graphics-wgsl-source/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/rans-decode: Collecting 20 samples in estimated 200.29 ms (20k iterations)
+Benchmarking stage/graphics-wgsl-source/rans-decode: Analyzing
+stage/graphics-wgsl-source/rans-decode
+                        time:   [9.6851 µs 10.451 µs 11.216 µs]
+                        thrpt:  [367.67 MiB/s 394.56 MiB/s 425.78 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) high mild
+  3 (15.00%) high severe
+Benchmarking stage/graphics-wgsl-source/huffman-encode-model-and-payload
+Benchmarking stage/graphics-wgsl-source/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/huffman-encode-model-and-payload: Collecting 20 samples in estimated 203.74 ms (8610 iterations)
+Benchmarking stage/graphics-wgsl-source/huffman-encode-model-and-payload: Analyzing
+stage/graphics-wgsl-source/huffman-encode-model-and-payload
+                        time:   [20.340 µs 21.186 µs 22.262 µs]
+                        thrpt:  [185.24 MiB/s 194.64 MiB/s 202.74 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/graphics-wgsl-source/huffman-decode-table-and-payload
+Benchmarking stage/graphics-wgsl-source/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/graphics-wgsl-source/huffman-decode-table-and-payload: Collecting 20 samples in estimated 203.54 ms (9660 iterations)
+Benchmarking stage/graphics-wgsl-source/huffman-decode-table-and-payload: Analyzing
+stage/graphics-wgsl-source/huffman-decode-table-and-payload
+                        time:   [20.170 µs 20.226 µs 20.291 µs]
+                        thrpt:  [203.22 MiB/s 203.88 MiB/s 204.45 MiB/s]
+
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse: Collecting 20 samples in estimated 219.53 ms (100 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/split-reuse: Analyzing
+stage/ai-model-int8-tensor-synthetic/split-reuse
+                        time:   [2.1696 ms 2.1788 ms 2.1886 ms]
+                        thrpt:  [456.92 MiB/s 458.97 MiB/s 460.92 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) low mild
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+stage dataset=ai-model-int8-tensor-synthetic raw_bytes=1048576 lanes=16 stream_bytes=50017 sampled_raw_lanes=0
+Benchmarking stage/ai-model-int8-tensor-synthetic/sample
+Benchmarking stage/ai-model-int8-tensor-synthetic/sample: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/sample: Collecting 20 samples in estimated 204.74 ms (2520 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/sample: Analyzing
+stage/ai-model-int8-tensor-synthetic/sample
+                        time:   [82.880 µs 83.236 µs 83.571 µs]
+                        thrpt:  [11.685 GiB/s 11.732 GiB/s 11.783 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) low mild
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-parse-reuse
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-parse-reuse: Collecting 20 samples in estimated 201.86 ms (630 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-parse-reuse: Analyzing
+stage/ai-model-int8-tensor-synthetic/lz-parse-reuse
+                        time:   [319.65 µs 326.91 µs 334.08 µs]
+                        thrpt:  [2.9232 GiB/s 2.9872 GiB/s 3.0551 GiB/s]
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-expand
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-expand: Collecting 20 samples in estimated 230.18 ms (1260 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/lz-expand: Analyzing
+stage/ai-model-int8-tensor-synthetic/lz-expand
+                        time:   [177.79 µs 180.70 µs 185.76 µs]
+                        thrpt:  [5.2572 GiB/s 5.4043 GiB/s 5.4927 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection: Collecting 20 samples in estimated 224.59 ms (1680 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection: Analyzing
+stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection
+                        time:   [130.64 µs 133.65 µs 137.96 µs]
+                        thrpt:  [345.76 MiB/s 356.90 MiB/s 365.14 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  2 (10.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/ai-model-int8-tensor-synthetic/histogram
+Benchmarking stage/ai-model-int8-tensor-synthetic/histogram: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/histogram: Collecting 20 samples in estimated 200.65 ms (6090 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/histogram: Analyzing
+stage/ai-model-int8-tensor-synthetic/histogram
+                        time:   [31.385 µs 31.523 µs 31.706 µs]
+                        thrpt:  [1.4692 GiB/s 1.4777 GiB/s 1.4842 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/ai-model-int8-tensor-synthetic/normalize-model
+Benchmarking stage/ai-model-int8-tensor-synthetic/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/normalize-model: Collecting 20 samples in estimated 200.48 ms (38k iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/normalize-model: Analyzing
+stage/ai-model-int8-tensor-synthetic/normalize-model
+                        time:   [5.3217 µs 5.4535 µs 5.6553 µs]
+                        thrpt:  [2.8292 Melem/s 2.9339 Melem/s 3.0066 Melem/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode: Collecting 20 samples in estimated 223.60 ms (1260 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-encode: Analyzing
+stage/ai-model-int8-tensor-synthetic/rans-encode
+                        time:   [178.14 µs 179.95 µs 181.54 µs]
+                        thrpt:  [262.75 MiB/s 265.07 MiB/s 267.76 MiB/s]
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode: Collecting 20 samples in estimated 210.10 ms (1260 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/rans-decode: Analyzing
+stage/ai-model-int8-tensor-synthetic/rans-decode
+                        time:   [165.88 µs 167.45 µs 168.92 µs]
+                        thrpt:  [282.38 MiB/s 284.85 MiB/s 287.55 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high mild
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-encode-model-and-payload
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-encode-model-and-payload: Collecting 20 samples in estimated 214.14 ms (2310 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-encode-model-and-payload: Analyzing
+stage/ai-model-int8-tensor-synthetic/huffman-encode-model-and-payload
+                        time:   [90.363 µs 95.234 µs 99.860 µs]
+                        thrpt:  [477.67 MiB/s 500.87 MiB/s 527.87 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-decode-table-and-payload
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-decode-table-and-payload: Collecting 20 samples in estimated 208.10 ms (1050 iterations)
+Benchmarking stage/ai-model-int8-tensor-synthetic/huffman-decode-table-and-payload: Analyzing
+stage/ai-model-int8-tensor-synthetic/huffman-decode-table-and-payload
+                        time:   [197.52 µs 198.45 µs 199.61 µs]
+                        thrpt:  [238.97 MiB/s 240.36 MiB/s 241.50 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+
+Benchmarking stage/native-executable-binary/split-reuse
+Benchmarking stage/native-executable-binary/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/native-executable-binary/split-reuse: Collecting 20 samples in estimated 276.27 ms (40 iterations)
+Benchmarking stage/native-executable-binary/split-reuse: Analyzing
+stage/native-executable-binary/split-reuse
+                        time:   [6.9377 ms 7.1367 ms 7.3607 ms]
+                        thrpt:  [704.50 MiB/s 726.60 MiB/s 747.44 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+stage dataset=native-executable-binary raw_bytes=5437440 lanes=1 stream_bytes=5088105 sampled_raw_lanes=0
+Benchmarking stage/native-executable-binary/sample
+Benchmarking stage/native-executable-binary/sample: Warming up for 100.00 ms
+Benchmarking stage/native-executable-binary/sample: Collecting 20 samples in estimated 201.25 ms (30k iterations)
+Benchmarking stage/native-executable-binary/sample: Analyzing
+stage/native-executable-binary/sample
+                        time:   [6.8125 µs 7.0204 µs 7.3758 µs]
+                        thrpt:  [686.57 GiB/s 721.32 GiB/s 743.34 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/native-executable-binary/lz-parse-reuse
+Benchmarking stage/native-executable-binary/lz-parse-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 729.6ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/lz-parse-reuse: Collecting 20 samples in estimated 729.60 ms (20 iterations)
+Benchmarking stage/native-executable-binary/lz-parse-reuse: Analyzing
+stage/native-executable-binary/lz-parse-reuse
+                        time:   [34.343 ms 35.417 ms 36.861 ms]
+                        thrpt:  [140.68 MiB/s 146.42 MiB/s 150.99 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/native-executable-binary/lz-expand
+Benchmarking stage/native-executable-binary/lz-expand: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 228.9ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/lz-expand: Collecting 20 samples in estimated 228.88 ms (20 iterations)
+Benchmarking stage/native-executable-binary/lz-expand: Analyzing
+stage/native-executable-binary/lz-expand
+                        time:   [10.594 ms 10.663 ms 10.741 ms]
+                        thrpt:  [482.80 MiB/s 486.30 MiB/s 489.48 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 587.9ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection: Collecting 20 samples in estimated 587.92 ms (20 iterations)
+Benchmarking stage/native-executable-binary/hybrid-entropy-selection: Analyzing
+stage/native-executable-binary/hybrid-entropy-selection
+                        time:   [27.182 ms 27.588 ms 28.033 ms]
+                        thrpt:  [173.09 MiB/s 175.89 MiB/s 178.52 MiB/s]
+Benchmarking stage/native-executable-binary/histogram
+Benchmarking stage/native-executable-binary/histogram: Warming up for 100.00 ms
+Benchmarking stage/native-executable-binary/histogram: Collecting 20 samples in estimated 209.71 ms (60 iterations)
+Benchmarking stage/native-executable-binary/histogram: Analyzing
+stage/native-executable-binary/histogram
+                        time:   [3.4975 ms 3.5244 ms 3.5519 ms]
+                        thrpt:  [1.3341 GiB/s 1.3445 GiB/s 1.3549 GiB/s]
+Benchmarking stage/native-executable-binary/normalize-model
+Benchmarking stage/native-executable-binary/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/native-executable-binary/normalize-model: Collecting 20 samples in estimated 200.59 ms (71k iterations)
+Benchmarking stage/native-executable-binary/normalize-model: Analyzing
+stage/native-executable-binary/normalize-model
+                        time:   [2.7824 µs 2.8209 µs 2.8555 µs]
+                        thrpt:  [350.20 Kelem/s 354.50 Kelem/s 359.40 Kelem/s]
+Found 4 outliers among 20 measurements (20.00%)
+  3 (15.00%) low severe
+  1 (5.00%) low mild
+Benchmarking stage/native-executable-binary/rans-encode
+Benchmarking stage/native-executable-binary/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 481.6ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/rans-encode: Collecting 20 samples in estimated 481.60 ms (20 iterations)
+Benchmarking stage/native-executable-binary/rans-encode: Analyzing
+stage/native-executable-binary/rans-encode
+                        time:   [23.693 ms 23.852 ms 24.031 ms]
+                        thrpt:  [201.92 MiB/s 203.44 MiB/s 204.80 MiB/s]
+Benchmarking stage/native-executable-binary/rans-decode
+Benchmarking stage/native-executable-binary/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 501.4ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/rans-decode: Collecting 20 samples in estimated 501.44 ms (20 iterations)
+Benchmarking stage/native-executable-binary/rans-decode: Analyzing
+stage/native-executable-binary/rans-decode
+                        time:   [25.155 ms 25.389 ms 25.598 ms]
+                        thrpt:  [189.56 MiB/s 191.12 MiB/s 192.90 MiB/s]
+Benchmarking stage/native-executable-binary/huffman-encode-model-and-payload
+Benchmarking stage/native-executable-binary/huffman-encode-model-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 321.3ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/huffman-encode-model-and-payload: Collecting 20 samples in estimated 321.28 ms (20 iterations)
+Benchmarking stage/native-executable-binary/huffman-encode-model-and-payload: Analyzing
+stage/native-executable-binary/huffman-encode-model-and-payload
+                        time:   [16.098 ms 16.441 ms 16.994 ms]
+                        thrpt:  [285.54 MiB/s 295.14 MiB/s 301.43 MiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  2 (10.00%) low severe
+  1 (5.00%) low mild
+  2 (10.00%) high severe
+Benchmarking stage/native-executable-binary/huffman-decode-table-and-payload
+Benchmarking stage/native-executable-binary/huffman-decode-table-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 420.1ms, or reduce sample count to 10.
+Benchmarking stage/native-executable-binary/huffman-decode-table-and-payload: Collecting 20 samples in estimated 420.06 ms (20 iterations)
+Benchmarking stage/native-executable-binary/huffman-decode-table-and-payload: Analyzing
+stage/native-executable-binary/huffman-decode-table-and-payload
+                        time:   [20.947 ms 21.086 ms 21.242 ms]
+                        thrpt:  [228.43 MiB/s 230.12 MiB/s 231.65 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+Benchmarking stage/structured-binary-records/split-reuse
+Benchmarking stage/structured-binary-records/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/split-reuse: Collecting 20 samples in estimated 215.28 ms (2520 iterations)
+Benchmarking stage/structured-binary-records/split-reuse: Analyzing
+stage/structured-binary-records/split-reuse
+                        time:   [85.089 µs 85.380 µs 85.718 µs]
+                        thrpt:  [5.6963 GiB/s 5.7189 GiB/s 5.7385 GiB/s]
+stage dataset=structured-binary-records raw_bytes=524288 lanes=4 stream_bytes=576177 sampled_raw_lanes=2
+Benchmarking stage/structured-binary-records/sample
+Benchmarking stage/structured-binary-records/sample: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/sample: Collecting 20 samples in estimated 201.09 ms (4200 iterations)
+Benchmarking stage/structured-binary-records/sample: Analyzing
+stage/structured-binary-records/sample
+                        time:   [46.829 µs 46.977 µs 47.149 µs]
+                        thrpt:  [10.356 GiB/s 10.394 GiB/s 10.427 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/structured-binary-records/lz-parse-reuse
+Benchmarking stage/structured-binary-records/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/lz-parse-reuse: Collecting 20 samples in estimated 213.22 ms (60 iterations)
+Benchmarking stage/structured-binary-records/lz-parse-reuse: Analyzing
+stage/structured-binary-records/lz-parse-reuse
+                        time:   [3.3761 ms 3.4140 ms 3.4542 ms]
+                        thrpt:  [144.75 MiB/s 146.45 MiB/s 148.10 MiB/s]
+Benchmarking stage/structured-binary-records/lz-expand
+Benchmarking stage/structured-binary-records/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/lz-expand: Collecting 20 samples in estimated 256.79 ms (840 iterations)
+Benchmarking stage/structured-binary-records/lz-expand: Analyzing
+stage/structured-binary-records/lz-expand
+                        time:   [303.41 µs 308.20 µs 314.84 µs]
+                        thrpt:  [1.5509 GiB/s 1.5843 GiB/s 1.6093 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection: Collecting 20 samples in estimated 201.04 ms (80 iterations)
+Benchmarking stage/structured-binary-records/hybrid-entropy-selection: Analyzing
+stage/structured-binary-records/hybrid-entropy-selection
+                        time:   [2.4521 ms 2.5493 ms 2.6931 ms]
+                        thrpt:  [204.04 MiB/s 215.55 MiB/s 224.08 MiB/s]
+Found 6 outliers among 20 measurements (30.00%)
+  2 (10.00%) low severe
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/structured-binary-records/histogram
+Benchmarking stage/structured-binary-records/histogram: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/histogram: Collecting 20 samples in estimated 251.57 ms (630 iterations)
+Benchmarking stage/structured-binary-records/histogram: Analyzing
+stage/structured-binary-records/histogram
+                        time:   [388.76 µs 391.26 µs 394.36 µs]
+                        thrpt:  [1.3607 GiB/s 1.3715 GiB/s 1.3803 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/structured-binary-records/normalize-model
+Benchmarking stage/structured-binary-records/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/normalize-model: Collecting 20 samples in estimated 200.81 ms (18k iterations)
+Benchmarking stage/structured-binary-records/normalize-model: Analyzing
+stage/structured-binary-records/normalize-model
+                        time:   [10.648 µs 10.756 µs 10.838 µs]
+                        thrpt:  [369.07 Kelem/s 371.90 Kelem/s 375.67 Kelem/s]
+Benchmarking stage/structured-binary-records/rans-encode
+Benchmarking stage/structured-binary-records/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 294.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/structured-binary-records/rans-encode: Collecting 20 samples in estimated 294.21 ms (210 iterations)
+Benchmarking stage/structured-binary-records/rans-encode: Analyzing
+stage/structured-binary-records/rans-encode
+                        time:   [1.4364 ms 1.4833 ms 1.5137 ms]
+                        thrpt:  [363.00 MiB/s 370.45 MiB/s 382.56 MiB/s]
+Benchmarking stage/structured-binary-records/rans-decode
+Benchmarking stage/structured-binary-records/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 270.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/structured-binary-records/rans-decode: Collecting 20 samples in estimated 270.08 ms (210 iterations)
+Benchmarking stage/structured-binary-records/rans-decode: Analyzing
+stage/structured-binary-records/rans-decode
+                        time:   [1.2225 ms 1.2448 ms 1.2685 ms]
+                        thrpt:  [433.18 MiB/s 441.42 MiB/s 449.46 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/structured-binary-records/huffman-encode-model-and-payload
+Benchmarking stage/structured-binary-records/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/huffman-encode-model-and-payload: Collecting 20 samples in estimated 365.56 ms (420 iterations)
+Benchmarking stage/structured-binary-records/huffman-encode-model-and-payload: Analyzing
+stage/structured-binary-records/huffman-encode-model-and-payload
+                        time:   [837.25 µs 850.30 µs 866.76 µs]
+                        thrpt:  [633.96 MiB/s 646.23 MiB/s 656.30 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  2 (10.00%) low severe
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/structured-binary-records/huffman-decode-table-and-payload
+Benchmarking stage/structured-binary-records/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/structured-binary-records/huffman-decode-table-and-payload: Collecting 20 samples in estimated 238.20 ms (100 iterations)
+Benchmarking stage/structured-binary-records/huffman-decode-table-and-payload: Analyzing
+stage/structured-binary-records/huffman-decode-table-and-payload
+                        time:   [2.3782 ms 2.3915 ms 2.4082 ms]
+                        thrpt:  [228.18 MiB/s 229.76 MiB/s 231.05 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking stage/sparse-binary/split-reuse
+Benchmarking stage/sparse-binary/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 282.3ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/sparse-binary/split-reuse: Collecting 20 samples in estimated 282.28 ms (210 iterations)
+Benchmarking stage/sparse-binary/split-reuse: Analyzing
+stage/sparse-binary/split-reuse
+                        time:   [1.3158 ms 1.3339 ms 1.3568 ms]
+                        thrpt:  [737.06 MiB/s 749.69 MiB/s 760.01 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) low mild
+stage dataset=sparse-binary raw_bytes=1048576 lanes=1 stream_bytes=71951 sampled_raw_lanes=0
+Benchmarking stage/sparse-binary/sample
+Benchmarking stage/sparse-binary/sample: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/sample: Collecting 20 samples in estimated 200.06 ms (37k iterations)
+Benchmarking stage/sparse-binary/sample: Analyzing
+stage/sparse-binary/sample
+                        time:   [5.3253 µs 5.3788 µs 5.4439 µs]
+                        thrpt:  [179.39 GiB/s 181.56 GiB/s 183.38 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/sparse-binary/lz-parse-reuse
+Benchmarking stage/sparse-binary/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/lz-parse-reuse: Collecting 20 samples in estimated 239.84 ms (630 iterations)
+Benchmarking stage/sparse-binary/lz-parse-reuse: Analyzing
+stage/sparse-binary/lz-parse-reuse
+                        time:   [383.98 µs 392.01 µs 399.97 µs]
+                        thrpt:  [2.4416 GiB/s 2.4912 GiB/s 2.5432 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/sparse-binary/lz-expand
+Benchmarking stage/sparse-binary/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/lz-expand: Collecting 20 samples in estimated 292.83 ms (630 iterations)
+Benchmarking stage/sparse-binary/lz-expand: Analyzing
+stage/sparse-binary/lz-expand
+                        time:   [422.19 µs 436.74 µs 456.20 µs]
+                        thrpt:  [2.1407 GiB/s 2.2360 GiB/s 2.3131 GiB/s]
+Benchmarking stage/sparse-binary/hybrid-entropy-selection
+Benchmarking stage/sparse-binary/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/hybrid-entropy-selection: Collecting 20 samples in estimated 208.44 ms (1050 iterations)
+Benchmarking stage/sparse-binary/hybrid-entropy-selection: Analyzing
+stage/sparse-binary/hybrid-entropy-selection
+                        time:   [194.51 µs 198.30 µs 202.78 µs]
+                        thrpt:  [338.38 MiB/s 346.02 MiB/s 352.77 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/sparse-binary/histogram
+Benchmarking stage/sparse-binary/histogram: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/histogram: Collecting 20 samples in estimated 206.97 ms (3990 iterations)
+Benchmarking stage/sparse-binary/histogram: Analyzing
+stage/sparse-binary/histogram
+                        time:   [48.667 µs 49.101 µs 49.652 µs]
+                        thrpt:  [1.3496 GiB/s 1.3647 GiB/s 1.3769 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/sparse-binary/normalize-model
+Benchmarking stage/sparse-binary/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/normalize-model: Collecting 20 samples in estimated 200.56 ms (70k iterations)
+Benchmarking stage/sparse-binary/normalize-model: Analyzing
+stage/sparse-binary/normalize-model
+                        time:   [2.8608 µs 2.8643 µs 2.8688 µs]
+                        thrpt:  [348.57 Kelem/s 349.12 Kelem/s 349.55 Kelem/s]
+Benchmarking stage/sparse-binary/rans-encode
+Benchmarking stage/sparse-binary/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/rans-encode: Collecting 20 samples in estimated 212.62 ms (840 iterations)
+Benchmarking stage/sparse-binary/rans-encode: Analyzing
+stage/sparse-binary/rans-encode
+                        time:   [274.95 µs 280.31 µs 288.15 µs]
+                        thrpt:  [238.13 MiB/s 244.79 MiB/s 249.56 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/sparse-binary/rans-decode
+Benchmarking stage/sparse-binary/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/rans-decode: Collecting 20 samples in estimated 249.74 ms (1050 iterations)
+Benchmarking stage/sparse-binary/rans-decode: Analyzing
+stage/sparse-binary/rans-decode
+                        time:   [255.37 µs 257.12 µs 259.12 µs]
+                        thrpt:  [264.81 MiB/s 266.87 MiB/s 268.70 MiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  3 (15.00%) low severe
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+Benchmarking stage/sparse-binary/huffman-encode-model-and-payload
+Benchmarking stage/sparse-binary/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/huffman-encode-model-and-payload: Collecting 20 samples in estimated 219.67 ms (1470 iterations)
+Benchmarking stage/sparse-binary/huffman-encode-model-and-payload: Analyzing
+stage/sparse-binary/huffman-encode-model-and-payload
+                        time:   [147.01 µs 148.62 µs 149.77 µs]
+                        thrpt:  [458.14 MiB/s 461.70 MiB/s 466.76 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low severe
+  1 (5.00%) high mild
+Benchmarking stage/sparse-binary/huffman-decode-table-and-payload
+Benchmarking stage/sparse-binary/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/sparse-binary/huffman-decode-table-and-payload: Collecting 20 samples in estimated 215.91 ms (840 iterations)
+Benchmarking stage/sparse-binary/huffman-decode-table-and-payload: Analyzing
+stage/sparse-binary/huffman-decode-table-and-payload
+                        time:   [253.83 µs 254.80 µs 256.28 µs]
+                        thrpt:  [267.75 MiB/s 269.30 MiB/s 270.32 MiB/s]
+
+Benchmarking stage/random-binary-incompressible/split-reuse
+Benchmarking stage/random-binary-incompressible/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 283.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/random-binary-incompressible/split-reuse: Collecting 20 samples in estimated 283.52 ms (210 iterations)
+Benchmarking stage/random-binary-incompressible/split-reuse: Analyzing
+stage/random-binary-incompressible/split-reuse
+                        time:   [1.3597 ms 1.3690 ms 1.3826 ms]
+                        thrpt:  [723.27 MiB/s 730.46 MiB/s 735.47 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+stage dataset=random-binary-incompressible raw_bytes=1048576 lanes=1 stream_bytes=1092937 sampled_raw_lanes=1
+Benchmarking stage/random-binary-incompressible/sample
+Benchmarking stage/random-binary-incompressible/sample: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/sample: Collecting 20 samples in estimated 200.19 ms (60k iterations)
+Benchmarking stage/random-binary-incompressible/sample: Analyzing
+stage/random-binary-incompressible/sample
+                        time:   [3.1658 µs 3.1944 µs 3.2342 µs]
+                        thrpt:  [301.95 GiB/s 305.71 GiB/s 308.47 GiB/s]
+Benchmarking stage/random-binary-incompressible/lz-parse-reuse
+Benchmarking stage/random-binary-incompressible/lz-parse-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 210.5ms, or reduce sample count to 10.
+Benchmarking stage/random-binary-incompressible/lz-parse-reuse: Collecting 20 samples in estimated 210.47 ms (20 iterations)
+Benchmarking stage/random-binary-incompressible/lz-parse-reuse: Analyzing
+stage/random-binary-incompressible/lz-parse-reuse
+                        time:   [10.564 ms 10.761 ms 10.966 ms]
+                        thrpt:  [91.189 MiB/s 92.927 MiB/s 94.663 MiB/s]
+Benchmarking stage/random-binary-incompressible/lz-expand
+Benchmarking stage/random-binary-incompressible/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/lz-expand: Collecting 20 samples in estimated 237.94 ms (840 iterations)
+Benchmarking stage/random-binary-incompressible/lz-expand: Analyzing
+stage/random-binary-incompressible/lz-expand
+                        time:   [251.67 µs 256.72 µs 263.28 µs]
+                        thrpt:  [3.7092 GiB/s 3.8039 GiB/s 3.8804 GiB/s]
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection: Collecting 20 samples in estimated 231.28 ms (60 iterations)
+Benchmarking stage/random-binary-incompressible/hybrid-entropy-selection: Analyzing
+stage/random-binary-incompressible/hybrid-entropy-selection
+                        time:   [3.7203 ms 3.7697 ms 3.8336 ms]
+                        thrpt:  [271.89 MiB/s 276.50 MiB/s 280.17 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/random-binary-incompressible/histogram
+Benchmarking stage/random-binary-incompressible/histogram: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/histogram: Collecting 20 samples in estimated 202.98 ms (630 iterations)
+Benchmarking stage/random-binary-incompressible/histogram: Analyzing
+stage/random-binary-incompressible/histogram
+                        time:   [319.64 µs 322.53 µs 324.86 µs]
+                        thrpt:  [3.1332 GiB/s 3.1559 GiB/s 3.1845 GiB/s]
+Benchmarking stage/random-binary-incompressible/normalize-model
+Benchmarking stage/random-binary-incompressible/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/normalize-model: Collecting 20 samples in estimated 200.12 ms (72k iterations)
+Benchmarking stage/random-binary-incompressible/normalize-model: Analyzing
+stage/random-binary-incompressible/normalize-model
+                        time:   [2.7716 µs 2.8119 µs 2.8433 µs]
+                        thrpt:  [351.71 Kelem/s 355.63 Kelem/s 360.81 Kelem/s]
+Benchmarking stage/random-binary-incompressible/rans-encode
+Benchmarking stage/random-binary-incompressible/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/rans-encode: Collecting 20 samples in estimated 265.32 ms (80 iterations)
+Benchmarking stage/random-binary-incompressible/rans-encode: Analyzing
+stage/random-binary-incompressible/rans-encode
+                        time:   [3.0068 ms 3.0474 ms 3.0934 ms]
+                        thrpt:  [336.94 MiB/s 342.03 MiB/s 346.65 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/random-binary-incompressible/rans-decode
+Benchmarking stage/random-binary-incompressible/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/rans-decode: Collecting 20 samples in estimated 216.63 ms (80 iterations)
+Benchmarking stage/random-binary-incompressible/rans-decode: Analyzing
+stage/random-binary-incompressible/rans-decode
+                        time:   [2.5960 ms 2.6278 ms 2.6668 ms]
+                        thrpt:  [390.84 MiB/s 396.64 MiB/s 401.50 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/random-binary-incompressible/huffman-encode-model-and-payload
+Benchmarking stage/random-binary-incompressible/huffman-encode-model-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 399.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/random-binary-incompressible/huffman-encode-model-and-payload: Collecting 20 samples in estimated 399.73 ms (210 iterations)
+Benchmarking stage/random-binary-incompressible/huffman-encode-model-and-payload: Analyzing
+stage/random-binary-incompressible/huffman-encode-model-and-payload
+                        time:   [1.8107 ms 1.8784 ms 1.9524 ms]
+                        thrpt:  [533.86 MiB/s 554.88 MiB/s 575.64 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking stage/random-binary-incompressible/huffman-decode-table-and-payload
+Benchmarking stage/random-binary-incompressible/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/random-binary-incompressible/huffman-decode-table-and-payload: Collecting 20 samples in estimated 242.74 ms (60 iterations)
+Benchmarking stage/random-binary-incompressible/huffman-decode-table-and-payload: Analyzing
+stage/random-binary-incompressible/huffman-decode-table-and-payload
+                        time:   [3.9848 ms 4.0073 ms 4.0297 ms]
+                        thrpt:  [258.65 MiB/s 260.10 MiB/s 261.57 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+
+Benchmarking stage/repository-rust-source/split-reuse
+Benchmarking stage/repository-rust-source/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/split-reuse: Collecting 20 samples in estimated 215.33 ms (630 iterations)
+Benchmarking stage/repository-rust-source/split-reuse: Analyzing
+stage/repository-rust-source/split-reuse
+                        time:   [602.62 µs 790.83 µs 1.0455 ms]
+                        thrpt:  [251.51 MiB/s 332.50 MiB/s 436.35 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) low severe
+stage dataset=repository-rust-source raw_bytes=275729 lanes=1 stream_bytes=131722 sampled_raw_lanes=0
+Benchmarking stage/repository-rust-source/sample
+Benchmarking stage/repository-rust-source/sample: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/sample: Collecting 20 samples in estimated 200.76 ms (42k iterations)
+Benchmarking stage/repository-rust-source/sample: Analyzing
+stage/repository-rust-source/sample
+                        time:   [4.8426 µs 4.8708 µs 4.8937 µs]
+                        thrpt:  [52.474 GiB/s 52.721 GiB/s 53.028 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/repository-rust-source/lz-parse-reuse
+Benchmarking stage/repository-rust-source/lz-parse-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 253.4ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/repository-rust-source/lz-parse-reuse: Collecting 20 samples in estimated 253.37 ms (210 iterations)
+Benchmarking stage/repository-rust-source/lz-parse-reuse: Analyzing
+stage/repository-rust-source/lz-parse-reuse
+                        time:   [1.0957 ms 1.1415 ms 1.2131 ms]
+                        thrpt:  [216.77 MiB/s 230.35 MiB/s 240.00 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking stage/repository-rust-source/lz-expand
+Benchmarking stage/repository-rust-source/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/lz-expand: Collecting 20 samples in estimated 258.71 ms (840 iterations)
+Benchmarking stage/repository-rust-source/lz-expand: Analyzing
+stage/repository-rust-source/lz-expand
+                        time:   [318.04 µs 320.02 µs 321.94 µs]
+                        thrpt:  [816.79 MiB/s 821.70 MiB/s 826.79 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection: Collecting 20 samples in estimated 215.35 ms (420 iterations)
+Benchmarking stage/repository-rust-source/hybrid-entropy-selection: Analyzing
+stage/repository-rust-source/hybrid-entropy-selection
+                        time:   [499.00 µs 502.81 µs 505.86 µs]
+                        thrpt:  [248.33 MiB/s 249.84 MiB/s 251.74 MiB/s]
+Benchmarking stage/repository-rust-source/histogram
+Benchmarking stage/repository-rust-source/histogram: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/histogram: Collecting 20 samples in estimated 208.78 ms (2730 iterations)
+Benchmarking stage/repository-rust-source/histogram: Analyzing
+stage/repository-rust-source/histogram
+                        time:   [77.028 µs 77.192 µs 77.357 µs]
+                        thrpt:  [1.5858 GiB/s 1.5892 GiB/s 1.5926 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  2 (10.00%) high severe
+Benchmarking stage/repository-rust-source/normalize-model
+Benchmarking stage/repository-rust-source/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/normalize-model: Collecting 20 samples in estimated 200.54 ms (68k iterations)
+Benchmarking stage/repository-rust-source/normalize-model: Analyzing
+stage/repository-rust-source/normalize-model
+                        time:   [2.8255 µs 2.8375 µs 2.8535 µs]
+                        thrpt:  [350.45 Kelem/s 352.43 Kelem/s 353.91 Kelem/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/repository-rust-source/rans-encode
+Benchmarking stage/repository-rust-source/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/rans-encode: Collecting 20 samples in estimated 262.69 ms (420 iterations)
+Benchmarking stage/repository-rust-source/rans-encode: Analyzing
+stage/repository-rust-source/rans-encode
+                        time:   [613.25 µs 616.32 µs 619.97 µs]
+                        thrpt:  [202.62 MiB/s 203.82 MiB/s 204.84 MiB/s]
+Benchmarking stage/repository-rust-source/rans-decode
+Benchmarking stage/repository-rust-source/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/rans-decode: Collecting 20 samples in estimated 247.50 ms (420 iterations)
+Benchmarking stage/repository-rust-source/rans-decode: Analyzing
+stage/repository-rust-source/rans-decode
+                        time:   [595.57 µs 605.14 µs 615.65 µs]
+                        thrpt:  [204.04 MiB/s 207.59 MiB/s 210.92 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  2 (10.00%) low mild
+  2 (10.00%) high severe
+Benchmarking stage/repository-rust-source/huffman-encode-model-and-payload
+Benchmarking stage/repository-rust-source/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/huffman-encode-model-and-payload: Collecting 20 samples in estimated 277.10 ms (630 iterations)
+Benchmarking stage/repository-rust-source/huffman-encode-model-and-payload: Analyzing
+stage/repository-rust-source/huffman-encode-model-and-payload
+                        time:   [443.55 µs 451.31 µs 458.08 µs]
+                        thrpt:  [274.23 MiB/s 278.35 MiB/s 283.21 MiB/s]
+Benchmarking stage/repository-rust-source/huffman-decode-table-and-payload
+Benchmarking stage/repository-rust-source/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/repository-rust-source/huffman-decode-table-and-payload: Collecting 20 samples in estimated 240.53 ms (420 iterations)
+Benchmarking stage/repository-rust-source/huffman-decode-table-and-payload: Analyzing
+stage/repository-rust-source/huffman-decode-table-and-payload
+                        time:   [574.08 µs 577.14 µs 581.15 µs]
+                        thrpt:  [216.16 MiB/s 217.66 MiB/s 218.82 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high severe
+
+Benchmarking stage/repository-technical-prose/split-reuse
+Benchmarking stage/repository-technical-prose/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/split-reuse: Collecting 20 samples in estimated 202.43 ms (6090 iterations)
+Benchmarking stage/repository-technical-prose/split-reuse: Analyzing
+stage/repository-technical-prose/split-reuse
+                        time:   [32.001 µs 33.332 µs 35.860 µs]
+                        thrpt:  [709.17 MiB/s 762.96 MiB/s 794.70 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+stage dataset=repository-technical-prose raw_bytes=26666 lanes=1 stream_bytes=24878 sampled_raw_lanes=0
+Benchmarking stage/repository-technical-prose/sample
+Benchmarking stage/repository-technical-prose/sample: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/sample: Collecting 20 samples in estimated 200.31 ms (43k iterations)
+Benchmarking stage/repository-technical-prose/sample: Analyzing
+stage/repository-technical-prose/sample
+                        time:   [4.8057 µs 4.9413 µs 5.1055 µs]
+                        thrpt:  [4.8643 GiB/s 5.0259 GiB/s 5.1678 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/repository-technical-prose/lz-parse-reuse
+Benchmarking stage/repository-technical-prose/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/lz-parse-reuse: Collecting 20 samples in estimated 220.38 ms (1470 iterations)
+Benchmarking stage/repository-technical-prose/lz-parse-reuse: Analyzing
+stage/repository-technical-prose/lz-parse-reuse
+                        time:   [148.10 µs 149.69 µs 152.10 µs]
+                        thrpt:  [167.20 MiB/s 169.89 MiB/s 171.71 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/repository-technical-prose/lz-expand
+Benchmarking stage/repository-technical-prose/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/lz-expand: Collecting 20 samples in estimated 201.88 ms (4200 iterations)
+Benchmarking stage/repository-technical-prose/lz-expand: Analyzing
+stage/repository-technical-prose/lz-expand
+                        time:   [46.331 µs 46.936 µs 47.735 µs]
+                        thrpt:  [532.74 MiB/s 541.82 MiB/s 548.89 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection: Collecting 20 samples in estimated 213.76 ms (1890 iterations)
+Benchmarking stage/repository-technical-prose/hybrid-entropy-selection: Analyzing
+stage/repository-technical-prose/hybrid-entropy-selection
+                        time:   [115.66 µs 119.69 µs 126.16 µs]
+                        thrpt:  [188.06 MiB/s 198.23 MiB/s 205.13 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/repository-technical-prose/histogram
+Benchmarking stage/repository-technical-prose/histogram: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/histogram: Collecting 20 samples in estimated 203.23 ms (12k iterations)
+Benchmarking stage/repository-technical-prose/histogram: Analyzing
+stage/repository-technical-prose/histogram
+                        time:   [15.729 µs 15.787 µs 15.876 µs]
+                        thrpt:  [1.4594 GiB/s 1.4676 GiB/s 1.4731 GiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  2 (10.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/repository-technical-prose/normalize-model
+Benchmarking stage/repository-technical-prose/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/normalize-model: Collecting 20 samples in estimated 200.39 ms (74k iterations)
+Benchmarking stage/repository-technical-prose/normalize-model: Analyzing
+stage/repository-technical-prose/normalize-model
+                        time:   [2.7210 µs 2.7385 µs 2.7577 µs]
+                        thrpt:  [362.61 Kelem/s 365.17 Kelem/s 367.51 Kelem/s]
+Benchmarking stage/repository-technical-prose/rans-encode
+Benchmarking stage/repository-technical-prose/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/rans-encode: Collecting 20 samples in estimated 200.28 ms (2100 iterations)
+Benchmarking stage/repository-technical-prose/rans-encode: Analyzing
+stage/repository-technical-prose/rans-encode
+                        time:   [94.155 µs 94.634 µs 95.243 µs]
+                        thrpt:  [249.10 MiB/s 250.71 MiB/s 251.98 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/repository-technical-prose/rans-decode
+Benchmarking stage/repository-technical-prose/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/rans-decode: Collecting 20 samples in estimated 215.46 ms (2310 iterations)
+Benchmarking stage/repository-technical-prose/rans-decode: Analyzing
+stage/repository-technical-prose/rans-decode
+                        time:   [90.519 µs 91.806 µs 93.516 µs]
+                        thrpt:  [253.71 MiB/s 258.43 MiB/s 262.11 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/repository-technical-prose/huffman-encode-model-and-payload
+Benchmarking stage/repository-technical-prose/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/huffman-encode-model-and-payload: Collecting 20 samples in estimated 208.91 ms (2100 iterations)
+Benchmarking stage/repository-technical-prose/huffman-encode-model-and-payload: Analyzing
+stage/repository-technical-prose/huffman-encode-model-and-payload
+                        time:   [94.079 µs 96.192 µs 98.713 µs]
+                        thrpt:  [240.35 MiB/s 246.65 MiB/s 252.19 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/repository-technical-prose/huffman-decode-table-and-payload
+Benchmarking stage/repository-technical-prose/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/repository-technical-prose/huffman-decode-table-and-payload: Collecting 20 samples in estimated 221.45 ms (1890 iterations)
+Benchmarking stage/repository-technical-prose/huffman-decode-table-and-payload: Analyzing
+stage/repository-technical-prose/huffman-decode-table-and-payload
+                        time:   [114.77 µs 115.92 µs 117.35 µs]
+                        thrpt:  [202.17 MiB/s 204.68 MiB/s 206.73 MiB/s]
+
+Benchmarking stage/natural-style-prose-generated/split-reuse
+Benchmarking stage/natural-style-prose-generated/split-reuse: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/split-reuse: Collecting 20 samples in estimated 296.14 ms (420 iterations)
+Benchmarking stage/natural-style-prose-generated/split-reuse: Analyzing
+stage/natural-style-prose-generated/split-reuse
+                        time:   [706.76 µs 715.74 µs 733.02 µs]
+                        thrpt:  [762.42 MiB/s 780.83 MiB/s 790.75 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+stage dataset=natural-style-prose-generated raw_bytes=586022 lanes=1 stream_bytes=126363 sampled_raw_lanes=0
+Benchmarking stage/natural-style-prose-generated/sample
+Benchmarking stage/natural-style-prose-generated/sample: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/sample: Collecting 20 samples in estimated 200.19 ms (44k iterations)
+Benchmarking stage/natural-style-prose-generated/sample: Analyzing
+stage/natural-style-prose-generated/sample
+                        time:   [4.7078 µs 4.9055 µs 5.1698 µs]
+                        thrpt:  [105.57 GiB/s 111.26 GiB/s 115.93 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/natural-style-prose-generated/lz-parse-reuse
+Benchmarking stage/natural-style-prose-generated/lz-parse-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 368.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/natural-style-prose-generated/lz-parse-reuse: Collecting 20 samples in estimated 367.97 ms (210 iterations)
+Benchmarking stage/natural-style-prose-generated/lz-parse-reuse: Analyzing
+stage/natural-style-prose-generated/lz-parse-reuse
+                        time:   [1.4844 ms 1.4950 ms 1.5065 ms]
+                        thrpt:  [370.98 MiB/s 373.84 MiB/s 376.50 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/natural-style-prose-generated/lz-expand
+Benchmarking stage/natural-style-prose-generated/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/lz-expand: Collecting 20 samples in estimated 252.09 ms (840 iterations)
+Benchmarking stage/natural-style-prose-generated/lz-expand: Analyzing
+stage/natural-style-prose-generated/lz-expand
+                        time:   [302.91 µs 305.52 µs 308.12 µs]
+                        thrpt:  [1.7713 GiB/s 1.7864 GiB/s 1.8018 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high severe
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection: Collecting 20 samples in estimated 277.05 ms (630 iterations)
+Benchmarking stage/natural-style-prose-generated/hybrid-entropy-selection: Analyzing
+stage/natural-style-prose-generated/hybrid-entropy-selection
+                        time:   [426.04 µs 436.99 µs 444.28 µs]
+                        thrpt:  [271.25 MiB/s 275.77 MiB/s 282.86 MiB/s]
+Benchmarking stage/natural-style-prose-generated/histogram
+Benchmarking stage/natural-style-prose-generated/histogram: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/histogram: Collecting 20 samples in estimated 210.80 ms (3360 iterations)
+Benchmarking stage/natural-style-prose-generated/histogram: Analyzing
+stage/natural-style-prose-generated/histogram
+                        time:   [61.821 µs 63.524 µs 65.604 µs]
+                        thrpt:  [1.7939 GiB/s 1.8526 GiB/s 1.9036 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/natural-style-prose-generated/normalize-model
+Benchmarking stage/natural-style-prose-generated/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/normalize-model: Collecting 20 samples in estimated 200.35 ms (74k iterations)
+Benchmarking stage/natural-style-prose-generated/normalize-model: Analyzing
+stage/natural-style-prose-generated/normalize-model
+                        time:   [2.7277 µs 2.7758 µs 2.8275 µs]
+                        thrpt:  [353.67 Kelem/s 360.25 Kelem/s 366.60 Kelem/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high mild
+Benchmarking stage/natural-style-prose-generated/rans-encode
+Benchmarking stage/natural-style-prose-generated/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/rans-encode: Collecting 20 samples in estimated 208.27 ms (420 iterations)
+Benchmarking stage/natural-style-prose-generated/rans-encode: Analyzing
+stage/natural-style-prose-generated/rans-encode
+                        time:   [486.59 µs 497.33 µs 504.30 µs]
+                        thrpt:  [238.96 MiB/s 242.31 MiB/s 247.66 MiB/s]
+Benchmarking stage/natural-style-prose-generated/rans-decode
+Benchmarking stage/natural-style-prose-generated/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/rans-decode: Collecting 20 samples in estimated 216.43 ms (420 iterations)
+Benchmarking stage/natural-style-prose-generated/rans-decode: Analyzing
+stage/natural-style-prose-generated/rans-decode
+                        time:   [524.98 µs 537.43 µs 557.30 µs]
+                        thrpt:  [216.24 MiB/s 224.23 MiB/s 229.55 MiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  1 (5.00%) low mild
+  4 (20.00%) high severe
+Benchmarking stage/natural-style-prose-generated/huffman-encode-model-and-payload
+Benchmarking stage/natural-style-prose-generated/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/huffman-encode-model-and-payload: Collecting 20 samples in estimated 249.07 ms (630 iterations)
+Benchmarking stage/natural-style-prose-generated/huffman-encode-model-and-payload: Analyzing
+stage/natural-style-prose-generated/huffman-encode-model-and-payload
+                        time:   [371.68 µs 375.82 µs 381.12 µs]
+                        thrpt:  [316.20 MiB/s 320.66 MiB/s 324.23 MiB/s]
+Benchmarking stage/natural-style-prose-generated/huffman-decode-table-and-payload
+Benchmarking stage/natural-style-prose-generated/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/natural-style-prose-generated/huffman-decode-table-and-payload: Collecting 20 samples in estimated 276.21 ms (630 iterations)
+Benchmarking stage/natural-style-prose-generated/huffman-decode-table-and-payload: Analyzing
+stage/natural-style-prose-generated/huffman-decode-table-and-payload
+                        time:   [439.96 µs 441.89 µs 443.42 µs]
+                        thrpt:  [271.77 MiB/s 272.71 MiB/s 273.91 MiB/s]
+
+Benchmarking stage/json-records/split-reuse
+Benchmarking stage/json-records/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 351.6ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/split-reuse: Collecting 20 samples in estimated 351.57 ms (210 iterations)
+Benchmarking stage/json-records/split-reuse: Analyzing
+stage/json-records/split-reuse
+                        time:   [1.6500 ms 1.6579 ms 1.6641 ms]
+                        thrpt:  [693.14 MiB/s 695.77 MiB/s 699.10 MiB/s]
+stage dataset=json-records raw_bytes=1209516 lanes=1 stream_bytes=362754 sampled_raw_lanes=0
+Benchmarking stage/json-records/sample
+Benchmarking stage/json-records/sample: Warming up for 100.00 ms
+Benchmarking stage/json-records/sample: Collecting 20 samples in estimated 200.77 ms (54k iterations)
+Benchmarking stage/json-records/sample: Analyzing
+stage/json-records/sample
+                        time:   [3.8957 µs 3.9724 µs 4.0586 µs]
+                        thrpt:  [277.55 GiB/s 283.57 GiB/s 289.15 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/json-records/lz-parse-reuse
+Benchmarking stage/json-records/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/json-records/lz-parse-reuse: Collecting 20 samples in estimated 243.30 ms (60 iterations)
+Benchmarking stage/json-records/lz-parse-reuse: Analyzing
+stage/json-records/lz-parse-reuse
+                        time:   [3.6498 ms 3.6808 ms 3.7111 ms]
+                        thrpt:  [310.82 MiB/s 313.38 MiB/s 316.04 MiB/s]
+Benchmarking stage/json-records/lz-expand
+Benchmarking stage/json-records/lz-expand: Warming up for 100.00 ms
+Benchmarking stage/json-records/lz-expand: Collecting 20 samples in estimated 337.29 ms (420 iterations)
+Benchmarking stage/json-records/lz-expand: Analyzing
+stage/json-records/lz-expand
+                        time:   [732.02 µs 745.53 µs 770.15 µs]
+                        thrpt:  [1.4626 GiB/s 1.5109 GiB/s 1.5388 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/json-records/hybrid-entropy-selection
+Benchmarking stage/json-records/hybrid-entropy-selection: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 277.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/hybrid-entropy-selection: Collecting 20 samples in estimated 277.52 ms (210 iterations)
+Benchmarking stage/json-records/hybrid-entropy-selection: Analyzing
+stage/json-records/hybrid-entropy-selection
+                        time:   [1.3318 ms 1.3581 ms 1.3790 ms]
+                        thrpt:  [250.86 MiB/s 254.73 MiB/s 259.75 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/json-records/histogram
+Benchmarking stage/json-records/histogram: Warming up for 100.00 ms
+Benchmarking stage/json-records/histogram: Collecting 20 samples in estimated 238.64 ms (1260 iterations)
+Benchmarking stage/json-records/histogram: Analyzing
+stage/json-records/histogram
+                        time:   [182.87 µs 183.86 µs 185.24 µs]
+                        thrpt:  [1.8238 GiB/s 1.8375 GiB/s 1.8474 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/json-records/normalize-model
+Benchmarking stage/json-records/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/json-records/normalize-model: Collecting 20 samples in estimated 200.47 ms (70k iterations)
+Benchmarking stage/json-records/normalize-model: Analyzing
+stage/json-records/normalize-model
+                        time:   [2.8766 µs 2.9320 µs 2.9980 µs]
+                        thrpt:  [333.55 Kelem/s 341.06 Kelem/s 347.63 Kelem/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high severe
+Benchmarking stage/json-records/rans-encode
+Benchmarking stage/json-records/rans-encode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 325.6ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/rans-encode: Collecting 20 samples in estimated 325.60 ms (210 iterations)
+Benchmarking stage/json-records/rans-encode: Analyzing
+stage/json-records/rans-encode
+                        time:   [1.7180 ms 1.7325 ms 1.7476 ms]
+                        thrpt:  [197.95 MiB/s 199.69 MiB/s 201.37 MiB/s]
+Benchmarking stage/json-records/rans-decode
+Benchmarking stage/json-records/rans-decode: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 327.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/rans-decode: Collecting 20 samples in estimated 327.71 ms (210 iterations)
+Benchmarking stage/json-records/rans-decode: Analyzing
+stage/json-records/rans-decode
+                        time:   [1.5496 ms 1.5730 ms 1.5925 ms]
+                        thrpt:  [217.24 MiB/s 219.93 MiB/s 223.25 MiB/s]
+Benchmarking stage/json-records/huffman-encode-model-and-payload
+Benchmarking stage/json-records/huffman-encode-model-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 232.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/huffman-encode-model-and-payload: Collecting 20 samples in estimated 232.20 ms (210 iterations)
+Benchmarking stage/json-records/huffman-encode-model-and-payload: Analyzing
+stage/json-records/huffman-encode-model-and-payload
+                        time:   [1.1026 ms 1.1139 ms 1.1208 ms]
+                        thrpt:  [308.66 MiB/s 310.58 MiB/s 313.76 MiB/s]
+Benchmarking stage/json-records/huffman-decode-table-and-payload
+Benchmarking stage/json-records/huffman-decode-table-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 307.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/json-records/huffman-decode-table-and-payload: Collecting 20 samples in estimated 307.07 ms (210 iterations)
+Benchmarking stage/json-records/huffman-decode-table-and-payload: Analyzing
+stage/json-records/huffman-decode-table-and-payload
+                        time:   [1.4732 ms 1.4848 ms 1.4953 ms]
+                        thrpt:  [231.35 MiB/s 232.99 MiB/s 234.83 MiB/s]
+
+Benchmarking stage/csv-table/split-reuse
+Benchmarking stage/csv-table/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 263.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/csv-table/split-reuse: Collecting 20 samples in estimated 263.18 ms (210 iterations)
+Benchmarking stage/csv-table/split-reuse: Analyzing
+stage/csv-table/split-reuse
+                        time:   [1.2489 ms 1.2871 ms 1.3377 ms]
+                        thrpt:  [709.63 MiB/s 737.53 MiB/s 760.09 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+stage dataset=csv-table raw_bytes=995409 lanes=1 stream_bytes=682500 sampled_raw_lanes=0
+Benchmarking stage/csv-table/sample
+Benchmarking stage/csv-table/sample: Warming up for 100.00 ms
+Benchmarking stage/csv-table/sample: Collecting 20 samples in estimated 200.57 ms (46k iterations)
+Benchmarking stage/csv-table/sample: Analyzing
+stage/csv-table/sample  time:   [4.5100 µs 4.8171 µs 5.3320 µs]
+                        thrpt:  [173.87 GiB/s 192.45 GiB/s 205.56 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/csv-table/lz-parse-reuse
+Benchmarking stage/csv-table/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/csv-table/lz-parse-reuse: Collecting 20 samples in estimated 261.00 ms (60 iterations)
+Benchmarking stage/csv-table/lz-parse-reuse: Analyzing
+stage/csv-table/lz-parse-reuse
+                        time:   [4.2711 ms 4.3382 ms 4.4237 ms]
+                        thrpt:  [214.59 MiB/s 218.82 MiB/s 222.26 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/csv-table/lz-expand
+Benchmarking stage/csv-table/lz-expand: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 339.9ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/csv-table/lz-expand: Collecting 20 samples in estimated 339.87 ms (210 iterations)
+Benchmarking stage/csv-table/lz-expand: Analyzing
+stage/csv-table/lz-expand
+                        time:   [1.5929 ms 1.6306 ms 1.6672 ms]
+                        thrpt:  [569.40 MiB/s 582.16 MiB/s 595.95 MiB/s]
+Benchmarking stage/csv-table/hybrid-entropy-selection
+Benchmarking stage/csv-table/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/csv-table/hybrid-entropy-selection: Collecting 20 samples in estimated 243.12 ms (100 iterations)
+Benchmarking stage/csv-table/hybrid-entropy-selection: Analyzing
+stage/csv-table/hybrid-entropy-selection
+                        time:   [2.5742 ms 2.6040 ms 2.6407 ms]
+                        thrpt:  [246.48 MiB/s 249.96 MiB/s 252.85 MiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking stage/csv-table/histogram
+Benchmarking stage/csv-table/histogram: Warming up for 100.00 ms
+Benchmarking stage/csv-table/histogram: Collecting 20 samples in estimated 212.25 ms (630 iterations)
+Benchmarking stage/csv-table/histogram: Analyzing
+stage/csv-table/histogram
+                        time:   [331.86 µs 333.02 µs 333.99 µs]
+                        thrpt:  [1.9032 GiB/s 1.9087 GiB/s 1.9153 GiB/s]
+Benchmarking stage/csv-table/normalize-model
+Benchmarking stage/csv-table/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/csv-table/normalize-model: Collecting 20 samples in estimated 200.26 ms (74k iterations)
+Benchmarking stage/csv-table/normalize-model: Analyzing
+stage/csv-table/normalize-model
+                        time:   [2.7264 µs 2.7622 µs 2.8090 µs]
+                        thrpt:  [356.00 Kelem/s 362.03 Kelem/s 366.79 Kelem/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking stage/csv-table/rans-encode
+Benchmarking stage/csv-table/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/csv-table/rans-encode: Collecting 20 samples in estimated 241.56 ms (80 iterations)
+Benchmarking stage/csv-table/rans-encode: Analyzing
+stage/csv-table/rans-encode
+                        time:   [2.8140 ms 2.8337 ms 2.8556 ms]
+                        thrpt:  [227.94 MiB/s 229.69 MiB/s 231.30 MiB/s]
+Benchmarking stage/csv-table/rans-decode
+Benchmarking stage/csv-table/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/csv-table/rans-decode: Collecting 20 samples in estimated 225.10 ms (80 iterations)
+Benchmarking stage/csv-table/rans-decode: Analyzing
+stage/csv-table/rans-decode
+                        time:   [2.7969 ms 2.8385 ms 2.8845 ms]
+                        thrpt:  [225.65 MiB/s 229.30 MiB/s 232.71 MiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  2 (10.00%) low mild
+  3 (15.00%) high severe
+Benchmarking stage/csv-table/huffman-encode-model-and-payload
+Benchmarking stage/csv-table/huffman-encode-model-and-payload: Warming up for 100.00 ms
+Benchmarking stage/csv-table/huffman-encode-model-and-payload: Collecting 20 samples in estimated 209.14 ms (100 iterations)
+Benchmarking stage/csv-table/huffman-encode-model-and-payload: Analyzing
+stage/csv-table/huffman-encode-model-and-payload
+                        time:   [2.1229 ms 2.1511 ms 2.1804 ms]
+                        thrpt:  [298.51 MiB/s 302.58 MiB/s 306.61 MiB/s]
+Benchmarking stage/csv-table/huffman-decode-table-and-payload
+Benchmarking stage/csv-table/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/csv-table/huffman-decode-table-and-payload: Collecting 20 samples in estimated 264.12 ms (80 iterations)
+Benchmarking stage/csv-table/huffman-decode-table-and-payload: Analyzing
+stage/csv-table/huffman-decode-table-and-payload
+                        time:   [3.1570 ms 3.2297 ms 3.3257 ms]
+                        thrpt:  [195.71 MiB/s 201.53 MiB/s 206.17 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking stage/server-log-records/split-reuse
+Benchmarking stage/server-log-records/split-reuse: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 355.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/server-log-records/split-reuse: Collecting 20 samples in estimated 355.70 ms (210 iterations)
+Benchmarking stage/server-log-records/split-reuse: Analyzing
+stage/server-log-records/split-reuse
+                        time:   [1.7221 ms 1.7770 ms 1.8220 ms]
+                        thrpt:  [732.01 MiB/s 750.56 MiB/s 774.49 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high mild
+stage dataset=server-log-records raw_bytes=1398527 lanes=1 stream_bytes=579319 sampled_raw_lanes=0
+Benchmarking stage/server-log-records/sample
+Benchmarking stage/server-log-records/sample: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/sample: Collecting 20 samples in estimated 200.13 ms (49k iterations)
+Benchmarking stage/server-log-records/sample: Analyzing
+stage/server-log-records/sample
+                        time:   [3.8319 µs 3.8858 µs 3.9509 µs]
+                        thrpt:  [329.67 GiB/s 335.19 GiB/s 339.91 GiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  1 (5.00%) high mild
+  3 (15.00%) high severe
+Benchmarking stage/server-log-records/lz-parse-reuse
+Benchmarking stage/server-log-records/lz-parse-reuse: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/lz-parse-reuse: Collecting 20 samples in estimated 211.82 ms (40 iterations)
+Benchmarking stage/server-log-records/lz-parse-reuse: Analyzing
+stage/server-log-records/lz-parse-reuse
+                        time:   [5.3394 ms 5.4101 ms 5.4689 ms]
+                        thrpt:  [243.88 MiB/s 246.53 MiB/s 249.79 MiB/s]
+Found 4 outliers among 20 measurements (20.00%)
+  3 (15.00%) low severe
+  1 (5.00%) high mild
+Benchmarking stage/server-log-records/lz-expand
+Benchmarking stage/server-log-records/lz-expand: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 244.4ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/server-log-records/lz-expand: Collecting 20 samples in estimated 244.42 ms (210 iterations)
+Benchmarking stage/server-log-records/lz-expand: Analyzing
+stage/server-log-records/lz-expand
+                        time:   [1.1214 ms 1.1558 ms 1.1941 ms]
+                        thrpt:  [1.0908 GiB/s 1.1269 GiB/s 1.1614 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high mild
+Benchmarking stage/server-log-records/hybrid-entropy-selection
+Benchmarking stage/server-log-records/hybrid-entropy-selection: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/hybrid-entropy-selection: Collecting 20 samples in estimated 237.27 ms (120 iterations)
+Benchmarking stage/server-log-records/hybrid-entropy-selection: Analyzing
+stage/server-log-records/hybrid-entropy-selection
+                        time:   [1.8969 ms 1.9052 ms 1.9174 ms]
+                        thrpt:  [288.15 MiB/s 289.99 MiB/s 291.26 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/server-log-records/histogram
+Benchmarking stage/server-log-records/histogram: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/histogram: Collecting 20 samples in estimated 208.03 ms (840 iterations)
+Benchmarking stage/server-log-records/histogram: Analyzing
+stage/server-log-records/histogram
+                        time:   [246.40 µs 247.67 µs 248.88 µs]
+                        thrpt:  [2.1678 GiB/s 2.1784 GiB/s 2.1896 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking stage/server-log-records/normalize-model
+Benchmarking stage/server-log-records/normalize-model: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/normalize-model: Collecting 20 samples in estimated 200.44 ms (69k iterations)
+Benchmarking stage/server-log-records/normalize-model: Analyzing
+stage/server-log-records/normalize-model
+                        time:   [2.7033 µs 2.7409 µs 2.7668 µs]
+                        thrpt:  [361.43 Kelem/s 364.85 Kelem/s 369.92 Kelem/s]
+Benchmarking stage/server-log-records/rans-encode
+Benchmarking stage/server-log-records/rans-encode: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/rans-encode: Collecting 20 samples in estimated 240.77 ms (100 iterations)
+Benchmarking stage/server-log-records/rans-encode: Analyzing
+stage/server-log-records/rans-encode
+                        time:   [2.2491 ms 2.2592 ms 2.2698 ms]
+                        thrpt:  [243.40 MiB/s 244.55 MiB/s 245.64 MiB/s]
+Benchmarking stage/server-log-records/rans-decode
+Benchmarking stage/server-log-records/rans-decode: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/rans-decode: Collecting 20 samples in estimated 221.22 ms (100 iterations)
+Benchmarking stage/server-log-records/rans-decode: Analyzing
+stage/server-log-records/rans-decode
+                        time:   [2.2038 ms 2.2364 ms 2.2787 ms]
+                        thrpt:  [242.46 MiB/s 247.05 MiB/s 250.69 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+Benchmarking stage/server-log-records/huffman-encode-model-and-payload
+Benchmarking stage/server-log-records/huffman-encode-model-and-payload: Warming up for 100.00 ms
+
+Warning: Unable to complete 20 samples in 200.0ms. You may wish to increase target time to 362.6ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking stage/server-log-records/huffman-encode-model-and-payload: Collecting 20 samples in estimated 362.58 ms (210 iterations)
+Benchmarking stage/server-log-records/huffman-encode-model-and-payload: Analyzing
+stage/server-log-records/huffman-encode-model-and-payload
+                        time:   [1.7313 ms 1.7607 ms 1.7946 ms]
+                        thrpt:  [307.86 MiB/s 313.79 MiB/s 319.11 MiB/s]
+Benchmarking stage/server-log-records/huffman-decode-table-and-payload
+Benchmarking stage/server-log-records/huffman-decode-table-and-payload: Warming up for 100.00 ms
+Benchmarking stage/server-log-records/huffman-decode-table-and-payload: Collecting 20 samples in estimated 201.21 ms (80 iterations)
+Benchmarking stage/server-log-records/huffman-decode-table-and-payload: Analyzing
+stage/server-log-records/huffman-decode-table-and-payload
+                        time:   [2.5001 ms 2.5126 ms 2.5275 ms]
+                        thrpt:  [218.59 MiB/s 219.88 MiB/s 220.99 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=53.1µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw-bytes=295200 rnbw-parallel-bytes=295200 rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=24µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw-bytes=121864 rnbw-parallel-bytes=121872 rnbw=0.9283 rnbw-parallel=0.9284 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=12.7µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw-bytes=89944 rnbw-parallel-bytes=89944 rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=40.5µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw-bytes=3672 rnbw-parallel-bytes=3672 rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=3.2µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw-bytes=2992 rnbw-parallel-bytes=2992 rnbw=0.3619 rnbw-parallel=0.3619 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=101.9µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw-bytes=21568 rnbw-parallel-bytes=21568 rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+general-trnmap-index=native-executable-binary bytes=5437440 words=1359360 index-bytes=521024 build=666.1µs zero-words=53080 first-zero=5
+file-dataset=native-executable-binary bytes=5437440 structural-lanes=1-byte-lane rnbw-bytes=3023424 rnbw-parallel-bytes=3022768 rnbw=0.5560 rnbw-parallel=0.5559 parallel-size-delta=-0.02% raw=1.0000 lz4-fast=0.5544 snappy=0.5636 zstd-fast-3=0.5503 zstd-level-1=0.4342 brotli-quality-0=0.4538 brotli-quality-5=0.3469 zlib-fast=0.4514 zlib-default=0.3823 cow-borrowed=false
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=82µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw-bytes=352584 rnbw-parallel-bytes=352584 rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=132.1µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=48424 rnbw-parallel-bytes=48440 rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=112.6µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=1048632 rnbw-parallel-bytes=1048632 rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+general-trnmap-index=repository-rust-source bytes=275729 words=68933 index-bytes=26864 build=40.8µs zero-words=0 first-zero=68933
+file-dataset=repository-rust-source bytes=275729 structural-lanes=1-byte-lane rnbw-bytes=87216 rnbw-parallel-bytes=87248 rnbw=0.3163 rnbw-parallel=0.3164 parallel-size-delta=+0.04% raw=1.0000 lz4-fast=0.3332 snappy=0.3288 zstd-fast-3=0.2975 zstd-level-1=0.2350 brotli-quality-0=0.2542 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2021 cow-borrowed=false
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=4.8µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw-bytes=15840 rnbw-parallel-bytes=15840 rnbw=0.5940 rnbw-parallel=0.5940 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=71.7µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw-bytes=89832 rnbw-parallel-bytes=89848 rnbw=0.1533 rnbw-parallel=0.1533 parallel-size-delta=+0.02% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=184.4µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw-bytes=237792 rnbw-parallel-bytes=237816 rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=109.4µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw-bytes=429432 rnbw-parallel-bytes=429456 rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=150.3µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw-bytes=394256 rnbw-parallel-bytes=394296 rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false

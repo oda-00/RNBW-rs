@@ -1,5 +1,7 @@
 # RNBW operation latency scorecard
 
+The byte-codec table in this snapshot predates the retained 16-lane SIMD change. Use the [new stage audit and complete file matrix](codec-stage-audit-2026-11-09.md) for the covered encode/decode operations: synthetic-int8 parallel encode is now 199.58 µs and decode 330.64 µs. Point/store observations below were not rerun by that change. Six dense-TRNMAP build/decode denominators in the linked store normalization were corrected from 1,000,000 to 32,768 keys; whole-call timings did not change.
+
 Date: 2026-11-09. This report puts the current measurements on one unit basis:
 whole-call latency plus amortized cost per input item. A lookup uses ns/lookup;
 a key-store batch uses ns/probe; byte codecs use ns/input-byte; bulk index builds,

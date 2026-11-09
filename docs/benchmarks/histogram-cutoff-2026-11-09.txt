@@ -1,0 +1,492 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 10.65s
+     Running benches\files.rs (target\release\deps\files-fb51285c343af799.exe)
+Gnuplot not found, using plotters backend
+Benchmarking histogram-cutoff/constant/64/production
+Benchmarking histogram-cutoff/constant/64/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/64/production: Collecting 20 samples in estimated 200.00 ms (2.9M iterations)
+Benchmarking histogram-cutoff/constant/64/production: Analyzing
+histogram-cutoff/constant/64/production
+                        time:   [67.813 ns 72.029 ns 78.513 ns]
+                        thrpt:  [777.39 MiB/s 847.37 MiB/s 900.05 MiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  3 (15.00%) low mild
+  2 (10.00%) high severe
+Benchmarking histogram-cutoff/constant/64/serial-reference
+Benchmarking histogram-cutoff/constant/64/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/64/serial-reference: Collecting 20 samples in estimated 200.01 ms (3.0M iterations)
+Benchmarking histogram-cutoff/constant/64/serial-reference: Analyzing
+histogram-cutoff/constant/64/serial-reference
+                        time:   [68.488 ns 69.738 ns 70.996 ns]
+                        thrpt:  [859.70 MiB/s 875.20 MiB/s 891.18 MiB/s]
+
+Benchmarking histogram-cutoff/constant/256/production
+Benchmarking histogram-cutoff/constant/256/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/256/production: Collecting 20 samples in estimated 200.02 ms (1.7M iterations)
+Benchmarking histogram-cutoff/constant/256/production: Analyzing
+histogram-cutoff/constant/256/production
+                        time:   [115.68 ns 116.39 ns 117.05 ns]
+                        thrpt:  [2.0369 GiB/s 2.0485 GiB/s 2.0610 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/constant/256/serial-reference
+Benchmarking histogram-cutoff/constant/256/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/256/serial-reference: Collecting 20 samples in estimated 200.02 ms (1.7M iterations)
+Benchmarking histogram-cutoff/constant/256/serial-reference: Analyzing
+histogram-cutoff/constant/256/serial-reference
+                        time:   [117.50 ns 120.23 ns 125.13 ns]
+                        thrpt:  [1.9053 GiB/s 1.9831 GiB/s 2.0291 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+
+Benchmarking histogram-cutoff/constant/512/production
+Benchmarking histogram-cutoff/constant/512/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/512/production: Collecting 20 samples in estimated 200.02 ms (1.1M iterations)
+Benchmarking histogram-cutoff/constant/512/production: Analyzing
+histogram-cutoff/constant/512/production
+                        time:   [183.52 ns 184.71 ns 186.07 ns]
+                        thrpt:  [2.5627 GiB/s 2.5815 GiB/s 2.5983 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/constant/512/serial-reference
+Benchmarking histogram-cutoff/constant/512/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/512/serial-reference: Collecting 20 samples in estimated 200.02 ms (1.1M iterations)
+Benchmarking histogram-cutoff/constant/512/serial-reference: Analyzing
+histogram-cutoff/constant/512/serial-reference
+                        time:   [388.49 ns 390.63 ns 393.32 ns]
+                        thrpt:  [1.2123 GiB/s 1.2207 GiB/s 1.2274 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+
+Benchmarking histogram-cutoff/constant/1023/production
+Benchmarking histogram-cutoff/constant/1023/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/1023/production: Collecting 20 samples in estimated 200.03 ms (612k iterations)
+Benchmarking histogram-cutoff/constant/1023/production: Analyzing
+histogram-cutoff/constant/1023/production
+                        time:   [323.19 ns 326.86 ns 332.24 ns]
+                        thrpt:  [2.8677 GiB/s 2.9148 GiB/s 2.9480 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/constant/1023/serial-reference
+Benchmarking histogram-cutoff/constant/1023/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/1023/serial-reference: Collecting 20 samples in estimated 200.05 ms (596k iterations)
+Benchmarking histogram-cutoff/constant/1023/serial-reference: Analyzing
+histogram-cutoff/constant/1023/serial-reference
+                        time:   [330.54 ns 332.33 ns 334.53 ns]
+                        thrpt:  [2.8480 GiB/s 2.8669 GiB/s 2.8824 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  2 (10.00%) high mild
+
+Benchmarking histogram-cutoff/constant/1024/production
+Benchmarking histogram-cutoff/constant/1024/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/1024/production: Collecting 20 samples in estimated 200.02 ms (358k iterations)
+Benchmarking histogram-cutoff/constant/1024/production: Analyzing
+histogram-cutoff/constant/1024/production
+                        time:   [547.04 ns 553.44 ns 560.12 ns]
+                        thrpt:  [1.7026 GiB/s 1.7232 GiB/s 1.7433 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/constant/1024/serial-reference
+Benchmarking histogram-cutoff/constant/1024/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/1024/serial-reference: Collecting 20 samples in estimated 200.05 ms (613k iterations)
+Benchmarking histogram-cutoff/constant/1024/serial-reference: Analyzing
+histogram-cutoff/constant/1024/serial-reference
+                        time:   [324.60 ns 326.39 ns 328.51 ns]
+                        thrpt:  [2.9030 GiB/s 2.9219 GiB/s 2.9380 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+Benchmarking histogram-cutoff/constant/2048/production
+Benchmarking histogram-cutoff/constant/2048/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/2048/production: Collecting 20 samples in estimated 200.15 ms (221k iterations)
+Benchmarking histogram-cutoff/constant/2048/production: Analyzing
+histogram-cutoff/constant/2048/production
+                        time:   [974.39 ns 978.75 ns 984.29 ns]
+                        thrpt:  [1.9378 GiB/s 1.9488 GiB/s 1.9575 GiB/s]
+Benchmarking histogram-cutoff/constant/2048/serial-reference
+Benchmarking histogram-cutoff/constant/2048/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/2048/serial-reference: Collecting 20 samples in estimated 200.11 ms (334k iterations)
+Benchmarking histogram-cutoff/constant/2048/serial-reference: Analyzing
+histogram-cutoff/constant/2048/serial-reference
+                        time:   [586.64 ns 592.49 ns 596.67 ns]
+                        thrpt:  [3.1966 GiB/s 3.2192 GiB/s 3.2513 GiB/s]
+
+Benchmarking histogram-cutoff/constant/4096/production
+Benchmarking histogram-cutoff/constant/4096/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/4096/production: Collecting 20 samples in estimated 200.26 ms (122k iterations)
+Benchmarking histogram-cutoff/constant/4096/production: Analyzing
+histogram-cutoff/constant/4096/production
+                        time:   [1.6329 µs 1.6441 µs 1.6629 µs]
+                        thrpt:  [2.2940 GiB/s 2.3203 GiB/s 2.3362 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking histogram-cutoff/constant/4096/serial-reference
+Benchmarking histogram-cutoff/constant/4096/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/4096/serial-reference: Collecting 20 samples in estimated 200.18 ms (176k iterations)
+Benchmarking histogram-cutoff/constant/4096/serial-reference: Analyzing
+histogram-cutoff/constant/4096/serial-reference
+                        time:   [1.1312 µs 1.1403 µs 1.1483 µs]
+                        thrpt:  [3.3219 GiB/s 3.3453 GiB/s 3.3723 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) low mild
+  2 (10.00%) high mild
+
+Benchmarking histogram-cutoff/constant/16384/production
+Benchmarking histogram-cutoff/constant/16384/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/16384/production: Collecting 20 samples in estimated 200.76 ms (32k iterations)
+Benchmarking histogram-cutoff/constant/16384/production: Analyzing
+histogram-cutoff/constant/16384/production
+                        time:   [6.2151 µs 6.2354 µs 6.2618 µs]
+                        thrpt:  [2.4368 GiB/s 2.4471 GiB/s 2.4551 GiB/s]
+Benchmarking histogram-cutoff/constant/16384/serial-reference
+Benchmarking histogram-cutoff/constant/16384/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/constant/16384/serial-reference: Collecting 20 samples in estimated 200.15 ms (45k iterations)
+Benchmarking histogram-cutoff/constant/16384/serial-reference: Analyzing
+histogram-cutoff/constant/16384/serial-reference
+                        time:   [4.4630 µs 4.4813 µs 4.5084 µs]
+                        thrpt:  [3.3845 GiB/s 3.4050 GiB/s 3.4189 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+
+Benchmarking histogram-cutoff/four-symbol/64/production
+Benchmarking histogram-cutoff/four-symbol/64/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/64/production: Collecting 20 samples in estimated 200.01 ms (2.4M iterations)
+Benchmarking histogram-cutoff/four-symbol/64/production: Analyzing
+histogram-cutoff/four-symbol/64/production
+                        time:   [83.840 ns 84.106 ns 84.351 ns]
+                        thrpt:  [723.59 MiB/s 725.70 MiB/s 728.00 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/four-symbol/64/serial-reference
+Benchmarking histogram-cutoff/four-symbol/64/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/64/serial-reference: Collecting 20 samples in estimated 200.02 ms (2.4M iterations)
+Benchmarking histogram-cutoff/four-symbol/64/serial-reference: Analyzing
+histogram-cutoff/four-symbol/64/serial-reference
+                        time:   [83.668 ns 85.231 ns 86.916 ns]
+                        thrpt:  [702.23 MiB/s 716.12 MiB/s 729.49 MiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+Benchmarking histogram-cutoff/four-symbol/256/production
+Benchmarking histogram-cutoff/four-symbol/256/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/256/production: Collecting 20 samples in estimated 200.03 ms (1.1M iterations)
+Benchmarking histogram-cutoff/four-symbol/256/production: Analyzing
+histogram-cutoff/four-symbol/256/production
+                        time:   [183.30 ns 184.87 ns 186.68 ns]
+                        thrpt:  [1.2772 GiB/s 1.2896 GiB/s 1.3007 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/four-symbol/256/serial-reference
+Benchmarking histogram-cutoff/four-symbol/256/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/256/serial-reference: Collecting 20 samples in estimated 200.02 ms (1.1M iterations)
+Benchmarking histogram-cutoff/four-symbol/256/serial-reference: Analyzing
+histogram-cutoff/four-symbol/256/serial-reference
+                        time:   [182.46 ns 183.57 ns 185.17 ns]
+                        thrpt:  [1.2875 GiB/s 1.2988 GiB/s 1.3067 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+Benchmarking histogram-cutoff/four-symbol/512/production
+Benchmarking histogram-cutoff/four-symbol/512/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/512/production: Collecting 20 samples in estimated 200.05 ms (643k iterations)
+Benchmarking histogram-cutoff/four-symbol/512/production: Analyzing
+histogram-cutoff/four-symbol/512/production
+                        time:   [307.60 ns 309.43 ns 311.51 ns]
+                        thrpt:  [1.5307 GiB/s 1.5410 GiB/s 1.5502 GiB/s]
+Benchmarking histogram-cutoff/four-symbol/512/serial-reference
+Benchmarking histogram-cutoff/four-symbol/512/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/512/serial-reference: Collecting 20 samples in estimated 200.03 ms (650k iterations)
+Benchmarking histogram-cutoff/four-symbol/512/serial-reference: Analyzing
+histogram-cutoff/four-symbol/512/serial-reference
+                        time:   [304.88 ns 307.10 ns 309.66 ns]
+                        thrpt:  [1.5399 GiB/s 1.5527 GiB/s 1.5640 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+Benchmarking histogram-cutoff/four-symbol/1023/production
+Benchmarking histogram-cutoff/four-symbol/1023/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/1023/production: Collecting 20 samples in estimated 200.03 ms (363k iterations)
+Benchmarking histogram-cutoff/four-symbol/1023/production: Analyzing
+histogram-cutoff/four-symbol/1023/production
+                        time:   [546.74 ns 549.42 ns 551.98 ns]
+                        thrpt:  [1.7260 GiB/s 1.7341 GiB/s 1.7426 GiB/s]
+Benchmarking histogram-cutoff/four-symbol/1023/serial-reference
+Benchmarking histogram-cutoff/four-symbol/1023/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/1023/serial-reference: Collecting 20 samples in estimated 200.07 ms (364k iterations)
+Benchmarking histogram-cutoff/four-symbol/1023/serial-reference: Analyzing
+histogram-cutoff/four-symbol/1023/serial-reference
+                        time:   [542.45 ns 547.26 ns 551.06 ns]
+                        thrpt:  [1.7289 GiB/s 1.7409 GiB/s 1.7564 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high mild
+
+Benchmarking histogram-cutoff/four-symbol/1024/production
+Benchmarking histogram-cutoff/four-symbol/1024/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/1024/production: Collecting 20 samples in estimated 200.04 ms (431k iterations)
+Benchmarking histogram-cutoff/four-symbol/1024/production: Analyzing
+histogram-cutoff/four-symbol/1024/production
+                        time:   [467.91 ns 473.15 ns 477.19 ns]
+                        thrpt:  [1.9985 GiB/s 2.0156 GiB/s 2.0381 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+Benchmarking histogram-cutoff/four-symbol/1024/serial-reference
+Benchmarking histogram-cutoff/four-symbol/1024/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/1024/serial-reference: Collecting 20 samples in estimated 200.06 ms (362k iterations)
+Benchmarking histogram-cutoff/four-symbol/1024/serial-reference: Analyzing
+histogram-cutoff/four-symbol/1024/serial-reference
+                        time:   [540.40 ns 545.05 ns 548.51 ns]
+                        thrpt:  [1.7387 GiB/s 1.7497 GiB/s 1.7648 GiB/s]
+
+Benchmarking histogram-cutoff/four-symbol/2048/production
+Benchmarking histogram-cutoff/four-symbol/2048/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/2048/production: Collecting 20 samples in estimated 200.14 ms (269k iterations)
+Benchmarking histogram-cutoff/four-symbol/2048/production: Analyzing
+histogram-cutoff/four-symbol/2048/production
+                        time:   [751.44 ns 759.59 ns 769.45 ns]
+                        thrpt:  [2.4788 GiB/s 2.5110 GiB/s 2.5383 GiB/s]
+Benchmarking histogram-cutoff/four-symbol/2048/serial-reference
+Benchmarking histogram-cutoff/four-symbol/2048/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/2048/serial-reference: Collecting 20 samples in estimated 200.07 ms (188k iterations)
+Benchmarking histogram-cutoff/four-symbol/2048/serial-reference: Analyzing
+histogram-cutoff/four-symbol/2048/serial-reference
+                        time:   [1.0609 µs 1.0704 µs 1.0841 µs]
+                        thrpt:  [1.7594 GiB/s 1.7820 GiB/s 1.7978 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+
+Benchmarking histogram-cutoff/four-symbol/4096/production
+Benchmarking histogram-cutoff/four-symbol/4096/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/4096/production: Collecting 20 samples in estimated 200.14 ms (148k iterations)
+Benchmarking histogram-cutoff/four-symbol/4096/production: Analyzing
+histogram-cutoff/four-symbol/4096/production
+                        time:   [1.3351 µs 1.3531 µs 1.3645 µs]
+                        thrpt:  [2.7957 GiB/s 2.8191 GiB/s 2.8573 GiB/s]
+Benchmarking histogram-cutoff/four-symbol/4096/serial-reference
+Benchmarking histogram-cutoff/four-symbol/4096/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/4096/serial-reference: Collecting 20 samples in estimated 200.30 ms (98k iterations)
+Benchmarking histogram-cutoff/four-symbol/4096/serial-reference: Analyzing
+histogram-cutoff/four-symbol/4096/serial-reference
+                        time:   [2.0280 µs 2.0356 µs 2.0430 µs]
+                        thrpt:  [1.8672 GiB/s 1.8740 GiB/s 1.8810 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) low mild
+
+Benchmarking histogram-cutoff/four-symbol/16384/production
+Benchmarking histogram-cutoff/four-symbol/16384/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/16384/production: Collecting 20 samples in estimated 200.23 ms (43k iterations)
+Benchmarking histogram-cutoff/four-symbol/16384/production: Analyzing
+histogram-cutoff/four-symbol/16384/production
+                        time:   [4.6100 µs 4.6665 µs 4.7304 µs]
+                        thrpt:  [3.2257 GiB/s 3.2699 GiB/s 3.3099 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking histogram-cutoff/four-symbol/16384/serial-reference
+Benchmarking histogram-cutoff/four-symbol/16384/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/four-symbol/16384/serial-reference: Collecting 20 samples in estimated 201.22 ms (24k iterations)
+Benchmarking histogram-cutoff/four-symbol/16384/serial-reference: Analyzing
+histogram-cutoff/four-symbol/16384/serial-reference
+                        time:   [8.2873 µs 8.3457 µs 8.4261 µs]
+                        thrpt:  [1.8109 GiB/s 1.8283 GiB/s 1.8412 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high mild
+
+Benchmarking histogram-cutoff/uniform/64/production
+Benchmarking histogram-cutoff/uniform/64/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/64/production: Collecting 20 samples in estimated 200.00 ms (2.8M iterations)
+Benchmarking histogram-cutoff/uniform/64/production: Analyzing
+histogram-cutoff/uniform/64/production
+                        time:   [73.587 ns 75.095 ns 76.473 ns]
+                        thrpt:  [798.13 MiB/s 812.78 MiB/s 829.43 MiB/s]
+Benchmarking histogram-cutoff/uniform/64/serial-reference
+Benchmarking histogram-cutoff/uniform/64/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/64/serial-reference: Collecting 20 samples in estimated 200.01 ms (2.9M iterations)
+Benchmarking histogram-cutoff/uniform/64/serial-reference: Analyzing
+histogram-cutoff/uniform/64/serial-reference
+                        time:   [68.512 ns 82.947 ns 93.488 ns]
+                        thrpt:  [652.87 MiB/s 735.83 MiB/s 890.87 MiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+
+Benchmarking histogram-cutoff/uniform/256/production
+Benchmarking histogram-cutoff/uniform/256/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/256/production: Collecting 20 samples in estimated 200.02 ms (1.7M iterations)
+Benchmarking histogram-cutoff/uniform/256/production: Analyzing
+histogram-cutoff/uniform/256/production
+                        time:   [117.91 ns 119.92 ns 122.38 ns]
+                        thrpt:  [1.9482 GiB/s 1.9882 GiB/s 2.0220 GiB/s]
+Benchmarking histogram-cutoff/uniform/256/serial-reference
+Benchmarking histogram-cutoff/uniform/256/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/256/serial-reference: Collecting 20 samples in estimated 200.00 ms (1.6M iterations)
+Benchmarking histogram-cutoff/uniform/256/serial-reference: Analyzing
+histogram-cutoff/uniform/256/serial-reference
+                        time:   [121.79 ns 122.52 ns 123.46 ns]
+                        thrpt:  [1.9312 GiB/s 1.9459 GiB/s 1.9576 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+
+Benchmarking histogram-cutoff/uniform/512/production
+Benchmarking histogram-cutoff/uniform/512/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/512/production: Collecting 20 samples in estimated 200.02 ms (1.1M iterations)
+Benchmarking histogram-cutoff/uniform/512/production: Analyzing
+histogram-cutoff/uniform/512/production
+                        time:   [182.02 ns 183.68 ns 185.80 ns]
+                        thrpt:  [2.5664 GiB/s 2.5961 GiB/s 2.6197 GiB/s]
+Benchmarking histogram-cutoff/uniform/512/serial-reference
+Benchmarking histogram-cutoff/uniform/512/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/512/serial-reference: Collecting 20 samples in estimated 200.01 ms (1.1M iterations)
+Benchmarking histogram-cutoff/uniform/512/serial-reference: Analyzing
+histogram-cutoff/uniform/512/serial-reference
+                        time:   [183.29 ns 186.33 ns 189.72 ns]
+                        thrpt:  [2.5133 GiB/s 2.5591 GiB/s 2.6016 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+Benchmarking histogram-cutoff/uniform/1023/production
+Benchmarking histogram-cutoff/uniform/1023/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/1023/production: Collecting 20 samples in estimated 200.04 ms (627k iterations)
+Benchmarking histogram-cutoff/uniform/1023/production: Analyzing
+histogram-cutoff/uniform/1023/production
+                        time:   [321.45 ns 326.54 ns 330.65 ns]
+                        thrpt:  [2.8814 GiB/s 2.9177 GiB/s 2.9639 GiB/s]
+Benchmarking histogram-cutoff/uniform/1023/serial-reference
+Benchmarking histogram-cutoff/uniform/1023/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/1023/serial-reference: Collecting 20 samples in estimated 200.03 ms (601k iterations)
+Benchmarking histogram-cutoff/uniform/1023/serial-reference: Analyzing
+histogram-cutoff/uniform/1023/serial-reference
+                        time:   [317.56 ns 324.91 ns 333.56 ns]
+                        thrpt:  [2.8563 GiB/s 2.9323 GiB/s 3.0002 GiB/s]
+
+Benchmarking histogram-cutoff/uniform/1024/production
+Benchmarking histogram-cutoff/uniform/1024/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/1024/production: Collecting 20 samples in estimated 200.06 ms (467k iterations)
+Benchmarking histogram-cutoff/uniform/1024/production: Analyzing
+histogram-cutoff/uniform/1024/production
+                        time:   [421.72 ns 424.91 ns 428.77 ns]
+                        thrpt:  [2.2242 GiB/s 2.2444 GiB/s 2.2614 GiB/s]
+Found 3 outliers among 20 measurements (15.00%)
+  2 (10.00%) high mild
+  1 (5.00%) high severe
+Benchmarking histogram-cutoff/uniform/1024/serial-reference
+Benchmarking histogram-cutoff/uniform/1024/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/1024/serial-reference: Collecting 20 samples in estimated 200.03 ms (594k iterations)
+Benchmarking histogram-cutoff/uniform/1024/serial-reference: Analyzing
+histogram-cutoff/uniform/1024/serial-reference
+                        time:   [312.17 ns 333.94 ns 362.08 ns]
+                        thrpt:  [2.6339 GiB/s 2.8558 GiB/s 3.0550 GiB/s]
+Found 5 outliers among 20 measurements (25.00%)
+  2 (10.00%) low mild
+  1 (5.00%) high mild
+  2 (10.00%) high severe
+
+Benchmarking histogram-cutoff/uniform/2048/production
+Benchmarking histogram-cutoff/uniform/2048/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/2048/production: Collecting 20 samples in estimated 200.14 ms (236k iterations)
+Benchmarking histogram-cutoff/uniform/2048/production: Analyzing
+histogram-cutoff/uniform/2048/production
+                        time:   [936.86 ns 980.85 ns 1.0329 µs]
+                        thrpt:  [1.8466 GiB/s 1.9446 GiB/s 2.0359 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) low mild
+  1 (5.00%) high severe
+Benchmarking histogram-cutoff/uniform/2048/serial-reference
+Benchmarking histogram-cutoff/uniform/2048/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/2048/serial-reference: Collecting 20 samples in estimated 200.08 ms (299k iterations)
+Benchmarking histogram-cutoff/uniform/2048/serial-reference: Analyzing
+histogram-cutoff/uniform/2048/serial-reference
+                        time:   [613.25 ns 621.86 ns 637.36 ns]
+                        thrpt:  [2.9926 GiB/s 3.0671 GiB/s 3.1102 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+Benchmarking histogram-cutoff/uniform/4096/production
+Benchmarking histogram-cutoff/uniform/4096/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/4096/production: Collecting 20 samples in estimated 200.00 ms (166k iterations)
+Benchmarking histogram-cutoff/uniform/4096/production: Analyzing
+histogram-cutoff/uniform/4096/production
+                        time:   [1.1848 µs 1.2075 µs 1.2259 µs]
+                        thrpt:  [3.1117 GiB/s 3.1591 GiB/s 3.2197 GiB/s]
+Benchmarking histogram-cutoff/uniform/4096/serial-reference
+Benchmarking histogram-cutoff/uniform/4096/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/4096/serial-reference: Collecting 20 samples in estimated 200.15 ms (182k iterations)
+Benchmarking histogram-cutoff/uniform/4096/serial-reference: Analyzing
+histogram-cutoff/uniform/4096/serial-reference
+                        time:   [1.0434 µs 1.0507 µs 1.0561 µs]
+                        thrpt:  [3.6120 GiB/s 3.6307 GiB/s 3.6560 GiB/s]
+
+Benchmarking histogram-cutoff/uniform/16384/production
+Benchmarking histogram-cutoff/uniform/16384/production: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/16384/production: Collecting 20 samples in estimated 200.58 ms (47k iterations)
+Benchmarking histogram-cutoff/uniform/16384/production: Analyzing
+histogram-cutoff/uniform/16384/production
+                        time:   [4.2396 µs 4.3021 µs 4.3500 µs]
+                        thrpt:  [3.5078 GiB/s 3.5468 GiB/s 3.5991 GiB/s]
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking histogram-cutoff/uniform/16384/serial-reference
+Benchmarking histogram-cutoff/uniform/16384/serial-reference: Warming up for 100.00 ms
+Benchmarking histogram-cutoff/uniform/16384/serial-reference: Collecting 20 samples in estimated 200.76 ms (41k iterations)
+Benchmarking histogram-cutoff/uniform/16384/serial-reference: Analyzing
+histogram-cutoff/uniform/16384/serial-reference
+                        time:   [4.6167 µs 4.6802 µs 4.7368 µs]
+                        thrpt:  [3.2214 GiB/s 3.2603 GiB/s 3.3051 GiB/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+
+stage dataset=image-rgba8-raster raw_bytes=524288 lanes=4 stream_bytes=526842 sampled_raw_lanes=0
+stage dataset=image-png-stored-deflate raw_bytes=131278 lanes=1 stream_bytes=228230 sampled_raw_lanes=0
+stage dataset=image-png-compressed-deflate raw_bytes=89883 lanes=1 stream_bytes=116044 sampled_raw_lanes=1
+stage dataset=graphics-shader-machine-words-synthetic raw_bytes=262144 lanes=4 stream_bytes=9530 sampled_raw_lanes=0
+stage dataset=graphics-wgsl-source raw_bytes=8267 lanes=1 stream_bytes=4324 sampled_raw_lanes=0
+stage dataset=ai-model-int8-tensor-synthetic raw_bytes=1048576 lanes=16 stream_bytes=50017 sampled_raw_lanes=0
+stage dataset=native-executable-binary raw_bytes=5437440 lanes=1 stream_bytes=5088105 sampled_raw_lanes=0
+stage dataset=structured-binary-records raw_bytes=524288 lanes=4 stream_bytes=576177 sampled_raw_lanes=2
+stage dataset=sparse-binary raw_bytes=1048576 lanes=1 stream_bytes=71951 sampled_raw_lanes=0
+stage dataset=random-binary-incompressible raw_bytes=1048576 lanes=1 stream_bytes=1092937 sampled_raw_lanes=1
+stage dataset=repository-rust-source raw_bytes=275729 lanes=1 stream_bytes=131722 sampled_raw_lanes=0
+stage dataset=repository-technical-prose raw_bytes=26666 lanes=1 stream_bytes=24878 sampled_raw_lanes=0
+stage dataset=natural-style-prose-generated raw_bytes=586022 lanes=1 stream_bytes=126363 sampled_raw_lanes=0
+stage dataset=json-records raw_bytes=1209516 lanes=1 stream_bytes=362754 sampled_raw_lanes=0
+stage dataset=csv-table raw_bytes=995409 lanes=1 stream_bytes=682500 sampled_raw_lanes=0
+stage dataset=server-log-records raw_bytes=1398527 lanes=1 stream_bytes=579319 sampled_raw_lanes=0
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=71.7µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw-bytes=295200 rnbw-parallel-bytes=295200 rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=20.1µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw-bytes=121864 rnbw-parallel-bytes=121872 rnbw=0.9283 rnbw-parallel=0.9284 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=15.4µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw-bytes=89944 rnbw-parallel-bytes=89944 rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=31.1µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw-bytes=3672 rnbw-parallel-bytes=3672 rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=2.6µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw-bytes=2992 rnbw-parallel-bytes=2992 rnbw=0.3619 rnbw-parallel=0.3619 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=108µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw-bytes=21568 rnbw-parallel-bytes=21568 rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+general-trnmap-index=native-executable-binary bytes=5437440 words=1359360 index-bytes=521024 build=661µs zero-words=53080 first-zero=5
+file-dataset=native-executable-binary bytes=5437440 structural-lanes=1-byte-lane rnbw-bytes=3023424 rnbw-parallel-bytes=3022768 rnbw=0.5560 rnbw-parallel=0.5559 parallel-size-delta=-0.02% raw=1.0000 lz4-fast=0.5544 snappy=0.5636 zstd-fast-3=0.5503 zstd-level-1=0.4342 brotli-quality-0=0.4538 brotli-quality-5=0.3469 zlib-fast=0.4514 zlib-default=0.3823 cow-borrowed=false
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=68.9µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw-bytes=352584 rnbw-parallel-bytes=352584 rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=139.6µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=48424 rnbw-parallel-bytes=48440 rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=210.5µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=1048632 rnbw-parallel-bytes=1048632 rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+general-trnmap-index=repository-rust-source bytes=275729 words=68933 index-bytes=26864 build=29.9µs zero-words=0 first-zero=68933
+file-dataset=repository-rust-source bytes=275729 structural-lanes=1-byte-lane rnbw-bytes=87216 rnbw-parallel-bytes=87248 rnbw=0.3163 rnbw-parallel=0.3164 parallel-size-delta=+0.04% raw=1.0000 lz4-fast=0.3332 snappy=0.3288 zstd-fast-3=0.2975 zstd-level-1=0.2350 brotli-quality-0=0.2542 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2021 cow-borrowed=false
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=5.3µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw-bytes=15840 rnbw-parallel-bytes=15840 rnbw=0.5940 rnbw-parallel=0.5940 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=56.7µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw-bytes=89832 rnbw-parallel-bytes=89848 rnbw=0.1533 rnbw-parallel=0.1533 parallel-size-delta=+0.02% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=153.6µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw-bytes=237792 rnbw-parallel-bytes=237816 rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=141.9µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw-bytes=429432 rnbw-parallel-bytes=429456 rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=203.1µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw-bytes=394256 rnbw-parallel-bytes=394296 rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false

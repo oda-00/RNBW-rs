@@ -1,0 +1,63 @@
+Capture: codec-stages-reciprocal-candidate-2026-11-09.txt
+SHA256: 41ef6615c99a76edb94919002944265644a9f8429e1c3b454b09ec1bda4289a7
+Times are Criterion center estimates and reported intervals, converted to ns.
+Full-call time includes production allocations/destruction where the kernel returns owned output; reuse cases retain scratch capacity.
+Forced LZ/rANS/Huffman kernels may be skipped by the real hybrid selection. Do not sum independent stages or treat a forced-path win as an end-to-end win.
+Stage entropy denominators are actual token-stream bytes; file denominators are raw bytes; model and sampling calls use lane count.
+Compared with: codec-stages-baseline-2026-11-09.txt
+Interval separation describes these captures only; it is not a paired statistical significance test.
+
+| Path | Full call low / center / high (ns) | Unit count | Normalized low / center / high (ns/unit) | Candidate/baseline | Interval comparison |
+|---|---:|---:|---:|---:|---|
+| `stage/image-rgba8-raster/hybrid-entropy-selection` | 2360300.000 / 2377100.000 / 2394200.000 | 526842 token-stream-byte | 4.480091 / 4.511979 / 4.544436 | 1.0702 | slower intervals |
+| `stage/image-rgba8-raster/rans-encode` | 2559500.000 / 2578800.000 / 2598600.000 | 526842 token-stream-byte | 4.858193 / 4.894826 / 4.932409 | 1.1474 | slower intervals |
+| `stage/image-rgba8-raster/rans-decode` | 2165200.000 / 2185300.000 / 2204700.000 | 526842 token-stream-byte | 4.109771 / 4.147923 / 4.184746 | 1.0016 | overlap |
+| `stage/image-png-stored-deflate/hybrid-entropy-selection` | 1368000.000 / 1372700.000 / 1376200.000 | 228230 token-stream-byte | 5.993953 / 6.014547 / 6.029882 | 1.1481 | slower intervals |
+| `stage/image-png-stored-deflate/rans-encode` | 1218900.000 / 1255600.000 / 1306000.000 | 228230 token-stream-byte | 5.340665 / 5.501468 / 5.722298 | 1.3175 | slower intervals |
+| `stage/image-png-stored-deflate/rans-decode` | 1007500.000 / 1027100.000 / 1041500.000 | 228230 token-stream-byte | 4.414407 / 4.500285 / 4.563379 | 0.9625 | faster intervals |
+| `stage/image-png-compressed-deflate/hybrid-entropy-selection` | 610000.000 / 620710.000 / 637430.000 | 116044 token-stream-byte | 5.256627 / 5.348919 / 5.493003 | 1.1713 | slower intervals |
+| `stage/image-png-compressed-deflate/rans-encode` | 497120.000 / 499350.000 / 501940.000 | 116044 token-stream-byte | 4.283892 / 4.303109 / 4.325428 | 1.2176 | slower intervals |
+| `stage/image-png-compressed-deflate/rans-decode` | 378460.000 / 385890.000 / 394320.000 | 116044 token-stream-byte | 3.261349 / 3.325377 / 3.398021 | 0.9679 | faster intervals |
+| `stage/graphics-shader-machine-words-synthetic/hybrid-entropy-selection` | 37339.000 / 37621.000 / 38003.000 | 9530 token-stream-byte | 3.918048 / 3.947639 / 3.987723 | 0.9602 | faster intervals |
+| `stage/graphics-shader-machine-words-synthetic/rans-encode` | 32887.000 / 33124.000 / 33321.000 | 9530 token-stream-byte | 3.450892 / 3.475761 / 3.496432 | 1.4642 | slower intervals |
+| `stage/graphics-shader-machine-words-synthetic/rans-decode` | 18452.000 / 18543.000 / 18689.000 | 9530 token-stream-byte | 1.936201 / 1.945750 / 1.961070 | 0.9272 | faster intervals |
+| `stage/graphics-wgsl-source/hybrid-entropy-selection` | 23084.000 / 23205.000 / 23390.000 | 4324 token-stream-byte | 5.338575 / 5.366559 / 5.409343 | 0.9829 | overlap |
+| `stage/graphics-wgsl-source/rans-encode` | 15713.000 / 15897.000 / 16030.000 | 4324 token-stream-byte | 3.633904 / 3.676457 / 3.707216 | 1.3866 | slower intervals |
+| `stage/graphics-wgsl-source/rans-decode` | 9413.300 / 9556.600 / 9728.200 | 4324 token-stream-byte | 2.176989 / 2.210130 / 2.249815 | 0.9144 | overlap |
+| `stage/ai-model-int8-tensor-synthetic/hybrid-entropy-selection` | 123090.000 / 123470.000 / 123860.000 | 50017 token-stream-byte | 2.460963 / 2.468561 / 2.476358 | 0.9238 | faster intervals |
+| `stage/ai-model-int8-tensor-synthetic/rans-encode` | 217110.000 / 219120.000 / 222440.000 | 50017 token-stream-byte | 4.340724 / 4.380910 / 4.447288 | 1.2177 | slower intervals |
+| `stage/ai-model-int8-tensor-synthetic/rans-decode` | 153610.000 / 154660.000 / 156290.000 | 50017 token-stream-byte | 3.071156 / 3.092149 / 3.124738 | 0.9236 | faster intervals |
+| `stage/native-executable-binary/hybrid-entropy-selection` | 32601000.000 / 32875000.000 / 33133000.000 | 5088105 token-stream-byte | 6.407297 / 6.461148 / 6.511855 | 1.1916 | slower intervals |
+| `stage/native-executable-binary/rans-encode` | 28825000.000 / 29391000.000 / 30293000.000 | 5088105 token-stream-byte | 5.665174 / 5.776414 / 5.953690 | 1.2322 | slower intervals |
+| `stage/native-executable-binary/rans-decode` | 23764000.000 / 23946000.000 / 24160000.000 | 5088105 token-stream-byte | 4.670501 / 4.706271 / 4.748330 | 0.9432 | faster intervals |
+| `stage/structured-binary-records/hybrid-entropy-selection` | 2888400.000 / 2907700.000 / 2929000.000 | 576177 token-stream-byte | 5.013043 / 5.046540 / 5.083507 | 1.1406 | slower intervals |
+| `stage/structured-binary-records/rans-encode` | 2003200.000 / 2026200.000 / 2052600.000 | 576177 token-stream-byte | 3.476709 / 3.516628 / 3.562447 | 1.3660 | slower intervals |
+| `stage/structured-binary-records/rans-decode` | 1262600.000 / 1280000.000 / 1299900.000 | 576177 token-stream-byte | 2.191341 / 2.221540 / 2.256078 | 1.0283 | overlap |
+| `stage/sparse-binary/hybrid-entropy-selection` | 186020.000 / 188510.000 / 191510.000 | 71951 token-stream-byte | 2.585371 / 2.619977 / 2.661673 | 0.9506 | faster intervals |
+| `stage/sparse-binary/rans-encode` | 330220.000 / 332720.000 / 335090.000 | 71951 token-stream-byte | 4.589512 / 4.624258 / 4.657197 | 1.1870 | slower intervals |
+| `stage/sparse-binary/rans-decode` | 247130.000 / 248170.000 / 248950.000 | 71951 token-stream-byte | 3.434699 / 3.449153 / 3.459994 | 0.9652 | faster intervals |
+| `stage/random-binary-incompressible/hybrid-entropy-selection` | 4963700.000 / 5026600.000 / 5091200.000 | 1092937 token-stream-byte | 4.541616 / 4.599167 / 4.658274 | 1.3334 | slower intervals |
+| `stage/random-binary-incompressible/rans-encode` | 4079600.000 / 4146200.000 / 4209800.000 | 1092937 token-stream-byte | 3.732695 / 3.793631 / 3.851823 | 1.3606 | slower intervals |
+| `stage/random-binary-incompressible/rans-decode` | 2635100.000 / 2648900.000 / 2663100.000 | 1092937 token-stream-byte | 2.411026 / 2.423653 / 2.436645 | 1.0080 | overlap |
+| `stage/repository-rust-source/hybrid-entropy-selection` | 482120.000 / 484770.000 / 488010.000 | 131722 token-stream-byte | 3.660133 / 3.680251 / 3.704848 | 0.9641 | faster intervals |
+| `stage/repository-rust-source/rans-encode` | 727600.000 / 734070.000 / 738280.000 | 131722 token-stream-byte | 5.523755 / 5.572873 / 5.604834 | 1.1911 | slower intervals |
+| `stage/repository-rust-source/rans-decode` | 617920.000 / 620280.000 / 622900.000 | 131722 token-stream-byte | 4.691092 / 4.709008 / 4.728899 | 1.0250 | slower intervals |
+| `stage/repository-technical-prose/hybrid-entropy-selection` | 96869.000 / 97693.000 / 98494.000 | 24878 token-stream-byte | 3.893762 / 3.926883 / 3.959080 | 0.8162 | faster intervals |
+| `stage/repository-technical-prose/rans-encode` | 120880.000 / 121420.000 / 121940.000 | 24878 token-stream-byte | 4.858911 / 4.880617 / 4.901519 | 1.2830 | slower intervals |
+| `stage/repository-technical-prose/rans-decode` | 87978.000 / 89031.000 / 90419.000 | 24878 token-stream-byte | 3.536378 / 3.578704 / 3.634496 | 0.9698 | faster intervals |
+| `stage/natural-style-prose-generated/hybrid-entropy-selection` | 396410.000 / 397870.000 / 399480.000 | 126363 token-stream-byte | 3.137073 / 3.148627 / 3.161368 | 0.9105 | faster intervals |
+| `stage/natural-style-prose-generated/rans-encode` | 643100.000 / 646490.000 / 651150.000 | 126363 token-stream-byte | 5.089306 / 5.116134 / 5.153012 | 1.2999 | slower intervals |
+| `stage/natural-style-prose-generated/rans-decode` | 466330.000 / 468120.000 / 470750.000 | 126363 token-stream-byte | 3.690400 / 3.704565 / 3.725378 | 0.8710 | faster intervals |
+| `stage/json-records/hybrid-entropy-selection` | 1210400.000 / 1214200.000 / 1219400.000 | 362754 token-stream-byte | 3.336696 / 3.347172 / 3.361507 | 0.8940 | faster intervals |
+| `stage/json-records/rans-encode` | 1926600.000 / 1934400.000 / 1943000.000 | 362754 token-stream-byte | 5.311037 / 5.332539 / 5.356247 | 1.1165 | slower intervals |
+| `stage/json-records/rans-decode` | 1555500.000 / 1572100.000 / 1587600.000 | 362754 token-stream-byte | 4.288030 / 4.333791 / 4.376520 | 0.9994 | overlap |
+| `stage/csv-table/hybrid-entropy-selection` | 2269600.000 / 2289100.000 / 2311200.000 | 682500 token-stream-byte | 3.325421 / 3.353993 / 3.386374 | 0.8791 | faster intervals |
+| `stage/csv-table/rans-encode` | 3480100.000 / 3506100.000 / 3542100.000 | 682500 token-stream-byte | 5.099048 / 5.137143 / 5.189890 | 1.2373 | slower intervals |
+| `stage/csv-table/rans-decode` | 2812200.000 / 2816800.000 / 2821600.000 | 682500 token-stream-byte | 4.120440 / 4.127179 / 4.134212 | 0.9924 | overlap |
+| `stage/server-log-records/hybrid-entropy-selection` | 1844000.000 / 1861700.000 / 1884000.000 | 579319 token-stream-byte | 3.183048 / 3.213601 / 3.252094 | 0.9772 | faster intervals |
+| `stage/server-log-records/rans-encode` | 2853200.000 / 2865800.000 / 2879100.000 | 579319 token-stream-byte | 4.925093 / 4.946843 / 4.969801 | 1.2685 | slower intervals |
+| `stage/server-log-records/rans-decode` | 2187800.000 / 2221500.000 / 2265400.000 | 579319 token-stream-byte | 3.776503 / 3.834675 / 3.910453 | 0.9933 | overlap |
+
+Geomean candidate/baseline, hybrid-entropy-selection: 1.0109 (16 matched datasets)
+Geomean candidate/baseline, rans-encode: 1.2651 (16 matched datasets)
+Geomean candidate/baseline, rans-decode: 0.9674 (16 matched datasets)

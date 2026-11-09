@@ -1,0 +1,46 @@
+Capture: avx2-sixteen-lane-fixed-array-2026-11-09.txt
+SHA256: cb45109d5e9ac71f7d1e252b3758eddaa5e4ba4300bb34c02ce7c24a2929881f
+Times are Criterion center estimates and reported intervals, converted to ns.
+Full-call time includes production allocations/destruction where the kernel returns owned output; reuse cases retain scratch capacity.
+Forced LZ/rANS/Huffman kernels may be skipped by the real hybrid selection. Do not sum independent stages or treat a forced-path win as an end-to-end win.
+Stage entropy denominators are actual token-stream bytes; file denominators are raw bytes; model and sampling calls use lane count.
+Compared with: avx2-sixteen-lane-final-matrix-2026-11-09.txt
+Interval separation describes these captures only; it is not a paired statistical significance test.
+
+| Path | Full call low / center / high (ns) | Unit count | Normalized low / center / high (ns/unit) | Candidate/baseline | Interval comparison |
+|---|---:|---:|---:|---:|---|
+| `stage/ai-model-int8-tensor-synthetic/split-reuse` | 36623.000 / 37291.000 / 37885.000 | 1048576 raw-byte | 0.034926 / 0.035563 / 0.036130 | 0.7751 | faster intervals |
+| `stage/ai-model-int8-tensor-synthetic/interleave` | 274160.000 / 292640.000 / 311930.000 | 1048576 raw-byte | 0.261459 / 0.279083 / 0.297480 | 1.1552 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-one-shot` | 159880.000 / 164940.000 / 172860.000 | 262144 raw-byte | 0.609894 / 0.629196 / 0.659409 | 1.6089 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-serial` | 93208.000 / 95774.000 / 98666.000 | 262144 raw-byte | 0.355560 / 0.365349 / 0.376381 | 1.0384 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel` | 97052.000 / 98539.000 / 100590.000 | 262144 raw-byte | 0.370224 / 0.375896 / 0.383720 | 1.0589 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/lz4-fast-encode` | 16356.000 / 16684.000 / 17087.000 | 262144 raw-byte | 0.062393 / 0.063644 / 0.065182 | 0.9781 | overlap |
+| `file-encode/graphics-shader-machine-words-synthetic/snappy-encode` | 17566.000 / 17677.000 / 17823.000 | 262144 raw-byte | 0.067009 / 0.067432 / 0.067989 | 0.8462 | faster intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/zstd-level-1-encode` | 37169.000 / 37709.000 / 38287.000 | 262144 raw-byte | 0.141788 / 0.143848 / 0.146053 | 1.1346 | slower intervals |
+| `file-encode/graphics-shader-machine-words-synthetic/raw-copy-control` | 7226.500 / 7663.900 / 8085.900 | 262144 raw-byte | 0.027567 / 0.029235 / 0.030845 | 1.4086 | slower intervals |
+| `file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy` | 365540.000 / 366990.000 / 368280.000 | 262144 raw-byte | 1.394424 / 1.399956 / 1.404877 | 0.9994 | overlap |
+| `file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded` | 368360.000 / 369870.000 / 371330.000 | 262144 raw-byte | 1.405182 / 1.410942 / 1.416512 | 1.0122 | slower intervals |
+| `file-decode/graphics-shader-machine-words-synthetic/lz4-fast-decode` | 9205.600 / 9444.500 / 9870.200 | 262144 raw-byte | 0.035117 / 0.036028 / 0.037652 | 1.0145 | overlap |
+| `file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-one-shot` | 618190.000 / 636170.000 / 658430.000 | 1048576 raw-byte | 0.589552 / 0.606699 / 0.627928 | 1.0629 | slower intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-serial` | 583880.000 / 592330.000 / 602930.000 | 1048576 raw-byte | 0.556831 / 0.564890 / 0.574999 | 0.9718 | faster intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy-reuse-parallel` | 190050.000 / 193640.000 / 197430.000 | 1048576 raw-byte | 0.181246 / 0.184669 / 0.188284 | 0.9702 | overlap |
+| `file-encode/ai-model-int8-tensor-synthetic/lz4-fast-encode` | 112590.000 / 113490.000 / 114630.000 | 1048576 raw-byte | 0.107374 / 0.108232 / 0.109320 | 0.9166 | faster intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/snappy-encode` | 139050.000 / 144380.000 / 152340.000 | 1048576 raw-byte | 0.132608 / 0.137691 / 0.145283 | 1.0146 | overlap |
+| `file-encode/ai-model-int8-tensor-synthetic/zstd-level-1-encode` | 93523.000 / 94712.000 / 96406.000 | 1048576 raw-byte | 0.089190 / 0.090324 / 0.091940 | 1.0592 | slower intervals |
+| `file-encode/ai-model-int8-tensor-synthetic/raw-copy-control` | 228570.000 / 232400.000 / 236480.000 | 1048576 raw-byte | 0.217981 / 0.221634 / 0.225525 | 1.0005 | overlap |
+| `file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy` | 366810.000 / 382100.000 / 395600.000 | 1048576 raw-byte | 0.349817 / 0.364399 / 0.377274 | 1.1556 | slower intervals |
+| `file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded` | 361220.000 / 375910.000 / 388790.000 | 1048576 raw-byte | 0.344486 / 0.358496 / 0.370779 | 1.0061 | overlap |
+| `file-decode/ai-model-int8-tensor-synthetic/lz4-fast-decode` | 237530.000 / 243440.000 / 249770.000 | 1048576 raw-byte | 0.226526 / 0.232162 / 0.238199 | 1.1974 | slower intervals |
+
+Geomean candidate/baseline, split-reuse: 0.7751 (1 matched datasets)
+Geomean candidate/baseline, interleave: 1.1552 (1 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy-one-shot: 1.3077 (2 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy-reuse-serial: 1.0046 (2 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy-reuse-parallel: 1.0136 (2 matched datasets)
+Geomean candidate/baseline, lz4-fast-encode: 0.9469 (2 matched datasets)
+Geomean candidate/baseline, snappy-encode: 0.9266 (2 matched datasets)
+Geomean candidate/baseline, zstd-level-1-encode: 1.0963 (2 matched datasets)
+Geomean candidate/baseline, raw-copy-control: 1.1871 (2 matched datasets)
+Geomean candidate/baseline, rnbw-hybrid-lz-entropy: 1.0747 (2 matched datasets)
+Geomean candidate/baseline, rnbw-parallel-encoded: 1.0092 (2 matched datasets)
+Geomean candidate/baseline, lz4-fast-decode: 1.1022 (2 matched datasets)
