@@ -1,8 +1,8 @@
 # RNBW integer-index Hyperfine process matrix
 
-Run: GitHub Actions run 42668256649, profiler job succeeded; commit `10f3e01ec45f81e34666d68b7cc73e4e5899a83e`
+Run: GitHub Actions run 42670140739, profiling job succeeded; source commit `1f209b482d3fba20d81a52a1250c965ef9abaf24`.
 Runner: Ubuntu 24.04.5, GitHub-hosted; CPU model was not recorded.
-Source: [workflow artifact](https://github.com/oda-00/RNBW-rs/actions/runs/42668256649/artifacts/13698016730) (15 Hyperfine JSON files with per-run samples, Markdown reports, Callgrind, and Massif output).
+Source: [latest workflow artifact](https://github.com/oda-00/RNBW-rs/actions/runs/42670140739/artifacts/13697813746) (15 Hyperfine JSON files with per-run samples, Markdown reports, optimized line-table Callgrind, and Massif output).
 
 ## Method
 
@@ -14,38 +14,45 @@ These are **whole CLI process times**, not isolated operation latency: each proc
 
 | Workload | Process operation | RNBW mean ± σ; median; range (ms) | PlainEF mean ± σ; median; range (ms) | Raw mean ± σ; median; range (ms) | RNBW / PlainEF | RNBW / raw |
 |---|---|---:|---:|---:|---:|---:|
-| uniform | build | 55.219 ± 0.852; 55.032; 54.692–57.598 | 35.377 ± 0.183; 35.327; 35.195–35.786 | 23.282 ± 0.116; 23.266; 23.147–23.559 | 1.561× | 2.372× |
-| uniform | contains | 58.353 ± 0.185; 58.363; 58.046–58.681 | 40.958 ± 0.245; 40.922; 40.687–41.390 | 25.058 ± 0.127; 25.040; 24.911–25.350 | 1.425× | 2.329× |
-| uniform | decode | 121.112 ± 0.437; 121.171; 120.200–121.678 | 43.769 ± 0.180; 43.744; 43.523–44.130 | 25.619 ± 0.246; 25.616; 25.309–26.101 | 2.767× | 4.727× |
-| clustered | build | 39.667 ± 2.160; 38.928; 38.721–45.760 | 13.184 ± 0.157; 13.137; 13.028–13.468 | 5.878 ± 0.067; 5.869; 5.807–6.054 | 3.009× | 6.748× |
-| clustered | contains | 42.828 ± 0.183; 42.852; 42.533–43.070 | 14.510 ± 0.102; 14.466; 14.397–14.708 | 7.193 ± 0.122; 7.187; 7.016–7.483 | 2.952× | 5.954× |
-| clustered | decode | 65.876 ± 0.147; 65.837; 65.735–66.225 | 20.872 ± 0.200; 20.778; 20.710–21.273 | 8.160 ± 0.248; 8.076; 7.952–8.804 | 3.156× | 8.073× |
-| dense | build | 38.210 ± 0.115; 38.192; 38.049–38.407 | 8.820 ± 0.116; 8.786; 8.726–9.123 | 5.843 ± 0.056; 5.829; 5.793–5.970 | 4.332× | 6.540× |
-| dense | contains | 41.308 ± 0.215; 41.244; 41.052–41.652 | 9.821 ± 0.141; 9.756; 9.683–10.068 | 6.821 ± 0.068; 6.804; 6.748–6.933 | 4.206× | 6.056× |
-| dense | decode | 63.620 ± 0.194; 63.593; 63.289–63.899 | 12.246 ± 0.171; 12.215; 12.045–12.527 | 8.237 ± 0.378; 8.065; 7.954–9.058 | 5.195× | 7.724× |
-| morton-shell | build | 172.508 ± 1.660; 172.458; 169.968–175.375 | 145.690 ± 2.060; 145.416; 142.520–148.857 | 140.231 ± 0.857; 139.921; 139.395–141.818 | 1.184× | 1.230× |
-| morton-shell | contains | 173.593 ± 1.746; 173.774; 171.090–175.733 | 149.303 ± 1.063; 149.120; 147.871–151.070 | 141.625 ± 1.755; 140.885; 139.372–144.694 | 1.163× | 1.226× |
-| morton-shell | decode | 213.295 ± 1.693; 212.932; 211.642–215.797 | 153.373 ± 1.939; 152.443; 151.651–157.078 | 140.402 ± 2.274; 139.939; 137.473–145.785 | 1.391× | 1.519× |
-| ecs | build | 40.793 ± 0.149; 40.790; 40.577–41.115 | 11.301 ± 0.153; 11.265; 11.177–11.683 | 8.315 ± 0.148; 8.281; 8.193–8.639 | 3.610× | 4.906× |
-| ecs | contains | 43.625 ± 0.152; 43.639; 43.395–43.929 | 12.480 ± 0.253; 12.384; 12.253–13.009 | 9.154 ± 0.055; 9.148; 9.073–9.235 | 3.496× | 4.766× |
-| ecs | decode | 70.102 ± 0.207; 70.083; 69.806–70.566 | 14.973 ± 0.280; 14.873; 14.670–15.547 | 10.505 ± 0.198; 10.491; 10.319–11.025 | 4.682× | 6.673× |
+| clustered | build | 41.654 ± 0.280; 41.625; 41.265–42.286 | 13.577 ± 0.174; 13.562; 13.363–13.971 | 4.922 ± 0.293; 4.832; 4.650–5.657 | 3.068× | 8.462× |
+| clustered | contains | 45.432 ± 0.277; 45.382; 45.160–46.175 | 15.344 ± 0.121; 15.341; 15.120–15.569 | 6.720 ± 0.216; 6.684; 6.334–7.139 | 2.961× | 6.761× |
+| clustered | decode | 66.128 ± 0.813; 65.876; 65.472–68.323 | 22.164 ± 0.130; 22.170; 21.958–22.372 | 7.647 ± 0.314; 7.505; 7.267–8.189 | 2.984× | 8.648× |
+| dense | build | 41.776 ± 0.250; 41.729; 41.555–42.401 | 9.353 ± 0.250; 9.258; 9.095–9.772 | 4.753 ± 0.208; 4.700; 4.600–5.310 | 4.466× | 8.789× |
+| dense | contains | 44.611 ± 0.335; 44.457; 44.260–45.249 | 10.460 ± 0.133; 10.452; 10.305–10.759 | 5.925 ± 0.197; 5.859; 5.741–6.399 | 4.265× | 7.529× |
+| dense | decode | 64.818 ± 0.264; 64.733; 64.484–65.338 | 12.677 ± 0.114; 12.665; 12.454–12.837 | 6.954 ± 0.243; 6.873; 6.668–7.293 | 5.113× | 9.321× |
+| ecs | build | 44.084 ± 0.542; 43.972; 43.612–45.462 | 11.917 ± 0.179; 11.944; 11.684–12.186 | 7.199 ± 0.246; 7.200; 6.918–7.752 | 3.699× | 6.124× |
+| ecs | contains | 46.872 ± 0.261; 46.783; 46.588–47.414 | 12.972 ± 0.517; 12.865; 12.591–14.349 | 7.913 ± 0.260; 8.004; 7.523–8.212 | 3.613× | 5.923× |
+| ecs | decode | 70.047 ± 0.634; 69.950; 69.474–71.340 | 15.123 ± 0.304; 15.002; 14.829–15.596 | 8.967 ± 0.254; 8.926; 8.677–9.450 | 4.632× | 7.812× |
+| morton-shell | build | 187.210 ± 4.311; 187.566; 182.841–196.912 | 158.809 ± 2.298; 158.988; 155.127–162.301 | 151.551 ± 3.187; 150.908; 149.606–160.416 | 1.179× | 1.235× |
+| morton-shell | contains | 189.156 ± 1.593; 189.393; 186.424–192.095 | 162.822 ± 2.517; 162.285; 160.102–166.997 | 152.035 ± 3.015; 151.586; 148.431–159.596 | 1.162× | 1.244× |
+| morton-shell | decode | 230.193 ± 3.831; 231.446; 223.654–235.766 | 165.102 ± 1.952; 165.805; 160.774–166.976 | 149.146 ± 2.018; 148.953; 146.766–152.893 | 1.394× | 1.543× |
+| uniform | build | 57.748 ± 0.353; 57.748; 57.244–58.453 | 37.405 ± 0.331; 37.415; 36.964–38.013 | 23.105 ± 0.182; 23.088; 22.728–23.322 | 1.544× | 2.499× |
+| uniform | contains | 60.943 ± 0.535; 60.794; 60.391–62.170 | 43.486 ± 0.310; 43.486; 43.062–43.911 | 25.179 ± 0.786; 24.853; 24.518–26.737 | 1.401× | 2.420× |
+| uniform | decode | 122.467 ± 0.618; 122.357; 121.646–123.854 | 46.606 ± 0.409; 46.484; 46.150–47.413 | 25.501 ± 0.384; 25.464; 25.043–26.316 | 2.628× | 4.802× |
 
 ## Callgrind, Massif, and Memcheck
 
-Command: Valgrind 3.22.0 Callgrind with cache and branch simulation, clustered 100,000-key RNBW build. Encoded image: 51,256 bytes (0.5126 bytes/key). Counts below are profiler events, not time estimates.
+Command: Valgrind 3.22.0, optimized build with debug line tables, cache and branch simulation; clustered 100,000-key RNBW build. Encoded image: 51,256 bytes (0.5126 bytes/key). Counts are profiler events, not time estimates. The whole CLI process includes dataset generation and output.
 
 | Event | Count | Interpretation |
 |---|---:|---|
-| Instructions (`Ir`) | 57,450,772 | Whole process, including dataset generation and output |
-| `Rnbw::encode` inclusive instructions | 55,622,565 (96.82%) | Dominant measured function path |
+| Instructions (`Ir`) | 57,450,707 | Whole process |
+| `Rnbw::encode_width` inclusive instructions | 55,622,563 (96.82%) | Dominant measured function path |
 | `build_low_stream` inclusive instructions | 4,200,034 (7.31%) | Nested within encode; percentages overlap |
 | `build_bucket_stream` inclusive instructions | 2,085,219 (3.63%) | Nested within encode; percentages overlap |
-| `datasets::make_dataset` inclusive instructions | 1,442,855 (2.51%) | Workload construction included in CLI process |
-| Data references | 10,497,123 | 8,620,331 reads + 1,876,792 writes |
-| D1 misses | 143,057 (1.4%) | 133,919 reads + 9,138 writes, simulated |
-| Last-level misses | 11,696 | 3,722 reads + 7,974 writes, simulated |
-| Branches / mispredicts | 7,660,409 / 36,634 (0.5%) | 7,659,199 conditional + 1,210 indirect |
-| Massif maximum heap + allocator overhead | 456,400 B (445.7 KiB) | Across the whole 100K-key CLI process; stack sample was 0 B |
-| Memcheck | 0 errors | No invalid accesses or leaks reported |
+| Data references | 10,497,101 | 8,620,309 reads + 1,876,792 writes |
+| D1 misses | 142,917 (1.36%) | 133,802 reads + 9,115 writes; simulated |
+| Last-level misses | 11,691 | 3,715 reads + 7,976 writes; simulated |
+| Branches / mispredicts | 7,660,387 / 36,612 (0.48%) | 7,659,177 conditional + 1,210 indirect |
+| Massif peak | 456,400 B (445.7 KiB) | Whole CLI process; not codec-only scratch attribution |
+| Memcheck | 0 errors | No invalid accesses; 0 definitely/indirectly lost bytes |
 
-Callgrind instruction/cache events are not nanoseconds or physical CPU counters. This profile was built optimized without line tables, so function attribution is available but source-line attribution is not. The next profiler job is configured to add optimized debug line tables and a readable Massif summary. The full machine-readable timings and profiler outputs are in the [GitHub Actions artifact](https://github.com/oda-00/RNBW-rs/actions/runs/42668256649/artifacts/13698016730).
+### Source-line evidence
+
+The line-table profile attributes the level-mask loop in `src/lib.rs::build_level_masks` to 15 level builds over the 100,000-key input. The annotated source counts 7.0M instructions on parent-prefix selection, 4.4M on digit extraction, and 11.7M on mask updates. This confirms repeated full input scans at each emitted level as a major instruction cost. The codec width/depth is capped at 16, so the asymptotic build remains O(N) for fixed-width keys; the practical profile is roughly 15 passes here. This is an optimization target, not a measured before/after win. A fused one-pass builder would need to preserve byte-identical L1 images and would trade rereads for multiple mask streams/writes, so it must be A/B tested before retaining.
+
+### Interpretation limits
+
+Callgrind cache events are simulated, not hardware PMU counts, and instruction counts are not nanoseconds. Massif is process-wide: the observed peak includes the Rust CLI/runtime and workload construction, so it does not establish codec-only peak scratch. Hyperfine values above are whole CLI process timings. The latest Criterion benchmark job was still running when this report was assembled; check the workflow before citing Criterion results from this run.
+
+Full readable profiles are preserved as [`rnbw-index-callgrind-2026-11-09.txt`](rnbw-index-callgrind-2026-11-09.txt) and [`rnbw-index-massif-2026-11-09.txt`](rnbw-index-massif-2026-11-09.txt). Machine-readable output and all per-run Hyperfine JSON are in the [workflow artifact](https://github.com/oda-00/RNBW-rs/actions/runs/42670140739/artifacts/13697813746).
