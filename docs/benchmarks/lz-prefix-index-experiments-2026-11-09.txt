@@ -1,0 +1,25 @@
+RNBW CPU LZ prefix-index experiments: measured and rejected
+Date: 2026-11-09
+
+Purpose: test a hand-rolled, hash-free 16-bit two-byte prefix index and a LIFO candidate chain against the current 18-bit multiplicative three-byte candidate table. All variants keep the fixed-width 32-bit token and separate literal stream, use the existing multi-window boundaries and entropy stage, and pass Criterion roundtrip assertions on the 16-workload corpus. Lower compressed/raw ratios are smaller.
+
+Benchmark method: Criterion optimized profile, AVX2 selected, 10 samples, 100 ms warmup, 150 ms target measurement per RNBW case. Runs are separate and sequential, not paired. Detailed per-case intervals and raw output are in the three logs listed below.
+
+RESULTS
+
+Variant | RNBW reuse-parallel encode geomean speedup vs original | reuse-serial | parallel-form decode | storage per workspace | decision
+Original 18-bit two-candidate table | 1.000x | 1.000x | 1.000x | 2 MiB candidate table plus touched heads | baseline
+Direct two-candidate prefix | 0.976x | 0.978x | 0.837x | 512 KiB prefix table plus touched list | rejected
+LIFO prefix, up to 4 candidates | 0.966x | 0.918x | 0.865x | 256 KiB heads + 256 KiB ring + up to 128 KiB touched prefixes | rejected
+Generational LIFO prefix, up to 4 candidates | 0.952x | 0.896x | 0.872x | 512 KiB GenTable + 256 KiB ring | rejected
+
+The direct prefix index was faster on some individual datasets, but its full-corpus median geomean was 2.4% slower and its two-byte buckets evicted useful three-byte matches. Representative size regressions: RGBA 0.5630 -> 0.6927 (+23.0%); repository Rust 0.3161 -> 0.3625 (+14.7%); technical prose 0.5937 -> 0.6651 (+12.0%); natural prose 0.1535 -> 0.3002 (+95.6%); server logs 0.2819 -> 0.3312 (+17.5%). These regressions made decode slower as well.
+
+The 4-candidate LIFO chain recovers some of the direct-prefix size loss, but remains slower overall and still worsens compression on source/text/log corpora. Using a generation-stamped direct table made clearing O(1), but did not offset the dependent chain traversal cost; parallel encode geomean fell to 0.952x. Both LIFO variants passed corpus roundtrips, but neither is a performance win.
+
+No candidate is retained. The current source must return to the original three-byte multiplicative candidate table until a hash-free design proves both compression density and total encode/decode wins across the corpus.
+
+Raw Criterion captures:
+- general-rnbw-direct-prefix-index-2026-11-09.txt (two-candidate direct prefix)
+- general-rnbw-lifo-prefix-4-2026-11-09.txt (four-candidate LIFO chain)
+- general-rnbw-gentable-prefix-4-2026-11-09.txt (generational LIFO chain)

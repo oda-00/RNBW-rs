@@ -1,0 +1,29 @@
+RNBW general corpus: encode/decode with external codec comparisons
+Date: 2026-11-09
+Command: cargo bench --offline --locked --bench files -- 'file-(encode|decode)/' --sample-size 10 --warm-up-time 0.1 --measurement-time 0.15 --noplot --quiet
+Build: release Criterion; host SIMD dispatch AVX2; Criterion uses 10 samples and extends slow groups beyond 150 ms.
+Method: fixed input setup is outside timed loops. Encoding includes output allocation; full decode returns reconstructed bytes. RNBW and external outputs are round-trip checked before timing. LZ4, Snappy, Zstd, Brotli, zlib are benchmark comparators only. TRNMAP is separately measured as an undecoded u32-position index and is not the byte-stream codec.
+Warning: generated AI tensor and shader-word corpora are synthetic; these rows do not stand in for a real model artifact.
+
+Per-corpus summary. RNBW encode/decode times use the fastest current RNBW path measured in the run; comparator minima are selected independently by operation. Factors >1 mean RNBW is slower.
+
+| Dataset | RNBW bytes/input | RNBW encode path and time | Fastest external encode | RNBW slowdown | RNBW decode path and time | Fastest external decode | RNBW slowdown |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| ai-model-int8-tensor-synthetic | 0.0206 | rnbw-hybrid-lz-entropy-reuse-parallel: 2.547 ms | zstd-fast-3-encode: 74.41 µs | 34.23x | rnbw-hybrid-lz-entropy: 1.581 ms | snappy-decode: 212.60 µs | 7.44x |
+| csv-table | 0.4314 | rnbw-hybrid-lz-entropy-reuse-parallel: 3.289 ms | zstd-fast-3-encode: 1.591 ms | 2.07x | rnbw-hybrid-lz-entropy: 4.487 ms | lz4-fast-decode: 381.87 µs | 11.75x |
+| graphics-shader-machine-words-synthetic | 0.0140 | rnbw-hybrid-lz-entropy-reuse-parallel: 209.25 µs | zstd-fast-3-encode: 19.23 µs | 10.88x | rnbw-parallel-encoded: 356.11 µs | zstd-fast-3-decode: 6.20 µs | 57.42x |
+| graphics-wgsl-source | 0.3610 | rnbw-hybrid-lz-entropy-reuse-parallel: 50.04 µs | snappy-encode: 6.60 µs | 7.59x | rnbw-hybrid-lz-entropy: 26.65 µs | lz4-fast-decode: 2.63 µs | 10.13x |
+| image-png-compressed-deflate | 1.0007 | rnbw-hybrid-lz-entropy-reuse-parallel: 1.194 ms | snappy-encode: 5.10 µs | 234.04x | rnbw-hybrid-lz-entropy: 1.87 µs | zstd-fast-3-decode: 2.56 µs | 0.73x |
+| image-png-stored-deflate | 0.9283 | rnbw-hybrid-lz-entropy-reuse-parallel: 2.545 ms | snappy-encode: 6.59 µs | 386.40x | rnbw-hybrid-lz-entropy: 1.347 ms | snappy-decode: 4.96 µs | 271.79x |
+| image-rgba8-raster | 0.5630 | rnbw-hybrid-lz-entropy-reuse-parallel: 2.744 ms | snappy-encode: 29.85 µs | 91.93x | rnbw-parallel-encoded: 1.588 ms | snappy-decode: 20.24 µs | 78.47x |
+| json-records | 0.1966 | rnbw-hybrid-lz-entropy-reuse-parallel: 2.729 ms | snappy-encode: 877.47 µs | 3.11x | rnbw-hybrid-lz-entropy: 2.197 ms | lz4-fast-decode: 492.84 µs | 4.46x |
+| native-executable-binary | 0.5560 | rnbw-hybrid-lz-entropy-reuse-parallel: 46.385 ms | lz4-fast-encode: 8.134 ms | 5.70x | rnbw-hybrid-lz-entropy: 35.400 ms | lz4-fast-decode: 2.315 ms | 15.29x |
+| natural-style-prose-generated | 0.1535 | rnbw-hybrid-lz-entropy-reuse-parallel: 1.091 ms | lz4-fast-encode: 295.87 µs | 3.69x | rnbw-parallel-encoded: 732.11 µs | lz4-fast-decode: 129.48 µs | 5.65x |
+| random-binary-incompressible | 1.0001 | rnbw-hybrid-lz-entropy-reuse-serial: 417.51 µs | snappy-encode: 343.30 µs | 1.22x | rnbw-hybrid-lz-entropy: 204.08 µs | snappy-decode: 201.69 µs | 1.01x |
+| repository-rust-source | 0.3161 | rnbw-hybrid-lz-entropy-reuse-parallel: 1.069 ms | snappy-encode: 353.41 µs | 3.03x | rnbw-hybrid-lz-entropy: 880.20 µs | lz4-fast-decode: 91.58 µs | 9.61x |
+| repository-technical-prose | 0.5937 | rnbw-hybrid-lz-entropy-reuse-serial: 278.53 µs | snappy-encode: 26.85 µs | 10.37x | rnbw-hybrid-lz-entropy: 160.51 µs | lz4-fast-decode: 12.07 µs | 13.30x |
+| server-log-records | 0.2819 | rnbw-hybrid-lz-entropy-reuse-parallel: 3.617 ms | snappy-encode: 1.292 ms | 2.80x | rnbw-hybrid-lz-entropy: 3.755 ms | lz4-fast-decode: 531.33 µs | 7.07x |
+| sparse-binary | 0.0462 | rnbw-hybrid-lz-entropy-reuse-parallel: 746.56 µs | snappy-encode: 126.44 µs | 5.90x | rnbw-hybrid-lz-entropy: 672.79 µs | zstd-fast-3-decode: 215.11 µs | 3.13x |
+| structured-binary-records | 0.6725 | rnbw-hybrid-lz-entropy-reuse-parallel: 2.200 ms | snappy-encode: 459.18 µs | 4.79x | rnbw-parallel-encoded: 1.072 ms | snappy-decode: 179.47 µs | 5.97x |
+
+Raw Criterion transcript: general-encode-decode-rerun-2026-11-09.txt
