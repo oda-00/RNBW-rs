@@ -14,7 +14,7 @@ if ! command -v valgrind >/dev/null 2>&1; then
   exit 2
 fi
 
-cargo build --locked --release --bin rnbw
+CARGO_PROFILE_RELEASE_DEBUG=1 cargo build --locked --release --bin rnbw
 mkdir -p "$report_dir"
 command=("./$binary" bench --workload "$workload" --size "$size" --operation build --engine rnbw)
 
@@ -23,6 +23,7 @@ valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes \
 callgrind_annotate --inclusive=yes --tree=both "$report_dir/callgrind.out" \
   > "$report_dir/callgrind.txt"
 valgrind --tool=massif --massif-out-file="$report_dir/massif.out" "${command[@]}"
+ms_print "$report_dir/massif.out" > "$report_dir/massif.txt"
 valgrind --tool=memcheck --leak-check=full --error-exitcode=99 "${command[@]}"
 
-echo "Valgrind reports written to $report_dir"
+echo "Callgrind and Massif reports written to $report_dir"

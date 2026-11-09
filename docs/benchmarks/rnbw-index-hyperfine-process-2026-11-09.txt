@@ -1,0 +1,51 @@
+# RNBW integer-index Hyperfine process matrix
+
+Run: GitHub Actions run 42668256649, profiler job succeeded; commit `10f3e01ec45f81e34666d68b7cc73e4e5899a83e`
+Runner: Ubuntu 24.04.5, GitHub-hosted; CPU model was not recorded.
+Source: [workflow artifact](https://github.com/oda-00/RNBW-rs/actions/runs/42668256649/artifacts/13698016730) (15 Hyperfine JSON files with per-run samples, Markdown reports, Callgrind, and Massif output).
+
+## Method
+
+Hyperfine used `--shell=none --warmup 2 --runs 10`. It launched all three engines (`rnbw`, `plain-ef`, `raw`) in separate processes for five 1,000,000-key workloads and three operations. Table cells show mean ± standard deviation, median, then min–max from the 10 timed runs, in milliseconds. Every timed command exited 0.
+
+These are **whole CLI process times**, not isolated operation latency: each process generates the workload; `contains` then builds its representation and performs 8,192 probes (4,096 hits and 4,096 misses); `decode` builds then decodes. They include process startup and reporting. Criterion measurements isolate benchmark operations separately. This is an integer-set index comparison, not the byte-compression codec market matrix.
+
+## Results
+
+| Workload | Process operation | RNBW mean ± σ; median; range (ms) | PlainEF mean ± σ; median; range (ms) | Raw mean ± σ; median; range (ms) | RNBW / PlainEF | RNBW / raw |
+|---|---|---:|---:|---:|---:|---:|
+| uniform | build | 55.219 ± 0.852; 55.032; 54.692–57.598 | 35.377 ± 0.183; 35.327; 35.195–35.786 | 23.282 ± 0.116; 23.266; 23.147–23.559 | 1.561× | 2.372× |
+| uniform | contains | 58.353 ± 0.185; 58.363; 58.046–58.681 | 40.958 ± 0.245; 40.922; 40.687–41.390 | 25.058 ± 0.127; 25.040; 24.911–25.350 | 1.425× | 2.329× |
+| uniform | decode | 121.112 ± 0.437; 121.171; 120.200–121.678 | 43.769 ± 0.180; 43.744; 43.523–44.130 | 25.619 ± 0.246; 25.616; 25.309–26.101 | 2.767× | 4.727× |
+| clustered | build | 39.667 ± 2.160; 38.928; 38.721–45.760 | 13.184 ± 0.157; 13.137; 13.028–13.468 | 5.878 ± 0.067; 5.869; 5.807–6.054 | 3.009× | 6.748× |
+| clustered | contains | 42.828 ± 0.183; 42.852; 42.533–43.070 | 14.510 ± 0.102; 14.466; 14.397–14.708 | 7.193 ± 0.122; 7.187; 7.016–7.483 | 2.952× | 5.954× |
+| clustered | decode | 65.876 ± 0.147; 65.837; 65.735–66.225 | 20.872 ± 0.200; 20.778; 20.710–21.273 | 8.160 ± 0.248; 8.076; 7.952–8.804 | 3.156× | 8.073× |
+| dense | build | 38.210 ± 0.115; 38.192; 38.049–38.407 | 8.820 ± 0.116; 8.786; 8.726–9.123 | 5.843 ± 0.056; 5.829; 5.793–5.970 | 4.332× | 6.540× |
+| dense | contains | 41.308 ± 0.215; 41.244; 41.052–41.652 | 9.821 ± 0.141; 9.756; 9.683–10.068 | 6.821 ± 0.068; 6.804; 6.748–6.933 | 4.206× | 6.056× |
+| dense | decode | 63.620 ± 0.194; 63.593; 63.289–63.899 | 12.246 ± 0.171; 12.215; 12.045–12.527 | 8.237 ± 0.378; 8.065; 7.954–9.058 | 5.195× | 7.724× |
+| morton-shell | build | 172.508 ± 1.660; 172.458; 169.968–175.375 | 145.690 ± 2.060; 145.416; 142.520–148.857 | 140.231 ± 0.857; 139.921; 139.395–141.818 | 1.184× | 1.230× |
+| morton-shell | contains | 173.593 ± 1.746; 173.774; 171.090–175.733 | 149.303 ± 1.063; 149.120; 147.871–151.070 | 141.625 ± 1.755; 140.885; 139.372–144.694 | 1.163× | 1.226× |
+| morton-shell | decode | 213.295 ± 1.693; 212.932; 211.642–215.797 | 153.373 ± 1.939; 152.443; 151.651–157.078 | 140.402 ± 2.274; 139.939; 137.473–145.785 | 1.391× | 1.519× |
+| ecs | build | 40.793 ± 0.149; 40.790; 40.577–41.115 | 11.301 ± 0.153; 11.265; 11.177–11.683 | 8.315 ± 0.148; 8.281; 8.193–8.639 | 3.610× | 4.906× |
+| ecs | contains | 43.625 ± 0.152; 43.639; 43.395–43.929 | 12.480 ± 0.253; 12.384; 12.253–13.009 | 9.154 ± 0.055; 9.148; 9.073–9.235 | 3.496× | 4.766× |
+| ecs | decode | 70.102 ± 0.207; 70.083; 69.806–70.566 | 14.973 ± 0.280; 14.873; 14.670–15.547 | 10.505 ± 0.198; 10.491; 10.319–11.025 | 4.682× | 6.673× |
+
+## Callgrind, Massif, and Memcheck
+
+Command: Valgrind 3.22.0 Callgrind with cache and branch simulation, clustered 100,000-key RNBW build. Encoded image: 51,256 bytes (0.5126 bytes/key). Counts below are profiler events, not time estimates.
+
+| Event | Count | Interpretation |
+|---|---:|---|
+| Instructions (`Ir`) | 57,450,772 | Whole process, including dataset generation and output |
+| `Rnbw::encode` inclusive instructions | 55,622,565 (96.82%) | Dominant measured function path |
+| `build_low_stream` inclusive instructions | 4,200,034 (7.31%) | Nested within encode; percentages overlap |
+| `build_bucket_stream` inclusive instructions | 2,085,219 (3.63%) | Nested within encode; percentages overlap |
+| `datasets::make_dataset` inclusive instructions | 1,442,855 (2.51%) | Workload construction included in CLI process |
+| Data references | 10,497,123 | 8,620,331 reads + 1,876,792 writes |
+| D1 misses | 143,057 (1.4%) | 133,919 reads + 9,138 writes, simulated |
+| Last-level misses | 11,696 | 3,722 reads + 7,974 writes, simulated |
+| Branches / mispredicts | 7,660,409 / 36,634 (0.5%) | 7,659,199 conditional + 1,210 indirect |
+| Massif maximum heap + allocator overhead | 456,400 B (445.7 KiB) | Across the whole 100K-key CLI process; stack sample was 0 B |
+| Memcheck | 0 errors | No invalid accesses or leaks reported |
+
+Callgrind instruction/cache events are not nanoseconds or physical CPU counters. This profile was built optimized without line tables, so function attribution is available but source-line attribution is not. The next profiler job is configured to add optimized debug line tables and a readable Massif summary. The full machine-readable timings and profiler outputs are in the [GitHub Actions artifact](https://github.com/oda-00/RNBW-rs/actions/runs/42668256649/artifacts/13698016730).
