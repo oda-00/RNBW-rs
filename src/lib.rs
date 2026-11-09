@@ -154,16 +154,17 @@ impl Rnbw {
         )?;
 
         let mut masks = Vec::new();
+        let mask_starts = build_all_level_masks(&mut masks, sorted_values, width, nodes, depth);
         for (level, &node_count) in nodes.iter().take(depth).enumerate() {
-            build_level_masks(&mut masks, sorted_values, width, level, node_count);
+            let level_masks = &masks[mask_starts[level]..mask_starts[level + 1]];
             let offsets_for_level = offsets.levels[level];
-            for (word_index, word) in masks.iter().enumerate() {
+            for (word_index, word) in level_masks.iter().enumerate() {
                 let at = offsets_for_level.mask + word_index * 8;
                 image[at..at + 8].copy_from_slice(&word.to_le_bytes());
             }
             let rank_bytes = offsets_for_level.rank_count * 4;
             build_rank_directory(
-                &masks,
+                level_masks,
                 node_count,
                 &mut image[offsets_for_level.rank..offsets_for_level.rank + rank_bytes],
             );
@@ -594,24 +595,40 @@ fn complete_levels(node_counts: &[usize], depth: usize) -> usize {
     count
 }
 
-fn build_level_masks(words: &mut Vec<u64>, values: &[u32], width: u8, level: usize, nodes: usize) {
+fn build_all_level_masks(
+    words: &mut Vec<u64>,
+    values: &[u32],
+    width: u8,
+    nodes: &[usize],
+    depth: usize,
+) -> [usize; 17] {
     words.clear();
-    words.resize(nodes.div_ceil(16), 0);
-    let parent_shift = width as usize - level * 2;
-    let digit_shift = parent_shift - 2;
-    let mut previous_parent = None;
-    let mut node = 0usize;
-    for &value in values {
-        let parent = if level == 0 { 0 } else { value >> parent_shift };
-        if previous_parent != Some(parent) {
-            if previous_parent.is_some() {
-                node += 1;
-            }
-            previous_parent = Some(parent);
-        }
-        let digit = ((value >> digit_shift) & 3) as usize;
-        words[node / 16] |= 1u64 << ((node % 16) * 4 + digit);
+    let mut starts = [0usize; 17];
+    for level in 0..depth {
+        starts[level + 1] = starts[level] + nodes[level].div_ceil(16);
     }
+    words.resize(starts[depth], 0);
+
+    // A parent prefix can never be u32::MAX for an even key width <= 32,
+    // leaving it available as the per-level unseen sentinel.
+    let mut previous_parent = [u32::MAX; 16];
+    let mut node = [0usize; 16];
+    for &value in values {
+        for level in 0..depth {
+            let parent_shift = width as usize - level * 2;
+            let parent = if level == 0 { 0 } else { value >> parent_shift };
+            if previous_parent[level] != parent {
+                if previous_parent[level] != u32::MAX {
+                    node[level] += 1;
+                }
+                previous_parent[level] = parent;
+            }
+            let digit = ((value >> (parent_shift - 2)) & 3) as usize;
+            let at = starts[level] + node[level] / 16;
+            words[at] |= 1u64 << ((node[level] % 16) * 4 + digit);
+        }
+    }
+    starts
 }
 
 fn build_rank_directory(masks: &[u64], node_count: usize, output: &mut [u8]) {
@@ -2066,6 +2083,62 @@ mod tests {
                             .len()
                     };
                     assert_eq!(count, expected, "width={width}, depth={depth}");
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn fused_level_masks_match_per_level_reference() {
+        let mut seed = 0xd1b5_4a32_d192_ed03u64;
+        for width in (2..=32).step_by(2) {
+            let key_mask = low_mask(width as usize);
+            for _ in 0..12 {
+                let mut values = Vec::with_capacity(2048);
+                for _ in 0..2048 {
+                    seed ^= seed << 13;
+                    seed ^= seed >> 7;
+                    seed ^= seed << 17;
+                    values.push(seed as u32 & key_mask);
+                }
+                values.sort_unstable();
+                values.dedup();
+
+                let max_depth = (width / 2) as usize;
+                let mut node_counts = [0usize; 17];
+                count_prefixes_by_level(&values, width, max_depth, &mut node_counts[..=max_depth]);
+                for depth in 0..=max_depth {
+                    let mut actual = Vec::new();
+                    let starts = build_all_level_masks(
+                        &mut actual,
+                        &values,
+                        width,
+                        &node_counts[..=max_depth],
+                        depth,
+                    );
+                    for level in 0..depth {
+                        let mut expected = vec![0u64; node_counts[level].div_ceil(16)];
+                        let parent_shift = width as usize - level * 2;
+                        let digit_shift = parent_shift - 2;
+                        let mut previous_parent = None;
+                        let mut node = 0usize;
+                        for &value in &values {
+                            let parent = if level == 0 { 0 } else { value >> parent_shift };
+                            if previous_parent != Some(parent) {
+                                if previous_parent.is_some() {
+                                    node += 1;
+                                }
+                                previous_parent = Some(parent);
+                            }
+                            let digit = ((value >> digit_shift) & 3) as usize;
+                            expected[node / 16] |= 1u64 << ((node % 16) * 4 + digit);
+                        }
+                        assert_eq!(
+                            &actual[starts[level]..starts[level + 1]],
+                            expected,
+                            "width={width}, depth={depth}, level={level}"
+                        );
+                    }
                 }
             }
         }
