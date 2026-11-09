@@ -1,0 +1,63 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 7.00s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=56332 spills=9204
+Benchmarking store-build/uniform/rnbw-l2-p32
+Benchmarking store-build/uniform/rnbw-l2-p32: Warming up for 150.00 ms
+
+Warning: Unable to complete 15 samples in 200.0ms. You may wish to increase target time to 539.1ms, or reduce sample count to 10.
+Benchmarking store-build/uniform/rnbw-l2-p32: Collecting 15 samples in estimated 539.09 ms (15 iterations)
+Benchmarking store-build/uniform/rnbw-l2-p32: Analyzing
+store-build/uniform/rnbw-l2-p32
+                        time:   [35.390 ms 36.029 ms 36.617 ms]
+                        thrpt:  [27.307 Melem/s 27.752 Melem/s 28.253 Melem/s]
+
+store dataset=clustered keys=1000000 layout=p32 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+Benchmarking store-build/clustered/rnbw-l2-p32
+Benchmarking store-build/clustered/rnbw-l2-p32: Warming up for 150.00 ms
+Benchmarking store-build/clustered/rnbw-l2-p32: Collecting 15 samples in estimated 231.70 ms (30 iterations)
+Benchmarking store-build/clustered/rnbw-l2-p32: Analyzing
+store-build/clustered/rnbw-l2-p32
+                        time:   [7.3648 ms 7.6563 ms 8.0271 ms]
+                        thrpt:  [124.58 Melem/s 130.61 Melem/s 135.78 Melem/s]
+
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+Benchmarking store-build/dense/rnbw-l2-p32
+Benchmarking store-build/dense/rnbw-l2-p32: Warming up for 150.00 ms
+
+Warning: Unable to complete 15 samples in 200.0ms. You may wish to increase target time to 265.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-build/dense/rnbw-l2-p32: Collecting 15 samples in estimated 265.02 ms (120 iterations)
+Benchmarking store-build/dense/rnbw-l2-p32: Analyzing
+store-build/dense/rnbw-l2-p32
+                        time:   [2.1452 ms 2.1833 ms 2.2107 ms]
+                        thrpt:  [452.34 Melem/s 458.02 Melem/s 466.15 Melem/s]
+
+store dataset=morton-shell keys=1000000 layout=p32 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=351 spills=3478
+Benchmarking store-build/morton-shell/rnbw-l2-p32
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Warming up for 150.00 ms
+
+Warning: Unable to complete 15 samples in 200.0ms. You may wish to increase target time to 349.1ms, or reduce sample count to 10.
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Collecting 15 samples in estimated 349.09 ms (15 iterations)
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Analyzing
+store-build/morton-shell/rnbw-l2-p32
+                        time:   [23.114 ms 23.282 ms 23.474 ms]
+                        thrpt:  [42.600 Melem/s 42.952 Melem/s 43.265 Melem/s]
+
+store dataset=ecs keys=1000000 layout=p32 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+Benchmarking store-build/ecs/rnbw-l2-p32
+Benchmarking store-build/ecs/rnbw-l2-p32: Warming up for 150.00 ms
+
+Warning: Unable to complete 15 samples in 200.0ms. You may wish to increase target time to 396.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-build/ecs/rnbw-l2-p32: Collecting 15 samples in estimated 395.97 ms (120 iterations)
+Benchmarking store-build/ecs/rnbw-l2-p32: Analyzing
+store-build/ecs/rnbw-l2-p32
+                        time:   [2.8285 ms 2.8852 ms 2.9540 ms]
+                        thrpt:  [338.52 Melem/s 346.60 Melem/s 353.54 Melem/s]

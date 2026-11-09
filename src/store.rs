@@ -655,8 +655,8 @@ impl RnbwStore {
                 put_desc(&mut rec, i, Form::Inline1, v[0])?;
                 continue;
             }
-            let runs = make_runs(v);
-            let run_bytes = 2 + runs.len() * 4;
+            let run_count = count_runs(v);
+            let run_bytes = 2 + run_count * 4;
             let qbits = (v.len() as f64 * (18.0 - (v.len() as f64).log2() + 1.0)).ceil() as usize;
             let qbytes = qbits.div_ceil(8);
             if 8192 < qbytes && 8192 < run_bytes {
@@ -667,7 +667,7 @@ impl RnbwStore {
                 forms[i] = Form::Quot
             }
             if forms[i] == Form::Runs {
-                let off = append_runs(&mut rec, &runs)?;
+                let off = append_runs(&mut rec, v, run_count)?;
                 put_desc(&mut rec, i, Form::Runs, off)?;
             }
         }
@@ -964,26 +964,29 @@ fn put_desc(r: &mut [u8], i: usize, f: Form, o: u16) -> Result<(), StoreError> {
     r[p + 1..p + 3].copy_from_slice(&o.to_le_bytes());
     Ok(())
 }
-fn make_runs(v: &[u16]) -> Vec<(u16, u16)> {
-    let mut r = Vec::new();
-    let mut i = 0;
-    while i < v.len() {
-        let s = v[i];
-        let mut e = i + 1;
-        while e < v.len() && u32::from(v[e]) == u32::from(v[e - 1]) + 1 {
-            e += 1
-        }
-        r.push((s, (e - i) as u16));
-        i = e;
+fn count_runs(v: &[u16]) -> usize {
+    if v.is_empty() {
+        return 0;
     }
-    r
+    let mut count = 1;
+    for i in 1..v.len() {
+        count += usize::from(u32::from(v[i]) != u32::from(v[i - 1]) + 1);
+    }
+    count
 }
-fn append_runs(r: &mut Vec<u8>, runs: &[(u16, u16)]) -> Result<u16, StoreError> {
+fn append_runs(r: &mut Vec<u8>, values: &[u16], run_count: usize) -> Result<u16, StoreError> {
     let off = u16::try_from(r.len()).map_err(|_| StoreError::TooLarge)?;
-    r.extend_from_slice(&(runs.len() as u16).to_le_bytes());
-    for &(s, n) in runs {
-        r.extend_from_slice(&s.to_le_bytes());
-        r.extend_from_slice(&n.to_le_bytes());
+    r.extend_from_slice(&(run_count as u16).to_le_bytes());
+    let mut start = 0;
+    while start < values.len() {
+        let first = values[start];
+        let mut end = start + 1;
+        while end < values.len() && u32::from(values[end]) == u32::from(values[end - 1]) + 1 {
+            end += 1;
+        }
+        r.extend_from_slice(&first.to_le_bytes());
+        r.extend_from_slice(&((end - start) as u16).to_le_bytes());
+        start = end;
     }
     Ok(off)
 }
@@ -1130,6 +1133,27 @@ fn contains64(b: &[u8], which: usize, x: u16) -> Result<bool, StoreError> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn direct_run_records_match_maximal_sorted_runs() {
+        let values = [0, 1, 2, 4, 6, 7, u16::MAX - 1, u16::MAX];
+        assert_eq!(count_runs(&[]), 0);
+        assert_eq!(count_runs(&values), 4);
+
+        let mut record = Vec::new();
+        let offset = append_runs(&mut record, &values, count_runs(&values)).unwrap();
+        assert_eq!(offset, 0);
+        assert_eq!(
+            record,
+            [
+                4, 0, // four runs
+                0, 0, 3, 0, // 0..3
+                4, 0, 1, 0, // 4..5
+                6, 0, 2, 0, // 6..8
+                254, 255, 2, 0, // 65534..65536, with no u16 wrap
+            ]
+        );
+    }
 
     #[test]
     fn var_arena_rejects_retired_handle_after_same_block_reuse() {

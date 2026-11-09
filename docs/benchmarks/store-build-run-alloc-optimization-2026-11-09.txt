@@ -1,0 +1,46 @@
+# RNBW store run-record allocation optimization
+
+Date: 2026-11-09
+
+## Change
+
+`RnbwStore::replace_group` previously materialized a `Vec<(u16, u16)>` of maximal
+runs for every non-empty chunk before deciding whether that chunk would use run
+storage. Most chunks in uniform data choose the quotient form, so their temporary
+run vectors were discarded. The new path counts maximal runs without allocating
+and writes run records directly into the final group record only when the run form
+wins. Complexity remains O(keys); the transient run-vector allocation and its
+copy are removed. The selected forms, descriptors, arena records, and query
+behavior are unchanged.
+
+## Benchmark method
+
+Paired Criterion captures used the same command and settings: 15 samples,
+150 ms warm-up, 200 ms target measurement; 1,000,000 requested keys; `p32` L2
+store build on uniform, clustered, dense, Morton-shell, and ECS datasets. Values
+below are median time and Criterion interval, in milliseconds. Raw captures:
+`store-build-run-alloc-baseline-2026-11-09.txt` and
+`store-build-run-alloc-candidate-2026-11-09.txt`.
+
+| Dataset | Baseline median (95% interval) | Candidate median (95% interval) | Latency reduction | L2 / L3 bytes unchanged |
+|---|---:|---:|---:|---|
+| Uniform | 46.098 [45.241, 47.000] | 36.029 [35.390, 36.617] | 21.8% | 4,287,720 / 2,097,152 |
+| Clustered | 7.639 [7.366, 7.975] | 7.656 [7.365, 8.027] | -0.2% (overlapping intervals) | 354,120 / 0 |
+| Dense | 2.216 [2.166, 2.286] | 2.183 [2.145, 2.211] | 1.5% (overlapping intervals) | 157,512 / 0 |
+| Morton-shell | 26.040 [25.696, 26.379] | 23.282 [23.114, 23.474] | 10.6% | 2,387,176 / 2,097,152 |
+| ECS | 3.382 [3.291, 3.469] | 2.885 [2.829, 2.954] | 14.7% | 297,544 / 0 |
+
+The uniform, Morton-shell, and ECS intervals are non-overlapping. Clustered and
+dense are not treated as verified wins. All dataset sizes and L2/L3 accounting
+match between captures.
+
+## Correctness
+
+`direct_run_records_match_maximal_sorted_runs` checks empty input, maximal
+consecutive runs, isolated values, and the `u16::MAX` boundary. The full test run
+passed 47 library tests, 3 binary tests, codec mutation fuzz, and 3 TRNMAP mutation
+fuzz tests. Criterion's store benchmark validates membership, decoded values,
+and byte accounting for both pocket layouts before timing.
+
+`cargo fmt --all --check` and
+`cargo clippy --offline --locked --all-targets -- -D warnings` pass.
