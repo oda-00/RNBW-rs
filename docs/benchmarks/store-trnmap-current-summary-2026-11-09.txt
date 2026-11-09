@@ -1,0 +1,218 @@
+RNBW current L2/L3/TRNMAP full store matrix
+Date: 2026-11-09
+Command: cargo bench --offline --locked --bench store -- --sample-size 10 --warm-up-time 0.05 --measurement-time 0.1 --noplot
+Build: Criterion optimized; runtime SIMD dispatch=AVX2; each dataset requests 1,000,000 keys; five shapes; p32/p64 pockets. Criterion extended slow samples beyond requested measurement time. See the raw log for exact warnings and output.
+The values below are current-worktree measurements after replacing dense bitmap payloads with arena-backed TRNMAP images. Criterion `time` intervals are reproduced as emitted. For 1,024-probe batches, the center estimate is also divided by 1,024; that quotient is a batch average, not isolated single-probe latency.
+Parsed timing rows: 186.
+
+## Store bytes
+
+| Dataset | Keys | Layout | L2 bytes | L3 bytes | Total bytes | Bits/key | Promoted | Spills |
+|---|---:|---|---:|---:|---:|---:|---:|---:|
+| uniform | 999,882 | p32 | 4,336,824 | 2,097,152 | 6,433,976 | 51.478 | 52,402 | 13,134 |
+| uniform | 999,882 | p64 | 4,336,824 | 2,097,152 | 6,433,976 | 51.478 | 56,332 | 9,204 |
+| clustered | 1,000,000 | p32 | 366,360 | 0 | 366,360 | 2.931 | 0 | 15,625 |
+| clustered | 1,000,000 | p64 | 366,360 | 0 | 366,360 | 2.931 | 0 | 15,625 |
+| dense | 1,000,000 | p32 | 157,512 | 0 | 157,512 | 1.260 | 0 | 16 |
+| dense | 1,000,000 | p64 | 157,512 | 0 | 157,512 | 1.260 | 0 | 16 |
+| morton-shell | 1,000,000 | p32 | 2,393,272 | 2,097,152 | 4,490,424 | 35.923 | 432 | 3,397 |
+| morton-shell | 1,000,000 | p64 | 2,393,272 | 2,097,152 | 4,490,424 | 35.923 | 351 | 3,478 |
+| ecs | 1,000,000 | p32 | 682,424 | 0 | 682,424 | 5.459 | 0 | 17 |
+| ecs | 1,000,000 | p64 | 682,424 | 0 | 682,424 | 5.459 | 0 | 17 |
+
+## Every Criterion path
+
+| Benchmark | Reported interval | Center estimate |
+|---|---|---|
+| `store-build/uniform/rnbw-l2-p32` | 22.967 ms – 23.338 ms – 23.689 ms | 23.338 ms |
+| `store-build/uniform/rnbw-l2-p64` | 25.736 ms – 28.347 ms – 31.104 ms | 28.347 ms |
+| `store-build/uniform/rnbw-query-image` | 26.204 ms – 29.729 ms – 34.04 ms | 29.729 ms |
+| `store-contains/uniform/rnbw-image/hits` | 131.74 µs – 133.33 µs – 136.29 µs | 133.33 µs |
+| `store-contains/uniform/roaring/hits` | 68.886 µs – 69.416 µs – 70.595 µs | 69.416 µs |
+| `store-contains/uniform/rnbw-image/misses` | 92.303 µs – 94.063 µs – 95.538 µs | 94.063 µs |
+| `store-contains/uniform/roaring/misses` | 67.429 µs – 68.59 µs – 70.005 µs | 68.59 µs |
+| `store-contains/uniform/l2-p32/hits/1024` | 161.21 µs – 185.78 µs – 198.03 µs | 185.78 µs / 1,024 = 181.426 ns/probe |
+| `store-contains/uniform/l2-p32/misses/1024` | 109.44 µs – 110.21 µs – 111.37 µs | 110.21 µs / 1,024 = 107.627 ns/probe |
+| `store-contains/uniform/l2-l3-p32/hits/1024` | 50.189 µs – 50.707 µs – 51.155 µs | 50.707 µs / 1,024 = 49.519 ns/probe |
+| `store-contains/uniform/l2-l3-p32/misses/1024` | 40.537 µs – 41.572 µs – 42.914 µs | 41.572 µs / 1,024 = 40.598 ns/probe |
+| `store-contains/uniform/l2-p64/hits/1024` | 109.38 µs – 110.76 µs – 111.95 µs | 110.76 µs / 1,024 = 108.164 ns/probe |
+| `store-contains/uniform/l2-p64/misses/1024` | 110.3 µs – 110.69 µs – 111.1 µs | 110.69 µs / 1,024 = 108.096 ns/probe |
+| `store-contains/uniform/l2-l3-p64/hits/1024` | 48.138 µs – 51.441 µs – 58.038 µs | 51.441 µs / 1,024 = 50.235 ns/probe |
+| `store-contains/uniform/l2-l3-p64/misses/1024` | 39.61 µs – 39.809 µs – 39.987 µs | 39.809 µs / 1,024 = 38.876 ns/probe |
+| `store-decode/uniform/l2-p32` | 34.087 ms – 34.204 ms – 34.325 ms | 34.204 ms |
+| `store-decode/uniform/l2-l3-p32` | 36.879 ms – 37.232 ms – 37.576 ms | 37.232 ms |
+| `store-decode/uniform/l2-p64` | 34.438 ms – 34.933 ms – 35.511 ms | 34.933 ms |
+| `store-decode/uniform/l2-l3-p64` | 33.689 ms – 34.931 ms – 36.881 ms | 34.931 ms |
+| `store-update/uniform/l2-p32/insert-hot-reset` | 10.856 µs – 10.99 µs – 11.152 µs | 10.99 µs |
+| `store-update/uniform/l2-p32/remove-hot-reset` | 11.014 µs – 11.075 µs – 11.166 µs | 11.075 µs |
+| `store-update/uniform/l2-p32/dirty-drain-hot-reset` | 105.44 ns – 106.05 ns – 107.05 ns | 106.05 ns |
+| `store-update/uniform/l2-l3-p32/insert-hot-reset` | 12.311 µs – 12.458 µs – 12.838 µs | 12.458 µs |
+| `store-update/uniform/l2-l3-p32/remove-hot-reset` | 12.456 µs – 12.643 µs – 12.914 µs | 12.643 µs |
+| `store-update/uniform/l2-l3-p32/dirty-drain-hot-reset` | 106.73 ns – 107.68 ns – 108.96 ns | 107.68 ns |
+| `store-demote/uniform/p32/full-range-hot-reset` | 33.371 ms – 33.858 ms – 34.42 ms | 33.858 ms |
+| `store-update/uniform/l2-p64/insert-hot-reset` | 10.816 µs – 10.918 µs – 11.002 µs | 10.918 µs |
+| `store-update/uniform/l2-p64/remove-hot-reset` | 10.878 µs – 11.083 µs – 11.42 µs | 11.083 µs |
+| `store-update/uniform/l2-p64/dirty-drain-hot-reset` | 104.6 ns – 107.43 ns – 112.39 ns | 107.43 ns |
+| `store-update/uniform/l2-l3-p64/insert-hot-reset` | 12.929 µs – 13.263 µs – 13.89 µs | 13.263 µs |
+| `store-update/uniform/l2-l3-p64/remove-hot-reset` | 13.609 µs – 13.737 µs – 13.866 µs | 13.737 µs |
+| `store-update/uniform/l2-l3-p64/dirty-drain-hot-reset` | 108.96 ns – 120.14 ns – 145.96 ns | 120.14 ns |
+| `store-demote/uniform/p64/full-range-hot-reset` | 33.832 ms – 33.965 ms – 34.09 ms | 33.965 ms |
+| `store-promote/uniform/p32/full-range-refresh` | 56.002 ms – 56.425 ms – 56.909 ms | 56.425 ms |
+| `store-promote/uniform/p64/full-range-refresh` | 60.869 ms – 61.144 ms – 61.423 ms | 61.144 ms |
+| `store-build/clustered/rnbw-l2-p32` | 2.9025 ms – 2.9286 ms – 2.9592 ms | 2.9286 ms |
+| `store-build/clustered/rnbw-l2-p64` | 2.918 ms – 2.9332 ms – 2.9507 ms | 2.9332 ms |
+| `store-build/clustered/rnbw-query-image` | 25.592 ms – 25.83 ms – 26.058 ms | 25.83 ms |
+| `store-contains/clustered/rnbw-image/hits` | 469.51 µs – 474.36 µs – 477.84 µs | 474.36 µs |
+| `store-contains/clustered/roaring/hits` | 27.384 µs – 27.685 µs – 27.907 µs | 27.685 µs |
+| `store-contains/clustered/rnbw-image/misses` | 55.541 µs – 56.263 µs – 57.824 µs | 56.263 µs |
+| `store-contains/clustered/roaring/misses` | 21.068 µs – 21.602 µs – 22.711 µs | 21.602 µs |
+| `store-contains/clustered/l2-p32/hits/1024` | 11.747 µs – 12.029 µs – 12.535 µs | 12.029 µs / 1,024 = 11.747 ns/probe |
+| `store-contains/clustered/l2-p32/misses/1024` | 5.5172 µs – 5.6052 µs – 5.65 µs | 5.6052 µs / 1,024 = 5.474 ns/probe |
+| `store-contains/clustered/l2-l3-p32/hits/1024` | 12.196 µs – 12.251 µs – 12.324 µs | 12.251 µs / 1,024 = 11.964 ns/probe |
+| `store-contains/clustered/l2-l3-p32/misses/1024` | 5.6247 µs – 5.7175 µs – 5.7947 µs | 5.7175 µs / 1,024 = 5.583 ns/probe |
+| `store-contains/clustered/l2-p64/hits/1024` | 12.137 µs – 12.238 µs – 12.469 µs | 12.238 µs / 1,024 = 11.951 ns/probe |
+| `store-contains/clustered/l2-p64/misses/1024` | 5.4487 µs – 5.4715 µs – 5.4926 µs | 5.4715 µs / 1,024 = 5.343 ns/probe |
+| `store-contains/clustered/l2-l3-p64/hits/1024` | 11.546 µs – 11.601 µs – 11.656 µs | 11.601 µs / 1,024 = 11.329 ns/probe |
+| `store-contains/clustered/l2-l3-p64/misses/1024` | 5.3406 µs – 5.4064 µs – 5.4642 µs | 5.4064 µs / 1,024 = 5.280 ns/probe |
+| `store-decode/clustered/l2-p32` | 1.7923 ms – 1.8536 ms – 1.9649 ms | 1.8536 ms |
+| `store-decode/clustered/l2-l3-p32` | 1.74 ms – 1.762 ms – 1.7849 ms | 1.762 ms |
+| `store-decode/clustered/l2-p64` | 1.7498 ms – 1.7704 ms – 1.7994 ms | 1.7704 ms |
+| `store-decode/clustered/l2-l3-p64` | 1.8794 ms – 2.0114 ms – 2.1854 ms | 2.0114 ms |
+| `store-update/clustered/l2-p32/insert-hot-reset` | 2.6046 µs – 2.6235 µs – 2.6485 µs | 2.6235 µs |
+| `store-update/clustered/l2-p32/remove-hot-reset` | 2.5539 µs – 2.6255 µs – 2.7091 µs | 2.6255 µs |
+| `store-update/clustered/l2-p32/dirty-drain-hot-reset` | 121.24 ns – 141.13 ns – 152.44 ns | 141.13 ns |
+| `store-update/clustered/l2-l3-p32/insert-hot-reset` | 2.6223 µs – 2.7613 µs – 2.904 µs | 2.7613 µs |
+| `store-update/clustered/l2-l3-p32/remove-hot-reset` | 2.6314 µs – 2.6436 µs – 2.6525 µs | 2.6436 µs |
+| `store-update/clustered/l2-l3-p32/dirty-drain-hot-reset` | 107.83 ns – 109.31 ns – 110.93 ns | 109.31 ns |
+| `store-demote-noop/clustered/p32/full-range` | 3.4378 µs – 3.4629 µs – 3.4951 µs | 3.4629 µs |
+| `store-update/clustered/l2-p64/insert-hot-reset` | 2.6023 µs – 2.6672 µs – 2.7936 µs | 2.6672 µs |
+| `store-update/clustered/l2-p64/remove-hot-reset` | 2.5719 µs – 2.6047 µs – 2.6755 µs | 2.6047 µs |
+| `store-update/clustered/l2-p64/dirty-drain-hot-reset` | 103.01 ns – 103.84 ns – 105.23 ns | 103.84 ns |
+| `store-update/clustered/l2-l3-p64/insert-hot-reset` | 2.3929 µs – 2.3999 µs – 2.404 µs | 2.3999 µs |
+| `store-update/clustered/l2-l3-p64/remove-hot-reset` | 2.3729 µs – 2.3842 µs – 2.4048 µs | 2.3842 µs |
+| `store-update/clustered/l2-l3-p64/dirty-drain-hot-reset` | 102.45 ns – 104.29 ns – 107.67 ns | 104.29 ns |
+| `store-demote-noop/clustered/p64/full-range` | 3.3481 µs – 3.3913 µs – 3.4294 µs | 3.3913 µs |
+| `store-promote/clustered/p32/full-range-refresh` | 846.49 µs – 884.82 µs – 918.66 µs | 884.82 µs |
+| `store-promote/clustered/p64/full-range-refresh` | 1.0884 ms – 1.093 ms – 1.096 ms | 1.093 ms |
+| `store-build/dense/rnbw-l2-p32` | 1.748 ms – 1.7562 ms – 1.7693 ms | 1.7562 ms |
+| `store-build/dense/rnbw-l2-p64` | 1.7811 ms – 1.8572 ms – 1.943 ms | 1.8572 ms |
+| `store-build/dense/rnbw-query-image` | 24.418 ms – 24.827 ms – 25.284 ms | 24.827 ms |
+| `store-contains/dense/rnbw-image/hits` | 364.41 µs – 366.6 µs – 368.76 µs | 366.6 µs |
+| `store-contains/dense/roaring/hits` | 4.788 µs – 4.9211 µs – 5.0612 µs | 4.9211 µs |
+| `store-contains/dense/rnbw-image/misses` | 16.537 µs – 16.596 µs – 16.694 µs | 16.596 µs |
+| `store-contains/dense/roaring/misses` | 2.7088 µs – 2.8274 µs – 2.9121 µs | 2.8274 µs |
+| `store-contains/dense/l2-p32/hits/1024` | 6.9401 µs – 7.0225 µs – 7.0819 µs | 7.0225 µs / 1,024 = 6.858 ns/probe |
+| `store-contains/dense/l2-p32/misses/1024` | 2.9103 µs – 2.9269 µs – 2.945 µs | 2.9269 µs / 1,024 = 2.858 ns/probe |
+| `store-contains/dense/l2-l3-p32/hits/1024` | 7.0929 µs – 7.4976 µs – 8.0919 µs | 7.4976 µs / 1,024 = 7.322 ns/probe |
+| `store-contains/dense/l2-l3-p32/misses/1024` | 3.0664 µs – 3.1275 µs – 3.1863 µs | 3.1275 µs / 1,024 = 3.054 ns/probe |
+| `store-contains/dense/l2-p64/hits/1024` | 6.9836 µs – 7.0112 µs – 7.0315 µs | 7.0112 µs / 1,024 = 6.847 ns/probe |
+| `store-contains/dense/l2-p64/misses/1024` | 3.0264 µs – 3.0509 µs – 3.0991 µs | 3.0509 µs / 1,024 = 2.979 ns/probe |
+| `store-contains/dense/l2-l3-p64/hits/1024` | 6.9026 µs – 7.2945 µs – 7.5953 µs | 7.2945 µs / 1,024 = 7.124 ns/probe |
+| `store-contains/dense/l2-l3-p64/misses/1024` | 3.1754 µs – 3.2577 µs – 3.3163 µs | 3.2577 µs / 1,024 = 3.181 ns/probe |
+| `store-decode/dense/l2-p32` | 936.89 µs – 1.0152 ms – 1.1921 ms | 1.0152 ms |
+| `store-decode/dense/l2-l3-p32` | 882.81 µs – 937.23 µs – 1.0076 ms | 937.23 µs |
+| `store-decode/dense/l2-p64` | 1.0233 ms – 1.1778 ms – 1.3159 ms | 1.1778 ms |
+| `store-decode/dense/l2-l3-p64` | 904.88 µs – 987.01 µs – 1.0463 ms | 987.01 µs |
+| `store-update/dense/l2-p32/insert-hot-reset` | 58.869 µs – 61.277 µs – 64.358 µs | 61.277 µs |
+| `store-update/dense/l2-p32/remove-hot-reset` | 102.37 µs – 105.33 µs – 107.6 µs | 105.33 µs |
+| `store-update/dense/l2-p32/dirty-drain-hot-reset` | 176.46 ns – 196.27 ns – 220.94 ns | 196.27 ns |
+| `store-update/dense/l2-l3-p32/insert-hot-reset` | 54.386 µs – 55.891 µs – 56.935 µs | 55.891 µs |
+| `store-update/dense/l2-l3-p32/remove-hot-reset` | 104.12 µs – 107.69 µs – 112.91 µs | 107.69 µs |
+| `store-update/dense/l2-l3-p32/dirty-drain-hot-reset` | 172.17 ns – 178.67 ns – 183.69 ns | 178.67 ns |
+| `store-demote-noop/dense/p32/full-range` | 3.3007 µs – 3.395 µs – 3.592 µs | 3.395 µs |
+| `store-update/dense/l2-p64/insert-hot-reset` | 54.326 µs – 55.253 µs – 56.057 µs | 55.253 µs |
+| `store-update/dense/l2-p64/remove-hot-reset` | 103.05 µs – 105.2 µs – 107.37 µs | 105.2 µs |
+| `store-update/dense/l2-p64/dirty-drain-hot-reset` | 179.16 ns – 189.42 ns – 199.4 ns | 189.42 ns |
+| `store-update/dense/l2-l3-p64/insert-hot-reset` | 54.847 µs – 58.856 µs – 61.879 µs | 58.856 µs |
+| `store-update/dense/l2-l3-p64/remove-hot-reset` | 101.7 µs – 105.47 µs – 108.69 µs | 105.47 µs |
+| `store-update/dense/l2-l3-p64/dirty-drain-hot-reset` | 175.75 ns – 179.89 ns – 187.56 ns | 179.89 ns |
+| `store-demote-noop/dense/p64/full-range` | 3.2996 µs – 3.4278 µs – 3.5747 µs | 3.4278 µs |
+| `store-promote/dense/p32/full-range-refresh` | 211.27 µs – 215.43 µs – 220.86 µs | 215.43 µs |
+| `store-promote/dense/p64/full-range-refresh` | 153.57 µs – 160.54 µs – 176.06 µs | 160.54 µs |
+| `store-build/morton-shell/rnbw-l2-p32` | 20.129 ms – 20.375 ms – 20.656 ms | 20.375 ms |
+| `store-build/morton-shell/rnbw-l2-p64` | 20.238 ms – 20.654 ms – 21.116 ms | 20.654 ms |
+| `store-build/morton-shell/rnbw-query-image` | 24.157 ms – 24.255 ms – 24.363 ms | 24.255 ms |
+| `store-contains/morton-shell/rnbw-image/hits` | 373.68 µs – 382.62 µs – 398.52 µs | 382.62 µs |
+| `store-contains/morton-shell/roaring/hits` | 42.772 µs – 43.527 µs – 44.649 µs | 43.527 µs |
+| `store-contains/morton-shell/rnbw-image/misses` | 41.385 µs – 42.107 µs – 43.938 µs | 42.107 µs |
+| `store-contains/morton-shell/roaring/misses` | 13.046 µs – 13.459 µs – 14.043 µs | 13.459 µs |
+| `store-contains/morton-shell/l2-p32/hits/1024` | 192.52 µs – 194.23 µs – 197.12 µs | 194.23 µs / 1,024 = 189.678 ns/probe |
+| `store-contains/morton-shell/l2-p32/misses/1024` | 9.371 µs – 9.4022 µs – 9.4312 µs | 9.4022 µs / 1,024 = 9.182 ns/probe |
+| `store-contains/morton-shell/l2-l3-p32/hits/1024` | 193.32 µs – 195.63 µs – 198.6 µs | 195.63 µs / 1,024 = 191.045 ns/probe |
+| `store-contains/morton-shell/l2-l3-p32/misses/1024` | 9.1434 µs – 9.4254 µs – 9.9693 µs | 9.4254 µs / 1,024 = 9.204 ns/probe |
+| `store-contains/morton-shell/l2-p64/hits/1024` | 203.34 µs – 225.51 µs – 257.11 µs | 225.51 µs / 1,024 = 220.225 ns/probe |
+| `store-contains/morton-shell/l2-p64/misses/1024` | 8.8924 µs – 9.0117 µs – 9.3225 µs | 9.0117 µs / 1,024 = 8.800 ns/probe |
+| `store-contains/morton-shell/l2-l3-p64/hits/1024` | 193.84 µs – 199.26 µs – 205.58 µs | 199.26 µs / 1,024 = 194.590 ns/probe |
+| `store-contains/morton-shell/l2-l3-p64/misses/1024` | 8.8859 µs – 8.9383 µs – 8.9646 µs | 8.9383 µs / 1,024 = 8.729 ns/probe |
+| `store-decode/morton-shell/l2-p32` | 29.129 ms – 30.269 ms – 31.87 ms | 30.269 ms |
+| `store-decode/morton-shell/l2-l3-p32` | 28.363 ms – 28.848 ms – 29.452 ms | 28.848 ms |
+| `store-decode/morton-shell/l2-p64` | 30.043 ms – 30.266 ms – 30.516 ms | 30.266 ms |
+| `store-decode/morton-shell/l2-l3-p64` | 29.072 ms – 29.514 ms – 30.063 ms | 29.514 ms |
+| `store-update/morton-shell/l2-p32/insert-hot-reset` | 10.782 µs – 11.028 µs – 11.399 µs | 11.028 µs |
+| `store-update/morton-shell/l2-p32/remove-hot-reset` | 2.5378 µs – 2.5605 µs – 2.6002 µs | 2.5605 µs |
+| `store-update/morton-shell/l2-p32/dirty-drain-hot-reset` | 108.87 ns – 109.88 ns – 111.84 ns | 109.88 ns |
+| `store-update/morton-shell/l2-l3-p32/insert-hot-reset` | 10.468 µs – 10.553 µs – 10.602 µs | 10.553 µs |
+| `store-update/morton-shell/l2-l3-p32/remove-hot-reset` | 2.6648 µs – 2.7201 µs – 2.8034 µs | 2.7201 µs |
+| `store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset` | 116.78 ns – 120 ns – 125.75 ns | 120 ns |
+| `store-demote/morton-shell/p32/full-range-hot-reset` | 18.622 ms – 19.089 ms – 19.605 ms | 19.089 ms |
+| `store-update/morton-shell/l2-p64/insert-hot-reset` | 9.6657 µs – 9.9267 µs – 10.339 µs | 9.9267 µs |
+| `store-update/morton-shell/l2-p64/remove-hot-reset` | 2.7058 µs – 2.7374 µs – 2.7576 µs | 2.7374 µs |
+| `store-update/morton-shell/l2-p64/dirty-drain-hot-reset` | 116.08 ns – 117.02 ns – 118.02 ns | 117.02 ns |
+| `store-update/morton-shell/l2-l3-p64/insert-hot-reset` | 9.8791 µs – 9.9123 µs – 9.9491 µs | 9.9123 µs |
+| `store-update/morton-shell/l2-l3-p64/remove-hot-reset` | 2.6719 µs – 2.7445 µs – 2.822 µs | 2.7445 µs |
+| `store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset` | 112.3 ns – 114.88 ns – 117.01 ns | 114.88 ns |
+| `store-demote/morton-shell/p64/full-range-hot-reset` | 12.419 ms – 12.605 ms – 12.846 ms | 12.605 ms |
+| `store-promote/morton-shell/p32/full-range-refresh` | 28.278 ms – 29.056 ms – 30.229 ms | 29.056 ms |
+| `store-promote/morton-shell/p64/full-range-refresh` | 28.71 ms – 29.15 ms – 29.667 ms | 29.15 ms |
+| `store-build/ecs/rnbw-l2-p32` | 3.0499 ms – 3.1448 ms – 3.2303 ms | 3.1448 ms |
+| `store-build/ecs/rnbw-l2-p64` | 2.9725 ms – 3.0496 ms – 3.1233 ms | 3.0496 ms |
+| `store-build/ecs/rnbw-query-image` | 26.487 ms – 26.583 ms – 26.695 ms | 26.583 ms |
+| `store-contains/ecs/rnbw-image/hits` | 371.22 µs – 372.36 µs – 374.39 µs | 372.36 µs |
+| `store-contains/ecs/roaring/hits` | 4.8417 µs – 4.8818 µs – 4.9489 µs | 4.8818 µs |
+| `store-contains/ecs/rnbw-image/misses` | 16.624 µs – 16.723 µs – 16.967 µs | 16.723 µs |
+| `store-contains/ecs/roaring/misses` | 3.4166 µs – 3.6625 µs – 4.0497 µs | 3.6625 µs |
+| `store-contains/ecs/l2-p32/hits/1024` | 13.532 µs – 13.596 µs – 13.711 µs | 13.596 µs / 1,024 = 13.277 ns/probe |
+| `store-contains/ecs/l2-p32/misses/1024` | 3.0485 µs – 3.06 µs – 3.077 µs | 3.06 µs / 1,024 = 2.988 ns/probe |
+| `store-contains/ecs/l2-l3-p32/hits/1024` | 14.551 µs – 15.01 µs – 15.842 µs | 15.01 µs / 1,024 = 14.658 ns/probe |
+| `store-contains/ecs/l2-l3-p32/misses/1024` | 3.2337 µs – 3.3492 µs – 3.4905 µs | 3.3492 µs / 1,024 = 3.271 ns/probe |
+| `store-contains/ecs/l2-p64/hits/1024` | 13.496 µs – 13.734 µs – 13.911 µs | 13.734 µs / 1,024 = 13.412 ns/probe |
+| `store-contains/ecs/l2-p64/misses/1024` | 2.8911 µs – 3.0359 µs – 3.1815 µs | 3.0359 µs / 1,024 = 2.965 ns/probe |
+| `store-contains/ecs/l2-l3-p64/hits/1024` | 14.055 µs – 14.37 µs – 14.587 µs | 14.37 µs / 1,024 = 14.033 ns/probe |
+| `store-contains/ecs/l2-l3-p64/misses/1024` | 3.1771 µs – 3.2777 µs – 3.4213 µs | 3.2777 µs / 1,024 = 3.201 ns/probe |
+| `store-decode/ecs/l2-l3-p32` | 2.024 ms – 2.0673 ms – 2.1308 ms | 2.0673 ms |
+| `store-decode/ecs/l2-l3-p64` | 1.9602 ms – 2.1207 ms – 2.4388 ms | 2.1207 ms |
+| `store-update/ecs/l2-p32/insert-hot-reset` | 145.4 ns – 145.89 ns – 146.72 ns | 145.89 ns |
+| `store-update/ecs/l2-p32/remove-hot-reset` | 144.09 ns – 145.53 ns – 147.43 ns | 145.53 ns |
+| `store-update/ecs/l2-p32/dirty-drain-hot-reset` | 108.87 ns – 109.51 ns – 110.49 ns | 109.51 ns |
+| `store-update/ecs/l2-l3-p32/insert-hot-reset` | 142.49 ns – 143.66 ns – 144.63 ns | 143.66 ns |
+| `store-update/ecs/l2-l3-p32/remove-hot-reset` | 148.15 ns – 149.99 ns – 153.64 ns | 149.99 ns |
+| `store-update/ecs/l2-l3-p32/dirty-drain-hot-reset` | 104.77 ns – 105.57 ns – 106.48 ns | 105.57 ns |
+| `store-demote-noop/ecs/p32/full-range` | 3.363 µs – 3.3825 µs – 3.4027 µs | 3.3825 µs |
+| `store-update/ecs/l2-p64/insert-hot-reset` | 138.26 ns – 139.92 ns – 140.84 ns | 139.92 ns |
+| `store-update/ecs/l2-p64/remove-hot-reset` | 146.77 ns – 152.46 ns – 163.03 ns | 152.46 ns |
+| `store-update/ecs/l2-p64/dirty-drain-hot-reset` | 106.45 ns – 107.74 ns – 108.83 ns | 107.74 ns |
+| `store-update/ecs/l2-l3-p64/insert-hot-reset` | 144.63 ns – 146.57 ns – 147.78 ns | 146.57 ns |
+| `store-update/ecs/l2-l3-p64/remove-hot-reset` | 147.07 ns – 151.18 ns – 158.29 ns | 151.18 ns |
+| `store-update/ecs/l2-l3-p64/dirty-drain-hot-reset` | 103.34 ns – 104.8 ns – 107.45 ns | 104.8 ns |
+| `store-demote-noop/ecs/p64/full-range` | 3.2561 µs – 3.4078 µs – 3.5612 µs | 3.4078 µs |
+| `store-promote/ecs/p32/full-range-refresh` | 1.2853 ms – 1.3 ms – 1.3116 ms | 1.3 ms |
+| `store-promote/ecs/p64/full-range-refresh` | 1.2327 ms – 1.261 ms – 1.2874 ms | 1.261 ms |
+| `store-dense-trnmap-build/rnbw-store` | 94.204 µs – 99.088 µs – 103.03 µs | 99.088 µs |
+| `store-dense-trnmap-build/rnbw-image` | 471.57 µs – 474.54 µs – 476.34 µs | 474.54 µs |
+| `store-dense-trnmap-build/roaring` | 187.91 µs – 190.05 µs – 192.93 µs | 190.05 µs |
+| `store-dense-trnmap-contains/rnbw-store/hits-1024` | 14.69 µs – 14.759 µs – 14.831 µs | 14.759 µs / 1,024 = 14.413 ns/probe |
+| `store-dense-trnmap-contains/rnbw-image/hits-1024` | 52.652 µs – 52.985 µs – 53.497 µs | 52.985 µs / 1,024 = 51.743 ns/probe |
+| `store-dense-trnmap-contains/roaring/hits-1024` | 1.4181 µs – 1.4248 µs – 1.4294 µs | 1.4248 µs / 1,024 = 1.391 ns/probe |
+| `store-dense-trnmap-contains/rnbw-store/misses-1024` | 14.486 µs – 14.543 µs – 14.645 µs | 14.543 µs / 1,024 = 14.202 ns/probe |
+| `store-dense-trnmap-contains/rnbw-image/misses-1024` | 52.189 µs – 52.959 µs – 53.725 µs | 52.959 µs / 1,024 = 51.718 ns/probe |
+| `store-dense-trnmap-contains/roaring/misses-1024` | 1.4394 µs – 1.4699 µs – 1.501 µs | 1.4699 µs / 1,024 = 1.435 ns/probe |
+| `store-dense-trnmap-update/insert-remove-pair` | 228.01 ns – 229.82 ns – 232.02 ns | 229.82 ns |
+| `store-dense-trnmap-decode/rnbw-store` | 145.98 µs – 147.76 µs – 149.43 µs | 147.76 µs |
+| `store-dense-trnmap-decode/rnbw-image` | 745.43 µs – 756.05 µs – 774.44 µs | 756.05 µs |
+| `store-dense-trnmap-decode/roaring` | 163.73 µs – 169.6 µs – 179.36 µs | 169.6 µs |
+
+Interpretation limits:
+- These are measurements on this Windows/AVX2 host and are not directly comparable to GitHub Ubuntu timings.
+- The L2 store byte count includes fixed maps/tables, arena capacity, group metadata, and all live dense TRNMAP images. It is not only payload bytes.
+- Roaring is a benchmark comparator only. This report does not claim RNBW wins on membership speed or memory for the narrow dense-TRNMAP case.
+- Criterion `change` annotations compare with local stored Criterion baselines that may represent different source revisions; they are not used as causal before/after claims here.

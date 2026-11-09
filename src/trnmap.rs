@@ -12,6 +12,10 @@ const HEADER_BYTES: usize = 384;
 const HEADER_WORDS: usize = HEADER_BYTES / 8;
 const MAX_LEVELS: usize = (usize::BITS as usize).div_ceil(6) + 1;
 const DESCRIPTOR_WORD: usize = 8;
+const DENSE_CHUNK_LEN: usize = 1 << 16;
+const DENSE_CHUNK_WORDS: usize = DENSE_CHUNK_LEN / 64;
+// Header + two trit planes + 18 three-plane presence entries + 1,042 dirty words.
+const DENSE_CHUNK_STORAGE_WORDS: usize = HEADER_WORDS + DENSE_CHUNK_WORDS * 2 + 54 + 1042;
 
 pub const CLASS_NEGATIVE: u8 = 1;
 pub const CLASS_ZERO: u8 = 2;
@@ -30,6 +34,7 @@ pub enum TrnMapError {
     WordOutOfBounds { word: usize, words: usize },
     InvalidTrit(i8),
     LengthMismatch { left: usize, right: usize },
+    InvalidImage,
 }
 
 impl fmt::Display for TrnMapError {
@@ -50,6 +55,7 @@ impl fmt::Display for TrnMapError {
             Self::LengthMismatch { left, right } => {
                 write!(f, "trnmap lengths differ: {left} and {right}")
             }
+            Self::InvalidImage => f.write_str("trnmap image header does not match its layout"),
         }
     }
 }
@@ -361,6 +367,52 @@ impl<'a> TrnMap<'a> {
         }
         let words = &mut aligned[..layout.total_words];
         initialize_storage(words, len, layout, false);
+        Ok(Self::from_backing(Backing::Borrowed(words), len, layout))
+    }
+
+    /// Opens an existing in-memory image for mutation without clearing its trits.
+    /// The image must have been initialized with this layout and remain exclusively
+    /// borrowed for the returned map's lifetime.
+    pub(crate) fn from_existing_buffer(
+        buffer: &'a mut [u8],
+        len: usize,
+    ) -> Result<Self, TrnMapError> {
+        let layout = Layout::for_len(len)?;
+        if buffer.len() < layout.budget_bytes {
+            return Err(TrnMapError::BufferTooSmall {
+                needed: layout.budget_bytes,
+                available: buffer.len(),
+            });
+        }
+        let available = buffer.len();
+        let (_, aligned, _) = unsafe { buffer.align_to_mut::<u64>() };
+        if aligned.len() < layout.total_words {
+            return Err(TrnMapError::BufferTooSmall {
+                needed: layout.budget_bytes,
+                available,
+            });
+        }
+        let words = &mut aligned[..layout.total_words];
+        if words[0] != len as u64
+            || words[1] != layout.level_count as u64
+            || words[2] != layout.storage_bytes as u64
+        {
+            return Err(TrnMapError::InvalidImage);
+        }
+        for (level, descriptor) in layout.levels[..layout.level_count].iter().enumerate() {
+            let at = DESCRIPTOR_WORD + 3 * level;
+            if words[at] != descriptor.elements as u64
+                || words[at + 1] != descriptor.presence_offset as u64
+                || words[at + 2] != descriptor.dirty_offset as u64
+            {
+                return Err(TrnMapError::InvalidImage);
+            }
+        }
+        let base = words.as_mut_ptr();
+        words[3] = 0;
+        words[4] = base.wrapping_add(HEADER_WORDS) as usize as u64;
+        words[5] = base.wrapping_add(layout.presence_base) as usize as u64;
+        words[6] = base.wrapping_add(layout.dirty_base) as usize as u64;
         Ok(Self::from_backing(Backing::Borrowed(words), len, layout))
     }
 
@@ -920,6 +972,50 @@ impl<'a> TrnMap<'a> {
     fn write_dirty(&mut self, level: usize, word: usize, value: u64) {
         let at = self.dirty_index(level, word);
         self.backing.words_mut()[at] = value;
+    }
+}
+
+/// Read-only fast view of the fixed 65,536-trit image stored by `RnbwStore`.
+/// Its offsets are fixed by the verified `TrnMap` storage layout below.
+pub(crate) struct TrnMapView<'a> {
+    words: &'a [u64],
+}
+
+impl<'a> TrnMapView<'a> {
+    pub(crate) fn from_dense_chunk(buffer: &'a [u8]) -> Result<Self, TrnMapError> {
+        let (_, aligned, _) = unsafe { buffer.align_to::<u64>() };
+        if aligned.len() < DENSE_CHUNK_STORAGE_WORDS {
+            return Err(TrnMapError::BufferTooSmall {
+                needed: DENSE_CHUNK_STORAGE_WORDS * 8,
+                available: buffer.len(),
+            });
+        }
+        Ok(Self {
+            words: &aligned[..DENSE_CHUNK_STORAGE_WORDS],
+        })
+    }
+
+    #[inline]
+    pub(crate) fn get_dense(&self, index: u16) -> i8 {
+        let index = usize::from(index);
+        let at = HEADER_WORDS + (index >> 6) * 2;
+        let bit = index & 63;
+        // `index` is u16, so both planes are within the fixed 65,536-trit image.
+        let p = (unsafe { *self.words.get_unchecked(at) } >> bit) & 1;
+        let u = (unsafe { *self.words.get_unchecked(at + 1) } >> bit) & 1;
+        p as i8 + u as i8 - 1
+    }
+
+    #[inline]
+    pub(crate) fn word_dense(&self, index: usize) -> TriWord {
+        let at = HEADER_WORDS + index * 2;
+        // The caller iterates exactly 0..65,536/64.
+        unsafe {
+            TriWord::from_planes(
+                *self.words.get_unchecked(at),
+                *self.words.get_unchecked(at + 1),
+            )
+        }
     }
 }
 

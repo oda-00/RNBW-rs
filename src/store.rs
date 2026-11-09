@@ -1,13 +1,18 @@
 //! L2 GenTable + VAR Arena storage with explicitly promoted L3 direct pockets.
 //! The 32-bit universe is split into 65,536 16-bit chunks and groups of 16.
 
+use crate::trnmap::{TriWord, TrnMapView};
 use crate::{CodecError, Rnbw, RnbwView, TrnMap, TrnMapError, scan_u16_candidates};
 use std::fmt;
+use std::marker::PhantomData;
+use std::num::NonZeroU32;
 
 pub const CHUNK_COUNT: usize = 1 << 16;
 pub const GROUP_COUNT: usize = 1 << 12;
 const CHUNKS_PER_GROUP: usize = 16;
 const GROUP_RESERVE_THRESHOLD: usize = 8 * 1024;
+const DENSE_TRNMAP_THRESHOLD_BYTES: usize = 8 * 1024;
+const DENSE_MAP_HEADER_BYTES: usize = 8;
 const GROUP_HEADER: usize = CHUNKS_PER_GROUP * 3;
 const ABSENT: u32 = u32::MAX;
 const PAGE_BYTES: usize = 1 << 16;
@@ -18,17 +23,43 @@ const ARENA_SIZE_CLASSES: usize =
 const VAR_LEN_MASK: u64 = (1 << 24) - 1;
 const VAR_BLOCK_LOG_SHIFT: u32 = 24;
 const VAR_BLOCK_LOG_MASK: u64 = 0x1f;
-const VAR_GENERATION_SHIFT: u32 = 44;
-const VAR_GENERATION_MASK: u32 = (1 << 20) - 1;
-const VAR_HANDLE_GENERATION_MASK: u64 = (VAR_GENERATION_MASK as u64) << VAR_GENERATION_SHIFT;
 const VAR_LIVE_SHIFT: u32 = 43;
 const VAR_LIVE_MASK: u64 = 1 << VAR_LIVE_SHIFT;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct GroupRecordTag;
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct DenseTrnMapTag;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct Handle<Tag> {
+    idx: u32,
+    generation: NonZeroU32,
+    _tag: PhantomData<fn() -> Tag>,
+}
+impl<Tag: Copy> Handle<Tag> {
+    fn new(idx: u32, generation: NonZeroU32) -> Self {
+        Self {
+            idx,
+            generation,
+            _tag: PhantomData,
+        }
+    }
+    fn raw(self) -> u64 {
+        (u64::from(self.generation.get()) << 32) | u64::from(self.idx)
+    }
+    fn from_raw(raw: u64) -> Result<Self, StoreError> {
+        let generation = NonZeroU32::new((raw >> 32) as u32).ok_or(StoreError::InvalidRecord)?;
+        Ok(Self::new(raw as u32, generation))
+    }
+}
+type GroupRecordHandle = Handle<GroupRecordTag>;
+type DenseTrnMapHandle = Handle<DenseTrnMapTag>;
 
 #[derive(Clone, Copy)]
 struct VarBlockHeader {
     len: usize,
     block_log2: usize,
-    generation: u32,
     live: bool,
 }
 impl VarBlockHeader {
@@ -40,15 +71,14 @@ impl VarBlockHeader {
         Ok(Self {
             len: (raw & VAR_LEN_MASK) as usize,
             block_log2: block_class + ARENA_MIN_BLOCK_LOG2,
-            generation: ((raw >> VAR_GENERATION_SHIFT) & u64::from(VAR_GENERATION_MASK)) as u32,
             live: raw & (1 << VAR_LIVE_SHIFT) != 0,
         })
     }
     fn encode(self) -> u64 {
-        // The 8-byte in-block header stores len:24, block_log2:5, generation:20, live:1.
+        // The in-block word stores len:24, block_log2:5, and a live bit. Handle
+        // generations live in the typed slot table, matching DFE's arena contract.
         (self.len as u64 & VAR_LEN_MASK)
             | (((self.block_log2 - ARENA_MIN_BLOCK_LOG2) as u64) << VAR_BLOCK_LOG_SHIFT)
-            | (u64::from(self.generation) << VAR_GENERATION_SHIFT)
             | (u64::from(self.live) << VAR_LIVE_SHIFT)
     }
 }
@@ -94,7 +124,7 @@ enum Form {
     Inline1 = 2,
     Quot = 3,
     Runs = 4,
-    Bitmap = 5,
+    TrnMap = 5,
 }
 impl Form {
     fn from(v: u8) -> Result<Self, StoreError> {
@@ -104,7 +134,7 @@ impl Form {
             2 => Ok(Self::Inline1),
             3 => Ok(Self::Quot),
             4 => Ok(Self::Runs),
-            5 => Ok(Self::Bitmap),
+            5 => Ok(Self::TrnMap),
             _ => Err(StoreError::InvalidRecord),
         }
     }
@@ -161,20 +191,46 @@ impl VarPage {
         self.set_header_raw(offset, header.encode())
     }
 }
+struct VarSlot {
+    page: u32,
+    offset: u32,
+    generation: NonZeroU32,
+}
+
+#[derive(Clone, Copy)]
+struct FreeBlock {
+    page: u32,
+    offset: u32,
+    slot: Option<u32>,
+}
+
 #[derive(Default)]
 struct VarArena {
     pages: Vec<VarPage>,
-    free: Vec<Vec<(u32, u32)>>,
+    slots: Vec<VarSlot>,
+    free: Vec<Vec<FreeBlock>>,
     free_mask: u32,
     live_bytes: usize,
     reserved_bytes: usize,
 }
 impl VarArena {
-    fn alloc(&mut self, record: &[u8]) -> Result<u64, StoreError> {
-        if record.len() as u64 > VAR_LEN_MASK {
+    fn alloc<Tag: Copy>(&mut self, record: &[u8]) -> Result<Handle<Tag>, StoreError> {
+        self.alloc_space(record.len(), Some(record))
+    }
+
+    fn alloc_zeroed<Tag: Copy>(&mut self, len: usize) -> Result<Handle<Tag>, StoreError> {
+        self.alloc_space(len, None)
+    }
+
+    fn alloc_space<Tag: Copy>(
+        &mut self,
+        len: usize,
+        record: Option<&[u8]>,
+    ) -> Result<Handle<Tag>, StoreError> {
+        if len as u64 > VAR_LEN_MASK {
             return Err(StoreError::TooLarge);
         }
-        let need = (record.len().checked_add(8).ok_or(StoreError::TooLarge)?)
+        let need = (len.checked_add(8).ok_or(StoreError::TooLarge)?)
             .max(8)
             .checked_next_power_of_two()
             .ok_or(StoreError::TooLarge)?;
@@ -185,27 +241,37 @@ impl VarArena {
             self.free.resize_with(ARENA_SIZE_CLASSES, Vec::new);
         }
         let min_class = need.trailing_zeros() as usize - ARENA_MIN_BLOCK_LOG2;
-        let reusable = loop {
+        let reusable = {
             let candidates = self.free_mask & (u32::MAX << min_class);
             if candidates == 0 {
-                break None;
+                None
+            } else {
+                let class = candidates.trailing_zeros() as usize;
+                let free_block = self.free[class].pop().ok_or(StoreError::InvalidRecord)?;
+                if self.free[class].is_empty() {
+                    self.free_mask &= !(1u32 << class);
+                }
+                let header =
+                    self.pages[free_block.page as usize].header(free_block.offset as usize)?;
+                if header.live || header.block_log2 != class + ARENA_MIN_BLOCK_LOG2 {
+                    return Err(StoreError::InvalidRecord);
+                }
+                if let Some(slot) = free_block.slot {
+                    let entry = self
+                        .slots
+                        .get(slot as usize)
+                        .ok_or(StoreError::InvalidRecord)?;
+                    if entry.page != free_block.page || entry.offset != free_block.offset {
+                        return Err(StoreError::InvalidRecord);
+                    }
+                }
+                Some((free_block, class))
             }
-            let class = candidates.trailing_zeros() as usize;
-            let (page, offset) = self.free[class].pop().ok_or(StoreError::InvalidRecord)?;
-            if self.free[class].is_empty() {
-                self.free_mask &= !(1u32 << class);
-            }
-            let header = self.pages[page as usize].header(offset as usize)?;
-            if header.live || header.block_log2 != class + ARENA_MIN_BLOCK_LOG2 {
-                return Err(StoreError::InvalidRecord);
-            }
-            if header.generation == VAR_GENERATION_MASK {
-                continue;
-            }
-            break Some((page, offset, class, header.generation + 1));
         };
-        let (page, offset, block, generation) =
-            if let Some((page, offset, mut class, generation)) = reusable {
+        let (page, offset, block, slot, generation) =
+            if let Some((free_block, mut class)) = reusable {
+                let page = free_block.page;
+                let offset = free_block.offset;
                 let mut block = 1usize << (class + ARENA_MIN_BLOCK_LOG2);
                 while block > need {
                     block >>= 1;
@@ -216,14 +282,30 @@ impl VarArena {
                         VarBlockHeader {
                             len: 0,
                             block_log2: class + ARENA_MIN_BLOCK_LOG2,
-                            generation: 0,
                             live: false,
                         },
                     )?;
-                    self.free[class].push((page, sibling as u32));
+                    self.free[class].push(FreeBlock {
+                        page,
+                        offset: sibling as u32,
+                        slot: None,
+                    });
                     self.free_mask |= 1u32 << class;
                 }
-                (page, offset, need, generation)
+                let slot = if let Some(slot) = free_block.slot {
+                    slot
+                } else {
+                    let slot = u32::try_from(self.slots.len()).map_err(|_| StoreError::TooLarge)?;
+                    let generation = NonZeroU32::new(1).expect("one is non-zero");
+                    self.slots.push(VarSlot {
+                        page,
+                        offset,
+                        generation,
+                    });
+                    slot
+                };
+                let generation = self.slots[slot as usize].generation;
+                (page, offset, need, slot, generation)
             } else {
                 let p = if self
                     .pages
@@ -242,36 +324,55 @@ impl VarArena {
                 };
                 let off = self.pages[p].bump;
                 self.pages[p].bump += need;
-                (p as u32, off as u32, need, 1)
+                let slot = u32::try_from(self.slots.len()).map_err(|_| StoreError::TooLarge)?;
+                let generation = NonZeroU32::new(1).expect("one is non-zero");
+                self.slots.push(VarSlot {
+                    page: p as u32,
+                    offset: off as u32,
+                    generation,
+                });
+                (p as u32, off as u32, need, slot, generation)
             };
         let p = &mut self.pages[page as usize];
-        let raw = (u64::from(generation) << 44) | (u64::from(page) << 24) | u64::from(offset);
-        let b = p.bytes_mut();
-        b[offset as usize + 8..offset as usize + 8 + record.len()].copy_from_slice(record);
+        let data = &mut p.bytes_mut()[offset as usize + 8..offset as usize + 8 + len];
+        if let Some(record) = record {
+            data.copy_from_slice(record);
+        } else {
+            data.fill(0);
+        }
         p.set_header(
             offset as usize,
             VarBlockHeader {
-                len: record.len(),
+                len,
                 block_log2: block.trailing_zeros() as usize,
-                generation,
                 live: true,
             },
         )?;
-        self.live_bytes += record.len() + 8;
-        Ok(raw)
+        self.live_bytes += len + 8;
+        Ok(Handle::new(slot, generation))
     }
     #[inline]
-    fn parts(&self, h: u64) -> Result<(usize, usize, u64), StoreError> {
-        let generation = h & VAR_HANDLE_GENERATION_MASK;
-        let page = ((h >> 24) & 0xfffff) as usize;
-        let off = (h & 0xffffff) as usize;
-        let p = self.pages.get(page).ok_or(StoreError::InvalidRecord)?;
-        if generation == 0 {
+    fn parts<Tag: Copy>(&self, h: Handle<Tag>) -> Result<(usize, usize, u64), StoreError> {
+        let slot = self
+            .slots
+            .get(h.idx as usize)
+            .ok_or(StoreError::InvalidRecord)?;
+        if slot.generation != h.generation {
             return Err(StoreError::InvalidRecord);
         }
+        let page = slot.page as usize;
+        let off = slot.offset as usize;
+        let p = self.pages.get(page).ok_or(StoreError::InvalidRecord)?;
         let raw = p.header_raw(off)?;
-        let expected = generation | VAR_LIVE_MASK;
-        if raw & (VAR_HANDLE_GENERATION_MASK | VAR_LIVE_MASK) != expected {
+        if raw & VAR_LIVE_MASK == 0 {
+            return Err(StoreError::InvalidRecord);
+        }
+        let block_class = ((raw >> VAR_BLOCK_LOG_SHIFT) & VAR_BLOCK_LOG_MASK) as usize;
+        if block_class >= ARENA_SIZE_CLASSES {
+            return Err(StoreError::InvalidRecord);
+        }
+        let block_bytes = 1usize << (block_class + ARENA_MIN_BLOCK_LOG2);
+        if off.checked_add(block_bytes).is_none_or(|end| end > p.len()) {
             return Err(StoreError::InvalidRecord);
         }
         let len = (raw & VAR_LEN_MASK) as usize;
@@ -281,12 +382,65 @@ impl VarArena {
         Ok((page, off, raw))
     }
     #[inline]
-    fn get(&self, h: u64) -> Result<&[u8], StoreError> {
+    fn get<Tag: Copy>(&self, h: Handle<Tag>) -> Result<&[u8], StoreError> {
         let (p, o, raw) = self.parts(h)?;
         let len = (raw & VAR_LEN_MASK) as usize;
         Ok(&self.pages[p].bytes()[o + 8..o + 8 + len])
     }
-    fn retire(&mut self, h: u64) -> Result<(), StoreError> {
+    fn get_mut<Tag: Copy>(&mut self, h: Handle<Tag>) -> Result<&mut [u8], StoreError> {
+        let (page, offset, raw) = self.parts(h)?;
+        let len = (raw & VAR_LEN_MASK) as usize;
+        Ok(&mut self.pages[page].bytes_mut()[offset + 8..offset + 8 + len])
+    }
+    fn replace_if_fits<Tag: Copy>(
+        &mut self,
+        h: Handle<Tag>,
+        record: &[u8],
+    ) -> Result<Option<Handle<Tag>>, StoreError> {
+        if record.len() as u64 > VAR_LEN_MASK {
+            return Err(StoreError::TooLarge);
+        }
+        let (page, offset, raw) = self.parts(h)?;
+        let slot = &self.slots[h.idx as usize];
+        let Some(next_generation) = slot
+            .generation
+            .get()
+            .checked_add(1)
+            .and_then(NonZeroU32::new)
+        else {
+            return Ok(None);
+        };
+        let block_class = ((raw >> VAR_BLOCK_LOG_SHIFT) & VAR_BLOCK_LOG_MASK) as usize;
+        if block_class >= ARENA_SIZE_CLASSES {
+            return Err(StoreError::InvalidRecord);
+        }
+        let block_log2 = block_class + ARENA_MIN_BLOCK_LOG2;
+        let block_bytes = 1usize << block_log2;
+        if offset
+            .checked_add(block_bytes)
+            .is_none_or(|end| end > self.pages[page].len())
+        {
+            return Err(StoreError::InvalidRecord);
+        }
+        if record.len() + 8 > block_bytes {
+            return Ok(None);
+        }
+        let old_len = (raw & VAR_LEN_MASK) as usize;
+        let page_data = &mut self.pages[page];
+        page_data.bytes_mut()[offset + 8..offset + 8 + record.len()].copy_from_slice(record);
+        page_data.set_header(
+            offset,
+            VarBlockHeader {
+                len: record.len(),
+                block_log2,
+                live: true,
+            },
+        )?;
+        self.slots[h.idx as usize].generation = next_generation;
+        self.live_bytes = self.live_bytes - (old_len + 8) + (record.len() + 8);
+        Ok(Some(Handle::new(h.idx, next_generation)))
+    }
+    fn retire<Tag: Copy>(&mut self, h: Handle<Tag>) -> Result<(), StoreError> {
         let (page, offset, raw) = self.parts(h)?;
         let block_class = ((raw >> VAR_BLOCK_LOG_SHIFT) & VAR_BLOCK_LOG_MASK) as usize;
         if block_class >= ARENA_SIZE_CLASSES {
@@ -300,107 +454,92 @@ impl VarArena {
         let len = (raw & VAR_LEN_MASK) as usize;
         self.pages[page].set_header_raw(offset, raw & !VAR_LIVE_MASK)?;
         let class = block_log2 - ARENA_MIN_BLOCK_LOG2;
-        self.free[class].push((page as u32, offset as u32));
-        self.free_mask |= 1u32 << class;
+        if let Some(next_generation) = self.slots[h.idx as usize]
+            .generation
+            .get()
+            .checked_add(1)
+            .and_then(NonZeroU32::new)
+        {
+            self.slots[h.idx as usize].generation = next_generation;
+            self.free[class].push(FreeBlock {
+                page: page as u32,
+                offset: offset as u32,
+                slot: Some(h.idx),
+            });
+            self.free_mask |= 1u32 << class;
+        }
         self.live_bytes -= len + 8;
         Ok(())
     }
 }
 
-struct BitmapSlot {
-    words: Box<[u64; 1024]>,
-    generation: u32,
-    live: bool,
+#[inline]
+fn read_handle<Tag: Copy>(record: &[u8], offset: u16) -> Result<Handle<Tag>, StoreError> {
+    let offset = offset as usize;
+    let raw = u64::from_le_bytes(
+        record
+            .get(offset..offset + 8)
+            .ok_or(StoreError::InvalidRecord)?
+            .try_into()
+            .unwrap(),
+    );
+    Handle::from_raw(raw)
 }
-#[derive(Default)]
-struct BitmapArena {
-    slots: Vec<BitmapSlot>,
-    handles: Vec<u64>,
-    free: Vec<u32>,
+
+#[inline]
+fn append_handle<Tag: Copy>(record: &mut Vec<u8>, handle: Handle<Tag>) -> Result<u16, StoreError> {
+    let offset = u16::try_from(record.len()).map_err(|_| StoreError::TooLarge)?;
+    record.extend_from_slice(&handle.raw().to_le_bytes());
+    Ok(offset)
 }
-impl BitmapArena {
-    fn alloc(&mut self, values: &[u16]) -> Result<u16, StoreError> {
-        let index = if let Some(i) = self.free.pop() {
-            i as usize
-        } else {
-            if self.slots.len() >= u16::MAX as usize {
-                return Err(StoreError::TooLarge);
+
+#[inline]
+fn quotient_estimate_bytes(count: usize) -> usize {
+    let qbits = (count as f64 * (19.0 - (count as f64).log2())).ceil() as usize;
+    qbits.div_ceil(8)
+}
+
+#[inline]
+fn prefers_dense_trnmap(count: usize, run_count: usize) -> bool {
+    quotient_estimate_bytes(count) > DENSE_TRNMAP_THRESHOLD_BYTES
+        && 2 + run_count * 4 > DENSE_TRNMAP_THRESHOLD_BYTES
+}
+
+fn alloc_dense_trnmap(
+    arena: &mut VarArena,
+    values: &[u16],
+) -> Result<DenseTrnMapHandle, StoreError> {
+    let bytes = DENSE_MAP_HEADER_BYTES + TrnMap::bytes_for(CHUNK_COUNT)?;
+    let handle = arena.alloc_zeroed::<DenseTrnMapTag>(bytes)?;
+    let build = (|| {
+        let data = arena.get_mut(handle)?;
+        data[..4].copy_from_slice(&(values.len() as u32).to_le_bytes());
+        data[4..8].copy_from_slice(&(count_runs(values) as u32).to_le_bytes());
+        let mut map = TrnMap::in_buffer(&mut data[DENSE_MAP_HEADER_BYTES..], CHUNK_COUNT)?;
+        let mut at = 0;
+        for word in 0..CHUNK_COUNT.div_ceil(64) {
+            let mut present = 0u64;
+            while at < values.len() && usize::from(values[at]) / 64 == word {
+                present |= 1u64 << (values[at] & 63);
+                at += 1;
             }
-            self.slots.push(BitmapSlot {
-                words: Box::new([0; 1024]),
-                generation: 1,
-                live: false,
-            });
-            self.slots.len() - 1
-        };
-        let s = &mut self.slots[index];
-        s.words.fill(0);
-        for &v in values {
-            s.words[v as usize / 64] |= 1u64 << (v & 63)
+            map.put(word, TriWord::from_planes(present, present))?;
         }
-        s.live = true;
-        let generation = s.generation;
-        if self.handles.len() <= index {
-            self.handles.resize(index + 1, 0);
-        }
-        self.handles[index] = (u64::from(generation) << 32) | index as u64;
-        Ok(index as u16)
+        debug_assert_eq!(at, values.len());
+        Ok::<(), StoreError>(())
+    })();
+    if let Err(error) = build {
+        arena.retire(handle)?;
+        return Err(error);
     }
-    fn contains(&self, index: u16, value: u16) -> Result<bool, StoreError> {
-        let s = self
-            .slots
-            .get(index as usize)
-            .ok_or(StoreError::InvalidRecord)?;
-        if !s.live
-            || self.handles.get(index as usize).copied()
-                != Some((u64::from(s.generation) << 32) | u64::from(index))
-        {
-            return Err(StoreError::InvalidRecord);
-        }
-        Ok(s.words[value as usize / 64] & (1u64 << (value & 63)) != 0)
-    }
-    fn decode(&self, index: u16, out: &mut Vec<u16>) -> Result<(), StoreError> {
-        let s = self
-            .slots
-            .get(index as usize)
-            .ok_or(StoreError::InvalidRecord)?;
-        if !s.live
-            || self.handles.get(index as usize).copied()
-                != Some((u64::from(s.generation) << 32) | u64::from(index))
-        {
-            return Err(StoreError::InvalidRecord);
-        }
-        for (wi, &mut_word) in s.words.iter().enumerate() {
-            let mut w = mut_word;
-            while w != 0 {
-                let b = w.trailing_zeros() as usize;
-                out.push((wi * 64 + b) as u16);
-                w &= w - 1;
-            }
-        }
-        Ok(())
-    }
-    fn retire(&mut self, index: u16) -> Result<(), StoreError> {
-        let i = index as usize;
-        let s = self.slots.get_mut(i).ok_or(StoreError::InvalidRecord)?;
-        if !s.live {
-            return Err(StoreError::InvalidRecord);
-        }
-        s.live = false;
-        if let Some(generation) = s.generation.checked_add(1) {
-            s.generation = generation;
-            self.free.push(index as u32);
-        }
-        Ok(())
-    }
+    Ok(handle)
 }
 
 pub struct RnbwStore {
     tiers: TrnMap<'static>,
     gen_table: Box<[u64]>,
-    group_handles: Box<[u64]>,
+    group_handles: Box<[Option<GroupRecordHandle>]>,
     arena: VarArena,
-    bitmaps: BitmapArena,
     layout: PocketLayout,
     pockets: Option<Box<[u8]>>,
     len: usize,
@@ -411,9 +550,8 @@ impl RnbwStore {
         Ok(Self {
             tiers: TrnMap::new(CHUNK_COUNT)?,
             gen_table: vec![u64::from(ABSENT); GROUP_COUNT].into_boxed_slice(),
-            group_handles: vec![0; GROUP_COUNT].into_boxed_slice(),
+            group_handles: vec![None; GROUP_COUNT].into_boxed_slice(),
             arena: VarArena::default(),
-            bitmaps: BitmapArena::default(),
             layout,
             pockets: None,
             len: 0,
@@ -477,17 +615,14 @@ impl RnbwStore {
         std::mem::size_of::<Self>()
             + self.arena.reserved_bytes
             + self.arena.pages.capacity() * std::mem::size_of::<VarPage>()
-            + self.arena.free.capacity() * std::mem::size_of::<Vec<(u32, u32)>>()
+            + self.arena.slots.capacity() * std::mem::size_of::<VarSlot>()
+            + self.arena.free.capacity() * std::mem::size_of::<Vec<FreeBlock>>()
             + self
                 .arena
                 .free
                 .iter()
-                .map(|blocks| blocks.capacity() * std::mem::size_of::<(u32, u32)>())
+                .map(|blocks| blocks.capacity() * std::mem::size_of::<FreeBlock>())
                 .sum::<usize>()
-            + self.bitmaps.slots.len() * 8192
-            + self.bitmaps.slots.capacity() * std::mem::size_of::<BitmapSlot>()
-            + self.bitmaps.handles.capacity() * std::mem::size_of::<u64>()
-            + self.bitmaps.free.capacity() * std::mem::size_of::<u32>()
             + self.gen_table.len() * 8
             + self.group_handles.len() * 8
             + self.tiers.storage_bytes()
@@ -495,12 +630,12 @@ impl RnbwStore {
     pub fn l3_bytes(&self) -> usize {
         self.pockets.as_ref().map_or(0, |p| p.len())
     }
-    fn group_handle(&self, g: usize) -> Option<u64> {
+    fn group_handle(&self, g: usize) -> Option<GroupRecordHandle> {
         let cell = self.gen_table[g];
         if cell as u32 == ABSENT {
             None
         } else {
-            Some(self.group_handles[g])
+            self.group_handles[g]
         }
     }
     fn set_tier(&mut self, chunk: usize, tier: i8) -> Result<(), StoreError> {
@@ -577,7 +712,15 @@ impl RnbwStore {
                 let n = u16::from_le_bytes(rec[p + 2..p + 4].try_into().unwrap());
                 Ok(u32::from(suffix) < u32::from(a) + u32::from(n))
             }
-            Form::Bitmap => self.bitmaps.contains(o, suffix),
+            Form::TrnMap => {
+                let handle: DenseTrnMapHandle = read_handle(rec, o)?;
+                let data = self.arena.get(handle)?;
+                let map = TrnMapView::from_dense_chunk(
+                    data.get(DENSE_MAP_HEADER_BYTES..)
+                        .ok_or(StoreError::InvalidRecord)?,
+                )?;
+                Ok(map.get_dense(suffix) == 1)
+            }
         }
     }
     pub fn contains(&self, key: u32) -> Result<bool, StoreError> {
@@ -627,7 +770,22 @@ impl RnbwStore {
                             .extend((u32::from(a)..u32::from(a) + u32::from(l)).map(|x| x as u16));
                     }
                 }
-                Form::Bitmap => self.bitmaps.decode(o, &mut out[i])?,
+                Form::TrnMap => {
+                    let handle: DenseTrnMapHandle = read_handle(rec, o)?;
+                    let data = self.arena.get(handle)?;
+                    let map = TrnMapView::from_dense_chunk(
+                        data.get(DENSE_MAP_HEADER_BYTES..)
+                            .ok_or(StoreError::InvalidRecord)?,
+                    )?;
+                    for word in 0..CHUNK_COUNT.div_ceil(64) {
+                        let (mut present, _) = map.word_dense(word).planes();
+                        while present != 0 {
+                            let bit = present.trailing_zeros() as usize;
+                            out[i].push((word * 64 + bit) as u16);
+                            present &= present - 1;
+                        }
+                    }
+                }
                 Form::Quot => {
                     if !qdone {
                         qdone = true;
@@ -651,10 +809,6 @@ impl RnbwStore {
         }
         Ok(out)
     }
-    fn chunk_values(&self, chunk: usize) -> Result<Vec<u16>, StoreError> {
-        let mut a = self.decode_group(chunk >> 4)?;
-        Ok(std::mem::take(&mut a[chunk & 15]))
-    }
     fn replace_group(&mut self, g: usize, chunks: &[Vec<u16>; 16]) -> Result<(), StoreError> {
         let chunk_slices: [&[u16]; CHUNKS_PER_GROUP] =
             std::array::from_fn(|i| chunks[i].as_slice());
@@ -666,11 +820,21 @@ impl RnbwStore {
         chunks: &[&[u16]; CHUNKS_PER_GROUP],
     ) -> Result<(), StoreError> {
         let old = self.group_handle(g);
+        let mut old_dense_maps: [Option<DenseTrnMapHandle>; CHUNKS_PER_GROUP] =
+            [None; CHUNKS_PER_GROUP];
+        if let Some(handle) = old {
+            let previous = self.arena.get(handle)?;
+            for (i, slot) in old_dense_maps.iter_mut().enumerate() {
+                let (form, offset) = Self::descriptor(previous, i)?;
+                if form == Form::TrnMap {
+                    *slot = Some(read_handle(previous, offset)?);
+                }
+            }
+        }
         let generation = (self.gen_table[g] >> 32) as u32;
         let next_generation = generation.checked_add(1).ok_or(StoreError::TooLarge)?;
         let mut rec = vec![0u8; GROUP_HEADER];
         let mut forms = [Form::Empty; 16];
-        let mut bitmap_new = Vec::new();
         for i in 0..16 {
             let v = chunks[i];
             if v.is_empty() {
@@ -688,10 +852,9 @@ impl RnbwStore {
             }
             let run_count = count_runs(v);
             let run_bytes = 2 + run_count * 4;
-            let qbits = (v.len() as f64 * (18.0 - (v.len() as f64).log2() + 1.0)).ceil() as usize;
-            let qbytes = qbits.div_ceil(8);
-            if 8192 < qbytes && 8192 < run_bytes {
-                forms[i] = Form::Bitmap
+            let qbytes = quotient_estimate_bytes(v.len());
+            if prefers_dense_trnmap(v.len(), run_count) {
+                forms[i] = Form::TrnMap;
             } else if run_bytes < qbytes {
                 forms[i] = Form::Runs
             } else {
@@ -723,101 +886,212 @@ impl RnbwStore {
                 }
             }
         }
-        for i in 0..16 {
-            if forms[i] == Form::Bitmap {
-                let slot = match self.bitmaps.alloc(chunks[i]) {
-                    Ok(slot) => slot,
+
+        let mut new_dense_maps = Vec::new();
+        for i in 0..CHUNKS_PER_GROUP {
+            if forms[i] == Form::TrnMap {
+                let handle = match alloc_dense_trnmap(&mut self.arena, chunks[i]) {
+                    Ok(handle) => handle,
                     Err(error) => {
-                        for slot in bitmap_new.drain(..) {
-                            self.bitmaps
-                                .retire(slot)
-                                .expect("new bitmap slot remains live during rollback");
+                        for handle in new_dense_maps {
+                            self.arena.retire(handle)?;
                         }
                         return Err(error);
                     }
                 };
-                bitmap_new.push(slot);
-                put_desc(&mut rec, i, Form::Bitmap, slot)?;
+                let offset = match append_handle(&mut rec, handle) {
+                    Ok(offset) => offset,
+                    Err(error) => {
+                        self.arena.retire(handle)?;
+                        for handle in new_dense_maps {
+                            self.arena.retire(handle)?;
+                        }
+                        return Err(error);
+                    }
+                };
+                new_dense_maps.push(handle);
+                put_desc(&mut rec, i, Form::TrnMap, offset)?;
             }
         }
+        let mut replaced_in_place = false;
         let new = if chunks.iter().all(|chunk| chunk.is_empty()) {
             None
-        } else {
-            match self.arena.alloc(&rec) {
-                Ok(h) => Some(h),
-                Err(e) => {
-                    for slot in bitmap_new {
-                        self.bitmaps.retire(slot)?;
+        } else if let Some(old_handle) = old {
+            match self.arena.replace_if_fits(old_handle, &rec) {
+                Ok(Some(handle)) => {
+                    replaced_in_place = true;
+                    Some(handle)
+                }
+                Ok(None) => match self.arena.alloc::<GroupRecordTag>(&rec) {
+                    Ok(handle) => Some(handle),
+                    Err(error) => {
+                        for handle in new_dense_maps {
+                            self.arena.retire(handle)?;
+                        }
+                        return Err(error);
                     }
-                    return Err(e);
+                },
+                Err(error) => {
+                    for handle in new_dense_maps {
+                        self.arena.retire(handle)?;
+                    }
+                    return Err(error);
+                }
+            }
+        } else {
+            match self.arena.alloc::<GroupRecordTag>(&rec) {
+                Ok(handle) => Some(handle),
+                Err(error) => {
+                    for handle in new_dense_maps {
+                        self.arena.retire(handle)?;
+                    }
+                    return Err(error);
                 }
             }
         };
         self.gen_table[g] = (u64::from(next_generation) << 32)
             | u64::from(if new.is_some() { g as u32 } else { ABSENT });
-        self.group_handles[g] = new.unwrap_or(0);
-        if let Some(h) = old {
-            let r = self.arena.get(h)?.to_vec();
-            for i in 0..16 {
-                let (f, o) = Self::descriptor(&r, i)?;
-                if f == Form::Bitmap {
-                    self.bitmaps.retire(o)?;
-                }
-            }
-            self.arena.retire(h)?;
+        self.group_handles[g] = new;
+        for handle in old_dense_maps.into_iter().flatten() {
+            self.arena.retire(handle)?;
+        }
+        if let Some(handle) = old
+            && !replaced_in_place
+        {
+            self.arena.retire(handle)?;
         }
         Ok(())
     }
-    pub fn insert(&mut self, key: u32) -> Result<bool, StoreError> {
-        let c = (key >> 16) as usize;
-        let mut v = self.chunk_values(c)?;
-        match v.binary_search(&(key as u16)) {
-            Ok(_) => return Ok(false),
-            Err(i) => v.insert(i, key as u16),
+    fn mutate_dense_chunk(&mut self, key: u32, insert: bool) -> Result<Option<bool>, StoreError> {
+        let chunk = (key >> 16) as usize;
+        let group = chunk >> 4;
+        let suffix = key as u16;
+        let tier = self.tiers.get(chunk)?;
+        if tier == 1 || (!insert && tier == -1) {
+            return Ok(None);
         }
+        let Some(group_handle) = self.group_handle(group) else {
+            return Ok(None);
+        };
+        let record = self.arena.get(group_handle)?;
+        let (form, offset) = Self::descriptor(record, chunk & 15)?;
+        if form != Form::TrnMap {
+            return Ok(None);
+        }
+        let map_handle: DenseTrnMapHandle = read_handle(record, offset)?;
+        let (count, run_count, present, left, right) = {
+            let data = self.arena.get(map_handle)?;
+            let count = u32::from_le_bytes(
+                data.get(..4)
+                    .ok_or(StoreError::InvalidRecord)?
+                    .try_into()
+                    .unwrap(),
+            );
+            let run_count = u32::from_le_bytes(
+                data.get(4..8)
+                    .ok_or(StoreError::InvalidRecord)?
+                    .try_into()
+                    .unwrap(),
+            );
+            if count == 0 || count > CHUNK_COUNT as u32 || run_count > count {
+                return Err(StoreError::InvalidRecord);
+            }
+            let image = data
+                .get(DENSE_MAP_HEADER_BYTES..)
+                .ok_or(StoreError::InvalidRecord)?;
+            let map = TrnMapView::from_dense_chunk(image)?;
+            let present = map.get_dense(suffix) == 1;
+            if present == insert {
+                return Ok(Some(false));
+            }
+            let left = suffix != 0 && map.get_dense(suffix - 1) == 1;
+            let right = suffix != u16::MAX && map.get_dense(suffix + 1) == 1;
+            (count, run_count, present, left, right)
+        };
+        let next_count = if insert { count + 1 } else { count - 1 };
+        let next_runs = if insert {
+            run_count + u32::from(!left && !right) - u32::from(left && right)
+        } else {
+            run_count + u32::from(left && right) - u32::from(!left && !right)
+        };
+        if !prefers_dense_trnmap(next_count as usize, next_runs as usize) {
+            return Ok(None);
+        }
+        let generation = (self.gen_table[group] >> 32) as u32;
+        let next_generation = generation.checked_add(1).ok_or(StoreError::TooLarge)?;
+        {
+            let data = self.arena.get_mut(map_handle)?;
+            let mut map = TrnMap::from_existing_buffer(
+                data.get_mut(DENSE_MAP_HEADER_BYTES..)
+                    .ok_or(StoreError::InvalidRecord)?,
+                CHUNK_COUNT,
+            )?;
+            map.set(usize::from(suffix), if insert { 1 } else { -1 })?;
+            map.mark(usize::from(suffix))?;
+        }
+        {
+            let data = self.arena.get_mut(map_handle)?;
+            data[..4].copy_from_slice(&next_count.to_le_bytes());
+            data[4..8].copy_from_slice(&next_runs.to_le_bytes());
+        }
+        self.gen_table[group] = (u64::from(next_generation) << 32) | group as u64;
+        self.len = if insert { self.len + 1 } else { self.len - 1 };
+        if tier == -1 {
+            self.set_tier(chunk, 0)?;
+        } else {
+            self.tiers.mark(chunk)?;
+        }
+        Ok(Some(present != insert))
+    }
+    pub fn insert(&mut self, key: u32) -> Result<bool, StoreError> {
+        if let Some(changed) = self.mutate_dense_chunk(key, true)? {
+            return Ok(changed);
+        }
+        let c = (key >> 16) as usize;
         let g = c >> 4;
         let mut chunks = self.decode_group(g)?;
-        chunks[c & 15] = v;
+        let values = &mut chunks[c & 15];
+        match values.binary_search(&(key as u16)) {
+            Ok(_) => return Ok(false),
+            Err(i) => values.insert(i, key as u16),
+        }
+        let became_singleton = values.len() == 1;
         let hot = (0..16)
             .filter(|&i| self.tiers.get((g << 4) + i).unwrap_or(-1) == 1)
             .collect::<Vec<_>>();
         self.replace_group(g, &chunks)?;
         self.len += 1;
-        if chunks[c & 15].len() == 1 {
+        if became_singleton {
             self.set_tier(c, 0)?;
         }
         self.tiers.mark(c)?;
-        for i in hot {
-            self.refresh_hot((g << 4) + i)?;
-        }
+        self.refresh_hot_group(g, &chunks, &hot)?;
         if self.tiers.get(c)? == -1 {
             self.set_tier(c, 0)?;
         }
         Ok(true)
     }
     pub fn remove(&mut self, key: u32) -> Result<bool, StoreError> {
+        if let Some(changed) = self.mutate_dense_chunk(key, false)? {
+            return Ok(changed);
+        }
         let c = (key >> 16) as usize;
-        let mut v = self.chunk_values(c)?;
-        let Ok(i) = v.binary_search(&(key as u16)) else {
-            return Ok(false);
-        };
-        v.remove(i);
         let g = c >> 4;
         let mut chunks = self.decode_group(g)?;
-        chunks[c & 15] = v;
+        let values = &mut chunks[c & 15];
+        let Ok(i) = values.binary_search(&(key as u16)) else {
+            return Ok(false);
+        };
+        values.remove(i);
+        let became_empty = values.is_empty();
         let hot = (0..16)
             .filter(|&i| self.tiers.get((g << 4) + i).unwrap_or(-1) == 1)
             .collect::<Vec<_>>();
         self.replace_group(g, &chunks)?;
         self.len -= 1;
         self.tiers.mark(c)?;
-        self.set_tier(c, if chunks[c & 15].is_empty() { -1 } else { 0 })?;
-        for i in hot {
-            let ch = (g << 4) + i;
-            if !chunks[i].is_empty() {
-                self.refresh_hot(ch)?;
-            }
-        }
+        self.set_tier(c, if became_empty { -1 } else { 0 })?;
+        self.refresh_hot_group(g, &chunks, &hot)?;
         Ok(true)
     }
     pub fn decode(&self) -> Result<Vec<u32>, StoreError> {
@@ -921,57 +1195,89 @@ impl RnbwStore {
             return Err(StoreError::RangeOutOfRange { start, end });
         }
         let mut n = 0;
-        for c in start..end {
-            if self.tiers.get(c)? == 1 {
-                self.set_tier(
-                    c,
-                    if self.chunk_values(c)?.is_empty() {
-                        -1
-                    } else {
-                        0
-                    },
-                )?;
-                n += 1;
+        let mut cursor = start;
+        while cursor < end {
+            let hot = self.tiers.find(crate::trnmap::CLASS_POSITIVE, cursor);
+            if hot >= end {
+                break;
             }
+            let group = hot / CHUNKS_PER_GROUP;
+            let base = group * CHUNKS_PER_GROUP;
+            let group_end = (base + CHUNKS_PER_GROUP).min(end);
+            let chunks = self.decode_group(group)?;
+            for c in hot.max(cursor)..group_end {
+                if self.tiers.get(c)? == 1 {
+                    let local = c - base;
+                    self.set_tier(c, if chunks[local].is_empty() { -1 } else { 0 })?;
+                    n += 1;
+                }
+            }
+            cursor = group_end;
         }
         Ok(n)
     }
-    fn refresh_hot(&mut self, c: usize) -> Result<(), StoreError> {
+    fn refresh_hot_group(
+        &mut self,
+        group: usize,
+        chunks: &[Vec<u16>; CHUNKS_PER_GROUP],
+        hot: &[usize],
+    ) -> Result<(), StoreError> {
         match self.layout {
             PocketLayout::PerChunk32 => {
-                let v = self.chunk_values(c)?;
-                if v.len() <= 18 && !v.is_empty() {
-                    let off = c * 32;
-                    pack32(
-                        &v,
-                        &mut self
-                            .pockets
-                            .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice())
-                            [off..off + 32],
-                    );
-                    self.set_tier(c, 1)?
-                } else {
-                    self.set_tier(c, 0)?
+                for &i in hot {
+                    let values = &chunks[i];
+                    if values.is_empty() {
+                        continue;
+                    }
+                    let c = group * CHUNKS_PER_GROUP + i;
+                    if values.len() <= 18 {
+                        let off = c * 32;
+                        pack32(
+                            values,
+                            &mut self
+                                .pockets
+                                .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice())
+                                [off..off + 32],
+                        );
+                        self.set_tier(c, 1)?;
+                    } else {
+                        self.set_tier(c, 0)?;
+                    }
                 }
             }
             PocketLayout::PerPair64 => {
-                let p = c / 2;
-                let a = self.chunk_values(p * 2)?;
-                let b = self.chunk_values(p * 2 + 1)?;
-                if a.len() + b.len() <= 36 {
-                    let off = p * 64;
-                    pack64(
-                        &a,
-                        &b,
-                        &mut self
-                            .pockets
-                            .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice())
-                            [off..off + 64],
-                    );
-                } else {
-                    for x in p * 2..p * 2 + 2 {
-                        if self.tiers.get(x)? == 1 {
-                            self.set_tier(x, 0)?;
+                let mut previous_pair = usize::MAX;
+                for &i in hot {
+                    if chunks[i].is_empty() {
+                        continue;
+                    }
+                    let pair = i / 2;
+                    if pair == previous_pair {
+                        continue;
+                    }
+                    previous_pair = pair;
+                    let left = pair * 2;
+                    let a = &chunks[left];
+                    let b = &chunks[left + 1];
+                    if a.len() + b.len() <= 36 {
+                        let pocket = group * (CHUNKS_PER_GROUP / 2) + pair;
+                        let off = pocket * 64;
+                        pack64(
+                            a,
+                            b,
+                            &mut self
+                                .pockets
+                                .get_or_insert_with(|| vec![0; 2 * 1024 * 1024].into_boxed_slice())
+                                [off..off + 64],
+                        );
+                    } else {
+                        for x in [
+                            group * CHUNKS_PER_GROUP + left,
+                            group * CHUNKS_PER_GROUP + left + 1,
+                        ] {
+                            if self.tiers.get(x)? == 1 {
+                                self.set_tier(x, 0)?;
+                            }
                         }
                     }
                 }
@@ -1210,12 +1516,12 @@ mod tests {
     #[test]
     fn var_arena_rejects_retired_handle_after_same_block_reuse() {
         let mut arena = VarArena::default();
-        let stale = arena.alloc(b"old record").unwrap();
+        let stale: GroupRecordHandle = arena.alloc::<GroupRecordTag>(b"old record").unwrap();
         arena.retire(stale).unwrap();
 
-        let current = arena.alloc(b"new record").unwrap();
-        assert_eq!(stale & 0x00ff_ffff, current & 0x00ff_ffff);
-        assert_ne!(stale >> 44, current >> 44);
+        let current: GroupRecordHandle = arena.alloc::<GroupRecordTag>(b"new record").unwrap();
+        assert_eq!(stale.idx, current.idx);
+        assert_ne!(stale.generation, current.generation);
         assert!(matches!(arena.get(stale), Err(StoreError::InvalidRecord)));
         assert_eq!(arena.get(current).unwrap(), b"new record");
         assert!(matches!(
@@ -1226,17 +1532,25 @@ mod tests {
     }
 
     #[test]
+    fn arena_handles_are_tagged_generational_and_option_niche_sized() {
+        assert_eq!(std::mem::size_of::<GroupRecordHandle>(), 8);
+        assert_eq!(std::mem::size_of::<Option<GroupRecordHandle>>(), 8);
+        assert_eq!(std::mem::size_of::<DenseTrnMapHandle>(), 8);
+        assert_eq!(std::mem::size_of::<Option<DenseTrnMapHandle>>(), 8);
+    }
+
+    #[test]
     fn var_arena_split_blocks_get_independent_live_generations() {
         let mut arena = VarArena::default();
-        let stale_large = arena.alloc(&[7; 40]).unwrap();
+        let stale_large: GroupRecordHandle = arena.alloc::<GroupRecordTag>(&[7; 40]).unwrap();
         arena.retire(stale_large).unwrap();
 
-        let first = arena.alloc(&[1; 0]).unwrap();
-        let second = arena.alloc(&[2; 3]).unwrap();
-        let third = arena.alloc(&[3; 20]).unwrap();
-        assert_eq!(stale_large & 0x00ff_ffff, first & 0x00ff_ffff);
-        assert_ne!(first & 0x00ff_ffff, second & 0x00ff_ffff);
-        assert_ne!(second & 0x00ff_ffff, third & 0x00ff_ffff);
+        let first: GroupRecordHandle = arena.alloc::<GroupRecordTag>(&[1; 0]).unwrap();
+        let second: GroupRecordHandle = arena.alloc::<GroupRecordTag>(&[2; 3]).unwrap();
+        let third: GroupRecordHandle = arena.alloc::<GroupRecordTag>(&[3; 20]).unwrap();
+        assert_eq!(stale_large.idx, first.idx);
+        assert_ne!(first.idx, second.idx);
+        assert_ne!(second.idx, third.idx);
         assert!(matches!(
             arena.get(stale_large),
             Err(StoreError::InvalidRecord)
@@ -1249,10 +1563,10 @@ mod tests {
     #[test]
     fn var_arena_accepts_sequential_power_of_two_blocks_without_padding() {
         let mut arena = VarArena::default();
-        let first = arena.alloc(&[1; 24]).unwrap();
-        let second = arena.alloc(&[2; 40]).unwrap();
-        assert_eq!(first & 0x00ff_ffff, 0);
-        assert_eq!(second & 0x00ff_ffff, 32);
+        let first: GroupRecordHandle = arena.alloc::<GroupRecordTag>(&[1; 24]).unwrap();
+        let second: GroupRecordHandle = arena.alloc::<GroupRecordTag>(&[2; 40]).unwrap();
+        assert_eq!(arena.slots[first.idx as usize].offset, 0);
+        assert_eq!(arena.slots[second.idx as usize].offset, 32);
         assert_eq!(arena.get(first).unwrap(), &[1; 24]);
         assert_eq!(arena.get(second).unwrap(), &[2; 40]);
     }
@@ -1260,17 +1574,14 @@ mod tests {
     #[test]
     fn var_arena_retires_a_block_at_generation_exhaustion() {
         let mut arena = VarArena::default();
-        let initial = arena.alloc(b"value").unwrap();
-        let (page, offset, raw) = arena.parts(initial).unwrap();
-        let mut header = VarBlockHeader::decode(raw).unwrap();
-        header.generation = VAR_GENERATION_MASK;
-        arena.pages[page].set_header(offset, header).unwrap();
-        let exhausted =
-            (initial & !(0x000f_ffff_u64 << 44)) | (u64::from(VAR_GENERATION_MASK) << 44);
+        let initial: GroupRecordHandle = arena.alloc::<GroupRecordTag>(b"value").unwrap();
+        let generation = NonZeroU32::new(u32::MAX).unwrap();
+        arena.slots[initial.idx as usize].generation = generation;
+        let exhausted: GroupRecordHandle = Handle::new(initial.idx, generation);
         arena.retire(exhausted).unwrap();
 
-        let replacement = arena.alloc(b"fresh").unwrap();
-        assert_ne!(replacement & 0x00ff_ffff, exhausted & 0x00ff_ffff);
+        let replacement: GroupRecordHandle = arena.alloc::<GroupRecordTag>(b"fresh").unwrap();
+        assert_ne!(replacement.idx, exhausted.idx);
         assert!(matches!(
             arena.get(exhausted),
             Err(StoreError::InvalidRecord)
@@ -1281,7 +1592,7 @@ mod tests {
     #[test]
     fn deterministic_var_arena_mutation_fuzz_rejects_all_retired_handles() {
         let mut arena = VarArena::default();
-        let mut live: Vec<(u64, Vec<u8>)> = Vec::new();
+        let mut live: Vec<(GroupRecordHandle, Vec<u8>)> = Vec::new();
         let mut retired = Vec::new();
         let mut seed = 0x9e37_79b9_7f4a_7c15u64;
 
@@ -1292,7 +1603,7 @@ mod tests {
             if live.is_empty() || (seed & 1 == 0 && live.len() < 64) {
                 let len = (seed as usize) & 0x1fff;
                 let value = vec![step as u8 ^ (seed >> 32) as u8; len];
-                let handle = arena.alloc(&value).unwrap();
+                let handle = arena.alloc::<GroupRecordTag>(&value).unwrap();
                 live.push((handle, value));
             } else {
                 let index = (seed as usize) % live.len();
@@ -1320,21 +1631,6 @@ mod tests {
     }
 
     #[test]
-    fn bitmap_arena_does_not_wrap_an_exhausted_generation() {
-        let mut arena = BitmapArena::default();
-        let first = arena.alloc(&[1, 5, 9]).unwrap();
-        let slot = &mut arena.slots[first as usize];
-        slot.generation = u32::MAX;
-        arena.handles[first as usize] = (u64::from(u32::MAX) << 32) | u64::from(first);
-        arena.retire(first).unwrap();
-        assert!(!arena.free.contains(&(first as u32)));
-
-        let next = arena.alloc(&[2, 6, 10]).unwrap();
-        assert_ne!(next, first);
-        assert!(arena.contains(next, 2).unwrap());
-    }
-
-    #[test]
     fn group_generation_exhaustion_leaves_the_group_unchanged() {
         let mut store = RnbwStore::new(PocketLayout::PerChunk32).unwrap();
         let exhausted = (u64::from(u32::MAX) << 32) | u64::from(ABSENT);
@@ -1347,7 +1643,7 @@ mod tests {
         ));
         assert_eq!(store.gen_table[0], exhausted);
         assert_eq!(store.arena.live_bytes, 0);
-        assert_eq!(store.group_handles[0], 0);
+        assert_eq!(store.group_handles[0], None);
     }
 
     #[test]
@@ -1366,6 +1662,75 @@ mod tests {
         assert!(s.contains(0x4000_1234).unwrap());
         assert!(s.remove(0x4000_1234).unwrap());
         assert_eq!(s.decode().unwrap(), v);
+    }
+
+    #[test]
+    fn dense_chunks_use_arena_backed_trnmap_without_bitmap_storage() {
+        let values: Vec<u32> = (0..65_536).step_by(2).collect();
+        let mut store = RnbwStore::from_sorted(&values, PocketLayout::PerChunk32).unwrap();
+        let group = store.group_handle(0).unwrap();
+        let record = store.arena.get(group).unwrap();
+        let (form, offset) = RnbwStore::descriptor(record, 0).unwrap();
+        assert_eq!(form, Form::TrnMap);
+        let old_map: DenseTrnMapHandle = read_handle(record, offset).unwrap();
+        let old_image = store.arena.get(old_map).unwrap();
+        let old_view = TrnMapView::from_dense_chunk(&old_image[DENSE_MAP_HEADER_BYTES..]).unwrap();
+        assert_eq!(old_view.get_dense(0), 1);
+        assert_eq!(old_view.get_dense(1), -1);
+        assert_eq!(old_view.get_dense(u16::MAX - 1), 1);
+        assert_eq!(old_view.get_dense(u16::MAX), -1);
+        assert!(store.contains(0).unwrap());
+        assert!(!store.contains(1).unwrap());
+        assert!(store.contains((u16::MAX - 1) as u32).unwrap());
+        assert!(!store.contains(u16::MAX as u32).unwrap());
+        assert_eq!(store.decode().unwrap(), values);
+
+        assert!(store.insert(1).unwrap());
+        let current_image = store.arena.get(old_map).unwrap();
+        assert_eq!(
+            u32::from_le_bytes(current_image[..4].try_into().unwrap()),
+            32_769
+        );
+        let current_view =
+            TrnMapView::from_dense_chunk(&current_image[DENSE_MAP_HEADER_BYTES..]).unwrap();
+        assert_eq!(current_view.get_dense(1), 1);
+        assert!(store.contains(1).unwrap());
+        assert_eq!(store.len(), values.len() + 1);
+    }
+
+    #[test]
+    fn deterministic_dense_trnmap_mutations_match_btree_set() {
+        use std::collections::BTreeSet;
+
+        let values: Vec<u32> = (0..65_536).step_by(2).collect();
+        let mut expected: BTreeSet<u32> = values.iter().copied().collect();
+        let mut store = RnbwStore::from_sorted(&values, PocketLayout::PerChunk32).unwrap();
+        let mut seed = 0xd1b5_4a32_d192_ed03u64;
+        for step in 0..128 {
+            seed ^= seed << 13;
+            seed ^= seed >> 7;
+            seed ^= seed << 17;
+            let key = seed as u16 as u32;
+            if expected.remove(&key) {
+                assert!(store.remove(key).unwrap());
+            } else {
+                expected.insert(key);
+                assert!(store.insert(key).unwrap());
+            }
+            if step % 16 == 0 {
+                assert_eq!(
+                    store.decode().unwrap(),
+                    expected.iter().copied().collect::<Vec<_>>()
+                );
+                for probe in [0, 1, key, u16::MAX as u32] {
+                    assert_eq!(store.contains(probe).unwrap(), expected.contains(&probe));
+                }
+            }
+        }
+        assert_eq!(
+            store.decode().unwrap(),
+            expected.into_iter().collect::<Vec<_>>()
+        );
     }
     #[test]
     fn pockets_dirty_and_spill_are_exact() {

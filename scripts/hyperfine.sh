@@ -18,11 +18,9 @@ fi
 
 cargo build --locked --release --bin rnbw
 mkdir -p "$report_dir"
-hyperfine --warmup 2 --runs "$runs" \
+hyperfine --shell=none --warmup 2 --runs "$runs" \
   --export-json "$report_dir/${workload}-${operation}.json" \
   --export-markdown "$report_dir/${workload}-${operation}.md" \
   "./$binary bench --workload $workload --size $size --operation $operation --engine rnbw" \
   "./$binary bench --workload $workload --size $size --operation $operation --engine plain-ef" \
-  "./$binary bench --workload $workload --size $size --operation $operation --engine raw" \
-  "./$binary bench --workload $workload --size $size --operation $operation --engine roaring" \
-  "./$binary bench --workload $workload --size $size --operation $operation --engine lz4"
+  "./$binary bench --workload $workload --size $size --operation $operation --engine raw"

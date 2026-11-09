@@ -1,0 +1,178 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 8.80s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4336824B l3=2097152B total=6433976B bits/key=51.478 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4336824B l3=2097152B total=6433976B bits/key=51.478 promoted=56332 spills=9204
+store dataset=clustered keys=1000000 layout=p32 l2=366360B l3=0B total=366360B bits/key=2.931 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=366360B l3=0B total=366360B bits/key=2.931 promoted=0 spills=15625
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=morton-shell keys=1000000 layout=p32 l2=2393272B l3=2097152B total=4490424B bits/key=35.923 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2393272B l3=2097152B total=4490424B bits/key=35.923 promoted=351 spills=3478
+store dataset=ecs keys=1000000 layout=p32 l2=682424B l3=0B total=682424B bits/key=5.459 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=682424B l3=0B total=682424B bits/key=5.459 promoted=0 spills=17
+store dense-trnmap keys=32768 l2=157512B l3=0B total=157512B bits/key=38.455 rnbw-image=18488B roaring=8208B
+Benchmarking store-dense-trnmap-build/rnbw-store
+Benchmarking store-dense-trnmap-build/rnbw-store: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-build/rnbw-store: Collecting 20 samples in estimated 1.0036 s (9660 iterations)
+Benchmarking store-dense-trnmap-build/rnbw-store: Analyzing
+store-dense-trnmap-build/rnbw-store
+                        time:   [97.576 µs 99.806 µs 102.08 µs]
+                        thrpt:  [320.99 Melem/s 328.32 Melem/s 335.82 Melem/s]
+                 change:
+                        time:   [−6.2346% −2.9919% −0.3174%] (p = 0.07 > 0.05)
+                        thrpt:  [+0.3184% +3.0842% +6.6492%]
+                        No change in performance detected.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking store-dense-trnmap-build/rnbw-image
+Benchmarking store-dense-trnmap-build/rnbw-image: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-build/rnbw-image: Collecting 20 samples in estimated 1.0256 s (2100 iterations)
+Benchmarking store-dense-trnmap-build/rnbw-image: Analyzing
+store-dense-trnmap-build/rnbw-image
+                        time:   [475.34 µs 493.78 µs 516.89 µs]
+                        thrpt:  [63.394 Melem/s 66.361 Melem/s 68.935 Melem/s]
+                 change:
+                        time:   [+1.8632% +4.7385% +8.1871%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.5676% −4.5241% −1.8291%]
+                        Performance has regressed.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high severe
+Benchmarking store-dense-trnmap-build/roaring
+Benchmarking store-dense-trnmap-build/roaring: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-build/roaring: Collecting 20 samples in estimated 1.0295 s (5460 iterations)
+Benchmarking store-dense-trnmap-build/roaring: Analyzing
+store-dense-trnmap-build/roaring
+                        time:   [186.77 µs 189.82 µs 193.37 µs]
+                        thrpt:  [169.46 Melem/s 172.63 Melem/s 175.44 Melem/s]
+                 change:
+                        time:   [+4.6442% +6.4800% +8.8057%] (p = 0.00 < 0.05)
+                        thrpt:  [−8.0930% −6.0857% −4.4381%]
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high mild
+
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024: Collecting 20 samples in estimated 1.0003 s (72k iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024: Analyzing
+store-dense-trnmap-contains/rnbw-store/hits-1024
+                        time:   [13.785 µs 13.879 µs 14.001 µs]
+                        thrpt:  [73.137 Melem/s 73.779 Melem/s 74.283 Melem/s]
+                 change:
+                        time:   [+6.9828% +7.9012% +8.8185%] (p = 0.00 < 0.05)
+                        thrpt:  [−8.1039% −7.3226% −6.5270%]
+                        Performance has regressed.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024: Collecting 20 samples in estimated 1.0041 s (20k iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024: Analyzing
+store-dense-trnmap-contains/rnbw-image/hits-1024
+                        time:   [50.252 µs 50.530 µs 50.910 µs]
+                        thrpt:  [20.114 Melem/s 20.265 Melem/s 20.377 Melem/s]
+                 change:
+                        time:   [−2.6609% −0.9138% +0.5153%] (p = 0.31 > 0.05)
+                        thrpt:  [−0.5126% +0.9222% +2.7337%]
+                        No change in performance detected.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024: Collecting 20 samples in estimated 1.0000 s (724k iterations)
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024: Analyzing
+store-dense-trnmap-contains/roaring/hits-1024
+                        time:   [1.3825 µs 1.3939 µs 1.4053 µs]
+                        thrpt:  [728.65 Melem/s 734.63 Melem/s 740.67 Melem/s]
+                 change:
+                        time:   [−3.5505% −3.0275% −2.5136%] (p = 0.00 < 0.05)
+                        thrpt:  [+2.5784% +3.1220% +3.6812%]
+                        Performance has improved.
+Found 2 outliers among 20 measurements (10.00%)
+  2 (10.00%) high mild
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024: Collecting 20 samples in estimated 1.0021 s (72k iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024: Analyzing
+store-dense-trnmap-contains/rnbw-store/misses-1024
+                        time:   [14.104 µs 14.233 µs 14.444 µs]
+                        thrpt:  [70.896 Melem/s 71.947 Melem/s 72.606 Melem/s]
+                 change:
+                        time:   [+8.5693% +9.7047% +10.828%] (p = 0.00 < 0.05)
+                        thrpt:  [−9.7699% −8.8462% −7.8930%]
+                        Performance has regressed.
+Found 1 outliers among 20 measurements (5.00%)
+  1 (5.00%) high severe
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024: Collecting 20 samples in estimated 1.0045 s (19k iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024: Analyzing
+store-dense-trnmap-contains/rnbw-image/misses-1024
+                        time:   [50.883 µs 51.218 µs 51.817 µs]
+                        thrpt:  [19.762 Melem/s 19.993 Melem/s 20.125 Melem/s]
+                 change:
+                        time:   [−5.7943% +0.0916% +4.2195%] (p = 0.98 > 0.05)
+                        thrpt:  [−4.0486% −0.0915% +6.1507%]
+                        No change in performance detected.
+Found 3 outliers among 20 measurements (15.00%)
+  3 (15.00%) high mild
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024: Collecting 20 samples in estimated 1.0001 s (715k iterations)
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024: Analyzing
+store-dense-trnmap-contains/roaring/misses-1024
+                        time:   [1.4036 µs 1.4098 µs 1.4155 µs]
+                        thrpt:  [723.40 Melem/s 726.34 Melem/s 729.56 Melem/s]
+                 change:
+                        time:   [−4.1889% −3.2508% −2.3263%] (p = 0.00 < 0.05)
+                        thrpt:  [+2.3817% +3.3600% +4.3720%]
+                        Performance has improved.
+
+Benchmarking store-dense-trnmap-update/insert-remove-pair
+Benchmarking store-dense-trnmap-update/insert-remove-pair: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-update/insert-remove-pair: Collecting 20 samples in estimated 1.0000 s (4.4M iterations)
+Benchmarking store-dense-trnmap-update/insert-remove-pair: Analyzing
+store-dense-trnmap-update/insert-remove-pair
+                        time:   [223.96 ns 227.13 ns 231.37 ns]
+                        thrpt:  [8.6440 Melem/s 8.8055 Melem/s 8.9302 Melem/s]
+Found 4 outliers among 20 measurements (20.00%)
+  4 (20.00%) low severe
+
+Benchmarking store-dense-trnmap-decode/rnbw-store
+Benchmarking store-dense-trnmap-decode/rnbw-store: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-decode/rnbw-store: Collecting 20 samples in estimated 1.0152 s (6930 iterations)
+Benchmarking store-dense-trnmap-decode/rnbw-store: Analyzing
+store-dense-trnmap-decode/rnbw-store
+                        time:   [143.84 µs 145.23 µs 146.63 µs]
+                        thrpt:  [223.47 Melem/s 225.63 Melem/s 227.81 Melem/s]
+                 change:
+                        time:   [+1.6939% +3.1707% +4.9354%] (p = 0.00 < 0.05)
+                        thrpt:  [−4.7033% −3.0733% −1.6657%]
+                        Performance has regressed.
+Found 4 outliers among 20 measurements (20.00%)
+  3 (15.00%) low mild
+  1 (5.00%) high severe
+Benchmarking store-dense-trnmap-decode/rnbw-image
+Benchmarking store-dense-trnmap-decode/rnbw-image: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-decode/rnbw-image: Collecting 20 samples in estimated 1.1406 s (1470 iterations)
+Benchmarking store-dense-trnmap-decode/rnbw-image: Analyzing
+store-dense-trnmap-decode/rnbw-image
+                        time:   [707.14 µs 712.48 µs 719.54 µs]
+                        thrpt:  [45.540 Melem/s 45.991 Melem/s 46.339 Melem/s]
+Found 2 outliers among 20 measurements (10.00%)
+  1 (5.00%) high mild
+  1 (5.00%) high severe
+Benchmarking store-dense-trnmap-decode/roaring
+Benchmarking store-dense-trnmap-decode/roaring: Warming up for 250.00 ms
+Benchmarking store-dense-trnmap-decode/roaring: Collecting 20 samples in estimated 1.0291 s (5460 iterations)
+Benchmarking store-dense-trnmap-decode/roaring: Analyzing
+store-dense-trnmap-decode/roaring
+                        time:   [181.35 µs 183.73 µs 185.90 µs]
+                        thrpt:  [176.27 Melem/s 178.35 Melem/s 180.69 Melem/s]
+Found 5 outliers among 20 measurements (25.00%)
+  2 (10.00%) low mild
+  3 (15.00%) high mild

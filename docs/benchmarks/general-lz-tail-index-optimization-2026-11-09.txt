@@ -73,6 +73,6 @@ Separate 10-sample Criterion capture on the same 16 general inputs. This is a cr
 
 ## Correctness and tooling
 
-`cargo fmt --all --check` and `cargo test --offline --locked` passed on the selected threshold: 46 library tests, 3 binary tests, codec mutation fuzz, and all 3 TRNMAP mutation fuzz tests. The Criterion harness also validates complete RNBW roundtrips for all 16 general corpus cases. Runtime dispatch selected AVX2. Hyperfine, Valgrind/Callgrind, and cargo-flamegraph are unavailable in this Windows environment; the host processor model could not be queried.
+`cargo fmt --all --check` and `cargo test --offline --locked` passed on the selected threshold: 46 library tests, 3 binary tests, codec mutation fuzz, and all 3 TRNMAP mutation fuzz tests. The Criterion harness also validates complete RNBW roundtrips for all 16 general corpus cases. Runtime dispatch selected AVX2. This capture contains Criterion measurements only; it has no Hyperfine, Valgrind/Callgrind, or cargo-flamegraph output, and the host processor model could not be queried.
 
 All raw exploration captures (tail lengths 4/8/16/32 and thresholds 17/48/96) are retained in `docs/benchmarks/`. The measured choice is tail 16, skip threshold 48: it keeps strong long-match encode wins while avoiding the clearer natural-prose and JSON regression seen at threshold 96.

@@ -1,0 +1,2307 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.28s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4336824B l3=2097152B total=6433976B bits/key=51.478 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4336824B l3=2097152B total=6433976B bits/key=51.478 promoted=56332 spills=9204
+Benchmarking store-build/uniform/rnbw-l2-p32
+Benchmarking store-build/uniform/rnbw-l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 242.5ms.
+Benchmarking store-build/uniform/rnbw-l2-p32: Collecting 10 samples in estimated 242.48 ms (10 iterations)
+Benchmarking store-build/uniform/rnbw-l2-p32: Analyzing
+store-build/uniform/rnbw-l2-p32
+                        time:   [22.967 ms 23.338 ms 23.689 ms]
+                        thrpt:  [42.209 Melem/s 42.844 Melem/s 43.536 Melem/s]
+                 change:
+                        time:   [−8.7177% −5.4348% −2.4495%] (p = 0.00 < 0.05)
+                        thrpt:  [+2.5110% +5.7471% +9.5502%]
+                        Performance has improved.
+Benchmarking store-build/uniform/rnbw-l2-p64
+Benchmarking store-build/uniform/rnbw-l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 260.2ms.
+Benchmarking store-build/uniform/rnbw-l2-p64: Collecting 10 samples in estimated 260.21 ms (10 iterations)
+Benchmarking store-build/uniform/rnbw-l2-p64: Analyzing
+store-build/uniform/rnbw-l2-p64
+                        time:   [25.736 ms 28.347 ms 31.104 ms]
+                        thrpt:  [32.146 Melem/s 35.272 Melem/s 38.851 Melem/s]
+                 change:
+                        time:   [−0.8630% +8.7144% +18.556%] (p = 0.14 > 0.05)
+                        thrpt:  [−15.652% −8.0159% +0.8706%]
+                        No change in performance detected.
+Benchmarking store-build/uniform/rnbw-query-image
+Benchmarking store-build/uniform/rnbw-query-image: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 283.0ms.
+Benchmarking store-build/uniform/rnbw-query-image: Collecting 10 samples in estimated 283.04 ms (10 iterations)
+Benchmarking store-build/uniform/rnbw-query-image: Analyzing
+store-build/uniform/rnbw-query-image
+                        time:   [26.204 ms 29.729 ms 34.040 ms]
+                        thrpt:  [29.373 Melem/s 33.633 Melem/s 38.157 Melem/s]
+                 change:
+                        time:   [+4.9617% +19.857% +36.024%] (p = 0.01 < 0.05)
+                        thrpt:  [−26.484% −16.567% −4.7271%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-contains/uniform/rnbw-image/hits
+Benchmarking store-contains/uniform/rnbw-image/hits: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/rnbw-image/hits: Collecting 10 samples in estimated 104.45 ms (770 iterations)
+Benchmarking store-contains/uniform/rnbw-image/hits: Analyzing
+store-contains/uniform/rnbw-image/hits
+                        time:   [131.74 µs 133.33 µs 136.29 µs]
+                        thrpt:  [7.5134 Melem/s 7.6799 Melem/s 7.7729 Melem/s]
+                 change:
+                        time:   [−1.0805% +3.0754% +8.3680%] (p = 0.28 > 0.05)
+                        thrpt:  [−7.7219% −2.9836% +1.0923%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-contains/uniform/roaring/hits
+Benchmarking store-contains/uniform/roaring/hits: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/roaring/hits: Collecting 10 samples in estimated 100.09 ms (1375 iterations)
+Benchmarking store-contains/uniform/roaring/hits: Analyzing
+store-contains/uniform/roaring/hits
+                        time:   [68.886 µs 69.416 µs 70.595 µs]
+                        thrpt:  [14.505 Melem/s 14.752 Melem/s 14.865 Melem/s]
+                 change:
+                        time:   [−1.4395% +1.0490% +4.1089%] (p = 0.53 > 0.05)
+                        thrpt:  [−3.9468% −1.0381% +1.4605%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/uniform/rnbw-image/misses
+Benchmarking store-contains/uniform/rnbw-image/misses: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/rnbw-image/misses: Collecting 10 samples in estimated 105.42 ms (1045 iterations)
+Benchmarking store-contains/uniform/rnbw-image/misses: Analyzing
+store-contains/uniform/rnbw-image/misses
+                        time:   [92.303 µs 94.063 µs 95.538 µs]
+                        thrpt:  [10.718 Melem/s 10.886 Melem/s 11.094 Melem/s]
+                 change:
+                        time:   [−6.4125% −4.4593% −2.4329%] (p = 0.00 < 0.05)
+                        thrpt:  [+2.4936% +4.6675% +6.8519%]
+                        Performance has improved.
+Benchmarking store-contains/uniform/roaring/misses
+Benchmarking store-contains/uniform/roaring/misses: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/roaring/misses: Collecting 10 samples in estimated 101.10 ms (1430 iterations)
+Benchmarking store-contains/uniform/roaring/misses: Analyzing
+store-contains/uniform/roaring/misses
+                        time:   [67.429 µs 68.590 µs 70.005 µs]
+                        thrpt:  [14.628 Melem/s 14.929 Melem/s 15.186 Melem/s]
+                 change:
+                        time:   [−3.3631% −0.8306% +1.9090%] (p = 0.57 > 0.05)
+                        thrpt:  [−1.8732% +0.8375% +3.4802%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/uniform/l2-p32/hits/1024
+Benchmarking store-contains/uniform/l2-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-p32/hits/1024: Collecting 10 samples in estimated 101.93 ms (880 iterations)
+Benchmarking store-contains/uniform/l2-p32/hits/1024: Analyzing
+store-contains/uniform/l2-p32/hits/1024
+                        time:   [161.21 µs 185.78 µs 198.03 µs]
+                        thrpt:  [5.1710 Melem/s 5.5119 Melem/s 6.3518 Melem/s]
+                 change:
+                        time:   [+23.278% +46.485% +70.498%] (p = 0.00 < 0.05)
+                        thrpt:  [−41.348% −31.734% −18.882%]
+                        Performance has regressed.
+Benchmarking store-contains/uniform/l2-p32/misses/1024
+Benchmarking store-contains/uniform/l2-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-p32/misses/1024: Collecting 10 samples in estimated 100.03 ms (770 iterations)
+Benchmarking store-contains/uniform/l2-p32/misses/1024: Analyzing
+store-contains/uniform/l2-p32/misses/1024
+                        time:   [109.44 µs 110.21 µs 111.37 µs]
+                        thrpt:  [9.1948 Melem/s 9.2912 Melem/s 9.3567 Melem/s]
+                 change:
+                        time:   [+6.6721% +9.4125% +11.645%] (p = 0.00 < 0.05)
+                        thrpt:  [−10.430% −8.6028% −6.2548%]
+                        Performance has regressed.
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 102.62 ms (2035 iterations)
+Benchmarking store-contains/uniform/l2-l3-p32/hits/1024: Analyzing
+store-contains/uniform/l2-l3-p32/hits/1024
+                        time:   [50.189 µs 50.707 µs 51.155 µs]
+                        thrpt:  [20.018 Melem/s 20.194 Melem/s 20.403 Melem/s]
+                 change:
+                        time:   [−14.008% −3.1049% +7.6256%] (p = 0.67 > 0.05)
+                        thrpt:  [−7.0853% +3.2044% +16.290%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 101.50 ms (2420 iterations)
+Benchmarking store-contains/uniform/l2-l3-p32/misses/1024: Analyzing
+store-contains/uniform/l2-l3-p32/misses/1024
+                        time:   [40.537 µs 41.572 µs 42.914 µs]
+                        thrpt:  [23.862 Melem/s 24.632 Melem/s 25.261 Melem/s]
+                 change:
+                        time:   [−1.7076% +2.1230% +5.5199%] (p = 0.30 > 0.05)
+                        thrpt:  [−5.2312% −2.0789% +1.7373%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/uniform/l2-p64/hits/1024
+Benchmarking store-contains/uniform/l2-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-p64/hits/1024: Collecting 10 samples in estimated 100.53 ms (880 iterations)
+Benchmarking store-contains/uniform/l2-p64/hits/1024: Analyzing
+store-contains/uniform/l2-p64/hits/1024
+                        time:   [109.38 µs 110.76 µs 111.95 µs]
+                        thrpt:  [9.1467 Melem/s 9.2455 Melem/s 9.3621 Melem/s]
+                 change:
+                        time:   [+3.1419% +5.8951% +8.6051%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.9233% −5.5669% −3.0462%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/uniform/l2-p64/misses/1024
+Benchmarking store-contains/uniform/l2-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-p64/misses/1024: Collecting 10 samples in estimated 103.04 ms (935 iterations)
+Benchmarking store-contains/uniform/l2-p64/misses/1024: Analyzing
+store-contains/uniform/l2-p64/misses/1024
+                        time:   [110.30 µs 110.69 µs 111.10 µs]
+                        thrpt:  [9.2165 Melem/s 9.2510 Melem/s 9.2834 Melem/s]
+                 change:
+                        time:   [+4.3679% +9.7159% +13.473%] (p = 0.00 < 0.05)
+                        thrpt:  [−11.873% −8.8555% −4.1851%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 102.10 ms (2200 iterations)
+Benchmarking store-contains/uniform/l2-l3-p64/hits/1024: Analyzing
+store-contains/uniform/l2-l3-p64/hits/1024
+                        time:   [48.138 µs 51.441 µs 58.038 µs]
+                        thrpt:  [17.644 Melem/s 19.906 Melem/s 21.272 Melem/s]
+                 change:
+                        time:   [+6.7992% +15.991% +27.772%] (p = 0.01 < 0.05)
+                        thrpt:  [−21.735% −13.786% −6.3663%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 100.52 ms (2255 iterations)
+Benchmarking store-contains/uniform/l2-l3-p64/misses/1024: Analyzing
+store-contains/uniform/l2-l3-p64/misses/1024
+                        time:   [39.610 µs 39.809 µs 39.987 µs]
+                        thrpt:  [25.608 Melem/s 25.723 Melem/s 25.852 Melem/s]
+                 change:
+                        time:   [−2.6643% +1.0620% +3.6690%] (p = 0.62 > 0.05)
+                        thrpt:  [−3.5392% −1.0508% +2.7372%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-decode/uniform/l2-p32
+Benchmarking store-decode/uniform/l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 359.1ms.
+Benchmarking store-decode/uniform/l2-p32: Collecting 10 samples in estimated 359.13 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-p32: Analyzing
+store-decode/uniform/l2-p32
+                        time:   [34.087 ms 34.204 ms 34.325 ms]
+                        thrpt:  [29.130 Melem/s 29.233 Melem/s 29.334 Melem/s]
+                 change:
+                        time:   [−9.1326% −8.3812% −7.5827%] (p = 0.00 < 0.05)
+                        thrpt:  [+8.2048% +9.1479% +10.050%]
+                        Performance has improved.
+Benchmarking store-decode/uniform/l2-l3-p32
+Benchmarking store-decode/uniform/l2-l3-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 366.0ms.
+Benchmarking store-decode/uniform/l2-l3-p32: Collecting 10 samples in estimated 365.96 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-l3-p32: Analyzing
+store-decode/uniform/l2-l3-p32
+                        time:   [36.879 ms 37.232 ms 37.576 ms]
+                        thrpt:  [26.609 Melem/s 26.856 Melem/s 27.112 Melem/s]
+                 change:
+                        time:   [+0.0618% +2.0417% +3.8989%] (p = 0.07 > 0.05)
+                        thrpt:  [−3.7526% −2.0009% −0.0618%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low mild
+Benchmarking store-decode/uniform/l2-p64
+Benchmarking store-decode/uniform/l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 350.1ms.
+Benchmarking store-decode/uniform/l2-p64: Collecting 10 samples in estimated 350.13 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-p64: Analyzing
+store-decode/uniform/l2-p64
+                        time:   [34.438 ms 34.933 ms 35.511 ms]
+                        thrpt:  [28.157 Melem/s 28.623 Melem/s 29.034 Melem/s]
+                 change:
+                        time:   [−11.394% −9.6505% −7.8769%] (p = 0.00 < 0.05)
+                        thrpt:  [+8.5504% +10.681% +12.860%]
+                        Performance has improved.
+Benchmarking store-decode/uniform/l2-l3-p64
+Benchmarking store-decode/uniform/l2-l3-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 348.2ms.
+Benchmarking store-decode/uniform/l2-l3-p64: Collecting 10 samples in estimated 348.17 ms (10 iterations)
+Benchmarking store-decode/uniform/l2-l3-p64: Analyzing
+store-decode/uniform/l2-l3-p64
+                        time:   [33.689 ms 34.931 ms 36.881 ms]
+                        thrpt:  [27.111 Melem/s 28.625 Melem/s 29.680 Melem/s]
+                 change:
+                        time:   [−6.1087% −1.8420% +4.0097%] (p = 0.55 > 0.05)
+                        thrpt:  [−3.8552% +1.8765% +6.5061%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset: Collecting 10 samples in estimated 100.09 ms (4510 iterations)
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset: Analyzing
+store-update/uniform/l2-p32/insert-hot-reset
+                        time:   [10.856 µs 10.990 µs 11.152 µs]
+                        change: [+0.1994% +1.9520% +3.7931%] (p = 0.05 < 0.05)
+                        Change within noise threshold.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset: Collecting 10 samples in estimated 100.51 ms (4455 iterations)
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset: Analyzing
+store-update/uniform/l2-p32/remove-hot-reset
+                        time:   [11.014 µs 11.075 µs 11.166 µs]
+                        change: [−2.7818% −1.0900% +1.0131%] (p = 0.33 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.85 ms (4565 iterations)
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-p32/dirty-drain-hot-reset
+                        time:   [105.44 ns 106.05 ns 107.05 ns]
+                        change: [+13.711% +16.695% +19.008%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset: Collecting 10 samples in estimated 100.93 ms (3960 iterations)
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/uniform/l2-l3-p32/insert-hot-reset
+                        time:   [12.311 µs 12.458 µs 12.838 µs]
+                        change: [−1.7412% +1.5877% +5.9122%] (p = 0.36 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset: Collecting 10 samples in estimated 100.86 ms (3685 iterations)
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/uniform/l2-l3-p32/remove-hot-reset
+                        time:   [12.456 µs 12.643 µs 12.914 µs]
+                        change: [−2.7097% −1.2270% +0.1244%] (p = 0.15 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 10 measurements (30.00%)
+  2 (20.00%) low severe
+  1 (10.00%) high mild
+
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.91 ms (4070 iterations)
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [106.73 ns 107.68 ns 108.96 ns]
+                        change: [+8.3246% +9.8259% +11.353%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high mild
+
+Benchmarking store-demote/uniform/p32/full-range-hot-reset
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 913.2ms.
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Collecting 10 samples in estimated 913.23 ms (10 iterations)
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Analyzing
+store-demote/uniform/p32/full-range-hot-reset
+                        time:   [33.371 ms 33.858 ms 34.420 ms]
+                        change: [+1.9356% +3.7843% +5.5676%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset: Collecting 10 samples in estimated 100.42 ms (4565 iterations)
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset: Analyzing
+store-update/uniform/l2-p64/insert-hot-reset
+                        time:   [10.816 µs 10.918 µs 11.002 µs]
+                        change: [−0.6089% +0.1358% +1.0128%] (p = 0.73 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset: Collecting 10 samples in estimated 101.09 ms (4290 iterations)
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset: Analyzing
+store-update/uniform/l2-p64/remove-hot-reset
+                        time:   [10.878 µs 11.083 µs 11.420 µs]
+                        change: [−1.5645% +1.2218% +3.5445%] (p = 0.33 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) low mild
+
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.71 ms (4565 iterations)
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-p64/dirty-drain-hot-reset
+                        time:   [104.60 ns 107.43 ns 112.39 ns]
+                        change: [+15.398% +20.186% +26.117%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset: Collecting 10 samples in estimated 100.66 ms (3740 iterations)
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/uniform/l2-l3-p64/insert-hot-reset
+                        time:   [12.929 µs 13.263 µs 13.890 µs]
+                        change: [+6.2834% +15.816% +28.077%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset: Collecting 10 samples in estimated 101.35 ms (3575 iterations)
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/uniform/l2-l3-p64/remove-hot-reset
+                        time:   [13.609 µs 13.737 µs 13.866 µs]
+                        change: [+6.2301% +7.4956% +8.6842%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.90 ms (3630 iterations)
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [108.96 ns 120.14 ns 145.96 ns]
+                        change: [+8.1120% +17.960% +34.723%] (p = 0.01 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 10 measurements (30.00%)
+  1 (10.00%) low mild
+  2 (20.00%) high severe
+
+Benchmarking store-demote/uniform/p64/full-range-hot-reset
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 966.0ms.
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Collecting 10 samples in estimated 966.04 ms (10 iterations)
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Analyzing
+store-demote/uniform/p64/full-range-hot-reset
+                        time:   [33.832 ms 33.965 ms 34.090 ms]
+                        change: [−2.4608% −0.6016% +0.8220%] (p = 0.71 > 0.05)
+                        No change in performance detected.
+
+Benchmarking store-promote/uniform/p32/full-range-refresh
+Benchmarking store-promote/uniform/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 605.0ms.
+Benchmarking store-promote/uniform/p32/full-range-refresh: Collecting 10 samples in estimated 604.98 ms (10 iterations)
+Benchmarking store-promote/uniform/p32/full-range-refresh: Analyzing
+store-promote/uniform/p32/full-range-refresh
+                        time:   [56.002 ms 56.425 ms 56.909 ms]
+                        thrpt:  [1.1516 Melem/s 1.1615 Melem/s 1.1703 Melem/s]
+                 change:
+                        time:   [−0.3894% +0.9266% +2.2287%] (p = 0.21 > 0.05)
+                        thrpt:  [−2.1801% −0.9181% +0.3909%]
+                        No change in performance detected.
+Benchmarking store-promote/uniform/p64/full-range-refresh
+Benchmarking store-promote/uniform/p64/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 628.7ms.
+Benchmarking store-promote/uniform/p64/full-range-refresh: Collecting 10 samples in estimated 628.66 ms (10 iterations)
+Benchmarking store-promote/uniform/p64/full-range-refresh: Analyzing
+store-promote/uniform/p64/full-range-refresh
+                        time:   [60.869 ms 61.144 ms 61.423 ms]
+                        thrpt:  [1.0670 Melem/s 1.0718 Melem/s 1.0767 Melem/s]
+                 change:
+                        time:   [+1.8701% +2.5361% +3.2116%] (p = 0.00 < 0.05)
+                        thrpt:  [−3.1117% −2.4734% −1.8357%]
+                        Performance has regressed.
+
+store dataset=clustered keys=1000000 layout=p32 l2=366360B l3=0B total=366360B bits/key=2.931 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=366360B l3=0B total=366360B bits/key=2.931 promoted=0 spills=15625
+Benchmarking store-build/clustered/rnbw-l2-p32
+Benchmarking store-build/clustered/rnbw-l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 161.7ms or enable flat sampling.
+Benchmarking store-build/clustered/rnbw-l2-p32: Collecting 10 samples in estimated 161.71 ms (55 iterations)
+Benchmarking store-build/clustered/rnbw-l2-p32: Analyzing
+store-build/clustered/rnbw-l2-p32
+                        time:   [2.9025 ms 2.9286 ms 2.9592 ms]
+                        thrpt:  [337.93 Melem/s 341.46 Melem/s 344.53 Melem/s]
+                 change:
+                        time:   [−10.194% −9.0891% −7.9359%] (p = 0.00 < 0.05)
+                        thrpt:  [+8.6200% +9.9978% +11.351%]
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-build/clustered/rnbw-l2-p64
+Benchmarking store-build/clustered/rnbw-l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 162.4ms or enable flat sampling.
+Benchmarking store-build/clustered/rnbw-l2-p64: Collecting 10 samples in estimated 162.44 ms (55 iterations)
+Benchmarking store-build/clustered/rnbw-l2-p64: Analyzing
+store-build/clustered/rnbw-l2-p64
+                        time:   [2.9180 ms 2.9332 ms 2.9507 ms]
+                        thrpt:  [338.90 Melem/s 340.92 Melem/s 342.70 Melem/s]
+                 change:
+                        time:   [−7.8247% −6.6435% −5.4558%] (p = 0.00 < 0.05)
+                        thrpt:  [+5.7706% +7.1163% +8.4889%]
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-build/clustered/rnbw-query-image
+Benchmarking store-build/clustered/rnbw-query-image: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 256.2ms.
+Benchmarking store-build/clustered/rnbw-query-image: Collecting 10 samples in estimated 256.22 ms (10 iterations)
+Benchmarking store-build/clustered/rnbw-query-image: Analyzing
+store-build/clustered/rnbw-query-image
+                        time:   [25.592 ms 25.830 ms 26.058 ms]
+                        thrpt:  [38.377 Melem/s 38.714 Melem/s 39.074 Melem/s]
+                 change:
+                        time:   [−0.9457% +0.2448% +1.3652%] (p = 0.69 > 0.05)
+                        thrpt:  [−1.3468% −0.2442% +0.9547%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high mild
+
+Benchmarking store-contains/clustered/rnbw-image/hits
+Benchmarking store-contains/clustered/rnbw-image/hits: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/rnbw-image/hits: Collecting 10 samples in estimated 106.97 ms (220 iterations)
+Benchmarking store-contains/clustered/rnbw-image/hits: Analyzing
+store-contains/clustered/rnbw-image/hits
+                        time:   [469.51 µs 474.36 µs 477.84 µs]
+                        thrpt:  [2.1430 Melem/s 2.1587 Melem/s 2.1810 Melem/s]
+                 change:
+                        time:   [−2.1039% −1.1553% −0.1962%] (p = 0.04 < 0.05)
+                        thrpt:  [+0.1966% +1.1688% +2.1491%]
+                        Change within noise threshold.
+Benchmarking store-contains/clustered/roaring/hits
+Benchmarking store-contains/clustered/roaring/hits: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/roaring/hits: Collecting 10 samples in estimated 100.30 ms (3520 iterations)
+Benchmarking store-contains/clustered/roaring/hits: Analyzing
+store-contains/clustered/roaring/hits
+                        time:   [27.384 µs 27.685 µs 27.907 µs]
+                        thrpt:  [36.693 Melem/s 36.987 Melem/s 37.394 Melem/s]
+                 change:
+                        time:   [+7.0432% +10.620% +13.620%] (p = 0.00 < 0.05)
+                        thrpt:  [−11.987% −9.6008% −6.5798%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/clustered/rnbw-image/misses
+Benchmarking store-contains/clustered/rnbw-image/misses: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/rnbw-image/misses: Collecting 10 samples in estimated 102.74 ms (1430 iterations)
+Benchmarking store-contains/clustered/rnbw-image/misses: Analyzing
+store-contains/clustered/rnbw-image/misses
+                        time:   [55.541 µs 56.263 µs 57.824 µs]
+                        thrpt:  [17.709 Melem/s 18.200 Melem/s 18.437 Melem/s]
+                 change:
+                        time:   [−2.5858% +0.7955% +4.9432%] (p = 0.75 > 0.05)
+                        thrpt:  [−4.7104% −0.7893% +2.6545%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/clustered/roaring/misses
+Benchmarking store-contains/clustered/roaring/misses: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/roaring/misses: Collecting 10 samples in estimated 100.55 ms (4730 iterations)
+Benchmarking store-contains/clustered/roaring/misses: Analyzing
+store-contains/clustered/roaring/misses
+                        time:   [21.068 µs 21.602 µs 22.711 µs]
+                        thrpt:  [45.088 Melem/s 47.402 Melem/s 48.604 Melem/s]
+                 change:
+                        time:   [−1.0588% +2.5024% +6.7738%] (p = 0.30 > 0.05)
+                        thrpt:  [−6.3441% −2.4413% +1.0701%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high mild
+Benchmarking store-contains/clustered/l2-p32/hits/1024
+Benchmarking store-contains/clustered/l2-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-p32/hits/1024: Collecting 10 samples in estimated 100.42 ms (8415 iterations)
+Benchmarking store-contains/clustered/l2-p32/hits/1024: Analyzing
+store-contains/clustered/l2-p32/hits/1024
+                        time:   [11.747 µs 12.029 µs 12.535 µs]
+                        thrpt:  [81.692 Melem/s 85.124 Melem/s 87.168 Melem/s]
+                 change:
+                        time:   [+14.218% +19.670% +28.061%] (p = 0.00 < 0.05)
+                        thrpt:  [−21.912% −16.437% −12.448%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/clustered/l2-p32/misses/1024
+Benchmarking store-contains/clustered/l2-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-p32/misses/1024: Collecting 10 samples in estimated 100.13 ms (18k iterations)
+Benchmarking store-contains/clustered/l2-p32/misses/1024: Analyzing
+store-contains/clustered/l2-p32/misses/1024
+                        time:   [5.5172 µs 5.6052 µs 5.6500 µs]
+                        thrpt:  [181.24 Melem/s 182.69 Melem/s 185.60 Melem/s]
+                 change:
+                        time:   [+11.653% +14.029% +16.275%] (p = 0.00 < 0.05)
+                        thrpt:  [−13.997% −12.303% −10.437%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high severe
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 100.06 ms (7975 iterations)
+Benchmarking store-contains/clustered/l2-l3-p32/hits/1024: Analyzing
+store-contains/clustered/l2-l3-p32/hits/1024
+                        time:   [12.196 µs 12.251 µs 12.324 µs]
+                        thrpt:  [83.091 Melem/s 83.582 Melem/s 83.962 Melem/s]
+                 change:
+                        time:   [+21.748% +23.479% +25.152%] (p = 0.00 < 0.05)
+                        thrpt:  [−20.097% −19.015% −17.863%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 100.01 ms (16k iterations)
+Benchmarking store-contains/clustered/l2-l3-p32/misses/1024: Analyzing
+store-contains/clustered/l2-l3-p32/misses/1024
+                        time:   [5.6247 µs 5.7175 µs 5.7947 µs]
+                        thrpt:  [176.71 Melem/s 179.10 Melem/s 182.05 Melem/s]
+                 change:
+                        time:   [+8.3106% +12.876% +16.117%] (p = 0.00 < 0.05)
+                        thrpt:  [−13.880% −11.408% −7.6729%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/clustered/l2-p64/hits/1024
+Benchmarking store-contains/clustered/l2-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-p64/hits/1024: Collecting 10 samples in estimated 100.45 ms (8140 iterations)
+Benchmarking store-contains/clustered/l2-p64/hits/1024: Analyzing
+store-contains/clustered/l2-p64/hits/1024
+                        time:   [12.137 µs 12.238 µs 12.469 µs]
+                        thrpt:  [82.122 Melem/s 83.677 Melem/s 84.372 Melem/s]
+                 change:
+                        time:   [+17.454% +22.884% +31.059%] (p = 0.00 < 0.05)
+                        thrpt:  [−23.699% −18.622% −14.860%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+Benchmarking store-contains/clustered/l2-p64/misses/1024
+Benchmarking store-contains/clustered/l2-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-p64/misses/1024: Collecting 10 samples in estimated 100.30 ms (18k iterations)
+Benchmarking store-contains/clustered/l2-p64/misses/1024: Analyzing
+store-contains/clustered/l2-p64/misses/1024
+                        time:   [5.4487 µs 5.4715 µs 5.4926 µs]
+                        thrpt:  [186.43 Melem/s 187.15 Melem/s 187.93 Melem/s]
+                 change:
+                        time:   [+8.4540% +8.9408% +9.4998%] (p = 0.00 < 0.05)
+                        thrpt:  [−8.6756% −8.2070% −7.7950%]
+                        Performance has regressed.
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 100.16 ms (7975 iterations)
+Benchmarking store-contains/clustered/l2-l3-p64/hits/1024: Analyzing
+store-contains/clustered/l2-l3-p64/hits/1024
+                        time:   [11.546 µs 11.601 µs 11.656 µs]
+                        thrpt:  [87.854 Melem/s 88.272 Melem/s 88.691 Melem/s]
+                 change:
+                        time:   [+10.792% +13.952% +16.903%] (p = 0.00 < 0.05)
+                        thrpt:  [−14.459% −12.243% −9.7408%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 100.01 ms (19k iterations)
+Benchmarking store-contains/clustered/l2-l3-p64/misses/1024: Analyzing
+store-contains/clustered/l2-l3-p64/misses/1024
+                        time:   [5.3406 µs 5.4064 µs 5.4642 µs]
+                        thrpt:  [187.40 Melem/s 189.41 Melem/s 191.74 Melem/s]
+                 change:
+                        time:   [+13.570% +14.788% +16.160%] (p = 0.00 < 0.05)
+                        thrpt:  [−13.912% −12.883% −11.948%]
+                        Performance has regressed.
+
+Benchmarking store-decode/clustered/l2-p32
+Benchmarking store-decode/clustered/l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 103.1ms or enable flat sampling.
+Benchmarking store-decode/clustered/l2-p32: Collecting 10 samples in estimated 103.12 ms (55 iterations)
+Benchmarking store-decode/clustered/l2-p32: Analyzing
+store-decode/clustered/l2-p32
+                        time:   [1.7923 ms 1.8536 ms 1.9649 ms]
+                        thrpt:  [508.94 Melem/s 539.49 Melem/s 557.94 Melem/s]
+                 change:
+                        time:   [+1.1449% +15.219% +29.485%] (p = 0.04 < 0.05)
+                        thrpt:  [−22.771% −13.209% −1.1320%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-decode/clustered/l2-l3-p32
+Benchmarking store-decode/clustered/l2-l3-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 107.9ms or enable flat sampling.
+Benchmarking store-decode/clustered/l2-l3-p32: Collecting 10 samples in estimated 107.87 ms (55 iterations)
+Benchmarking store-decode/clustered/l2-l3-p32: Analyzing
+store-decode/clustered/l2-l3-p32
+                        time:   [1.7400 ms 1.7620 ms 1.7849 ms]
+                        thrpt:  [560.26 Melem/s 567.55 Melem/s 574.73 Melem/s]
+                 change:
+                        time:   [+14.165% +17.626% +21.071%] (p = 0.00 < 0.05)
+                        thrpt:  [−17.404% −14.985% −12.407%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-decode/clustered/l2-p64
+Benchmarking store-decode/clustered/l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 101.7ms or enable flat sampling.
+Benchmarking store-decode/clustered/l2-p64: Collecting 10 samples in estimated 101.71 ms (55 iterations)
+Benchmarking store-decode/clustered/l2-p64: Analyzing
+store-decode/clustered/l2-p64
+                        time:   [1.7498 ms 1.7704 ms 1.7994 ms]
+                        thrpt:  [555.74 Melem/s 564.84 Melem/s 571.50 Melem/s]
+                 change:
+                        time:   [+1.8657% +5.5486% +9.2121%] (p = 0.01 < 0.05)
+                        thrpt:  [−8.4351% −5.2570% −1.8316%]
+                        Performance has regressed.
+Benchmarking store-decode/clustered/l2-l3-p64
+Benchmarking store-decode/clustered/l2-l3-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 101.7ms or enable flat sampling.
+Benchmarking store-decode/clustered/l2-l3-p64: Collecting 10 samples in estimated 101.70 ms (55 iterations)
+Benchmarking store-decode/clustered/l2-l3-p64: Analyzing
+store-decode/clustered/l2-l3-p64
+                        time:   [1.8794 ms 2.0114 ms 2.1854 ms]
+                        thrpt:  [457.57 Melem/s 497.17 Melem/s 532.08 Melem/s]
+                 change:
+                        time:   [+24.160% +44.360% +77.645%] (p = 0.00 < 0.05)
+                        thrpt:  [−43.708% −30.729% −19.459%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset: Collecting 10 samples in estimated 100.14 ms (19k iterations)
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset: Analyzing
+store-update/clustered/l2-p32/insert-hot-reset
+                        time:   [2.6046 µs 2.6235 µs 2.6485 µs]
+                        change: [+3.7735% +4.9150% +5.9463%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset: Collecting 10 samples in estimated 100.01 ms (19k iterations)
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset: Analyzing
+store-update/clustered/l2-p32/remove-hot-reset
+                        time:   [2.5539 µs 2.6255 µs 2.7091 µs]
+                        change: [+3.9212% +5.7427% +7.9879%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.28 ms (19k iterations)
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-p32/dirty-drain-hot-reset
+                        time:   [121.24 ns 141.13 ns 152.44 ns]
+                        change: [+29.161% +45.547% +61.723%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset: Collecting 10 samples in estimated 100.16 ms (19k iterations)
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/clustered/l2-l3-p32/insert-hot-reset
+                        time:   [2.6223 µs 2.7613 µs 2.9040 µs]
+                        change: [+3.9042% +7.5645% +11.450%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset: Collecting 10 samples in estimated 100.12 ms (18k iterations)
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/clustered/l2-l3-p32/remove-hot-reset
+                        time:   [2.6314 µs 2.6436 µs 2.6525 µs]
+                        change: [+5.0286% +6.1791% +7.1042%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.21 ms (18k iterations)
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [107.83 ns 109.31 ns 110.93 ns]
+                        change: [+18.144% +20.135% +22.265%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-demote-noop/clustered/p32/full-range
+Benchmarking store-demote-noop/clustered/p32/full-range: Warming up for 50.000 ms
+Benchmarking store-demote-noop/clustered/p32/full-range: Collecting 10 samples in estimated 100.17 ms (29k iterations)
+Benchmarking store-demote-noop/clustered/p32/full-range: Analyzing
+store-demote-noop/clustered/p32/full-range
+                        time:   [3.4378 µs 3.4629 µs 3.4951 µs]
+                        thrpt:  [73.244 Melem/s 73.926 Melem/s 74.465 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low mild
+
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset: Collecting 10 samples in estimated 100.15 ms (19k iterations)
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset: Analyzing
+store-update/clustered/l2-p64/insert-hot-reset
+                        time:   [2.6023 µs 2.6672 µs 2.7936 µs]
+                        change: [+2.8536% +4.8661% +7.7982%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset: Collecting 10 samples in estimated 100.11 ms (18k iterations)
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset: Analyzing
+store-update/clustered/l2-p64/remove-hot-reset
+                        time:   [2.5719 µs 2.6047 µs 2.6755 µs]
+                        change: [+12.588% +15.498% +18.107%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.21 ms (18k iterations)
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-p64/dirty-drain-hot-reset
+                        time:   [103.01 ns 103.84 ns 105.23 ns]
+                        change: [+18.944% +20.148% +21.376%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset: Collecting 10 samples in estimated 100.18 ms (21k iterations)
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/clustered/l2-l3-p64/insert-hot-reset
+                        time:   [2.3929 µs 2.3999 µs 2.4040 µs]
+                        change: [−4.5156% −3.7478% −3.1434%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset: Collecting 10 samples in estimated 100.01 ms (20k iterations)
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/clustered/l2-l3-p64/remove-hot-reset
+                        time:   [2.3729 µs 2.3842 µs 2.4048 µs]
+                        change: [−5.6448% −4.6849% −3.7384%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high severe
+
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.29 ms (18k iterations)
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [102.45 ns 104.29 ns 107.67 ns]
+                        change: [+16.689% +25.568% +38.122%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+
+Benchmarking store-demote-noop/clustered/p64/full-range
+Benchmarking store-demote-noop/clustered/p64/full-range: Warming up for 50.000 ms
+Benchmarking store-demote-noop/clustered/p64/full-range: Collecting 10 samples in estimated 100.11 ms (30k iterations)
+Benchmarking store-demote-noop/clustered/p64/full-range: Analyzing
+store-demote-noop/clustered/p64/full-range
+                        time:   [3.3481 µs 3.3913 µs 3.4294 µs]
+                        thrpt:  [74.648 Melem/s 75.488 Melem/s 76.462 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-promote/clustered/p32/full-range-refresh
+Benchmarking store-promote/clustered/p32/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/clustered/p32/full-range-refresh: Collecting 10 samples in estimated 141.14 ms (165 iterations)
+Benchmarking store-promote/clustered/p32/full-range-refresh: Analyzing
+store-promote/clustered/p32/full-range-refresh
+                        time:   [846.49 µs 884.82 µs 918.66 µs]
+                        thrpt:  [71.339 Melem/s 74.067 Melem/s 77.421 Melem/s]
+                 change:
+                        time:   [−4.7671% −1.3994% +2.3579%] (p = 0.49 > 0.05)
+                        thrpt:  [−2.3036% +1.4192% +5.0057%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-promote/clustered/p64/full-range-refresh
+Benchmarking store-promote/clustered/p64/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/clustered/p64/full-range-refresh: Collecting 10 samples in estimated 116.54 ms (110 iterations)
+Benchmarking store-promote/clustered/p64/full-range-refresh: Analyzing
+store-promote/clustered/p64/full-range-refresh
+                        time:   [1.0884 ms 1.0930 ms 1.0960 ms]
+                        thrpt:  [59.795 Melem/s 59.962 Melem/s 60.213 Melem/s]
+                 change:
+                        time:   [+30.767% +32.348% +33.980%] (p = 0.00 < 0.05)
+                        thrpt:  [−25.362% −24.442% −23.528%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+Benchmarking store-build/dense/rnbw-l2-p32
+Benchmarking store-build/dense/rnbw-l2-p32: Warming up for 50.000 ms
+Benchmarking store-build/dense/rnbw-l2-p32: Collecting 10 samples in estimated 178.50 ms (110 iterations)
+Benchmarking store-build/dense/rnbw-l2-p32: Analyzing
+store-build/dense/rnbw-l2-p32
+                        time:   [1.7480 ms 1.7562 ms 1.7693 ms]
+                        thrpt:  [565.21 Melem/s 569.42 Melem/s 572.09 Melem/s]
+                 change:
+                        time:   [−0.1855% +2.5489% +5.4450%] (p = 0.11 > 0.05)
+                        thrpt:  [−5.1638% −2.4855% +0.1858%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-build/dense/rnbw-l2-p64
+Benchmarking store-build/dense/rnbw-l2-p64: Warming up for 50.000 ms
+Benchmarking store-build/dense/rnbw-l2-p64: Collecting 10 samples in estimated 177.93 ms (110 iterations)
+Benchmarking store-build/dense/rnbw-l2-p64: Analyzing
+store-build/dense/rnbw-l2-p64
+                        time:   [1.7811 ms 1.8572 ms 1.9430 ms]
+                        thrpt:  [514.68 Melem/s 538.44 Melem/s 561.44 Melem/s]
+                 change:
+                        time:   [−8.5788% −4.3773% +0.6125%] (p = 0.10 > 0.05)
+                        thrpt:  [−0.6087% +4.5776% +9.3839%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-build/dense/rnbw-query-image
+Benchmarking store-build/dense/rnbw-query-image: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 283.4ms.
+Benchmarking store-build/dense/rnbw-query-image: Collecting 10 samples in estimated 283.42 ms (10 iterations)
+Benchmarking store-build/dense/rnbw-query-image: Analyzing
+store-build/dense/rnbw-query-image
+                        time:   [24.418 ms 24.827 ms 25.284 ms]
+                        thrpt:  [39.550 Melem/s 40.278 Melem/s 40.953 Melem/s]
+                 change:
+                        time:   [−3.7275% −1.5405% +0.7590%] (p = 0.23 > 0.05)
+                        thrpt:  [−0.7533% +1.5646% +3.8718%]
+                        No change in performance detected.
+
+Benchmarking store-contains/dense/rnbw-image/hits
+Benchmarking store-contains/dense/rnbw-image/hits: Warming up for 50.000 ms
+Benchmarking store-contains/dense/rnbw-image/hits: Collecting 10 samples in estimated 102.66 ms (275 iterations)
+Benchmarking store-contains/dense/rnbw-image/hits: Analyzing
+store-contains/dense/rnbw-image/hits
+                        time:   [364.41 µs 366.60 µs 368.76 µs]
+                        thrpt:  [2.7768 Melem/s 2.7932 Melem/s 2.8101 Melem/s]
+                 change:
+                        time:   [−3.4643% −1.7310% −0.0007%] (p = 0.09 > 0.05)
+                        thrpt:  [+0.0007% +1.7615% +3.5887%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/dense/roaring/hits
+Benchmarking store-contains/dense/roaring/hits: Warming up for 50.000 ms
+Benchmarking store-contains/dense/roaring/hits: Collecting 10 samples in estimated 100.12 ms (21k iterations)
+Benchmarking store-contains/dense/roaring/hits: Analyzing
+store-contains/dense/roaring/hits
+                        time:   [4.7880 µs 4.9211 µs 5.0612 µs]
+                        thrpt:  [202.32 Melem/s 208.08 Melem/s 213.87 Melem/s]
+                 change:
+                        time:   [+0.1822% +3.2027% +6.5365%] (p = 0.06 > 0.05)
+                        thrpt:  [−6.1355% −3.1034% −0.1819%]
+                        No change in performance detected.
+Benchmarking store-contains/dense/rnbw-image/misses
+Benchmarking store-contains/dense/rnbw-image/misses: Warming up for 50.000 ms
+Benchmarking store-contains/dense/rnbw-image/misses: Collecting 10 samples in estimated 100.19 ms (5610 iterations)
+Benchmarking store-contains/dense/rnbw-image/misses: Analyzing
+store-contains/dense/rnbw-image/misses
+                        time:   [16.537 µs 16.596 µs 16.694 µs]
+                        thrpt:  [61.341 Melem/s 61.701 Melem/s 61.923 Melem/s]
+                 change:
+                        time:   [−1.1995% −0.4293% +0.4987%] (p = 0.36 > 0.05)
+                        thrpt:  [−0.4962% +0.4312% +1.2140%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/dense/roaring/misses
+Benchmarking store-contains/dense/roaring/misses: Warming up for 50.000 ms
+Benchmarking store-contains/dense/roaring/misses: Collecting 10 samples in estimated 100.05 ms (37k iterations)
+Benchmarking store-contains/dense/roaring/misses: Analyzing
+store-contains/dense/roaring/misses
+                        time:   [2.7088 µs 2.8274 µs 2.9121 µs]
+                        thrpt:  [351.63 Melem/s 362.18 Melem/s 378.02 Melem/s]
+                 change:
+                        time:   [+1.9249% +3.9612% +6.4122%] (p = 0.00 < 0.05)
+                        thrpt:  [−6.0258% −3.8102% −1.8886%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+Benchmarking store-contains/dense/l2-p32/hits/1024
+Benchmarking store-contains/dense/l2-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-p32/hits/1024: Collecting 10 samples in estimated 100.16 ms (14k iterations)
+Benchmarking store-contains/dense/l2-p32/hits/1024: Analyzing
+store-contains/dense/l2-p32/hits/1024
+                        time:   [6.9401 µs 7.0225 µs 7.0819 µs]
+                        thrpt:  [144.59 Melem/s 145.82 Melem/s 147.55 Melem/s]
+                 change:
+                        time:   [−0.9062% +1.0718% +2.8504%] (p = 0.29 > 0.05)
+                        thrpt:  [−2.7714% −1.0604% +0.9145%]
+                        No change in performance detected.
+Benchmarking store-contains/dense/l2-p32/misses/1024
+Benchmarking store-contains/dense/l2-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-p32/misses/1024: Collecting 10 samples in estimated 100.01 ms (34k iterations)
+Benchmarking store-contains/dense/l2-p32/misses/1024: Analyzing
+store-contains/dense/l2-p32/misses/1024
+                        time:   [2.9103 µs 2.9269 µs 2.9450 µs]
+                        thrpt:  [347.71 Melem/s 349.86 Melem/s 351.85 Melem/s]
+                 change:
+                        time:   [−14.097% −13.211% −12.330%] (p = 0.00 < 0.05)
+                        thrpt:  [+14.065% +15.222% +16.410%]
+                        Performance has improved.
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 100.10 ms (14k iterations)
+Benchmarking store-contains/dense/l2-l3-p32/hits/1024: Analyzing
+store-contains/dense/l2-l3-p32/hits/1024
+                        time:   [7.0929 µs 7.4976 µs 8.0919 µs]
+                        thrpt:  [126.55 Melem/s 136.58 Melem/s 144.37 Melem/s]
+                 change:
+                        time:   [+2.4147% +5.9401% +10.256%] (p = 0.01 < 0.05)
+                        thrpt:  [−9.3017% −5.6070% −2.3578%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 100.07 ms (32k iterations)
+Benchmarking store-contains/dense/l2-l3-p32/misses/1024: Analyzing
+store-contains/dense/l2-l3-p32/misses/1024
+                        time:   [3.0664 µs 3.1275 µs 3.1863 µs]
+                        thrpt:  [321.38 Melem/s 327.42 Melem/s 333.94 Melem/s]
+                 change:
+                        time:   [−7.1420% −1.2011% +3.3104%] (p = 0.77 > 0.05)
+                        thrpt:  [−3.2043% +1.2157% +7.6913%]
+                        No change in performance detected.
+Benchmarking store-contains/dense/l2-p64/hits/1024
+Benchmarking store-contains/dense/l2-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-p64/hits/1024: Collecting 10 samples in estimated 100.21 ms (14k iterations)
+Benchmarking store-contains/dense/l2-p64/hits/1024: Analyzing
+store-contains/dense/l2-p64/hits/1024
+                        time:   [6.9836 µs 7.0112 µs 7.0315 µs]
+                        thrpt:  [145.63 Melem/s 146.05 Melem/s 146.63 Melem/s]
+                 change:
+                        time:   [+10.741% +11.593% +12.565%] (p = 0.00 < 0.05)
+                        thrpt:  [−11.163% −10.389% −9.6990%]
+                        Performance has regressed.
+Benchmarking store-contains/dense/l2-p64/misses/1024
+Benchmarking store-contains/dense/l2-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-p64/misses/1024: Collecting 10 samples in estimated 100.11 ms (33k iterations)
+Benchmarking store-contains/dense/l2-p64/misses/1024: Analyzing
+store-contains/dense/l2-p64/misses/1024
+                        time:   [3.0264 µs 3.0509 µs 3.0991 µs]
+                        thrpt:  [330.42 Melem/s 335.64 Melem/s 338.35 Melem/s]
+                 change:
+                        time:   [−2.0997% −0.0111% +1.6550%] (p = 0.99 > 0.05)
+                        thrpt:  [−1.6281% +0.0111% +2.1448%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 100.24 ms (14k iterations)
+Benchmarking store-contains/dense/l2-l3-p64/hits/1024: Analyzing
+store-contains/dense/l2-l3-p64/hits/1024
+                        time:   [6.9026 µs 7.2945 µs 7.5953 µs]
+                        thrpt:  [134.82 Melem/s 140.38 Melem/s 148.35 Melem/s]
+                 change:
+                        time:   [+10.278% +14.466% +19.134%] (p = 0.00 < 0.05)
+                        thrpt:  [−16.061% −12.638% −9.3199%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 100.15 ms (31k iterations)
+Benchmarking store-contains/dense/l2-l3-p64/misses/1024: Analyzing
+store-contains/dense/l2-l3-p64/misses/1024
+                        time:   [3.1754 µs 3.2577 µs 3.3163 µs]
+                        thrpt:  [308.77 Melem/s 314.34 Melem/s 322.48 Melem/s]
+                 change:
+                        time:   [+4.7430% +6.7109% +9.0637%] (p = 0.00 < 0.05)
+                        thrpt:  [−8.3104% −6.2889% −4.5282%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low mild
+
+Benchmarking store-decode/dense/l2-p32
+Benchmarking store-decode/dense/l2-p32: Warming up for 50.000 ms
+Benchmarking store-decode/dense/l2-p32: Collecting 10 samples in estimated 169.70 ms (110 iterations)
+Benchmarking store-decode/dense/l2-p32: Analyzing
+store-decode/dense/l2-p32
+                        time:   [936.89 µs 1.0152 ms 1.1921 ms]
+                        thrpt:  [838.89 Melem/s 984.99 Melem/s 1.0674 Gelem/s]
+                 change:
+                        time:   [+12.890% +32.577% +57.637%] (p = 0.01 < 0.05)
+                        thrpt:  [−36.563% −24.572% −11.418%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-decode/dense/l2-l3-p32
+Benchmarking store-decode/dense/l2-l3-p32: Warming up for 50.000 ms
+Benchmarking store-decode/dense/l2-l3-p32: Collecting 10 samples in estimated 111.97 ms (110 iterations)
+Benchmarking store-decode/dense/l2-l3-p32: Analyzing
+store-decode/dense/l2-l3-p32
+                        time:   [882.81 µs 937.23 µs 1.0076 ms]
+                        thrpt:  [992.48 Melem/s 1.0670 Gelem/s 1.1327 Gelem/s]
+                 change:
+                        time:   [−15.853% −8.3122% +0.0370%] (p = 0.08 > 0.05)
+                        thrpt:  [−0.0369% +9.0658% +18.840%]
+                        No change in performance detected.
+Benchmarking store-decode/dense/l2-p64
+Benchmarking store-decode/dense/l2-p64: Warming up for 50.000 ms
+Benchmarking store-decode/dense/l2-p64: Collecting 10 samples in estimated 137.53 ms (165 iterations)
+Benchmarking store-decode/dense/l2-p64: Analyzing
+store-decode/dense/l2-p64
+                        time:   [1.0233 ms 1.1778 ms 1.3159 ms]
+                        thrpt:  [759.93 Melem/s 849.02 Melem/s 977.25 Melem/s]
+                 change:
+                        time:   [−19.493% −3.5358% +14.995%] (p = 0.71 > 0.05)
+                        thrpt:  [−13.040% +3.6654% +24.213%]
+                        No change in performance detected.
+Benchmarking store-decode/dense/l2-l3-p64
+Benchmarking store-decode/dense/l2-l3-p64: Warming up for 50.000 ms
+Benchmarking store-decode/dense/l2-l3-p64: Collecting 10 samples in estimated 123.57 ms (110 iterations)
+Benchmarking store-decode/dense/l2-l3-p64: Analyzing
+store-decode/dense/l2-l3-p64
+                        time:   [904.88 µs 987.01 µs 1.0463 ms]
+                        thrpt:  [955.77 Melem/s 1.0132 Gelem/s 1.1051 Gelem/s]
+                 change:
+                        time:   [+3.1774% +8.6954% +14.409%] (p = 0.01 < 0.05)
+                        thrpt:  [−12.594% −7.9997% −3.0796%]
+                        Performance has regressed.
+
+Benchmarking store-update/dense/l2-p32/insert-hot-reset
+Benchmarking store-update/dense/l2-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-p32/insert-hot-reset: Collecting 10 samples in estimated 102.23 ms (825 iterations)
+Benchmarking store-update/dense/l2-p32/insert-hot-reset: Analyzing
+store-update/dense/l2-p32/insert-hot-reset
+                        time:   [58.869 µs 61.277 µs 64.358 µs]
+                        change: [−42.807% −34.709% −24.581%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/dense/l2-p32/remove-hot-reset
+Benchmarking store-update/dense/l2-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-p32/remove-hot-reset: Collecting 10 samples in estimated 103.13 ms (605 iterations)
+Benchmarking store-update/dense/l2-p32/remove-hot-reset: Analyzing
+store-update/dense/l2-p32/remove-hot-reset
+                        time:   [102.37 µs 105.33 µs 107.60 µs]
+                        change: [−19.845% −16.960% −13.876%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 104.71 ms (880 iterations)
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-p32/dirty-drain-hot-reset
+                        time:   [176.46 ns 196.27 ns 220.94 ns]
+                        change: [−6.9115% +5.9576% +19.096%] (p = 0.29 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset: Collecting 10 samples in estimated 101.81 ms (880 iterations)
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/dense/l2-l3-p32/insert-hot-reset
+                        time:   [54.386 µs 55.891 µs 56.935 µs]
+                        change: [−27.490% −24.122% −20.300%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset: Collecting 10 samples in estimated 102.60 ms (605 iterations)
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/dense/l2-l3-p32/remove-hot-reset
+                        time:   [104.12 µs 107.69 µs 112.91 µs]
+                        change: [−16.367% −10.509% −3.7123%] (p = 0.01 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high mild
+
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 105.89 ms (935 iterations)
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [172.17 ns 178.67 ns 183.69 ns]
+                        change: [+4.3639% +7.8485% +11.615%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-demote-noop/dense/p32/full-range
+Benchmarking store-demote-noop/dense/p32/full-range: Warming up for 50.000 ms
+Benchmarking store-demote-noop/dense/p32/full-range: Collecting 10 samples in estimated 100.01 ms (29k iterations)
+Benchmarking store-demote-noop/dense/p32/full-range: Analyzing
+store-demote-noop/dense/p32/full-range
+                        time:   [3.3007 µs 3.3950 µs 3.5920 µs]
+                        thrpt:  [71.269 Melem/s 75.404 Melem/s 77.559 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/dense/l2-p64/insert-hot-reset
+Benchmarking store-update/dense/l2-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-p64/insert-hot-reset: Collecting 10 samples in estimated 103.11 ms (880 iterations)
+Benchmarking store-update/dense/l2-p64/insert-hot-reset: Analyzing
+store-update/dense/l2-p64/insert-hot-reset
+                        time:   [54.326 µs 55.253 µs 56.057 µs]
+                        change: [−35.425% −30.604% −26.110%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/dense/l2-p64/remove-hot-reset
+Benchmarking store-update/dense/l2-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-p64/remove-hot-reset: Collecting 10 samples in estimated 100.55 ms (605 iterations)
+Benchmarking store-update/dense/l2-p64/remove-hot-reset: Analyzing
+store-update/dense/l2-p64/remove-hot-reset
+                        time:   [103.05 µs 105.20 µs 107.37 µs]
+                        change: [−21.547% −19.184% −16.788%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 105.91 ms (880 iterations)
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-p64/dirty-drain-hot-reset
+                        time:   [179.16 ns 189.42 ns 199.40 ns]
+                        change: [+4.7830% +10.267% +15.361%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low mild
+
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset: Collecting 10 samples in estimated 100.68 ms (825 iterations)
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/dense/l2-l3-p64/insert-hot-reset
+                        time:   [54.847 µs 58.856 µs 61.879 µs]
+                        change: [−31.214% −27.118% −22.609%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset: Collecting 10 samples in estimated 103.91 ms (605 iterations)
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/dense/l2-l3-p64/remove-hot-reset
+                        time:   [101.70 µs 105.47 µs 108.69 µs]
+                        change: [−22.451% −19.143% −15.415%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 104.71 ms (880 iterations)
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [175.75 ns 179.89 ns 187.56 ns]
+                        change: [+7.4489% +12.800% +18.443%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-demote-noop/dense/p64/full-range
+Benchmarking store-demote-noop/dense/p64/full-range: Warming up for 50.000 ms
+Benchmarking store-demote-noop/dense/p64/full-range: Collecting 10 samples in estimated 100.16 ms (30k iterations)
+Benchmarking store-demote-noop/dense/p64/full-range: Analyzing
+store-demote-noop/dense/p64/full-range
+                        time:   [3.2996 µs 3.4278 µs 3.5747 µs]
+                        thrpt:  [71.614 Melem/s 74.684 Melem/s 77.585 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-promote/dense/p32/full-range-refresh
+Benchmarking store-promote/dense/p32/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/dense/p32/full-range-refresh: Collecting 10 samples in estimated 108.07 ms (495 iterations)
+Benchmarking store-promote/dense/p32/full-range-refresh: Analyzing
+store-promote/dense/p32/full-range-refresh
+                        time:   [211.27 µs 215.43 µs 220.86 µs]
+                        thrpt:  [296.73 Melem/s 304.22 Melem/s 310.21 Melem/s]
+                 change:
+                        time:   [−5.7292% −2.1959% +0.8395%] (p = 0.26 > 0.05)
+                        thrpt:  [−0.8325% +2.2452% +6.0773%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low severe
+Benchmarking store-promote/dense/p64/full-range-refresh
+Benchmarking store-promote/dense/p64/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/dense/p64/full-range-refresh: Collecting 10 samples in estimated 108.32 ms (660 iterations)
+Benchmarking store-promote/dense/p64/full-range-refresh: Analyzing
+store-promote/dense/p64/full-range-refresh
+                        time:   [153.57 µs 160.54 µs 176.06 µs]
+                        thrpt:  [372.23 Melem/s 408.23 Melem/s 426.74 Melem/s]
+                 change:
+                        time:   [−4.1429% +3.2132% +13.086%] (p = 0.53 > 0.05)
+                        thrpt:  [−11.572% −3.1132% +4.3220%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+
+store dataset=morton-shell keys=1000000 layout=p32 l2=2393272B l3=2097152B total=4490424B bits/key=35.923 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2393272B l3=2097152B total=4490424B bits/key=35.923 promoted=351 spills=3478
+Benchmarking store-build/morton-shell/rnbw-l2-p32
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 196.7ms.
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Collecting 10 samples in estimated 196.70 ms (10 iterations)
+Benchmarking store-build/morton-shell/rnbw-l2-p32: Analyzing
+store-build/morton-shell/rnbw-l2-p32
+                        time:   [20.129 ms 20.375 ms 20.656 ms]
+                        thrpt:  [48.413 Melem/s 49.080 Melem/s 49.681 Melem/s]
+                 change:
+                        time:   [−4.8025% −2.2786% −0.0769%] (p = 0.09 > 0.05)
+                        thrpt:  [+0.0769% +2.3318% +5.0448%]
+                        No change in performance detected.
+Benchmarking store-build/morton-shell/rnbw-l2-p64
+Benchmarking store-build/morton-shell/rnbw-l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 221.9ms.
+Benchmarking store-build/morton-shell/rnbw-l2-p64: Collecting 10 samples in estimated 221.95 ms (10 iterations)
+Benchmarking store-build/morton-shell/rnbw-l2-p64: Analyzing
+store-build/morton-shell/rnbw-l2-p64
+                        time:   [20.238 ms 20.654 ms 21.116 ms]
+                        thrpt:  [47.357 Melem/s 48.417 Melem/s 49.411 Melem/s]
+                 change:
+                        time:   [−1.8336% +0.4888% +3.0855%] (p = 0.72 > 0.05)
+                        thrpt:  [−2.9931% −0.4864% +1.8678%]
+                        No change in performance detected.
+Benchmarking store-build/morton-shell/rnbw-query-image
+Benchmarking store-build/morton-shell/rnbw-query-image: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 248.1ms.
+Benchmarking store-build/morton-shell/rnbw-query-image: Collecting 10 samples in estimated 248.09 ms (10 iterations)
+Benchmarking store-build/morton-shell/rnbw-query-image: Analyzing
+store-build/morton-shell/rnbw-query-image
+                        time:   [24.157 ms 24.255 ms 24.363 ms]
+                        thrpt:  [41.046 Melem/s 41.228 Melem/s 41.397 Melem/s]
+                 change:
+                        time:   [−6.1729% −5.3606% −4.5706%] (p = 0.00 < 0.05)
+                        thrpt:  [+4.7895% +5.6643% +6.5790%]
+                        Performance has improved.
+
+Benchmarking store-contains/morton-shell/rnbw-image/hits
+Benchmarking store-contains/morton-shell/rnbw-image/hits: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/rnbw-image/hits: Collecting 10 samples in estimated 108.49 ms (275 iterations)
+Benchmarking store-contains/morton-shell/rnbw-image/hits: Analyzing
+store-contains/morton-shell/rnbw-image/hits
+                        time:   [373.68 µs 382.62 µs 398.52 µs]
+                        thrpt:  [2.5695 Melem/s 2.6763 Melem/s 2.7403 Melem/s]
+                 change:
+                        time:   [−7.0272% +1.4651% +7.6094%] (p = 0.78 > 0.05)
+                        thrpt:  [−7.0713% −1.4439% +7.5584%]
+                        No change in performance detected.
+Benchmarking store-contains/morton-shell/roaring/hits
+Benchmarking store-contains/morton-shell/roaring/hits: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/roaring/hits: Collecting 10 samples in estimated 102.43 ms (2310 iterations)
+Benchmarking store-contains/morton-shell/roaring/hits: Analyzing
+store-contains/morton-shell/roaring/hits
+                        time:   [42.772 µs 43.527 µs 44.649 µs]
+                        thrpt:  [22.935 Melem/s 23.526 Melem/s 23.941 Melem/s]
+                 change:
+                        time:   [−5.9694% −2.1782% +1.3559%] (p = 0.31 > 0.05)
+                        thrpt:  [−1.3377% +2.2267% +6.3483%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-contains/morton-shell/rnbw-image/misses
+Benchmarking store-contains/morton-shell/rnbw-image/misses: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/rnbw-image/misses: Collecting 10 samples in estimated 101.73 ms (2365 iterations)
+Benchmarking store-contains/morton-shell/rnbw-image/misses: Analyzing
+store-contains/morton-shell/rnbw-image/misses
+                        time:   [41.385 µs 42.107 µs 43.938 µs]
+                        thrpt:  [23.305 Melem/s 24.319 Melem/s 24.743 Melem/s]
+                 change:
+                        time:   [−2.0634% +1.5788% +7.0224%] (p = 0.61 > 0.05)
+                        thrpt:  [−6.5616% −1.5542% +2.1069%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/morton-shell/roaring/misses
+Benchmarking store-contains/morton-shell/roaring/misses: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/roaring/misses: Collecting 10 samples in estimated 100.39 ms (7480 iterations)
+Benchmarking store-contains/morton-shell/roaring/misses: Analyzing
+store-contains/morton-shell/roaring/misses
+                        time:   [13.046 µs 13.459 µs 14.043 µs]
+                        thrpt:  [72.921 Melem/s 76.084 Melem/s 78.491 Melem/s]
+                 change:
+                        time:   [−1.8515% +0.8682% +4.1386%] (p = 0.62 > 0.05)
+                        thrpt:  [−3.9741% −0.8607% +1.8865%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024: Collecting 10 samples in estimated 108.17 ms (550 iterations)
+Benchmarking store-contains/morton-shell/l2-p32/hits/1024: Analyzing
+store-contains/morton-shell/l2-p32/hits/1024
+                        time:   [192.52 µs 194.23 µs 197.12 µs]
+                        thrpt:  [5.1947 Melem/s 5.2720 Melem/s 5.3190 Melem/s]
+                 change:
+                        time:   [−4.2809% −0.7960% +1.7031%] (p = 0.72 > 0.05)
+                        thrpt:  [−1.6746% +0.8024% +4.4724%]
+                        No change in performance detected.
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024: Collecting 10 samples in estimated 100.12 ms (10k iterations)
+Benchmarking store-contains/morton-shell/l2-p32/misses/1024: Analyzing
+store-contains/morton-shell/l2-p32/misses/1024
+                        time:   [9.3710 µs 9.4022 µs 9.4312 µs]
+                        thrpt:  [108.58 Melem/s 108.91 Melem/s 109.27 Melem/s]
+                 change:
+                        time:   [−10.823% −6.1794% −2.3305%] (p = 0.01 < 0.05)
+                        thrpt:  [+2.3861% +6.5864% +12.137%]
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 108.56 ms (550 iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p32/hits/1024: Analyzing
+store-contains/morton-shell/l2-l3-p32/hits/1024
+                        time:   [193.32 µs 195.63 µs 198.60 µs]
+                        thrpt:  [5.1562 Melem/s 5.2342 Melem/s 5.2968 Melem/s]
+                 change:
+                        time:   [−0.5411% +1.9978% +4.8065%] (p = 0.17 > 0.05)
+                        thrpt:  [−4.5861% −1.9587% +0.5440%]
+                        No change in performance detected.
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 100.40 ms (11k iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p32/misses/1024: Analyzing
+store-contains/morton-shell/l2-l3-p32/misses/1024
+                        time:   [9.1434 µs 9.4254 µs 9.9693 µs]
+                        thrpt:  [102.72 Melem/s 108.64 Melem/s 111.99 Melem/s]
+                 change:
+                        time:   [−2.1739% +5.4962% +12.661%] (p = 0.18 > 0.05)
+                        thrpt:  [−11.238% −5.2099% +2.2222%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024: Collecting 10 samples in estimated 109.62 ms (440 iterations)
+Benchmarking store-contains/morton-shell/l2-p64/hits/1024: Analyzing
+store-contains/morton-shell/l2-p64/hits/1024
+                        time:   [203.34 µs 225.51 µs 257.11 µs]
+                        thrpt:  [3.9827 Melem/s 4.5408 Melem/s 5.0358 Melem/s]
+                 change:
+                        time:   [+18.419% +36.990% +58.212%] (p = 0.00 < 0.05)
+                        thrpt:  [−36.794% −27.002% −15.554%]
+                        Performance has regressed.
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024: Collecting 10 samples in estimated 100.14 ms (11k iterations)
+Benchmarking store-contains/morton-shell/l2-p64/misses/1024: Analyzing
+store-contains/morton-shell/l2-p64/misses/1024
+                        time:   [8.8924 µs 9.0117 µs 9.3225 µs]
+                        thrpt:  [109.84 Melem/s 113.63 Melem/s 115.15 Melem/s]
+                 change:
+                        time:   [−6.9668% −1.9129% +6.7837%] (p = 0.70 > 0.05)
+                        thrpt:  [−6.3527% +1.9502% +7.4885%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 107.45 ms (550 iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p64/hits/1024: Analyzing
+store-contains/morton-shell/l2-l3-p64/hits/1024
+                        time:   [193.84 µs 199.26 µs 205.58 µs]
+                        thrpt:  [4.9810 Melem/s 5.1389 Melem/s 5.2827 Melem/s]
+                 change:
+                        time:   [−7.6236% −3.4462% +0.8718%] (p = 0.16 > 0.05)
+                        thrpt:  [−0.8643% +3.5693% +8.2527%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high mild
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 100.35 ms (10k iterations)
+Benchmarking store-contains/morton-shell/l2-l3-p64/misses/1024: Analyzing
+store-contains/morton-shell/l2-l3-p64/misses/1024
+                        time:   [8.8859 µs 8.9383 µs 8.9646 µs]
+                        thrpt:  [114.23 Melem/s 114.56 Melem/s 115.24 Melem/s]
+                 change:
+                        time:   [−0.9262% +0.1309% +1.2211%] (p = 0.82 > 0.05)
+                        thrpt:  [−1.2063% −0.1307% +0.9349%]
+                        No change in performance detected.
+
+Benchmarking store-decode/morton-shell/l2-p32
+Benchmarking store-decode/morton-shell/l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 299.5ms.
+Benchmarking store-decode/morton-shell/l2-p32: Collecting 10 samples in estimated 299.46 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-p32: Analyzing
+store-decode/morton-shell/l2-p32
+                        time:   [29.129 ms 30.269 ms 31.870 ms]
+                        thrpt:  [31.378 Melem/s 33.037 Melem/s 34.331 Melem/s]
+                 change:
+                        time:   [−6.8265% −1.1053% +5.3847%] (p = 0.76 > 0.05)
+                        thrpt:  [−5.1096% +1.1177% +7.3267%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-decode/morton-shell/l2-l3-p32
+Benchmarking store-decode/morton-shell/l2-l3-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 301.8ms.
+Benchmarking store-decode/morton-shell/l2-l3-p32: Collecting 10 samples in estimated 301.78 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-l3-p32: Analyzing
+store-decode/morton-shell/l2-l3-p32
+                        time:   [28.363 ms 28.848 ms 29.452 ms]
+                        thrpt:  [33.954 Melem/s 34.664 Melem/s 35.257 Melem/s]
+                 change:
+                        time:   [−1.7960% +1.0049% +3.8848%] (p = 0.52 > 0.05)
+                        thrpt:  [−3.7395% −0.9949% +1.8289%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-decode/morton-shell/l2-p64
+Benchmarking store-decode/morton-shell/l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 295.7ms.
+Benchmarking store-decode/morton-shell/l2-p64: Collecting 10 samples in estimated 295.71 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-p64: Analyzing
+store-decode/morton-shell/l2-p64
+                        time:   [30.043 ms 30.266 ms 30.516 ms]
+                        thrpt:  [32.769 Melem/s 33.040 Melem/s 33.286 Melem/s]
+                 change:
+                        time:   [+1.8325% +4.6405% +7.3525%] (p = 0.00 < 0.05)
+                        thrpt:  [−6.8490% −4.4347% −1.7995%]
+                        Performance has regressed.
+Benchmarking store-decode/morton-shell/l2-l3-p64
+Benchmarking store-decode/morton-shell/l2-l3-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 292.1ms.
+Benchmarking store-decode/morton-shell/l2-l3-p64: Collecting 10 samples in estimated 292.14 ms (10 iterations)
+Benchmarking store-decode/morton-shell/l2-l3-p64: Analyzing
+store-decode/morton-shell/l2-l3-p64
+                        time:   [29.072 ms 29.514 ms 30.063 ms]
+                        thrpt:  [33.264 Melem/s 33.882 Melem/s 34.398 Melem/s]
+                 change:
+                        time:   [−1.2540% +0.5528% +2.7797%] (p = 0.63 > 0.05)
+                        thrpt:  [−2.7045% −0.5498% +1.2699%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset: Collecting 10 samples in estimated 101.09 ms (4840 iterations)
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-p32/insert-hot-reset
+                        time:   [10.782 µs 11.028 µs 11.399 µs]
+                        change: [+10.111% +15.628% +22.586%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset: Collecting 10 samples in estimated 100.24 ms (18k iterations)
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-p32/remove-hot-reset
+                        time:   [2.5378 µs 2.5605 µs 2.6002 µs]
+                        change: [−1.2790% +0.1481% +1.5940%] (p = 0.81 > 0.05)
+                        No change in performance detected.
+
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.03 ms (4895 iterations)
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-p32/dirty-drain-hot-reset
+                        time:   [108.87 ns 109.88 ns 111.84 ns]
+                        change: [+18.020% +20.155% +22.441%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset: Collecting 10 samples in estimated 101.03 ms (4840 iterations)
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p32/insert-hot-reset
+                        time:   [10.468 µs 10.553 µs 10.602 µs]
+                        change: [+1.2425% +2.6209% +3.9943%] (p = 0.01 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset: Collecting 10 samples in estimated 100.17 ms (18k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p32/remove-hot-reset
+                        time:   [2.6648 µs 2.7201 µs 2.8034 µs]
+                        change: [+4.7234% +8.3275% +13.781%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 10 measurements (30.00%)
+  1 (10.00%) low severe
+  1 (10.00%) low mild
+  1 (10.00%) high severe
+
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.51 ms (4785 iterations)
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [116.78 ns 120.00 ns 125.75 ns]
+                        change: [+11.599% +17.120% +23.688%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 542.4ms.
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Collecting 10 samples in estimated 542.43 ms (10 iterations)
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Analyzing
+store-demote/morton-shell/p32/full-range-hot-reset
+                        time:   [18.622 ms 19.089 ms 19.605 ms]
+                        change: [+1.8745% +4.5973% +7.5498%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset: Collecting 10 samples in estimated 100.26 ms (5060 iterations)
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-p64/insert-hot-reset
+                        time:   [9.6657 µs 9.9267 µs 10.339 µs]
+                        change: [−5.3461% −3.7790% −1.5331%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset: Collecting 10 samples in estimated 100.04 ms (18k iterations)
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-p64/remove-hot-reset
+                        time:   [2.7058 µs 2.7374 µs 2.7576 µs]
+                        change: [+1.9974% +9.1071% +21.309%] (p = 0.06 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high severe
+
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.78 ms (4840 iterations)
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-p64/dirty-drain-hot-reset
+                        time:   [116.08 ns 117.02 ns 118.02 ns]
+                        change: [+19.395% +21.962% +24.323%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) low mild
+
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset: Collecting 10 samples in estimated 100.27 ms (4675 iterations)
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p64/insert-hot-reset
+                        time:   [9.8791 µs 9.9123 µs 9.9491 µs]
+                        change: [−2.1297% −1.4577% −0.7763%] (p = 0.00 < 0.05)
+                        Change within noise threshold.
+
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset: Collecting 10 samples in estimated 100.05 ms (17k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p64/remove-hot-reset
+                        time:   [2.6719 µs 2.7445 µs 2.8220 µs]
+                        change: [+3.8375% +5.9908% +7.9856%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low severe
+  1 (10.00%) high mild
+
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.75 ms (4895 iterations)
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [112.30 ns 114.88 ns 117.01 ns]
+                        change: [+17.474% +22.516% +26.893%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 409.0ms.
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Collecting 10 samples in estimated 408.99 ms (10 iterations)
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Analyzing
+store-demote/morton-shell/p64/full-range-hot-reset
+                        time:   [12.419 ms 12.605 ms 12.846 ms]
+                        change: [−1.7240% +0.2761% +2.4299%] (p = 0.75 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 10 measurements (30.00%)
+  1 (10.00%) low severe
+  1 (10.00%) low mild
+  1 (10.00%) high severe
+
+Benchmarking store-promote/morton-shell/p32/full-range-refresh
+Benchmarking store-promote/morton-shell/p32/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 289.8ms.
+Benchmarking store-promote/morton-shell/p32/full-range-refresh: Collecting 10 samples in estimated 289.77 ms (10 iterations)
+Benchmarking store-promote/morton-shell/p32/full-range-refresh: Analyzing
+store-promote/morton-shell/p32/full-range-refresh
+                        time:   [28.278 ms 29.056 ms 30.229 ms]
+                        thrpt:  [2.1680 Melem/s 2.2555 Melem/s 2.3176 Melem/s]
+                 change:
+                        time:   [+2.2080% +5.4027% +10.420%] (p = 0.01 < 0.05)
+                        thrpt:  [−9.4368% −5.1258% −2.1603%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+Benchmarking store-promote/morton-shell/p64/full-range-refresh
+Benchmarking store-promote/morton-shell/p64/full-range-refresh: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 282.1ms.
+Benchmarking store-promote/morton-shell/p64/full-range-refresh: Collecting 10 samples in estimated 282.11 ms (10 iterations)
+Benchmarking store-promote/morton-shell/p64/full-range-refresh: Analyzing
+store-promote/morton-shell/p64/full-range-refresh
+                        time:   [28.710 ms 29.150 ms 29.667 ms]
+                        thrpt:  [2.2091 Melem/s 2.2482 Melem/s 2.2827 Melem/s]
+                 change:
+                        time:   [−1.6874% +0.3473% +2.5671%] (p = 0.76 > 0.05)
+                        thrpt:  [−2.5028% −0.3461% +1.7163%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+store dataset=ecs keys=1000000 layout=p32 l2=682424B l3=0B total=682424B bits/key=5.459 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=682424B l3=0B total=682424B bits/key=5.459 promoted=0 spills=17
+Benchmarking store-build/ecs/rnbw-l2-p32
+Benchmarking store-build/ecs/rnbw-l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 152.5ms or enable flat sampling.
+Benchmarking store-build/ecs/rnbw-l2-p32: Collecting 10 samples in estimated 152.47 ms (55 iterations)
+Benchmarking store-build/ecs/rnbw-l2-p32: Analyzing
+store-build/ecs/rnbw-l2-p32
+                        time:   [3.0499 ms 3.1448 ms 3.2303 ms]
+                        thrpt:  [309.57 Melem/s 317.98 Melem/s 327.88 Melem/s]
+                 change:
+                        time:   [+3.5169% +5.7528% +8.0432%] (p = 0.00 < 0.05)
+                        thrpt:  [−7.4444% −5.4399% −3.3974%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-build/ecs/rnbw-l2-p64
+Benchmarking store-build/ecs/rnbw-l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 169.1ms or enable flat sampling.
+Benchmarking store-build/ecs/rnbw-l2-p64: Collecting 10 samples in estimated 169.15 ms (55 iterations)
+Benchmarking store-build/ecs/rnbw-l2-p64: Analyzing
+store-build/ecs/rnbw-l2-p64
+                        time:   [2.9725 ms 3.0496 ms 3.1233 ms]
+                        thrpt:  [320.18 Melem/s 327.91 Melem/s 336.42 Melem/s]
+                 change:
+                        time:   [−4.5969% +2.9700% +8.9180%] (p = 0.47 > 0.05)
+                        thrpt:  [−8.1878% −2.8843% +4.8183%]
+                        No change in performance detected.
+Benchmarking store-build/ecs/rnbw-query-image
+Benchmarking store-build/ecs/rnbw-query-image: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 267.1ms.
+Benchmarking store-build/ecs/rnbw-query-image: Collecting 10 samples in estimated 267.11 ms (10 iterations)
+Benchmarking store-build/ecs/rnbw-query-image: Analyzing
+store-build/ecs/rnbw-query-image
+                        time:   [26.487 ms 26.583 ms 26.695 ms]
+                        thrpt:  [37.461 Melem/s 37.618 Melem/s 37.755 Melem/s]
+                 change:
+                        time:   [+0.7547% +6.2104% +9.7013%] (p = 0.02 < 0.05)
+                        thrpt:  [−8.8434% −5.8473% −0.7490%]
+                        Change within noise threshold.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-contains/ecs/rnbw-image/hits
+Benchmarking store-contains/ecs/rnbw-image/hits: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/rnbw-image/hits: Collecting 10 samples in estimated 103.56 ms (275 iterations)
+Benchmarking store-contains/ecs/rnbw-image/hits: Analyzing
+store-contains/ecs/rnbw-image/hits
+                        time:   [371.22 µs 372.36 µs 374.39 µs]
+                        thrpt:  [2.7351 Melem/s 2.7500 Melem/s 2.7584 Melem/s]
+                 change:
+                        time:   [−1.4283% −0.4033% +0.8651%] (p = 0.59 > 0.05)
+                        thrpt:  [−0.8577% +0.4049% +1.4490%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/ecs/roaring/hits
+Benchmarking store-contains/ecs/roaring/hits: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/roaring/hits: Collecting 10 samples in estimated 100.24 ms (20k iterations)
+Benchmarking store-contains/ecs/roaring/hits: Analyzing
+store-contains/ecs/roaring/hits
+                        time:   [4.8417 µs 4.8818 µs 4.9489 µs]
+                        thrpt:  [206.91 Melem/s 209.76 Melem/s 211.50 Melem/s]
+                 change:
+                        time:   [+0.8184% +2.4454% +4.9120%] (p = 0.02 < 0.05)
+                        thrpt:  [−4.6820% −2.3870% −0.8117%]
+                        Change within noise threshold.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/ecs/rnbw-image/misses
+Benchmarking store-contains/ecs/rnbw-image/misses: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/rnbw-image/misses: Collecting 10 samples in estimated 100.29 ms (5940 iterations)
+Benchmarking store-contains/ecs/rnbw-image/misses: Analyzing
+store-contains/ecs/rnbw-image/misses
+                        time:   [16.624 µs 16.723 µs 16.967 µs]
+                        thrpt:  [60.354 Melem/s 61.235 Melem/s 61.599 Melem/s]
+                 change:
+                        time:   [−3.1483% +0.6261% +5.5752%] (p = 0.86 > 0.05)
+                        thrpt:  [−5.2808% −0.6222% +3.2507%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+Benchmarking store-contains/ecs/roaring/misses
+Benchmarking store-contains/ecs/roaring/misses: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/roaring/misses: Collecting 10 samples in estimated 100.18 ms (26k iterations)
+Benchmarking store-contains/ecs/roaring/misses: Analyzing
+store-contains/ecs/roaring/misses
+                        time:   [3.4166 µs 3.6625 µs 4.0497 µs]
+                        thrpt:  [252.86 Melem/s 279.59 Melem/s 299.71 Melem/s]
+                 change:
+                        time:   [−3.7880% +0.2169% +6.9425%] (p = 0.94 > 0.05)
+                        thrpt:  [−6.4918% −0.2164% +3.9372%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/ecs/l2-p32/hits/1024
+Benchmarking store-contains/ecs/l2-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-p32/hits/1024: Collecting 10 samples in estimated 100.14 ms (7205 iterations)
+Benchmarking store-contains/ecs/l2-p32/hits/1024: Analyzing
+store-contains/ecs/l2-p32/hits/1024
+                        time:   [13.532 µs 13.596 µs 13.711 µs]
+                        thrpt:  [74.683 Melem/s 75.318 Melem/s 75.672 Melem/s]
+                 change:
+                        time:   [+62.428% +68.283% +73.369%] (p = 0.00 < 0.05)
+                        thrpt:  [−42.320% −40.576% −38.434%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/ecs/l2-p32/misses/1024
+Benchmarking store-contains/ecs/l2-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-p32/misses/1024: Collecting 10 samples in estimated 100.07 ms (33k iterations)
+Benchmarking store-contains/ecs/l2-p32/misses/1024: Analyzing
+store-contains/ecs/l2-p32/misses/1024
+                        time:   [3.0485 µs 3.0600 µs 3.0770 µs]
+                        thrpt:  [332.79 Melem/s 334.64 Melem/s 335.90 Melem/s]
+                 change:
+                        time:   [−2.3000% −0.9811% +0.2477%] (p = 0.19 > 0.05)
+                        thrpt:  [−0.2471% +0.9909% +2.3542%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024: Collecting 10 samples in estimated 100.28 ms (6435 iterations)
+Benchmarking store-contains/ecs/l2-l3-p32/hits/1024: Analyzing
+store-contains/ecs/l2-l3-p32/hits/1024
+                        time:   [14.551 µs 15.010 µs 15.842 µs]
+                        thrpt:  [64.640 Melem/s 68.220 Melem/s 70.372 Melem/s]
+                 change:
+                        time:   [+85.208% +92.144% +99.949%] (p = 0.00 < 0.05)
+                        thrpt:  [−49.987% −47.956% −46.007%]
+                        Performance has regressed.
+Found 3 outliers among 10 measurements (30.00%)
+  2 (20.00%) low mild
+  1 (10.00%) high severe
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024: Collecting 10 samples in estimated 100.18 ms (31k iterations)
+Benchmarking store-contains/ecs/l2-l3-p32/misses/1024: Analyzing
+store-contains/ecs/l2-l3-p32/misses/1024
+                        time:   [3.2337 µs 3.3492 µs 3.4905 µs]
+                        thrpt:  [293.37 Melem/s 305.75 Melem/s 316.66 Melem/s]
+                 change:
+                        time:   [+6.3021% +8.2123% +10.875%] (p = 0.00 < 0.05)
+                        thrpt:  [−9.8080% −7.5891% −5.9285%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-contains/ecs/l2-p64/hits/1024
+Benchmarking store-contains/ecs/l2-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-p64/hits/1024: Collecting 10 samples in estimated 100.01 ms (7315 iterations)
+Benchmarking store-contains/ecs/l2-p64/hits/1024: Analyzing
+store-contains/ecs/l2-p64/hits/1024
+                        time:   [13.496 µs 13.734 µs 13.911 µs]
+                        thrpt:  [73.612 Melem/s 74.558 Melem/s 75.874 Melem/s]
+                 change:
+                        time:   [+78.816% +82.882% +86.996%] (p = 0.00 < 0.05)
+                        thrpt:  [−46.523% −45.320% −44.077%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/ecs/l2-p64/misses/1024
+Benchmarking store-contains/ecs/l2-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-p64/misses/1024: Collecting 10 samples in estimated 100.14 ms (33k iterations)
+Benchmarking store-contains/ecs/l2-p64/misses/1024: Analyzing
+store-contains/ecs/l2-p64/misses/1024
+                        time:   [2.8911 µs 3.0359 µs 3.1815 µs]
+                        thrpt:  [321.87 Melem/s 337.30 Melem/s 354.19 Melem/s]
+                 change:
+                        time:   [−14.944% −12.513% −9.4573%] (p = 0.00 < 0.05)
+                        thrpt:  [+10.445% +14.303% +17.570%]
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024: Collecting 10 samples in estimated 100.67 ms (6765 iterations)
+Benchmarking store-contains/ecs/l2-l3-p64/hits/1024: Analyzing
+store-contains/ecs/l2-l3-p64/hits/1024
+                        time:   [14.055 µs 14.370 µs 14.587 µs]
+                        thrpt:  [70.198 Melem/s 71.259 Melem/s 72.858 Melem/s]
+                 change:
+                        time:   [+92.599% +95.260% +98.009%] (p = 0.00 < 0.05)
+                        thrpt:  [−49.497% −48.786% −48.079%]
+                        Performance has regressed.
+Found 4 outliers among 10 measurements (40.00%)
+  2 (20.00%) low mild
+  2 (20.00%) high severe
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024: Warming up for 50.000 ms
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024: Collecting 10 samples in estimated 100.01 ms (28k iterations)
+Benchmarking store-contains/ecs/l2-l3-p64/misses/1024: Analyzing
+store-contains/ecs/l2-l3-p64/misses/1024
+                        time:   [3.1771 µs 3.2777 µs 3.4213 µs]
+                        thrpt:  [299.30 Melem/s 312.42 Melem/s 322.31 Melem/s]
+                 change:
+                        time:   [+12.379% +17.685% +23.235%] (p = 0.00 < 0.05)
+                        thrpt:  [−18.854% −15.027% −11.016%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-decode/ecs/l2-p32
+Benchmarking store-decode/ecs/l2-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 130.5ms or enable flat sampling.
+Benchmarking store-decode/ecs/l2-p32: Collecting 10 samples in estimated 130.48 ms (55 iterations)
+Benchmarking store-decode/ecs/l2-p32: Analyzing
+store-decode/ecs/l2-p32 time:   [2.1955 ms 2.3130 ms 2.3993 ms]
+                        thrpt:  [416.79 Melem/s 432.35 Melem/s 455.48 Melem/s]
+                 change:
+                        time:   [+17.014% +21.612% +26.552%] (p = 0.00 < 0.05)
+                        thrpt:  [−20.981% −17.771% −14.540%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-decode/ecs/l2-l3-p32
+Benchmarking store-decode/ecs/l2-l3-p32: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 147.2ms or enable flat sampling.
+Benchmarking store-decode/ecs/l2-l3-p32: Collecting 10 samples in estimated 147.20 ms (55 iterations)
+Benchmarking store-decode/ecs/l2-l3-p32: Analyzing
+store-decode/ecs/l2-l3-p32
+                        time:   [2.0240 ms 2.0673 ms 2.1308 ms]
+                        thrpt:  [469.31 Melem/s 483.72 Melem/s 494.08 Melem/s]
+                 change:
+                        time:   [+5.2271% +12.985% +22.170%] (p = 0.00 < 0.05)
+                        thrpt:  [−18.147% −11.493% −4.9674%]
+                        Performance has regressed.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+Benchmarking store-decode/ecs/l2-p64
+Benchmarking store-decode/ecs/l2-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 131.7ms or enable flat sampling.
+Benchmarking store-decode/ecs/l2-p64: Collecting 10 samples in estimated 131.71 ms (55 iterations)
+Benchmarking store-decode/ecs/l2-p64: Analyzing
+store-decode/ecs/l2-p64 time:   [1.8477 ms 1.8586 ms 1.8818 ms]
+                        thrpt:  [531.41 Melem/s 538.03 Melem/s 541.21 Melem/s]
+                 change:
+                        time:   [−12.303% −7.2308% −2.3466%] (p = 0.02 < 0.05)
+                        thrpt:  [+2.4030% +7.7944% +14.029%]
+                        Performance has improved.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high mild
+Benchmarking store-decode/ecs/l2-l3-p64
+Benchmarking store-decode/ecs/l2-l3-p64: Warming up for 50.000 ms
+
+Warning: Unable to complete 10 samples in 100.0ms. You may wish to increase target time to 112.4ms or enable flat sampling.
+Benchmarking store-decode/ecs/l2-l3-p64: Collecting 10 samples in estimated 112.40 ms (55 iterations)
+Benchmarking store-decode/ecs/l2-l3-p64: Analyzing
+store-decode/ecs/l2-l3-p64
+                        time:   [1.9602 ms 2.1207 ms 2.4388 ms]
+                        thrpt:  [410.04 Melem/s 471.55 Melem/s 510.16 Melem/s]
+                 change:
+                        time:   [+3.2323% +17.623% +38.959%] (p = 0.07 > 0.05)
+                        thrpt:  [−28.036% −14.982% −3.1311%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset: Collecting 10 samples in estimated 100.01 ms (251k iterations)
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset: Analyzing
+store-update/ecs/l2-p32/insert-hot-reset
+                        time:   [145.40 ns 145.89 ns 146.72 ns]
+                        change: [−99.993% −99.993% −99.993%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset: Collecting 10 samples in estimated 100.01 ms (247k iterations)
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset: Analyzing
+store-update/ecs/l2-p32/remove-hot-reset
+                        time:   [144.09 ns 145.53 ns 147.43 ns]
+                        change: [−99.993% −99.993% −99.993%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.03 ms (190k iterations)
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-p32/dirty-drain-hot-reset
+                        time:   [108.87 ns 109.51 ns 110.49 ns]
+                        change: [−49.848% −43.046% −36.575%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset: Collecting 10 samples in estimated 100.01 ms (241k iterations)
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/ecs/l2-l3-p32/insert-hot-reset
+                        time:   [142.49 ns 143.66 ns 144.63 ns]
+                        change: [−99.993% −99.993% −99.993%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset: Collecting 10 samples in estimated 100.01 ms (231k iterations)
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/ecs/l2-l3-p32/remove-hot-reset
+                        time:   [148.15 ns 149.99 ns 153.64 ns]
+                        change: [−99.993% −99.993% −99.992%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.01 ms (191k iterations)
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [104.77 ns 105.57 ns 106.48 ns]
+                        change: [−52.134% −46.981% −41.640%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-demote-noop/ecs/p32/full-range
+Benchmarking store-demote-noop/ecs/p32/full-range: Warming up for 50.000 ms
+Benchmarking store-demote-noop/ecs/p32/full-range: Collecting 10 samples in estimated 100.04 ms (29k iterations)
+Benchmarking store-demote-noop/ecs/p32/full-range: Analyzing
+store-demote-noop/ecs/p32/full-range
+                        time:   [3.3630 µs 3.3825 µs 3.4027 µs]
+                        thrpt:  [75.235 Melem/s 75.683 Melem/s 76.123 Melem/s]
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) low severe
+  1 (10.00%) high mild
+
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset: Collecting 10 samples in estimated 100.00 ms (248k iterations)
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset: Analyzing
+store-update/ecs/l2-p64/insert-hot-reset
+                        time:   [138.26 ns 139.92 ns 140.84 ns]
+                        change: [−99.993% −99.993% −99.993%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset: Collecting 10 samples in estimated 100.02 ms (229k iterations)
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset: Analyzing
+store-update/ecs/l2-p64/remove-hot-reset
+                        time:   [146.77 ns 152.46 ns 163.03 ns]
+                        change: [−99.993% −99.993% −99.992%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 10 measurements (20.00%)
+  2 (20.00%) high severe
+
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.00 ms (194k iterations)
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-p64/dirty-drain-hot-reset
+                        time:   [106.45 ns 107.74 ns 108.83 ns]
+                        change: [−57.328% −50.270% −42.784%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset: Collecting 10 samples in estimated 100.01 ms (247k iterations)
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/ecs/l2-l3-p64/insert-hot-reset
+                        time:   [144.63 ns 146.57 ns 147.78 ns]
+                        change: [−99.993% −99.993% −99.993%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset: Collecting 10 samples in estimated 100.00 ms (239k iterations)
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/ecs/l2-l3-p64/remove-hot-reset
+                        time:   [147.07 ns 151.18 ns 158.29 ns]
+                        change: [−99.993% −99.993% −99.992%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset: Warming up for 50.000 ms
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset: Collecting 10 samples in estimated 100.02 ms (195k iterations)
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [103.34 ns 104.80 ns 107.45 ns]
+                        change: [−55.158% −48.688% −41.925%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-demote-noop/ecs/p64/full-range
+Benchmarking store-demote-noop/ecs/p64/full-range: Warming up for 50.000 ms
+Benchmarking store-demote-noop/ecs/p64/full-range: Collecting 10 samples in estimated 100.12 ms (30k iterations)
+Benchmarking store-demote-noop/ecs/p64/full-range: Analyzing
+store-demote-noop/ecs/p64/full-range
+                        time:   [3.2561 µs 3.4078 µs 3.5612 µs]
+                        thrpt:  [71.886 Melem/s 75.123 Melem/s 78.621 Melem/s]
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-promote/ecs/p32/full-range-refresh
+Benchmarking store-promote/ecs/p32/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/ecs/p32/full-range-refresh: Collecting 10 samples in estimated 140.49 ms (110 iterations)
+Benchmarking store-promote/ecs/p32/full-range-refresh: Analyzing
+store-promote/ecs/p32/full-range-refresh
+                        time:   [1.2853 ms 1.3000 ms 1.3116 ms]
+                        thrpt:  [49.967 Melem/s 50.412 Melem/s 50.989 Melem/s]
+                 change:
+                        time:   [+2.4823% +4.3334% +5.9582%] (p = 0.00 < 0.05)
+                        thrpt:  [−5.6232% −4.1535% −2.4222%]
+                        Performance has regressed.
+Benchmarking store-promote/ecs/p64/full-range-refresh
+Benchmarking store-promote/ecs/p64/full-range-refresh: Warming up for 50.000 ms
+Benchmarking store-promote/ecs/p64/full-range-refresh: Collecting 10 samples in estimated 137.06 ms (110 iterations)
+Benchmarking store-promote/ecs/p64/full-range-refresh: Analyzing
+store-promote/ecs/p64/full-range-refresh
+                        time:   [1.2327 ms 1.2610 ms 1.2874 ms]
+                        thrpt:  [50.905 Melem/s 51.972 Melem/s 53.167 Melem/s]
+                 change:
+                        time:   [+0.0046% +1.4415% +3.3088%] (p = 0.11 > 0.05)
+                        thrpt:  [−3.2028% −1.4210% −0.0046%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+
+store dense-trnmap keys=32768 l2=157512B l3=0B total=157512B bits/key=38.455 rnbw-image=18488B roaring=8208B
+Benchmarking store-dense-trnmap-build/rnbw-store
+Benchmarking store-dense-trnmap-build/rnbw-store: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-build/rnbw-store: Collecting 10 samples in estimated 102.87 ms (1155 iterations)
+Benchmarking store-dense-trnmap-build/rnbw-store: Analyzing
+store-dense-trnmap-build/rnbw-store
+                        time:   [94.204 µs 99.088 µs 103.03 µs]
+                        thrpt:  [318.03 Melem/s 330.69 Melem/s 347.84 Melem/s]
+                 change:
+                        time:   [−5.4742% −1.9526% +1.6243%] (p = 0.41 > 0.05)
+                        thrpt:  [−1.5983% +1.9915% +5.7912%]
+                        No change in performance detected.
+Found 2 outliers among 10 measurements (20.00%)
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+Benchmarking store-dense-trnmap-build/rnbw-image
+Benchmarking store-dense-trnmap-build/rnbw-image: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-build/rnbw-image: Collecting 10 samples in estimated 105.72 ms (220 iterations)
+Benchmarking store-dense-trnmap-build/rnbw-image: Analyzing
+store-dense-trnmap-build/rnbw-image
+                        time:   [471.57 µs 474.54 µs 476.34 µs]
+                        thrpt:  [68.791 Melem/s 69.053 Melem/s 69.486 Melem/s]
+                 change:
+                        time:   [−7.1794% −3.7876% −0.9840%] (p = 0.04 < 0.05)
+                        thrpt:  [+0.9938% +3.9367% +7.7347%]
+                        Change within noise threshold.
+Benchmarking store-dense-trnmap-build/roaring
+Benchmarking store-dense-trnmap-build/roaring: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-build/roaring: Collecting 10 samples in estimated 105.37 ms (495 iterations)
+Benchmarking store-dense-trnmap-build/roaring: Analyzing
+store-dense-trnmap-build/roaring
+                        time:   [187.91 µs 190.05 µs 192.93 µs]
+                        thrpt:  [169.85 Melem/s 172.41 Melem/s 174.38 Melem/s]
+                 change:
+                        time:   [−1.8788% +1.3230% +5.0622%] (p = 0.47 > 0.05)
+                        thrpt:  [−4.8182% −1.3058% +1.9148%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024: Collecting 10 samples in estimated 100.60 ms (6820 iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-store/hits-1024: Analyzing
+store-dense-trnmap-contains/rnbw-store/hits-1024
+                        time:   [14.690 µs 14.759 µs 14.831 µs]
+                        thrpt:  [69.044 Melem/s 69.380 Melem/s 69.707 Melem/s]
+                 change:
+                        time:   [+5.6367% +6.4805% +7.3401%] (p = 0.00 < 0.05)
+                        thrpt:  [−6.8382% −6.0861% −5.3359%]
+                        Performance has regressed.
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024: Collecting 10 samples in estimated 102.01 ms (1925 iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-image/hits-1024: Analyzing
+store-dense-trnmap-contains/rnbw-image/hits-1024
+                        time:   [52.652 µs 52.985 µs 53.497 µs]
+                        thrpt:  [19.141 Melem/s 19.326 Melem/s 19.448 Melem/s]
+                 change:
+                        time:   [+4.4104% +5.5059% +6.5660%] (p = 0.00 < 0.05)
+                        thrpt:  [−6.1615% −5.2186% −4.2241%]
+                        Performance has regressed.
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024: Collecting 10 samples in estimated 100.02 ms (70k iterations)
+Benchmarking store-dense-trnmap-contains/roaring/hits-1024: Analyzing
+store-dense-trnmap-contains/roaring/hits-1024
+                        time:   [1.4181 µs 1.4248 µs 1.4294 µs]
+                        thrpt:  [716.38 Melem/s 718.71 Melem/s 722.09 Melem/s]
+                 change:
+                        time:   [+1.7824% +2.3187% +2.8293%] (p = 0.00 < 0.05)
+                        thrpt:  [−2.7514% −2.2661% −1.7512%]
+                        Performance has regressed.
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024: Collecting 10 samples in estimated 100.59 ms (6985 iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-store/misses-1024: Analyzing
+store-dense-trnmap-contains/rnbw-store/misses-1024
+                        time:   [14.486 µs 14.543 µs 14.645 µs]
+                        thrpt:  [69.922 Melem/s 70.412 Melem/s 70.687 Melem/s]
+                 change:
+                        time:   [+1.9241% +2.7967% +3.6111%] (p = 0.00 < 0.05)
+                        thrpt:  [−3.4853% −2.7206% −1.8878%]
+                        Performance has regressed.
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024: Collecting 10 samples in estimated 100.81 ms (1925 iterations)
+Benchmarking store-dense-trnmap-contains/rnbw-image/misses-1024: Analyzing
+store-dense-trnmap-contains/rnbw-image/misses-1024
+                        time:   [52.189 µs 52.959 µs 53.725 µs]
+                        thrpt:  [19.060 Melem/s 19.336 Melem/s 19.621 Melem/s]
+                 change:
+                        time:   [−0.8872% +1.2425% +3.5105%] (p = 0.26 > 0.05)
+                        thrpt:  [−3.3914% −1.2272% +0.8951%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024: Collecting 10 samples in estimated 100.06 ms (69k iterations)
+Benchmarking store-dense-trnmap-contains/roaring/misses-1024: Analyzing
+store-dense-trnmap-contains/roaring/misses-1024
+                        time:   [1.4394 µs 1.4699 µs 1.5010 µs]
+                        thrpt:  [682.23 Melem/s 696.67 Melem/s 711.42 Melem/s]
+                 change:
+                        time:   [+1.8875% +5.5125% +10.360%] (p = 0.01 < 0.05)
+                        thrpt:  [−9.3877% −5.2245% −1.8525%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+
+Benchmarking store-dense-trnmap-update/insert-remove-pair
+Benchmarking store-dense-trnmap-update/insert-remove-pair: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-update/insert-remove-pair: Collecting 10 samples in estimated 100.01 ms (395k iterations)
+Benchmarking store-dense-trnmap-update/insert-remove-pair: Analyzing
+store-dense-trnmap-update/insert-remove-pair
+                        time:   [228.01 ns 229.82 ns 232.02 ns]
+                        thrpt:  [8.6201 Melem/s 8.7026 Melem/s 8.7714 Melem/s]
+                 change:
+                        time:   [+0.0321% +1.3833% +3.0252%] (p = 0.13 > 0.05)
+                        thrpt:  [−2.9363% −1.3644% −0.0321%]
+                        No change in performance detected.
+Found 3 outliers among 10 measurements (30.00%)
+  1 (10.00%) low mild
+  1 (10.00%) high mild
+  1 (10.00%) high severe
+
+Benchmarking store-dense-trnmap-decode/rnbw-store
+Benchmarking store-dense-trnmap-decode/rnbw-store: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-decode/rnbw-store: Collecting 10 samples in estimated 100.34 ms (660 iterations)
+Benchmarking store-dense-trnmap-decode/rnbw-store: Analyzing
+store-dense-trnmap-decode/rnbw-store
+                        time:   [145.98 µs 147.76 µs 149.43 µs]
+                        thrpt:  [219.28 Melem/s 221.77 Melem/s 224.46 Melem/s]
+                 change:
+                        time:   [−1.0848% +0.8987% +2.9091%] (p = 0.36 > 0.05)
+                        thrpt:  [−2.8269% −0.8907% +1.0967%]
+                        No change in performance detected.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high mild
+Benchmarking store-dense-trnmap-decode/rnbw-image
+Benchmarking store-dense-trnmap-decode/rnbw-image: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-decode/rnbw-image: Collecting 10 samples in estimated 131.44 ms (165 iterations)
+Benchmarking store-dense-trnmap-decode/rnbw-image: Analyzing
+store-dense-trnmap-decode/rnbw-image
+                        time:   [745.43 µs 756.05 µs 774.44 µs]
+                        thrpt:  [42.312 Melem/s 43.341 Melem/s 43.959 Melem/s]
+                 change:
+                        time:   [+4.8739% +10.832% +19.754%] (p = 0.00 < 0.05)
+                        thrpt:  [−16.495% −9.7737% −4.6474%]
+                        Performance has regressed.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe
+Benchmarking store-dense-trnmap-decode/roaring
+Benchmarking store-dense-trnmap-decode/roaring: Warming up for 50.000 ms
+Benchmarking store-dense-trnmap-decode/roaring: Collecting 10 samples in estimated 101.52 ms (605 iterations)
+Benchmarking store-dense-trnmap-decode/roaring: Analyzing
+store-dense-trnmap-decode/roaring
+                        time:   [163.73 µs 169.60 µs 179.36 µs]
+                        thrpt:  [182.70 Melem/s 193.21 Melem/s 200.14 Melem/s]
+                 change:
+                        time:   [−12.236% −10.184% −7.2169%] (p = 0.00 < 0.05)
+                        thrpt:  [+7.7782% +11.339% +13.942%]
+                        Performance has improved.
+Found 1 outliers among 10 measurements (10.00%)
+  1 (10.00%) high severe

@@ -929,7 +929,7 @@ fn split_four_scalar(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
     for lane in lanes.iter_mut() {
         lane.resize(records, 0);
     }
-    for (record_index, record) in input.chunks_exact(4).enumerate() {
+    for (record_index, record) in input.as_chunks::<4>().0.iter().enumerate() {
         lanes[0][record_index] = record[0];
         lanes[1][record_index] = record[1];
         lanes[2][record_index] = record[2];

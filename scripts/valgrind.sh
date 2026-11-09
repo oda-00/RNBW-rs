@@ -18,7 +18,10 @@ cargo build --locked --release --bin rnbw
 mkdir -p "$report_dir"
 command=("./$binary" bench --workload "$workload" --size "$size" --operation build --engine rnbw)
 
-valgrind --tool=callgrind --callgrind-out-file="$report_dir/callgrind.out" "${command[@]}"
+valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes \
+  --callgrind-out-file="$report_dir/callgrind.out" "${command[@]}"
+callgrind_annotate --inclusive=yes --tree=both "$report_dir/callgrind.out" \
+  > "$report_dir/callgrind.txt"
 valgrind --tool=massif --massif-out-file="$report_dir/massif.out" "${command[@]}"
 valgrind --tool=memcheck --leak-check=full --error-exitcode=99 "${command[@]}"
 

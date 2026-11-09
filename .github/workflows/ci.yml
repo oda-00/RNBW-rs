@@ -51,10 +51,15 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Install Hyperfine and Valgrind
         run: sudo apt-get update && sudo apt-get install --yes hyperfine valgrind
-      - name: Run Hyperfine comparison
-        run: bash scripts/hyperfine.sh clustered build 20000 3
+      - name: Run Hyperfine process matrix
+        run: |
+          for workload in uniform clustered dense morton-shell ecs; do
+            for operation in build contains decode; do
+              bash scripts/hyperfine.sh "$workload" "$operation" 1000000 10
+            done
+          done
       - name: Run Valgrind profiling
-        run: bash scripts/valgrind.sh clustered 20000
+        run: bash scripts/valgrind.sh clustered 100000
       - uses: actions/upload-artifact@v4
         if: always()
         with:

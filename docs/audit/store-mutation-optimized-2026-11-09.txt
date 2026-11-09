@@ -1,0 +1,786 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 7.27s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=56332 spills=9204
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset: Collecting 30 samples in estimated 509.78 ms (23k iterations)
+Benchmarking store-update/uniform/l2-p32/insert-hot-reset: Analyzing
+store-update/uniform/l2-p32/insert-hot-reset
+                        time:   [11.147 µs 11.265 µs 11.401 µs]
+                        change: [−37.465% −36.796% −36.109%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset: Collecting 30 samples in estimated 507.86 ms (23k iterations)
+Benchmarking store-update/uniform/l2-p32/remove-hot-reset: Analyzing
+store-update/uniform/l2-p32/remove-hot-reset
+                        time:   [11.265 µs 11.379 µs 11.518 µs]
+                        change: [−37.767% −36.642% −35.621%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 505.38 ms (23k iterations)
+Benchmarking store-update/uniform/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-p32/dirty-drain-hot-reset
+                        time:   [101.07 ns 103.35 ns 107.59 ns]
+                        change: [+1.6742% +5.0161% +10.428%] (p = 0.02 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset: Collecting 30 samples in estimated 504.68 ms (20k iterations)
+Benchmarking store-update/uniform/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/uniform/l2-l3-p32/insert-hot-reset
+                        time:   [12.815 µs 13.041 µs 13.265 µs]
+                        change: [−86.930% −86.187% −85.173%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  3 (10.00%) high severe
+
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset: Collecting 30 samples in estimated 505.86 ms (20k iterations)
+Benchmarking store-update/uniform/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/uniform/l2-l3-p32/remove-hot-reset
+                        time:   [12.562 µs 12.680 µs 12.775 µs]
+                        change: [−88.878% −88.405% −88.036%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 509.74 ms (20k iterations)
+Benchmarking store-update/uniform/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [99.774 ns 100.40 ns 100.96 ns]
+                        change: [−9.8901% −5.1035% −0.4023%] (p = 0.03 < 0.05)
+                        Change within noise threshold.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) low mild
+
+Benchmarking store-demote/uniform/p32/full-range-hot-reset
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 2.9s, or reduce sample count to 10.
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Collecting 30 samples in estimated 2.8573 s (30 iterations)
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Analyzing
+store-demote/uniform/p32/full-range-hot-reset
+                        time:   [33.366 ms 33.637 ms 33.935 ms]
+                        change: [−91.112% −90.872% −90.635%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset: Collecting 30 samples in estimated 505.28 ms (22k iterations)
+Benchmarking store-update/uniform/l2-p64/insert-hot-reset: Analyzing
+store-update/uniform/l2-p64/insert-hot-reset
+                        time:   [11.406 µs 11.446 µs 11.489 µs]
+                        change: [−37.857% −37.332% −36.816%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset: Collecting 30 samples in estimated 510.34 ms (23k iterations)
+Benchmarking store-update/uniform/l2-p64/remove-hot-reset: Analyzing
+store-update/uniform/l2-p64/remove-hot-reset
+                        time:   [10.913 µs 11.115 µs 11.440 µs]
+                        change: [−36.887% −36.074% −34.985%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 502.51 ms (22k iterations)
+Benchmarking store-update/uniform/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-p64/dirty-drain-hot-reset
+                        time:   [102.19 ns 102.90 ns 103.81 ns]
+                        change: [−33.343% −22.623% −14.664%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset: Collecting 30 samples in estimated 504.25 ms (20k iterations)
+Benchmarking store-update/uniform/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/uniform/l2-l3-p64/insert-hot-reset
+                        time:   [12.584 µs 12.671 µs 12.762 µs]
+                        change: [−93.496% −93.427% −93.333%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset: Collecting 30 samples in estimated 505.83 ms (18k iterations)
+Benchmarking store-update/uniform/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/uniform/l2-l3-p64/remove-hot-reset
+                        time:   [13.302 µs 13.367 µs 13.442 µs]
+                        change: [−94.190% −93.829% −93.513%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 504.89 ms (19k iterations)
+Benchmarking store-update/uniform/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/uniform/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [100.02 ns 101.04 ns 102.27 ns]
+                        change: [−29.161% −23.126% −15.656%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-demote/uniform/p64/full-range-hot-reset
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 2.9s, or reduce sample count to 10.
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Collecting 30 samples in estimated 2.9000 s (30 iterations)
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Analyzing
+store-demote/uniform/p64/full-range-hot-reset
+                        time:   [34.453 ms 34.697 ms 34.928 ms]
+                        change: [−91.069% −90.953% −90.820%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) low mild
+  1 (3.33%) high mild
+
+store dataset=clustered keys=1000000 layout=p32 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset: Collecting 30 samples in estimated 500.94 ms (101k iterations)
+Benchmarking store-update/clustered/l2-p32/insert-hot-reset: Analyzing
+store-update/clustered/l2-p32/insert-hot-reset
+                        time:   [2.3694 µs 2.3834 µs 2.4064 µs]
+                        change: [−23.433% −22.714% −21.940%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset: Collecting 30 samples in estimated 501.11 ms (102k iterations)
+Benchmarking store-update/clustered/l2-p32/remove-hot-reset: Analyzing
+store-update/clustered/l2-p32/remove-hot-reset
+                        time:   [2.3462 µs 2.3651 µs 2.3965 µs]
+                        change: [−26.048% −25.513% −24.892%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 502.47 ms (92k iterations)
+Benchmarking store-update/clustered/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-p32/dirty-drain-hot-reset
+                        time:   [100.49 ns 101.11 ns 101.66 ns]
+                        change: [+13.903% +17.269% +22.235%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset: Collecting 30 samples in estimated 500.75 ms (104k iterations)
+Benchmarking store-update/clustered/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/clustered/l2-l3-p32/insert-hot-reset
+                        time:   [2.3548 µs 2.3640 µs 2.3721 µs]
+                        change: [−24.679% −23.628% −22.782%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset: Collecting 30 samples in estimated 500.63 ms (102k iterations)
+Benchmarking store-update/clustered/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/clustered/l2-l3-p32/remove-hot-reset
+                        time:   [2.3395 µs 2.3463 µs 2.3549 µs]
+                        change: [−27.989% −25.033% −22.778%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 502.37 ms (91k iterations)
+Benchmarking store-update/clustered/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [99.882 ns 100.52 ns 101.33 ns]
+                        change: [−15.145% −1.8507% +14.786%] (p = 0.77 > 0.05)
+                        No change in performance detected.
+
+Benchmarking store-demote/clustered/p32/full-range-hot-reset
+Benchmarking store-demote/clustered/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 555.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-demote/clustered/p32/full-range-hot-reset: Collecting 30 samples in estimated 555.13 ms (465 iterations)
+Benchmarking store-demote/clustered/p32/full-range-hot-reset: Analyzing
+store-demote/clustered/p32/full-range-hot-reset
+                        time:   [126.18 µs 127.44 µs 128.70 µs]
+                        change: [+81.685% +92.526% +101.64%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) low mild
+
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset: Collecting 30 samples in estimated 501.42 ms (105k iterations)
+Benchmarking store-update/clustered/l2-p64/insert-hot-reset: Analyzing
+store-update/clustered/l2-p64/insert-hot-reset
+                        time:   [2.3449 µs 2.3573 µs 2.3698 µs]
+                        change: [−24.179% −23.741% −23.203%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset: Collecting 30 samples in estimated 500.63 ms (102k iterations)
+Benchmarking store-update/clustered/l2-p64/remove-hot-reset: Analyzing
+store-update/clustered/l2-p64/remove-hot-reset
+                        time:   [2.3803 µs 2.3935 µs 2.4105 µs]
+                        change: [−21.438% −20.908% −20.330%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 500.56 ms (93k iterations)
+Benchmarking store-update/clustered/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-p64/dirty-drain-hot-reset
+                        time:   [87.880 ns 88.414 ns 88.879 ns]
+                        change: [−12.208% −7.0512% −2.6311%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset: Collecting 30 samples in estimated 501.98 ms (103k iterations)
+Benchmarking store-update/clustered/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/clustered/l2-l3-p64/insert-hot-reset
+                        time:   [2.3665 µs 2.3750 µs 2.3865 µs]
+                        change: [−25.315% −24.619% −23.859%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset: Collecting 30 samples in estimated 502.34 ms (92k iterations)
+Benchmarking store-update/clustered/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/clustered/l2-l3-p64/remove-hot-reset
+                        time:   [2.5625 µs 2.5716 µs 2.5806 µs]
+                        change: [−18.751% −16.212% −14.280%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 501.15 ms (92k iterations)
+Benchmarking store-update/clustered/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/clustered/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [94.852 ns 95.128 ns 95.456 ns]
+                        change: [+9.6130% +11.379% +12.992%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) low severe
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-demote/clustered/p64/full-range-hot-reset
+Benchmarking store-demote/clustered/p64/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/clustered/p64/full-range-hot-reset: Collecting 30 samples in estimated 925.78 ms (930 iterations)
+Benchmarking store-demote/clustered/p64/full-range-hot-reset: Analyzing
+store-demote/clustered/p64/full-range-hot-reset
+                        time:   [131.15 µs 132.69 µs 133.85 µs]
+                        change: [+113.96% +119.97% +124.05%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) low mild
+
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+Benchmarking store-update/dense/l2-p32/insert-hot-reset
+Benchmarking store-update/dense/l2-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-p32/insert-hot-reset: Collecting 30 samples in estimated 591.56 ms (2325 iterations)
+Benchmarking store-update/dense/l2-p32/insert-hot-reset: Analyzing
+store-update/dense/l2-p32/insert-hot-reset
+                        time:   [97.254 µs 102.03 µs 106.59 µs]
+                        change: [−31.936% −14.979% +0.5390%] (p = 0.14 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/dense/l2-p32/remove-hot-reset
+Benchmarking store-update/dense/l2-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-p32/remove-hot-reset: Collecting 30 samples in estimated 504.85 ms (2325 iterations)
+Benchmarking store-update/dense/l2-p32/remove-hot-reset: Analyzing
+store-update/dense/l2-p32/remove-hot-reset
+                        time:   [129.24 µs 131.56 µs 133.75 µs]
+                        change: [−23.311% −19.314% −15.229%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 549.73 ms (3255 iterations)
+Benchmarking store-update/dense/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-p32/dirty-drain-hot-reset
+                        time:   [143.77 ns 150.13 ns 157.40 ns]
+                        change: [−14.818% −7.7504% −0.5649%] (p = 0.03 < 0.05)
+                        Change within noise threshold.
+Found 4 outliers among 30 measurements (13.33%)
+  3 (10.00%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset: Collecting 30 samples in estimated 522.60 ms (3255 iterations)
+Benchmarking store-update/dense/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/dense/l2-l3-p32/insert-hot-reset
+                        time:   [77.430 µs 78.317 µs 79.260 µs]
+                        change: [−30.789% −26.122% −22.023%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) low mild
+
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset: Collecting 30 samples in estimated 580.66 ms (2790 iterations)
+Benchmarking store-update/dense/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/dense/l2-l3-p32/remove-hot-reset
+                        time:   [123.92 µs 126.97 µs 131.00 µs]
+                        change: [−22.055% −19.328% −16.301%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 6 outliers among 30 measurements (20.00%)
+  2 (6.67%) low mild
+  1 (3.33%) high mild
+  3 (10.00%) high severe
+
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 503.64 ms (3255 iterations)
+Benchmarking store-update/dense/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [152.78 ns 155.40 ns 158.51 ns]
+                        change: [−47.513% −26.658% −4.7834%] (p = 0.06 > 0.05)
+                        No change in performance detected.
+
+Benchmarking store-demote/dense/p32/full-range-hot-reset
+Benchmarking store-demote/dense/p32/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/dense/p32/full-range-hot-reset: Collecting 30 samples in estimated 521.49 ms (1395 iterations)
+Benchmarking store-demote/dense/p32/full-range-hot-reset: Analyzing
+store-demote/dense/p32/full-range-hot-reset
+                        time:   [131.08 µs 131.80 µs 132.54 µs]
+                        change: [+99.447% +101.94% +104.82%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/dense/l2-p64/insert-hot-reset
+Benchmarking store-update/dense/l2-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-p64/insert-hot-reset: Collecting 30 samples in estimated 526.07 ms (3255 iterations)
+Benchmarking store-update/dense/l2-p64/insert-hot-reset: Analyzing
+store-update/dense/l2-p64/insert-hot-reset
+                        time:   [80.294 µs 81.908 µs 83.564 µs]
+                        change: [−33.180% −24.141% −16.011%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 5 outliers among 30 measurements (16.67%)
+  2 (6.67%) low severe
+  1 (3.33%) low mild
+  2 (6.67%) high severe
+
+Benchmarking store-update/dense/l2-p64/remove-hot-reset
+Benchmarking store-update/dense/l2-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-p64/remove-hot-reset: Collecting 30 samples in estimated 586.74 ms (2790 iterations)
+Benchmarking store-update/dense/l2-p64/remove-hot-reset: Analyzing
+store-update/dense/l2-p64/remove-hot-reset
+                        time:   [124.99 µs 127.01 µs 128.95 µs]
+                        change: [−18.405% −16.324% −14.251%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 520.67 ms (3255 iterations)
+Benchmarking store-update/dense/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-p64/dirty-drain-hot-reset
+                        time:   [152.75 ns 155.56 ns 158.41 ns]
+                        change: [−40.418% −18.506% +3.1412%] (p = 0.18 > 0.05)
+                        No change in performance detected.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high severe
+
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset: Collecting 30 samples in estimated 517.37 ms (3255 iterations)
+Benchmarking store-update/dense/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/dense/l2-l3-p64/insert-hot-reset
+                        time:   [78.803 µs 80.079 µs 81.461 µs]
+                        change: [−28.899% −23.631% −17.717%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 6 outliers among 30 measurements (20.00%)
+  3 (10.00%) low mild
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset: Collecting 30 samples in estimated 500.41 ms (2325 iterations)
+Benchmarking store-update/dense/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/dense/l2-l3-p64/remove-hot-reset
+                        time:   [125.83 µs 127.80 µs 129.56 µs]
+                        change: [−21.263% −16.664% −12.381%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) low mild
+  2 (6.67%) high mild
+
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 519.68 ms (3255 iterations)
+Benchmarking store-update/dense/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/dense/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [152.45 ns 155.17 ns 158.67 ns]
+                        change: [−49.921% −24.033% +4.4909%] (p = 0.28 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-demote/dense/p64/full-range-hot-reset
+Benchmarking store-demote/dense/p64/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/dense/p64/full-range-hot-reset: Collecting 30 samples in estimated 587.85 ms (1860 iterations)
+Benchmarking store-demote/dense/p64/full-range-hot-reset: Analyzing
+store-demote/dense/p64/full-range-hot-reset
+                        time:   [131.37 µs 132.26 µs 132.96 µs]
+                        change: [+91.129% +98.965% +106.83%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) low mild
+
+store dataset=morton-shell keys=1000000 layout=p32 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=351 spills=3478
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset: Collecting 30 samples in estimated 508.04 ms (25k iterations)
+Benchmarking store-update/morton-shell/l2-p32/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-p32/insert-hot-reset
+                        time:   [9.9553 µs 10.014 µs 10.072 µs]
+                        change: [−36.331% −33.976% −31.849%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high severe
+
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset: Collecting 30 samples in estimated 502.20 ms (94k iterations)
+Benchmarking store-update/morton-shell/l2-p32/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-p32/remove-hot-reset
+                        time:   [2.5344 µs 2.5528 µs 2.5761 µs]
+                        change: [−31.119% −28.649% −26.887%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 507.67 ms (26k iterations)
+Benchmarking store-update/morton-shell/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-p32/dirty-drain-hot-reset
+                        time:   [100.25 ns 100.86 ns 101.49 ns]
+                        change: [+4.3301% +6.9912% +9.9813%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset: Collecting 30 samples in estimated 506.98 ms (24k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p32/insert-hot-reset
+                        time:   [10.501 µs 10.617 µs 10.762 µs]
+                        change: [−60.866% −60.362% −59.909%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 4 outliers among 30 measurements (13.33%)
+  2 (6.67%) low mild
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset: Collecting 30 samples in estimated 501.91 ms (93k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p32/remove-hot-reset
+                        time:   [2.6764 µs 2.7038 µs 2.7265 µs]
+                        change: [−29.770% −28.813% −27.742%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 507.36 ms (24k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [105.48 ns 106.21 ns 107.12 ns]
+                        change: [+7.3860% +10.433% +13.915%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 2 outliers among 30 measurements (6.67%)
+  2 (6.67%) high mild
+
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 1.4s, or reduce sample count to 10.
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Collecting 30 samples in estimated 1.4059 s (30 iterations)
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Analyzing
+store-demote/morton-shell/p32/full-range-hot-reset
+                        time:   [18.116 ms 18.283 ms 18.454 ms]
+                        change: [−21.677% −20.559% −19.338%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset: Collecting 30 samples in estimated 506.73 ms (25k iterations)
+Benchmarking store-update/morton-shell/l2-p64/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-p64/insert-hot-reset
+                        time:   [10.242 µs 10.269 µs 10.300 µs]
+                        change: [−36.296% −33.585% −31.766%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset: Collecting 30 samples in estimated 500.00 ms (92k iterations)
+Benchmarking store-update/morton-shell/l2-p64/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-p64/remove-hot-reset
+                        time:   [2.6463 µs 2.6636 µs 2.6857 µs]
+                        change: [−24.162% −23.368% −22.493%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 2 outliers among 30 measurements (6.67%)
+  1 (3.33%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 500.24 ms (24k iterations)
+Benchmarking store-update/morton-shell/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-p64/dirty-drain-hot-reset
+                        time:   [94.901 ns 96.166 ns 97.860 ns]
+                        change: [−2.9046% −1.5472% −0.2166%] (p = 0.04 < 0.05)
+                        Change within noise threshold.
+
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset: Collecting 30 samples in estimated 502.32 ms (24k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p64/insert-hot-reset
+                        time:   [10.242 µs 10.264 µs 10.293 µs]
+                        change: [−35.150% −34.749% −34.165%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset: Collecting 30 samples in estimated 500.36 ms (91k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p64/remove-hot-reset
+                        time:   [2.5881 µs 2.6273 µs 2.6587 µs]
+                        change: [−32.527% −31.550% −30.478%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 505.10 ms (24k iterations)
+Benchmarking store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/morton-shell/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [100.64 ns 102.18 ns 104.13 ns]
+                        change: [+3.8074% +5.8309% +7.9986%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 1.3s, or reduce sample count to 10.
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Collecting 30 samples in estimated 1.2859 s (30 iterations)
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Analyzing
+store-demote/morton-shell/p64/full-range-hot-reset
+                        time:   [12.625 ms 12.762 ms 12.910 ms]
+                        change: [−20.721% −19.618% −18.457%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+store dataset=ecs keys=1000000 layout=p32 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset: Collecting 30 samples in estimated 503.80 ms (120 iterations)
+Benchmarking store-update/ecs/l2-p32/insert-hot-reset: Analyzing
+store-update/ecs/l2-p32/insert-hot-reset
+                        time:   [2.0726 ms 2.0987 ms 2.1240 ms]
+                        change: [−34.153% −33.003% −31.811%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset: Collecting 30 samples in estimated 505.97 ms (120 iterations)
+Benchmarking store-update/ecs/l2-p32/remove-hot-reset: Analyzing
+store-update/ecs/l2-p32/remove-hot-reset
+                        time:   [2.0283 ms 2.0526 ms 2.0770 ms]
+                        change: [−36.399% −33.637% −31.645%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 510.99 ms (120 iterations)
+Benchmarking store-update/ecs/l2-p32/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-p32/dirty-drain-hot-reset
+                        time:   [135.83 ns 145.00 ns 155.00 ns]
+                        change: [−28.947% −9.3750% +20.833%] (p = 0.48 > 0.05)
+                        No change in performance detected.
+
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset: Collecting 30 samples in estimated 615.76 ms (150 iterations)
+Benchmarking store-update/ecs/l2-l3-p32/insert-hot-reset: Analyzing
+store-update/ecs/l2-l3-p32/insert-hot-reset
+                        time:   [1.9822 ms 1.9966 ms 2.0120 ms]
+                        change: [−37.740% −36.957% −36.181%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset: Collecting 30 samples in estimated 502.46 ms (120 iterations)
+Benchmarking store-update/ecs/l2-l3-p32/remove-hot-reset: Analyzing
+store-update/ecs/l2-l3-p32/remove-hot-reset
+                        time:   [2.0144 ms 2.0349 ms 2.0563 ms]
+                        change: [−37.751% −34.755% −32.630%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset: Collecting 30 samples in estimated 624.34 ms (150 iterations)
+Benchmarking store-update/ecs/l2-l3-p32/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-l3-p32/dirty-drain-hot-reset
+                        time:   [144.67 ns 156.00 ns 167.33 ns]
+                        change: [−68.980% −55.429% −27.576%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-demote/ecs/p32/full-range-hot-reset
+Benchmarking store-demote/ecs/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 619.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-demote/ecs/p32/full-range-hot-reset: Collecting 30 samples in estimated 619.67 ms (465 iterations)
+Benchmarking store-demote/ecs/p32/full-range-hot-reset: Analyzing
+store-demote/ecs/p32/full-range-hot-reset
+                        time:   [126.48 µs 131.01 µs 136.04 µs]
+                        change: [+98.095% +101.96% +107.57%] (p = 0.00 < 0.05)
+                        Performance has regressed.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset: Collecting 30 samples in estimated 617.07 ms (150 iterations)
+Benchmarking store-update/ecs/l2-p64/insert-hot-reset: Analyzing
+store-update/ecs/l2-p64/insert-hot-reset
+                        time:   [2.0159 ms 2.0310 ms 2.0459 ms]
+                        change: [−39.232% −37.219% −35.624%] (p = 0.00 < 0.05)
+                        Performance has improved.
+
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset: Collecting 30 samples in estimated 615.38 ms (150 iterations)
+Benchmarking store-update/ecs/l2-p64/remove-hot-reset: Analyzing
+store-update/ecs/l2-p64/remove-hot-reset
+                        time:   [1.9793 ms 1.9914 ms 2.0047 ms]
+                        change: [−38.608% −35.614% −33.437%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 624.12 ms (150 iterations)
+Benchmarking store-update/ecs/l2-p64/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-p64/dirty-drain-hot-reset
+                        time:   [130.00 ns 138.67 ns 148.67 ns]
+                        change: [−66.822% −39.710% +15.000%] (p = 0.20 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset: Collecting 30 samples in estimated 612.47 ms (150 iterations)
+Benchmarking store-update/ecs/l2-l3-p64/insert-hot-reset: Analyzing
+store-update/ecs/l2-l3-p64/insert-hot-reset
+                        time:   [2.0450 ms 2.0611 ms 2.0792 ms]
+                        change: [−35.184% −32.881% −31.108%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset: Collecting 30 samples in estimated 614.04 ms (150 iterations)
+Benchmarking store-update/ecs/l2-l3-p64/remove-hot-reset: Analyzing
+store-update/ecs/l2-l3-p64/remove-hot-reset
+                        time:   [1.9708 ms 1.9861 ms 2.0033 ms]
+                        change: [−35.110% −34.304% −33.442%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 5 outliers among 30 measurements (16.67%)
+  1 (3.33%) low mild
+  3 (10.00%) high mild
+  1 (3.33%) high severe
+
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset: Warming up for 200.00 ms
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset: Collecting 30 samples in estimated 528.20 ms (120 iterations)
+Benchmarking store-update/ecs/l2-l3-p64/dirty-drain-hot-reset: Analyzing
+store-update/ecs/l2-l3-p64/dirty-drain-hot-reset
+                        time:   [137.50 ns 150.83 ns 165.83 ns]
+                        change: [−14.062% +7.7381% +39.394%] (p = 0.60 > 0.05)
+                        No change in performance detected.
+Found 4 outliers among 30 measurements (13.33%)
+  2 (6.67%) high mild
+  2 (6.67%) high severe
+
+Benchmarking store-demote/ecs/p64/full-range-hot-reset
+Benchmarking store-demote/ecs/p64/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 607.7ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-demote/ecs/p64/full-range-hot-reset: Collecting 30 samples in estimated 607.66 ms (465 iterations)
+Benchmarking store-demote/ecs/p64/full-range-hot-reset: Analyzing
+store-demote/ecs/p64/full-range-hot-reset
+                        time:   [122.39 µs 123.24 µs 124.05 µs]
+                        change: [+101.11% +104.40% +106.87%] (p = 0.00 < 0.05)
+                        Performance has regressed.

@@ -1,0 +1,130 @@
+warn: could not canonicalize path C:\Users\AleMa
+   Compiling rnbw v0.1.0 (C:\Users\AleMa\OneDrive\Documents\GitHub\RNBW)
+    Finished `bench` profile [optimized + debuginfo] target(s) in 7.07s
+     Running benches\store.rs (target\release\deps\store-b67586d0690ef6ae.exe)
+Gnuplot not found, using plotters backend
+RNBW store benchmark; SIMD=avx2; 1,000,000 requested keys; Criterion optimized build
+store dataset=uniform keys=999882 layout=p32 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=52402 spills=13134
+store dataset=uniform keys=999882 layout=p64 l2=4287720B l3=2097152B total=6384872B bits/key=51.085 promoted=56332 spills=9204
+Benchmarking store-demote/uniform/p32/full-range-hot-reset
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 2.8s, or reduce sample count to 10.
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Collecting 30 samples in estimated 2.7823 s (30 iterations)
+Benchmarking store-demote/uniform/p32/full-range-hot-reset: Analyzing
+store-demote/uniform/p32/full-range-hot-reset
+                        time:   [32.358 ms 32.623 ms 32.936 ms]
+                        change: [−4.2396% −3.0137% −1.8598%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 4 outliers among 30 measurements (13.33%)
+  1 (3.33%) high mild
+  3 (10.00%) high severe
+
+Benchmarking store-demote/uniform/p64/full-range-hot-reset
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 3.0s, or reduce sample count to 10.
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Collecting 30 samples in estimated 3.0025 s (30 iterations)
+Benchmarking store-demote/uniform/p64/full-range-hot-reset: Analyzing
+store-demote/uniform/p64/full-range-hot-reset
+                        time:   [33.717 ms 34.170 ms 34.806 ms]
+                        change: [−2.9331% −1.5171% +0.5913%] (p = 0.09 > 0.05)
+                        No change in performance detected.
+Found 3 outliers among 30 measurements (10.00%)
+  2 (6.67%) low mild
+  1 (3.33%) high severe
+
+store dataset=clustered keys=1000000 layout=p32 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+store dataset=clustered keys=1000000 layout=p64 l2=354120B l3=0B total=354120B bits/key=2.833 promoted=0 spills=15625
+Benchmarking store-demote/clustered/p32/full-range-hot-reset
+Benchmarking store-demote/clustered/p32/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/clustered/p32/full-range-hot-reset: Collecting 30 samples in estimated 828.97 ms (930 iterations)
+Benchmarking store-demote/clustered/p32/full-range-hot-reset: Analyzing
+store-demote/clustered/p32/full-range-hot-reset
+                        time:   [38.080 ns 42.597 ns 47.104 ns]
+                        change: [−99.968% −99.963% −99.959%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 3 outliers among 30 measurements (10.00%)
+  1 (3.33%) high mild
+  2 (6.67%) high severe
+
+Benchmarking store-demote/clustered/p64/full-range-hot-reset
+Benchmarking store-demote/clustered/p64/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/clustered/p64/full-range-hot-reset: Collecting 30 samples in estimated 768.22 ms (930 iterations)
+Benchmarking store-demote/clustered/p64/full-range-hot-reset: Analyzing
+store-demote/clustered/p64/full-range-hot-reset
+                        time:   [39.574 ns 44.553 ns 49.056 ns]
+                        change: [−99.972% −99.967% −99.962%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high mild
+
+store dataset=dense keys=1000000 layout=p32 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+store dataset=dense keys=1000000 layout=p64 l2=157512B l3=0B total=157512B bits/key=1.260 promoted=0 spills=16
+Benchmarking store-demote/dense/p32/full-range-hot-reset
+Benchmarking store-demote/dense/p32/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/dense/p32/full-range-hot-reset: Collecting 30 samples in estimated 639.09 ms (930 iterations)
+Benchmarking store-demote/dense/p32/full-range-hot-reset: Analyzing
+store-demote/dense/p32/full-range-hot-reset
+                        time:   [41.996 ns 44.696 ns 47.729 ns]
+                        change: [−99.966% −99.956% −99.943%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 4 outliers among 30 measurements (13.33%)
+  2 (6.67%) high mild
+  2 (6.67%) high severe
+
+Benchmarking store-demote/dense/p64/full-range-hot-reset
+Benchmarking store-demote/dense/p64/full-range-hot-reset: Warming up for 200.00 ms
+Benchmarking store-demote/dense/p64/full-range-hot-reset: Collecting 30 samples in estimated 554.83 ms (2790 iterations)
+Benchmarking store-demote/dense/p64/full-range-hot-reset: Analyzing
+store-demote/dense/p64/full-range-hot-reset
+                        time:   [40.746 ns 43.874 ns 46.835 ns]
+                        change: [−99.967% −99.966% −99.964%] (p = 0.00 < 0.05)
+                        Performance has improved.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+store dataset=morton-shell keys=1000000 layout=p32 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=432 spills=3397
+store dataset=morton-shell keys=1000000 layout=p64 l2=2387176B l3=2097152B total=4484328B bits/key=35.875 promoted=351 spills=3478
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 1.4s, or reduce sample count to 10.
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Collecting 30 samples in estimated 1.4024 s (30 iterations)
+Benchmarking store-demote/morton-shell/p32/full-range-hot-reset: Analyzing
+store-demote/morton-shell/p32/full-range-hot-reset
+                        time:   [18.083 ms 18.250 ms 18.424 ms]
+                        change: [−1.4658% −0.1795% +1.1222%] (p = 0.79 > 0.05)
+                        No change in performance detected.
+
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 1.2s, or reduce sample count to 10.
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Collecting 30 samples in estimated 1.1979 s (30 iterations)
+Benchmarking store-demote/morton-shell/p64/full-range-hot-reset: Analyzing
+store-demote/morton-shell/p64/full-range-hot-reset
+                        time:   [12.434 ms 12.570 ms 12.750 ms]
+                        change: [−3.0804% −1.5041% +0.3066%] (p = 0.09 > 0.05)
+                        No change in performance detected.
+Found 1 outliers among 30 measurements (3.33%)
+  1 (3.33%) high severe
+
+store dataset=ecs keys=1000000 layout=p32 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+store dataset=ecs keys=1000000 layout=p64 l2=297544B l3=0B total=297544B bits/key=2.380 promoted=0 spills=17
+Benchmarking store-demote/ecs/p32/full-range-hot-reset
+Benchmarking store-demote/ecs/p32/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 592.4ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-demote/ecs/p32/full-range-hot-reset: Collecting 30 samples in estimated 592.37 ms (465 iterations)
+Criterion.rs ERROR: At least one measurement of benchmark store-demote/ecs/p32/full-range-hot-reset took zero time per iteration. This should not be possible. If using iter_custom, please verify that your routine is correctly measured.
+
+Benchmarking store-demote/ecs/p32/full-range-hot-reset: Analyzing
+Benchmarking store-demote/ecs/p64/full-range-hot-reset
+Benchmarking store-demote/ecs/p64/full-range-hot-reset: Warming up for 200.00 ms
+
+Warning: Unable to complete 30 samples in 500.0ms. You may wish to increase target time to 595.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking store-demote/ecs/p64/full-range-hot-reset: Collecting 30 samples in estimated 595.06 ms (465 iterations)
+Criterion.rs ERROR: At least one measurement of benchmark store-demote/ecs/p64/full-range-hot-reset took zero time per iteration. This should not be possible. If using iter_custom, please verify that your routine is correctly measured.
+
+Benchmarking store-demote/ecs/p64/full-range-hot-reset: Analyzing

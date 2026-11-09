@@ -1,0 +1,296 @@
+warn: could not canonicalize path C:\Users\AleMa
+    Finished `bench` profile [optimized + debuginfo] target(s) in 0.19s
+     Running benches\files.rs (target\release\deps\files-2776eabebfe7ec4f.exe)
+Gnuplot not found, using plotters backend
+RNBW file codec matrix; host SIMD query backend=avx2; every RNBW lane uses multi-window LZ + entropy with raw fallback; comparators: LZ4, Snappy, Zstd, Brotli, Zlib
+general-trnmap-index=image-rgba8-raster bytes=524288 words=131072 index-bytes=50624 build=50.2µs zero-words=0 first-zero=131072
+file-dataset=image-rgba8-raster bytes=524288 structural-lanes=4-byte-lanes rnbw-bytes=295200 rnbw-parallel-bytes=295200 rnbw=0.5630 rnbw-parallel=0.5630 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0020 snappy=0.9999 zstd-fast-3=0.9746 zstd-level-1=0.7928 brotli-quality-0=0.7870 brotli-quality-5=0.6079 zlib-fast=0.7459 zlib-default=0.6805 cow-borrowed=false
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 429.4ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 429.40 ms (210 iterations)
+Benchmarking file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/image-rgba8-raster/rnbw-hybrid-lz-entropy
+                        time:   [1.9413 ms 1.9659 ms 1.9978 ms]
+                        thrpt:  [250.27 MiB/s 254.33 MiB/s 257.55 MiB/s]
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 377.2ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded: Collecting 20 samples in estimated 377.20 ms (210 iterations)
+Benchmarking file-decode/image-rgba8-raster/rnbw-parallel-encoded: Analyzing
+file-decode/image-rgba8-raster/rnbw-parallel-encoded
+                        time:   [1.7063 ms 1.7600 ms 1.8556 ms]
+                        thrpt:  [269.46 MiB/s 284.09 MiB/s 293.04 MiB/s]
+
+general-trnmap-index=image-png-stored-deflate bytes=131278 words=32820 index-bytes=13048 build=21.2µs zero-words=1 first-zero=5
+file-dataset=image-png-stored-deflate bytes=131278 structural-lanes=1-byte-lane rnbw-bytes=121864 rnbw-parallel-bytes=121864 rnbw=0.9283 rnbw-parallel=0.9283 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.9962 snappy=1.0001 zstd-fast-3=0.9545 zstd-level-1=0.8180 brotli-quality-0=0.8028 brotli-quality-5=0.6091 zlib-fast=0.7439 zlib-default=0.6848 cow-borrowed=false
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 291.0ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 290.97 ms (210 iterations)
+Benchmarking file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/image-png-stored-deflate/rnbw-hybrid-lz-entropy
+                        time:   [1.4721 ms 1.4874 ms 1.5006 ms]
+                        thrpt:  [83.431 MiB/s 84.174 MiB/s 85.046 MiB/s]
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 299.9ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded: Collecting 20 samples in estimated 299.93 ms (210 iterations)
+Benchmarking file-decode/image-png-stored-deflate/rnbw-parallel-encoded: Analyzing
+file-decode/image-png-stored-deflate/rnbw-parallel-encoded
+                        time:   [1.4679 ms 1.5014 ms 1.5552 ms]
+                        thrpt:  [80.501 MiB/s 83.384 MiB/s 85.287 MiB/s]
+
+general-trnmap-index=image-png-compressed-deflate bytes=89883 words=22471 index-bytes=9088 build=17.5µs zero-words=1 first-zero=5
+file-dataset=image-png-compressed-deflate bytes=89883 structural-lanes=1-byte-lane rnbw-bytes=89944 rnbw-parallel-bytes=89944 rnbw=1.0007 rnbw-parallel=1.0007 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0040 snappy=1.0001 zstd-fast-3=1.0001 zstd-level-1=0.9701 brotli-quality-0=1.0001 brotli-quality-5=0.9666 zlib-fast=0.9646 zlib-default=0.9525 cow-borrowed=true
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 250.26 ms (134k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/image-png-compressed-deflate/rnbw-hybrid-lz-entropy
+                        time:   [1.8183 µs 1.8455 µs 1.8844 µs]
+                        thrpt:  [44.424 GiB/s 45.360 GiB/s 46.036 GiB/s]
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded: Collecting 20 samples in estimated 250.33 ms (133k iterations)
+Benchmarking file-decode/image-png-compressed-deflate/rnbw-parallel-encoded: Analyzing
+file-decode/image-png-compressed-deflate/rnbw-parallel-encoded
+                        time:   [1.9604 µs 1.9721 µs 1.9906 µs]
+                        thrpt:  [42.052 GiB/s 42.447 GiB/s 42.701 GiB/s]
+
+general-trnmap-index=graphics-shader-machine-words-synthetic bytes=262144 words=65536 index-bytes=25536 build=35.8µs zero-words=0 first-zero=65536
+file-dataset=graphics-shader-machine-words-synthetic bytes=262144 structural-lanes=4-byte-lanes rnbw-bytes=3672 rnbw-parallel-bytes=3672 rnbw=0.0140 rnbw-parallel=0.0140 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0509 snappy=0.4090 zstd-fast-3=0.0471 zstd-level-1=0.0376 brotli-quality-0=0.0386 brotli-quality-5=0.0367 zlib-fast=0.7748 zlib-default=0.0434 cow-borrowed=false
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 310.16 ms (840 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [364.78 µs 366.05 µs 367.70 µs]
+                        thrpt:  [679.90 MiB/s 682.97 MiB/s 685.34 MiB/s]
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Collecting 20 samples in estimated 312.13 ms (840 iterations)
+Benchmarking file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded: Analyzing
+file-decode/graphics-shader-machine-words-synthetic/rnbw-parallel-encoded
+                        time:   [367.62 µs 370.92 µs 373.49 µs]
+                        thrpt:  [669.36 MiB/s 674.00 MiB/s 680.05 MiB/s]
+
+general-trnmap-index=graphics-wgsl-source bytes=8267 words=2067 index-bytes=1240 build=3.6µs zero-words=0 first-zero=2067
+file-dataset=graphics-wgsl-source bytes=8267 structural-lanes=1-byte-lane rnbw-bytes=2984 rnbw-parallel-bytes=2984 rnbw=0.3610 rnbw-parallel=0.3610 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.3698 snappy=0.3272 zstd-fast-3=0.3197 zstd-level-1=0.2585 brotli-quality-0=0.2731 brotli-quality-5=0.2112 zlib-fast=0.2804 zlib-default=0.2175 cow-borrowed=false
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 250.79 ms (8820 iterations)
+Benchmarking file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/graphics-wgsl-source/rnbw-hybrid-lz-entropy
+                        time:   [28.183 µs 28.434 µs 28.700 µs]
+                        thrpt:  [274.71 MiB/s 277.27 MiB/s 279.74 MiB/s]
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded: Collecting 20 samples in estimated 252.27 ms (9240 iterations)
+Benchmarking file-decode/graphics-wgsl-source/rnbw-parallel-encoded: Analyzing
+file-decode/graphics-wgsl-source/rnbw-parallel-encoded
+                        time:   [27.553 µs 27.791 µs 27.956 µs]
+                        thrpt:  [282.01 MiB/s 283.69 MiB/s 286.14 MiB/s]
+
+general-trnmap-index=ai-model-int8-tensor-synthetic bytes=1048576 words=262144 index-bytes=100800 build=146.3µs zero-words=2048 first-zero=1043
+file-dataset=ai-model-int8-tensor-synthetic bytes=1048576 structural-lanes=16-byte-lanes rnbw-bytes=21568 rnbw-parallel-bytes=21568 rnbw=0.0206 rnbw-parallel=0.0206 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.0190 snappy=0.0664 zstd-fast-3=0.0019 zstd-level-1=0.0015 brotli-quality-0=0.0021 brotli-quality-5=0.0025 zlib-fast=0.0343 zlib-default=0.0157 cow-borrowed=false
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 347.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 347.08 ms (210 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-hybrid-lz-entropy
+                        time:   [1.6956 ms 1.7419 ms 1.8051 ms]
+                        thrpt:  [553.99 MiB/s 574.09 MiB/s 589.74 MiB/s]
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 351.5ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Collecting 20 samples in estimated 351.53 ms (210 iterations)
+Benchmarking file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded: Analyzing
+file-decode/ai-model-int8-tensor-synthetic/rnbw-parallel-encoded
+                        time:   [1.6362 ms 1.6642 ms 1.6870 ms]
+                        thrpt:  [592.78 MiB/s 600.90 MiB/s 611.17 MiB/s]
+
+general-trnmap-index=native-executable-binary bytes=5437440 words=1359360 index-bytes=521024 build=687.9µs zero-words=53080 first-zero=5
+file-dataset=native-executable-binary bytes=5437440 structural-lanes=1-byte-lane rnbw-bytes=3023424 rnbw-parallel-bytes=3022768 rnbw=0.5560 rnbw-parallel=0.5559 parallel-size-delta=-0.02% raw=1.0000 lz4-fast=0.5544 snappy=0.5636 zstd-fast-3=0.5503 zstd-level-1=0.4342 brotli-quality-0=0.4538 brotli-quality-5=0.3469 zlib-fast=0.4514 zlib-default=0.3823 cow-borrowed=false
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 709.1ms, or reduce sample count to 10.
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 709.12 ms (20 iterations)
+Benchmarking file-decode/native-executable-binary/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/native-executable-binary/rnbw-hybrid-lz-entropy
+                        time:   [35.651 ms 36.012 ms 36.401 ms]
+                        thrpt:  [142.46 MiB/s 144.00 MiB/s 145.45 MiB/s]
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 713.6ms, or reduce sample count to 10.
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded: Collecting 20 samples in estimated 713.61 ms (20 iterations)
+Benchmarking file-decode/native-executable-binary/rnbw-parallel-encoded: Analyzing
+file-decode/native-executable-binary/rnbw-parallel-encoded
+                        time:   [33.955 ms 34.210 ms 34.487 ms]
+                        thrpt:  [150.36 MiB/s 151.58 MiB/s 152.72 MiB/s]
+
+general-trnmap-index=structured-binary-records bytes=524288 words=131072 index-bytes=50624 build=71.9µs zero-words=33 first-zero=0
+file-dataset=structured-binary-records bytes=524288 structural-lanes=4-u32-field-lanes rnbw-bytes=352584 rnbw-parallel-bytes=352584 rnbw=0.6725 rnbw-parallel=0.6725 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.7595 snappy=0.7577 zstd-fast-3=0.6997 zstd-level-1=0.5790 brotli-quality-0=0.7177 brotli-quality-5=0.5815 zlib-fast=0.6347 zlib-default=0.6349 cow-borrowed=false
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 452.50 ms (420 iterations)
+Benchmarking file-decode/structured-binary-records/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/structured-binary-records/rnbw-hybrid-lz-entropy
+                        time:   [1.1019 ms 1.1109 ms 1.1194 ms]
+                        thrpt:  [446.65 MiB/s 450.10 MiB/s 453.75 MiB/s]
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded: Collecting 20 samples in estimated 465.96 ms (420 iterations)
+Benchmarking file-decode/structured-binary-records/rnbw-parallel-encoded: Analyzing
+file-decode/structured-binary-records/rnbw-parallel-encoded
+                        time:   [1.0890 ms 1.0959 ms 1.1052 ms]
+                        thrpt:  [452.39 MiB/s 456.26 MiB/s 459.13 MiB/s]
+
+general-trnmap-index=sparse-binary bytes=1048576 words=262144 index-bytes=100800 build=158.3µs zero-words=253563 first-zero=0
+file-dataset=sparse-binary bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=48424 rnbw-parallel-bytes=48440 rnbw=0.0462 rnbw-parallel=0.0462 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.0382 snappy=0.0789 zstd-fast-3=0.0336 zstd-level-1=0.0333 brotli-quality-0=0.0392 brotli-quality-5=0.0311 zlib-fast=0.0399 zlib-default=0.0351 cow-borrowed=false
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 281.99 ms (420 iterations)
+Benchmarking file-decode/sparse-binary/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/sparse-binary/rnbw-hybrid-lz-entropy
+                        time:   [693.33 µs 702.05 µs 709.89 µs]
+                        thrpt:  [1.3756 GiB/s 1.3910 GiB/s 1.4085 GiB/s]
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded: Collecting 20 samples in estimated 296.00 ms (420 iterations)
+Benchmarking file-decode/sparse-binary/rnbw-parallel-encoded: Analyzing
+file-decode/sparse-binary/rnbw-parallel-encoded
+                        time:   [656.48 µs 664.72 µs 671.42 µs]
+                        thrpt:  [1.4545 GiB/s 1.4691 GiB/s 1.4876 GiB/s]
+
+general-trnmap-index=random-binary-incompressible bytes=1048576 words=262144 index-bytes=100800 build=146.8µs zero-words=0 first-zero=262144
+file-dataset=random-binary-incompressible bytes=1048576 structural-lanes=1-byte-lane rnbw-bytes=1048632 rnbw-parallel-bytes=1048632 rnbw=1.0001 rnbw-parallel=1.0001 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=1.0039 snappy=1.0000 zstd-fast-3=1.0000 zstd-level-1=1.0000 brotli-quality-0=1.0000 brotli-quality-5=1.0000 zlib-fast=1.0009 zlib-default=1.0002 cow-borrowed=true
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 282.06 ms (1470 iterations)
+Benchmarking file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/random-binary-incompressible/rnbw-hybrid-lz-entropy
+                        time:   [189.39 µs 205.27 µs 226.93 µs]
+                        thrpt:  [4.3033 GiB/s 4.7575 GiB/s 5.1563 GiB/s]
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded: Collecting 20 samples in estimated 278.53 ms (1050 iterations)
+Benchmarking file-decode/random-binary-incompressible/rnbw-parallel-encoded: Analyzing
+file-decode/random-binary-incompressible/rnbw-parallel-encoded
+                        time:   [237.10 µs 247.51 µs 263.98 µs]
+                        thrpt:  [3.6993 GiB/s 3.9456 GiB/s 4.1187 GiB/s]
+
+general-trnmap-index=repository-rust-source bytes=275729 words=68933 index-bytes=26864 build=43.9µs zero-words=0 first-zero=68933
+file-dataset=repository-rust-source bytes=275729 structural-lanes=1-byte-lane rnbw-bytes=87216 rnbw-parallel-bytes=87240 rnbw=0.3163 rnbw-parallel=0.3164 parallel-size-delta=+0.03% raw=1.0000 lz4-fast=0.3332 snappy=0.3288 zstd-fast-3=0.2975 zstd-level-1=0.2350 brotli-quality-0=0.2542 brotli-quality-5=0.1894 zlib-fast=0.2902 zlib-default=0.2021 cow-borrowed=false
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 363.09 ms (420 iterations)
+Benchmarking file-decode/repository-rust-source/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/repository-rust-source/rnbw-hybrid-lz-entropy
+                        time:   [871.58 µs 878.57 µs 884.19 µs]
+                        thrpt:  [297.40 MiB/s 299.30 MiB/s 301.70 MiB/s]
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded: Collecting 20 samples in estimated 368.07 ms (420 iterations)
+Benchmarking file-decode/repository-rust-source/rnbw-parallel-encoded: Analyzing
+file-decode/repository-rust-source/rnbw-parallel-encoded
+                        time:   [882.04 µs 895.15 µs 906.16 µs]
+                        thrpt:  [290.19 MiB/s 293.76 MiB/s 298.12 MiB/s]
+
+general-trnmap-index=repository-technical-prose bytes=26666 words=6667 index-bytes=3032 build=7.8µs zero-words=0 first-zero=6667
+file-dataset=repository-technical-prose bytes=26666 structural-lanes=1-byte-lane rnbw-bytes=15832 rnbw-parallel-bytes=15832 rnbw=0.5937 rnbw-parallel=0.5937 parallel-size-delta=+0.00% raw=1.0000 lz4-fast=0.5840 snappy=0.5652 zstd-fast-3=0.5777 zstd-level-1=0.4187 brotli-quality-0=0.4447 brotli-quality-5=0.3537 zlib-fast=0.4761 zlib-default=0.3759 cow-borrowed=false
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 271.13 ms (1680 iterations)
+Benchmarking file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/repository-technical-prose/rnbw-hybrid-lz-entropy
+                        time:   [160.42 µs 162.60 µs 165.25 µs]
+                        thrpt:  [153.89 MiB/s 156.40 MiB/s 158.53 MiB/s]
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded: Collecting 20 samples in estimated 273.73 ms (1680 iterations)
+Benchmarking file-decode/repository-technical-prose/rnbw-parallel-encoded: Analyzing
+file-decode/repository-technical-prose/rnbw-parallel-encoded
+                        time:   [159.51 µs 160.30 µs 161.14 µs]
+                        thrpt:  [157.82 MiB/s 158.65 MiB/s 159.43 MiB/s]
+
+general-trnmap-index=natural-style-prose-generated bytes=586022 words=146506 index-bytes=56560 build=88.3µs zero-words=0 first-zero=146506
+file-dataset=natural-style-prose-generated bytes=586022 structural-lanes=1-byte-lane rnbw-bytes=89832 rnbw-parallel-bytes=89840 rnbw=0.1533 rnbw-parallel=0.1533 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.1558 snappy=0.1446 zstd-fast-3=0.0952 zstd-level-1=0.0908 brotli-quality-0=0.1123 brotli-quality-5=0.0678 zlib-fast=0.1227 zlib-default=0.0598 cow-borrowed=false
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 320.79 ms (420 iterations)
+Benchmarking file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/natural-style-prose-generated/rnbw-hybrid-lz-entropy
+                        time:   [769.45 µs 778.40 µs 788.65 µs]
+                        thrpt:  [708.64 MiB/s 717.98 MiB/s 726.33 MiB/s]
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded: Collecting 20 samples in estimated 305.65 ms (420 iterations)
+Benchmarking file-decode/natural-style-prose-generated/rnbw-parallel-encoded: Analyzing
+file-decode/natural-style-prose-generated/rnbw-parallel-encoded
+                        time:   [736.04 µs 741.70 µs 747.99 µs]
+                        thrpt:  [747.17 MiB/s 753.50 MiB/s 759.29 MiB/s]
+
+general-trnmap-index=json-records bytes=1209516 words=302379 index-bytes=116280 build=156.1µs zero-words=0 first-zero=302379
+file-dataset=json-records bytes=1209516 structural-lanes=1-byte-lane rnbw-bytes=237792 rnbw-parallel-bytes=237816 rnbw=0.1966 rnbw-parallel=0.1966 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.2395 snappy=0.2464 zstd-fast-3=0.2037 zstd-level-1=0.1317 brotli-quality-0=0.1963 brotli-quality-5=0.1100 zlib-fast=0.1571 zlib-default=0.1306 cow-borrowed=false
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 474.1ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 474.07 ms (210 iterations)
+Benchmarking file-decode/json-records/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/json-records/rnbw-hybrid-lz-entropy
+                        time:   [2.3536 ms 2.3996 ms 2.4572 ms]
+                        thrpt:  [469.43 MiB/s 480.70 MiB/s 490.09 MiB/s]
+Benchmarking file-decode/json-records/rnbw-parallel-encoded
+Benchmarking file-decode/json-records/rnbw-parallel-encoded: Warming up for 150.00 ms
+
+Warning: Unable to complete 20 samples in 250.0ms. You may wish to increase target time to 477.6ms, enable flat sampling, or reduce sample count to 10.
+Benchmarking file-decode/json-records/rnbw-parallel-encoded: Collecting 20 samples in estimated 477.63 ms (210 iterations)
+Benchmarking file-decode/json-records/rnbw-parallel-encoded: Analyzing
+file-decode/json-records/rnbw-parallel-encoded
+                        time:   [2.2266 ms 2.2426 ms 2.2625 ms]
+                        thrpt:  [509.83 MiB/s 514.34 MiB/s 518.05 MiB/s]
+
+general-trnmap-index=csv-table bytes=995409 words=248853 index-bytes=95736 build=501.8µs zero-words=0 first-zero=248853
+file-dataset=csv-table bytes=995409 structural-lanes=1-byte-lane rnbw-bytes=429432 rnbw-parallel-bytes=429456 rnbw=0.4314 rnbw-parallel=0.4314 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.5051 snappy=0.5024 zstd-fast-3=0.5033 zstd-level-1=0.2681 brotli-quality-0=0.3897 brotli-quality-5=0.2292 zlib-fast=0.3400 zlib-default=0.2874 cow-borrowed=false
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 274.37 ms (60 iterations)
+Benchmarking file-decode/csv-table/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/csv-table/rnbw-hybrid-lz-entropy
+                        time:   [4.5690 ms 4.6195 ms 4.6835 ms]
+                        thrpt:  [202.69 MiB/s 205.50 MiB/s 207.77 MiB/s]
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded: Collecting 20 samples in estimated 272.19 ms (60 iterations)
+Benchmarking file-decode/csv-table/rnbw-parallel-encoded: Analyzing
+file-decode/csv-table/rnbw-parallel-encoded
+                        time:   [4.6736 ms 4.7147 ms 4.7551 ms]
+                        thrpt:  [199.64 MiB/s 201.35 MiB/s 203.12 MiB/s]
+
+general-trnmap-index=server-log-records bytes=1398527 words=349632 index-bytes=134376 build=204.9µs zero-words=0 first-zero=349632
+file-dataset=server-log-records bytes=1398527 structural-lanes=1-byte-lane rnbw-bytes=394256 rnbw-parallel-bytes=394296 rnbw=0.2819 rnbw-parallel=0.2819 parallel-size-delta=+0.01% raw=1.0000 lz4-fast=0.3256 snappy=0.3240 zstd-fast-3=0.3104 zstd-level-1=0.1804 brotli-quality-0=0.2517 brotli-quality-5=0.1717 zlib-fast=0.2142 zlib-default=0.1857 cow-borrowed=false
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy: Warming up for 150.00 ms
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy: Collecting 20 samples in estimated 333.17 ms (80 iterations)
+Benchmarking file-decode/server-log-records/rnbw-hybrid-lz-entropy: Analyzing
+file-decode/server-log-records/rnbw-hybrid-lz-entropy
+                        time:   [3.7824 ms 3.8051 ms 3.8272 ms]
+                        thrpt:  [348.49 MiB/s 350.51 MiB/s 352.62 MiB/s]
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded: Warming up for 150.00 ms
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded: Collecting 20 samples in estimated 286.78 ms (80 iterations)
+Benchmarking file-decode/server-log-records/rnbw-parallel-encoded: Analyzing
+file-decode/server-log-records/rnbw-parallel-encoded
+                        time:   [3.6387 ms 3.8291 ms 4.1441 ms]
+                        thrpt:  [321.84 MiB/s 348.32 MiB/s 366.54 MiB/s]

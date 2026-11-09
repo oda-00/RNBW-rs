@@ -1786,5 +1786,5 @@ Input: `ai-model-int8-weights-synthetic`, 1 MiB, 16 interleaved byte lanes. Crit
 | A: existing `Vec<&[u8]>` | 5.4490 ms | 3.8071 ms | 4.6281 ms |
 | B: iterator, no reference Vec | 3.9043 ms | 5.3445 ms | 4.6244 ms |
 
-The candidate's average differed by less than 0.1%, while repeated process medians varied by about 1.5 ms. This does not establish a performance win; candidate B was discarded and the original code retained. `hyperfine` and `valgrind` were not available as commands in this Windows environment; Criterion produced the timings above.
+The candidate's average differed by less than 0.1%, while repeated process medians varied by about 1.5 ms. This does not establish a performance win; candidate B was discarded and the original code retained. This capture contains Criterion measurements only; it has no corresponding Hyperfine or Valgrind/Callgrind output.
 
