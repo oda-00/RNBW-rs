@@ -1,8 +1,7 @@
 //! Four-state, 12-bit order-0 rANS wrapper for the raw queryable image.
 
 use super::*;
-use std::cmp::Reverse;
-use std::collections::BinaryHeap;
+use arrayvec::ArrayVec;
 
 const ENTROPY_VERSION: u16 = 4;
 const LEGACY_RANS_VERSION: u16 = 3;
@@ -56,29 +55,67 @@ pub(super) fn entropy_encode(input: &[u8]) -> Result<(u8, Vec<u8>, Vec<u8>), Cod
     if input.is_empty() {
         return Ok((METHOD_RAW, Vec::new(), Vec::new()));
     }
-    let mut selected_method = METHOD_RAW;
-    let mut selected_model = Vec::new();
-    let mut selected_bytes = input.to_vec();
+    match entropy_encode_candidate(input)? {
+        Some((method, model, payload)) => Ok((method, model, payload)),
+        None => Ok((METHOD_RAW, Vec::new(), input.to_vec())),
+    }
+}
 
-    let model = build_model(input);
-    let coded = rans_encode(input, &model)?;
-    if coded.len() + RANS_MODEL_BYTES < selected_bytes.len() {
-        selected_method = METHOD_RANS;
-        selected_model.reserve_exact(RANS_MODEL_BYTES);
-        for frequency in model {
-            selected_model.extend_from_slice(&frequency.to_le_bytes());
+/// Returns an entropy representation only when its complete model+payload is
+/// smaller than the source. Callers choosing among larger codec candidates can
+/// defer copying the raw source until raw actually wins.
+pub(super) fn entropy_encode_candidate(
+    input: &[u8],
+) -> Result<Option<(u8, Vec<u8>, Vec<u8>)>, CodecError> {
+    entropy_encode_candidate_with_hint(input, false)
+}
+
+/// A strong match ratio is evidence that the LZ window has already converted
+/// repeated source regions into a skewed token stream. In that case, try the
+/// cheaper fixed-capacity Huffman pass first and avoid rANS when Huffman wins.
+pub(super) fn entropy_encode_candidate_with_hint(
+    input: &[u8],
+    prefer_huffman: bool,
+) -> Result<Option<(u8, Vec<u8>, Vec<u8>)>, CodecError> {
+    if input.is_empty() {
+        return Ok(None);
+    }
+    // Both entropy coders need the same symbol histogram. Count it once, then
+    // reuse it for rANS normalization and Huffman tree construction.
+    let frequencies = symbol_histogram(input);
+    if prefer_huffman {
+        if let Some((lengths, payload)) = huffman_encode(input, &frequencies, input.len()) {
+            return Ok(Some((METHOD_HUFFMAN, lengths.to_vec(), payload)));
         }
-        selected_bytes = coded;
+    }
+    let rans_model = build_model(&frequencies, input.len());
+    let rans_payload = rans_encode(input, &rans_model)?;
+    let rans_size = rans_payload.len() + RANS_MODEL_BYTES;
+    let rans_selected = rans_size < input.len();
+    let best_size = if rans_selected {
+        rans_size
+    } else {
+        input.len()
+    };
+    let best_payload = rans_selected.then_some(rans_payload);
+
+    if !prefer_huffman {
+        if let Some((lengths, huffman_payload)) = huffman_encode(input, &frequencies, best_size) {
+            let huffman_size = huffman_payload.len() + HUFFMAN_MODEL_BYTES;
+            debug_assert!(huffman_size < best_size);
+            return Ok(Some((METHOD_HUFFMAN, lengths.to_vec(), huffman_payload)));
+        }
     }
 
-    if let Some((lengths, coded)) = huffman_encode(input)
-        && coded.len() + HUFFMAN_MODEL_BYTES < selected_model.len() + selected_bytes.len()
-    {
-        selected_method = METHOD_HUFFMAN;
-        selected_model = lengths.to_vec();
-        selected_bytes = coded;
+    if let Some(payload) = best_payload {
+        let mut model = Vec::with_capacity(RANS_MODEL_BYTES);
+        for frequency in rans_model {
+            model.extend_from_slice(&frequency.to_le_bytes());
+        }
+        Ok(Some((METHOD_RANS, model, payload)))
+    } else {
+        Ok(None)
     }
-    Ok((selected_method, selected_model, selected_bytes))
 }
 
 pub(super) fn entropy_decode(
@@ -611,16 +648,21 @@ fn rebuild_auxiliary(image: &mut [u8], metadata: &RawMetadata) -> Result<(), Cod
     Ok(())
 }
 
-fn build_model(input: &[u8]) -> [u16; 256] {
+fn symbol_histogram(input: &[u8]) -> [u64; 256] {
     let mut counts = [0u64; 256];
     for &symbol in input {
         counts[symbol as usize] += 1;
     }
+    counts
+}
+
+fn build_model(counts: &[u64; 256], input_len: usize) -> [u16; 256] {
     let active = counts.iter().filter(|&&count| count != 0).count();
     let remaining = RANS_SCALE as u64 - active as u64;
-    let length = input.len() as u64;
+    let length = input_len as u64;
     let mut model = [0u16; 256];
-    let mut remainders = Vec::with_capacity(active);
+    let mut remainders = [(0usize, 0u64); 256];
+    let mut remainder_count = 0;
     let mut assigned = 0u32;
     for symbol in 0..256 {
         let count = counts[symbol];
@@ -632,11 +674,13 @@ fn build_model(input: &[u8]) -> [u16; 256] {
         let remainder = scaled % length;
         model[symbol] = frequency as u16;
         assigned += frequency as u32;
-        remainders.push((symbol, remainder));
+        remainders[remainder_count] = (symbol, remainder);
+        remainder_count += 1;
     }
-    remainders.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
+    remainders[..remainder_count]
+        .sort_unstable_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
     let excess = RANS_SCALE - assigned;
-    for &(symbol, _) in remainders.iter().take(excess as usize) {
+    for &(symbol, _) in remainders[..remainder_count].iter().take(excess as usize) {
         model[symbol] += 1;
     }
     model
@@ -654,67 +698,114 @@ struct HuffmanCodebook {
 
 #[derive(Clone, Copy)]
 struct HuffmanNode {
-    left: Option<usize>,
-    right: Option<usize>,
-    symbol: Option<u8>,
+    left: u16,
+    right: u16,
+    symbol: u16,
 }
 
-fn huffman_encode(input: &[u8]) -> Option<([u8; HUFFMAN_MODEL_BYTES], Vec<u8>)> {
+#[derive(Clone, Copy)]
+struct HuffmanQueueItem {
+    frequency: u64,
+    minimum_symbol: u16,
+    node: u16,
+}
+
+impl HuffmanQueueItem {
+    #[inline]
+    fn precedes(self, other: Self) -> bool {
+        (self.frequency, self.minimum_symbol, self.node)
+            < (other.frequency, other.minimum_symbol, other.node)
+    }
+}
+
+fn huffman_encode(
+    input: &[u8],
+    frequencies: &[u64; 256],
+    best_total_size: usize,
+) -> Option<([u8; HUFFMAN_MODEL_BYTES], Vec<u8>)> {
     if input.is_empty() {
         return None;
     }
-    let mut frequencies = [0u64; 256];
-    for &symbol in input {
-        frequencies[symbol as usize] += 1;
-    }
-    let mut nodes = Vec::with_capacity(511);
-    let mut queue = BinaryHeap::new();
+    const NONE: u16 = u16::MAX;
+    let mut nodes = ArrayVec::<HuffmanNode, 511>::new();
+    let mut queue = ArrayVec::<HuffmanQueueItem, 256>::new();
     for (symbol, &frequency) in frequencies.iter().enumerate() {
         if frequency != 0 {
-            let index = nodes.len();
-            nodes.push(HuffmanNode {
-                left: None,
-                right: None,
-                symbol: Some(symbol as u8),
-            });
-            queue.push(Reverse((frequency, symbol as u16, index)));
+            let index = u16::try_from(nodes.len()).ok()?;
+            nodes
+                .try_push(HuffmanNode {
+                    left: NONE,
+                    right: NONE,
+                    symbol: symbol as u16,
+                })
+                .ok()?;
+            huffman_queue_push(
+                &mut queue,
+                HuffmanQueueItem {
+                    frequency,
+                    minimum_symbol: symbol as u16,
+                    node: index,
+                },
+            )
+            .ok()?;
         }
     }
     while queue.len() > 1 {
-        let Reverse((left_frequency, left_minimum, left)) = queue.pop()?;
-        let Reverse((right_frequency, right_minimum, right)) = queue.pop()?;
-        let frequency = left_frequency.checked_add(right_frequency)?;
-        let index = nodes.len();
-        nodes.push(HuffmanNode {
-            left: Some(left),
-            right: Some(right),
-            symbol: None,
-        });
-        queue.push(Reverse((frequency, left_minimum.min(right_minimum), index)));
+        let left = huffman_queue_pop(&mut queue)?;
+        let right = huffman_queue_pop(&mut queue)?;
+        let frequency = left.frequency.checked_add(right.frequency)?;
+        let index = u16::try_from(nodes.len()).ok()?;
+        nodes
+            .try_push(HuffmanNode {
+                left: left.node,
+                right: right.node,
+                symbol: NONE,
+            })
+            .ok()?;
+        huffman_queue_push(
+            &mut queue,
+            HuffmanQueueItem {
+                frequency,
+                minimum_symbol: left.minimum_symbol.min(right.minimum_symbol),
+                node: index,
+            },
+        )
+        .ok()?;
     }
-    let Reverse((_, _, root)) = queue.pop()?;
+    let root = huffman_queue_pop(&mut queue)?.node;
 
     let mut lengths = [0u8; 256];
-    let mut stack = vec![(root, 0usize)];
+    let mut stack = ArrayVec::<(u16, u8), 511>::new();
+    stack.try_push((root, 0)).ok()?;
     while let Some((node_index, depth)) = stack.pop() {
-        let node = nodes[node_index];
-        if let Some(symbol) = node.symbol {
+        let node = nodes[usize::from(node_index)];
+        if node.symbol != NONE {
             if depth > 32 {
                 return None;
             }
-            lengths[symbol as usize] = depth.max(1) as u8;
+            lengths[usize::from(node.symbol)] = depth.max(1);
         } else {
             let child_depth = depth.checked_add(1)?;
             if child_depth > 32 {
                 return None;
             }
-            stack.push((node.right?, child_depth));
-            stack.push((node.left?, child_depth));
+            stack.try_push((node.right, child_depth)).ok()?;
+            stack.try_push((node.left, child_depth)).ok()?;
         }
     }
     let codebook = huffman_codebook(&lengths).ok()?;
 
-    let mut encoded = Vec::with_capacity(input.len());
+    let encoded_bits: u128 = frequencies
+        .iter()
+        .zip(lengths)
+        .map(|(&frequency, length)| frequency as u128 * length as u128)
+        .sum();
+    let encoded_len = usize::try_from(encoded_bits.div_ceil(8)).ok()?;
+    if encoded_len.checked_add(HUFFMAN_MODEL_BYTES)? >= best_total_size {
+        return None;
+    }
+
+    let mut encoded = Vec::with_capacity(encoded_len);
     let mut bits = 0u64;
     let mut bit_count = 0usize;
     for &symbol in input {
@@ -732,6 +823,50 @@ fn huffman_encode(input: &[u8]) -> Option<([u8; HUFFMAN_MODEL_BYTES], Vec<u8>)> 
         encoded.push((bits << (8 - bit_count)) as u8);
     }
     Some((lengths, encoded))
+}
+
+fn huffman_queue_push(
+    queue: &mut ArrayVec<HuffmanQueueItem, 256>,
+    item: HuffmanQueueItem,
+) -> Result<(), ()> {
+    queue.try_push(item).map_err(|_| ())?;
+    let mut index = queue.len() - 1;
+    while index != 0 {
+        let parent = (index - 1) / 2;
+        if !queue[index].precedes(queue[parent]) {
+            break;
+        }
+        queue.swap(index, parent);
+        index = parent;
+    }
+    Ok(())
+}
+
+fn huffman_queue_pop(queue: &mut ArrayVec<HuffmanQueueItem, 256>) -> Option<HuffmanQueueItem> {
+    let minimum = *queue.first()?;
+    let last = queue.pop()?;
+    if !queue.is_empty() {
+        queue[0] = last;
+        let mut index = 0usize;
+        loop {
+            let left = index * 2 + 1;
+            if left >= queue.len() {
+                break;
+            }
+            let right = left + 1;
+            let child = if right < queue.len() && queue[right].precedes(queue[left]) {
+                right
+            } else {
+                left
+            };
+            if !queue[child].precedes(queue[index]) {
+                break;
+            }
+            queue.swap(index, child);
+            index = child;
+        }
+    }
+    Some(minimum)
 }
 
 fn huffman_codebook(lengths: &[u8; HUFFMAN_MODEL_BYTES]) -> Result<HuffmanCodebook, CodecError> {
@@ -1031,7 +1166,8 @@ mod tests {
                     (index % 5) as u8
                 });
             }
-            let model = build_model(&input);
+            let frequencies = symbol_histogram(&input);
+            let model = build_model(&frequencies, input.len());
             assert_eq!(
                 model.iter().map(|&frequency| frequency as u32).sum::<u32>(),
                 RANS_SCALE
@@ -1050,7 +1186,8 @@ mod tests {
             full.extend(0..=u8::MAX);
         }
         for input in [&skewed, &full] {
-            let (lengths, encoded) = huffman_encode(input).unwrap();
+            let frequencies = symbol_histogram(input);
+            let (lengths, encoded) = huffman_encode(input, &frequencies, usize::MAX).unwrap();
             assert_eq!(
                 huffman_decode(&encoded, input.len(), &lengths).unwrap(),
                 *input
@@ -1094,6 +1231,7 @@ mod tests {
                 model_count += 1;
             }
         }
+
         assert!(model_count > 0, "test image must exercise a stored model");
         assert!(
             method_count[METHOD_HUFFMAN as usize] > 0,
@@ -1124,5 +1262,30 @@ mod tests {
         put_u16(&mut compressed, 4, LEGACY_RANS_VERSION).unwrap();
         let decoded = Rnbw::from_compressed_bytes(&compressed).unwrap();
         assert_eq!(decoded.as_bytes(), source.as_bytes());
+    }
+
+    #[test]
+    fn repetition_hint_uses_light_huffman_before_rans() {
+        let input = vec![0x5a; 32_768];
+        let (method, model, payload) = entropy_encode_candidate_with_hint(&input, true)
+            .unwrap()
+            .unwrap();
+        assert_eq!(method, METHOD_HUFFMAN);
+        assert!(model.len() + payload.len() < input.len());
+        assert_eq!(
+            entropy_decode(method, input.len(), &model, &payload).unwrap(),
+            input
+        );
+
+        let mixed = (0..4096)
+            .map(|n| (n * 73 + n / 7) as u8)
+            .collect::<Vec<_>>();
+        let candidate = entropy_encode_candidate_with_hint(&mixed, true).unwrap();
+        if let Some((method, model, payload)) = candidate {
+            assert_eq!(
+                entropy_decode(method, mixed.len(), &model, &payload).unwrap(),
+                mixed
+            );
+        }
     }
 }

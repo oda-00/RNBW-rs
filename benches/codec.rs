@@ -519,6 +519,87 @@ fn lane_type_benchmarks(criterion: &mut Criterion) {
         decode.bench_function("raw-copy", |b| b.iter(|| black_box(&bytes).clone()));
         decode.finish();
     }
+
+    let mut cutoff = criterion.benchmark_group("lane-parallel-cutoff");
+    for total_bytes in [
+        4 * 1024usize,
+        8 * 1024,
+        12 * 1024,
+        16 * 1024,
+        64 * 1024,
+        256 * 1024,
+        1024 * 1024,
+    ] {
+        let lane_len = total_bytes / 4;
+        let mut lanes = (0..4).map(|_| vec![0u8; lane_len]).collect::<Vec<_>>();
+        for (lane_index, lane) in lanes.iter_mut().enumerate() {
+            for (i, byte) in lane.iter_mut().enumerate() {
+                *byte = ((i / (31 + lane_index * 7)) % 11) as u8;
+            }
+        }
+        let refs = lanes.iter().map(Vec::as_slice).collect::<Vec<_>>();
+        let mut serial = LaneLzEncoder::default();
+        let mut parallel = LaneLzEncoder::default();
+        let expected = serial.encode(&refs).expect("serial threshold baseline");
+        assert_eq!(
+            parallel.encode_parallel(&refs).unwrap().as_bytes(),
+            expected.as_bytes()
+        );
+        cutoff.throughput(Throughput::Bytes(total_bytes as u64));
+        cutoff.bench_function(format!("{total_bytes}/serial"), |b| {
+            b.iter(|| serial.encode(black_box(&refs)).unwrap())
+        });
+        cutoff.bench_function(format!("{total_bytes}/parallel"), |b| {
+            b.iter(|| parallel.encode_parallel(black_box(&refs)).unwrap())
+        });
+    }
+    cutoff.finish();
+
+    let mut single_cutoff = criterion.benchmark_group("single-lane-parallel-cutoff");
+    for total_bytes in [
+        4 * 1024usize,
+        8 * 1024,
+        12 * 1024,
+        16 * 1024,
+        64 * 1024,
+        128 * 1024,
+        256 * 1024,
+        1024 * 1024,
+    ] {
+        let compressible = (0..total_bytes)
+            .map(|index| ((index / 7 + index / 113) % 251) as u8)
+            .collect::<Vec<_>>();
+        let mut state = 0x9e37_79b9_7f4a_7c15u64;
+        let random = (0..total_bytes)
+            .map(|_| {
+                state ^= state << 13;
+                state ^= state >> 7;
+                state ^= state << 17;
+                state as u8
+            })
+            .collect::<Vec<_>>();
+        for (kind, bytes) in [("compressible", compressible), ("random", random)] {
+            let refs = [bytes.as_slice()];
+            let mut serial = LaneLzEncoder::default();
+            let mut parallel = LaneLzEncoder::default();
+            let expected = serial.encode(&refs).expect("single-lane serial baseline");
+            let actual = parallel
+                .encode_parallel(&refs)
+                .expect("single-lane parallel baseline");
+            assert_eq!(actual.decode_lanes().unwrap()[0], bytes);
+            if kind == "random" || total_bytes <= 64 * 1024 {
+                assert_eq!(actual.as_bytes(), expected.as_bytes());
+            }
+            single_cutoff.throughput(Throughput::Bytes(total_bytes as u64));
+            single_cutoff.bench_function(format!("{total_bytes}/{kind}/serial"), |b| {
+                b.iter(|| serial.encode(black_box(&refs)).unwrap())
+            });
+            single_cutoff.bench_function(format!("{total_bytes}/{kind}/parallel"), |b| {
+                b.iter(|| parallel.encode_parallel(black_box(&refs)).unwrap())
+            });
+        }
+    }
+    single_cutoff.finish();
 }
 
 fn synthetic_lane_datasets() -> Vec<(&'static str, Vec<u8>, usize)> {

@@ -1,29 +1,49 @@
 //! Lane-separated ordered-stream codec with an independent 64 KiB LZ window
-//! per lane and per-lane raw, rANS, or canonical Huffman storage.
+//! per lane, followed by one per-lane rANS/Huffman entropy stage.
 
-use super::{CodecError, align_up, put_u16, put_u32, rans, read_u16, read_u32};
+use super::{CodecError, align_up, put_u16, put_u32, rans, read_u16, read_u32, read_u32_unchecked};
 use rayon::prelude::*;
+use std::borrow::Cow;
+use std::sync::OnceLock;
+
+#[cfg(target_arch = "x86")]
+use std::arch::x86::*;
+#[cfg(target_arch = "x86_64")]
+use std::arch::x86_64::*;
+
+#[cfg(feature = "wgpu")]
+pub mod gpu;
 
 const MAGIC: &[u8; 4] = b"RNLZ";
-const VERSION: u16 = 1;
+const VERSION: u16 = 2;
+const LEGACY_VERSION: u16 = 1;
 const HEADER_BYTES: usize = 20;
-const DESCRIPTOR_BYTES: usize = 24;
+const LEGACY_DESCRIPTOR_BYTES: usize = 24;
+const DESCRIPTOR_BYTES: usize = 32;
+const TOKEN_BYTES: usize = 4;
 const WINDOW_SIZE: usize = 1 << 16;
 const HASH_BITS_COMPACT: usize = 16;
 const HASH_BITS_WIDE: usize = 18;
 const MAX_CHAIN: usize = 32;
 const MAX_MATCH: usize = 130;
+const PARALLEL_MIN_BYTES: usize = 16 * 1024;
+const LZ_BLOCK_BYTES: usize = 64 * 1024;
 const MODE_RAW: u8 = 0;
-const MODE_ENTROPY: u8 = 1;
 const MODE_LZ_ENTROPY: u8 = 2;
 const METHOD_RAW: u8 = 0;
 const METHOD_RANS: u8 = 1;
 const METHOD_HUFFMAN: u8 = 2;
 
+type SplitFourFn = fn(&[u8], &mut [Vec<u8>], usize);
+static SPLIT_FOUR_DISPATCH: OnceLock<SplitFourFn> = OnceLock::new();
+static RAYON_WORKERS: OnceLock<usize> = OnceLock::new();
+
 #[derive(Clone, Debug)]
 struct LaneData {
     raw_len: usize,
     token_len: usize,
+    token_count: usize,
+    literal_len: usize,
     model: Vec<u8>,
     payload: Vec<u8>,
     mode: u8,
@@ -34,6 +54,8 @@ struct LaneData {
 struct LaneDescriptor {
     raw_len: usize,
     token_len: usize,
+    token_count: usize,
+    literal_len: usize,
     payload_offset: usize,
     payload_len: usize,
     model_offset: usize,
@@ -50,7 +72,8 @@ pub struct LaneLz {
 
 impl LaneLz {
     /// Encodes independent byte lanes. Each lane has a private 64 KiB match window;
-    /// the smallest of raw bytes, entropy-only, and LZ-plus-entropy is stored.
+    /// the LZ-plus-entropy result is stored when it shrinks the input; otherwise
+    /// the lane is stored raw.
     pub fn encode(lanes: &[&[u8]]) -> Result<Self, CodecError> {
         LaneLzEncoder::default().encode(lanes)
     }
@@ -100,6 +123,8 @@ impl LaneLz {
             descriptors.push(LaneDescriptor {
                 raw_len: lane.raw_len,
                 token_len: lane.token_len,
+                token_count: lane.token_count,
+                literal_len: lane.literal_len,
                 payload_offset,
                 payload_len: lane.payload.len(),
                 model_offset,
@@ -173,6 +198,16 @@ impl LaneLz {
             )?;
             image[at + 22] = descriptor.mode;
             image[at + 23] = descriptor.entropy_method;
+            put_u32(
+                &mut image,
+                at + 24,
+                u32::try_from(descriptor.token_count).map_err(|_| CodecError::LengthOverflow)?,
+            )?;
+            put_u32(
+                &mut image,
+                at + 28,
+                u32::try_from(descriptor.literal_len).map_err(|_| CodecError::LengthOverflow)?,
+            )?;
             if !lane.model.is_empty() {
                 let end = descriptor.model_offset + descriptor.model_len;
                 image[descriptor.model_offset..end].copy_from_slice(&lane.model);
@@ -211,9 +246,14 @@ impl LaneLz {
 
     /// Decodes each lane to its original bytes.
     pub fn decode_lanes(&self) -> Result<Vec<Vec<u8>>, CodecError> {
-        let descriptors = parse_image(&self.image)?;
-        let mut lanes = Vec::with_capacity(descriptors.len());
-        for descriptor in descriptors {
+        // All constructors validate or generate this immutable image. Repeating
+        // the full structural validation here would only re-read trusted bytes.
+        let count = read_u16(&self.image, 6).expect("validated lane image") as usize;
+        let version = read_u16(&self.image, 4).expect("validated lane image");
+        let is_legacy = version == LEGACY_VERSION;
+        let mut lanes = Vec::with_capacity(count);
+        for index in 0..count {
+            let descriptor = lane_descriptor_unchecked_version(&self.image, index, version);
             let payload = &self.image
                 [descriptor.payload_offset..descriptor.payload_offset + descriptor.payload_len];
             let model = if descriptor.model_len == 0 {
@@ -228,13 +268,17 @@ impl LaneLz {
                 payload,
             )?;
             let lane = match descriptor.mode {
-                MODE_RAW | MODE_ENTROPY => decoded,
-                MODE_LZ_ENTROPY => lz_decode(&decoded, descriptor.raw_len)?,
+                MODE_RAW => decoded,
+                MODE_LZ_ENTROPY if is_legacy => lz_decode_legacy(&decoded, descriptor.raw_len)?,
+                MODE_LZ_ENTROPY => lz_decode(
+                    &decoded,
+                    descriptor.token_count,
+                    descriptor.literal_len,
+                    descriptor.raw_len,
+                )?,
                 _ => return Err(CodecError::InvalidFormat("unknown RNBW lane mode")),
             };
-            if lane.len() != descriptor.raw_len {
-                return Err(CodecError::InvalidFormat("RNBW lane length mismatch"));
-            }
+            // Every accepted decoder branch enforces the descriptor length.
             lanes.push(lane);
         }
         Ok(lanes)
@@ -262,21 +306,56 @@ impl LaneLz {
 
     /// Decodes lanes to fixed-width interleaved records.
     pub fn decode_interleaved(&self) -> Result<Vec<u8>, CodecError> {
+        Ok(self.decode_interleaved_cow()?.into_owned())
+    }
+
+    /// Decodes fixed-width interleaved records, borrowing the image payload
+    /// when a single raw lane already has the requested byte layout.
+    pub fn decode_interleaved_cow(&self) -> Result<Cow<'_, [u8]>, CodecError> {
+        // A single raw lane is already the complete interleaved output. Return
+        // a view instead of allocating or copying the payload.
+        if read_u16(&self.image, 6).expect("validated lane image") == 1 {
+            let descriptor = lane_descriptor_unchecked(&self.image, 0);
+            if descriptor.mode == MODE_RAW && descriptor.entropy_method == METHOD_RAW {
+                if descriptor.payload_len != descriptor.raw_len {
+                    return Err(CodecError::InvalidFormat("invalid raw lane length"));
+                }
+                let end = descriptor
+                    .payload_offset
+                    .checked_add(descriptor.payload_len)
+                    .ok_or(CodecError::LengthOverflow)?;
+                return Ok(Cow::Borrowed(&self.image[descriptor.payload_offset..end]));
+            }
+        }
+
         let lanes = self.decode_lanes()?;
         if lanes.is_empty() || lanes.iter().any(|lane| lane.len() != lanes[0].len()) {
             return Err(CodecError::InvalidFormat("unequal RNBW interleaved lanes"));
+        }
+        if lanes.len() == 1 {
+            return Ok(Cow::Owned(lanes.into_iter().next().unwrap()));
         }
         let output_len = lanes[0]
             .len()
             .checked_mul(lanes.len())
             .ok_or(CodecError::LengthOverflow)?;
+        if lanes.len() == 4 {
+            let mut output = Vec::with_capacity(output_len);
+            for index in 0..lanes[0].len() {
+                output.push(lanes[0][index]);
+                output.push(lanes[1][index]);
+                output.push(lanes[2][index]);
+                output.push(lanes[3][index]);
+            }
+            return Ok(Cow::Owned(output));
+        }
         let mut output = Vec::with_capacity(output_len);
         for (record_index, _) in lanes[0].iter().enumerate() {
             for lane in &lanes {
                 output.push(lane[record_index]);
             }
         }
-        Ok(output)
+        Ok(Cow::Owned(output))
     }
 }
 
@@ -315,6 +394,10 @@ impl LaneLzEncoder {
         input: &[u8],
         lane_width: usize,
     ) -> Result<LaneLz, CodecError> {
+        if lane_width == 1 {
+            let raw_total = validate_lanes(&[input])?;
+            return encode_serial_lanes(&[input], raw_total, &mut self.serial);
+        }
         let LaneLzEncoder {
             serial,
             interleaved_lanes,
@@ -344,6 +427,15 @@ impl LaneLzEncoder {
         input: &[u8],
         lane_width: usize,
     ) -> Result<LaneLz, CodecError> {
+        if lane_width == 1 {
+            let raw_total = validate_lanes(&[input])?;
+            return encode_parallel_lanes(
+                &[input],
+                raw_total,
+                &mut self.serial,
+                &mut self.parallel,
+            );
+        }
         let LaneLzEncoder {
             serial,
             parallel,
@@ -417,9 +509,15 @@ fn parse_image(image: &[u8]) -> Result<Vec<LaneDescriptor>, CodecError> {
     if image.len() < HEADER_BYTES {
         return Err(CodecError::Truncated);
     }
-    if image.get(..4) != Some(MAGIC.as_slice()) || read_u16(image, 4)? != VERSION {
+    let version = read_u16(image, 4)?;
+    if image.get(..4) != Some(MAGIC.as_slice()) || !matches!(version, LEGACY_VERSION | VERSION) {
         return Err(CodecError::InvalidFormat("bad RNBW lane signature"));
     }
+    let descriptor_bytes = if version == LEGACY_VERSION {
+        LEGACY_DESCRIPTOR_BYTES
+    } else {
+        DESCRIPTOR_BYTES
+    };
     let lane_count = read_u16(image, 6)? as usize;
     let raw_total = read_u32(image, 8)? as usize;
     let header_len = read_u32(image, 12)? as usize;
@@ -429,7 +527,7 @@ fn parse_image(image: &[u8]) -> Result<Vec<LaneDescriptor>, CodecError> {
     let descriptor_end = HEADER_BYTES
         .checked_add(
             lane_count
-                .checked_mul(DESCRIPTOR_BYTES)
+                .checked_mul(descriptor_bytes)
                 .ok_or(CodecError::LengthOverflow)?,
         )
         .ok_or(CodecError::LengthOverflow)?;
@@ -455,10 +553,20 @@ fn parse_image(image: &[u8]) -> Result<Vec<LaneDescriptor>, CodecError> {
         ));
     }
     for index in 0..lane_count {
-        let at = HEADER_BYTES + index * DESCRIPTOR_BYTES;
+        let at = HEADER_BYTES + index * descriptor_bytes;
         let descriptor = LaneDescriptor {
             raw_len: read_u32(image, at)? as usize,
             token_len: read_u32(image, at + 4)? as usize,
+            token_count: if version == LEGACY_VERSION {
+                0
+            } else {
+                read_u32(image, at + 24)? as usize
+            },
+            literal_len: if version == LEGACY_VERSION {
+                0
+            } else {
+                read_u32(image, at + 28)? as usize
+            },
             payload_offset: read_u32(image, at + 8)? as usize,
             payload_len: read_u32(image, at + 12)? as usize,
             model_offset: read_u32(image, at + 16)? as usize,
@@ -487,20 +595,10 @@ fn parse_image(image: &[u8]) -> Result<Vec<LaneDescriptor>, CodecError> {
                 if descriptor.entropy_method != METHOD_RAW
                     || descriptor.token_len != descriptor.raw_len
                     || descriptor.payload_len != descriptor.raw_len
+                    || descriptor.token_count != 0
+                    || descriptor.literal_len != 0
                 {
                     return Err(CodecError::InvalidFormat("invalid raw RNBW lane"));
-                }
-            }
-            MODE_ENTROPY => {
-                let stored_len = descriptor
-                    .payload_len
-                    .checked_add(descriptor.model_len)
-                    .ok_or(CodecError::LengthOverflow)?;
-                if descriptor.entropy_method == METHOD_RAW
-                    || descriptor.token_len != descriptor.raw_len
-                    || stored_len >= descriptor.raw_len
-                {
-                    return Err(CodecError::InvalidFormat("invalid entropy RNBW lane"));
                 }
             }
             MODE_LZ_ENTROPY => {
@@ -508,12 +606,24 @@ fn parse_image(image: &[u8]) -> Result<Vec<LaneDescriptor>, CodecError> {
                     .payload_len
                     .checked_add(descriptor.model_len)
                     .ok_or(CodecError::LengthOverflow)?;
-                let token_limit = descriptor
-                    .raw_len
-                    .checked_mul(2)
-                    .and_then(|length| length.checked_add(1))
+                let token_stream_len = descriptor
+                    .token_count
+                    .checked_mul(TOKEN_BYTES)
+                    .and_then(|length| length.checked_add(descriptor.literal_len))
                     .ok_or(CodecError::LengthOverflow)?;
-                if stored_len >= descriptor.raw_len || descriptor.token_len > token_limit {
+                let malformed_v1 = version == LEGACY_VERSION
+                    && descriptor.token_len
+                        > descriptor
+                            .raw_len
+                            .checked_mul(2)
+                            .and_then(|length| length.checked_add(1))
+                            .ok_or(CodecError::LengthOverflow)?;
+                let malformed_v2 = version == VERSION
+                    && (descriptor.token_count == 0
+                        || descriptor.token_count > descriptor.raw_len
+                        || descriptor.literal_len > descriptor.raw_len
+                        || token_stream_len != descriptor.token_len);
+                if stored_len >= descriptor.raw_len || malformed_v1 || malformed_v2 {
                     return Err(CodecError::InvalidFormat("invalid LZ RNBW lane"));
                 }
             }
@@ -572,6 +682,42 @@ fn parse_image(image: &[u8]) -> Result<Vec<LaneDescriptor>, CodecError> {
     Ok(descriptors)
 }
 
+#[inline]
+fn lane_descriptor_unchecked(image: &[u8], index: usize) -> LaneDescriptor {
+    let version = u16::from_le_bytes([image[4], image[5]]);
+    lane_descriptor_unchecked_version(image, index, version)
+}
+
+#[inline]
+fn lane_descriptor_unchecked_version(image: &[u8], index: usize, version: u16) -> LaneDescriptor {
+    let descriptor_bytes = if version == LEGACY_VERSION {
+        LEGACY_DESCRIPTOR_BYTES
+    } else {
+        DESCRIPTOR_BYTES
+    };
+    let at = HEADER_BYTES + index * descriptor_bytes;
+    LaneDescriptor {
+        raw_len: read_u32_unchecked(image, at) as usize,
+        token_len: read_u32_unchecked(image, at + 4) as usize,
+        token_count: if version == LEGACY_VERSION {
+            0
+        } else {
+            read_u32_unchecked(image, at + 24) as usize
+        },
+        literal_len: if version == LEGACY_VERSION {
+            0
+        } else {
+            read_u32_unchecked(image, at + 28) as usize
+        },
+        payload_offset: read_u32_unchecked(image, at + 8) as usize,
+        payload_len: read_u32_unchecked(image, at + 12) as usize,
+        model_offset: read_u32_unchecked(image, at + 16) as usize,
+        model_len: u16::from_le_bytes([image[at + 20], image[at + 21]]) as usize,
+        mode: image[at + 22],
+        entropy_method: image[at + 23],
+    }
+}
+
 fn validate_lanes(lanes: &[&[u8]]) -> Result<usize, CodecError> {
     if lanes.is_empty() || lanes.len() > u16::MAX as usize {
         return Err(CodecError::InvalidFormat("invalid RNBW lane count"));
@@ -595,10 +741,14 @@ fn encode_serial_lanes(
     raw_total: usize,
     workspace: &mut LzWorkspace,
 ) -> Result<LaneLz, CodecError> {
-    let allow_wide_hash = lanes.len() == 1;
+    let hash_bits = if lanes.len() == 1 {
+        HASH_BITS_WIDE
+    } else {
+        HASH_BITS_COMPACT
+    };
     let mut stored = Vec::with_capacity(lanes.len());
     for lane in lanes {
-        stored.push(encode_lane(lane, workspace, allow_wide_hash)?);
+        stored.push(encode_lane(lane, workspace, hash_bits)?);
     }
     LaneLz::from_lanes(stored, raw_total)
 }
@@ -609,11 +759,33 @@ fn encode_parallel_lanes(
     serial: &mut LzWorkspace,
     parallel: &mut Vec<LzWorkspace>,
 ) -> Result<LaneLz, CodecError> {
-    let workers = rayon::current_num_threads().min(lanes.len());
+    if raw_total < PARALLEL_MIN_BYTES {
+        return encode_serial_lanes(lanes, raw_total, serial);
+    }
+    if lanes.len() == 1 {
+        let lane = lanes[0];
+        if should_skip_lz_sample(lane) {
+            return LaneLz::from_lanes(vec![raw_lane_data(lane)], raw_total);
+        }
+        if lane.len() <= LZ_BLOCK_BYTES {
+            return encode_serial_lanes(lanes, raw_total, serial);
+        }
+        let worker_count = rayon_worker_count();
+        let block_count = lane.len().div_ceil(LZ_BLOCK_BYTES);
+        let tasks = worker_count.min(block_count);
+        if tasks < 2 {
+            return encode_serial_lanes(lanes, raw_total, serial);
+        }
+        return encode_parallel_single_lane(lane, raw_total, worker_count, serial, parallel);
+    }
+    if lanes.len() < 2 {
+        return encode_serial_lanes(lanes, raw_total, serial);
+    }
+    let worker_count = rayon_worker_count();
+    let workers = worker_count.min(lanes.len());
     if workers < 2 {
         return encode_serial_lanes(lanes, raw_total, serial);
     }
-    let allow_wide_hash = lanes.len() == 1;
     let lanes_per_task = lanes.len().div_ceil(workers);
     let tasks = lanes.len().div_ceil(lanes_per_task);
     parallel.resize_with(tasks, LzWorkspace::default);
@@ -627,7 +799,7 @@ fn encode_parallel_lanes(
         .zip(lanes.par_chunks(lanes_per_task))
         .try_for_each(|((workspace, output), input)| -> Result<(), CodecError> {
             for (slot, lane) in output.iter_mut().zip(input) {
-                *slot = Some(encode_lane(lane, workspace, allow_wide_hash)?);
+                *slot = Some(encode_lane(lane, workspace, HASH_BITS_COMPACT)?);
             }
             Ok(())
         })?;
@@ -664,12 +836,93 @@ fn split_interleaved(
     }
     let records = input.len() / lane_width;
     prepare_split_lanes(lanes, lane_width, records);
+    if lane_width == 4 {
+        split_four_dispatch(input, &mut lanes[..4], records);
+        return Ok(input.len());
+    }
     for record in input.chunks_exact(lane_width) {
         for (lane, byte) in lanes.iter_mut().zip(record) {
             lane.push(*byte);
         }
     }
     Ok(input.len())
+}
+
+fn split_four_dispatch(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    debug_assert_eq!(lanes.len(), 4);
+    let split = *SPLIT_FOUR_DISPATCH.get_or_init(|| {
+        #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+        if std::is_x86_feature_detected!("avx2") {
+            return split_four_avx2_entry;
+        }
+        split_four_scalar
+    });
+    split(input, lanes, records);
+}
+
+fn split_four_scalar(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    for lane in lanes.iter_mut() {
+        lane.resize(records, 0);
+    }
+    for (record_index, record) in input.chunks_exact(4).enumerate() {
+        lanes[0][record_index] = record[0];
+        lanes[1][record_index] = record[1];
+        lanes[2][record_index] = record[2];
+        lanes[3][record_index] = record[3];
+    }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+fn split_four_avx2_entry(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    // The dispatch cache calls this entry only after AVX2 feature detection.
+    unsafe { split_four_avx2(input, lanes, records) }
+}
+
+#[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
+#[target_feature(enable = "avx2")]
+unsafe fn split_four_avx2(input: &[u8], lanes: &mut [Vec<u8>], records: usize) {
+    const M0: [i8; 32] = [
+        0, 4, 8, 12, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, 0, 4,
+        8, 12, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128,
+    ];
+    const M1: [i8; 32] = [
+        1, 5, 9, 13, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, 1, 5,
+        9, 13, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128,
+    ];
+    const M2: [i8; 32] = [
+        2, 6, 10, 14, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, 2, 6,
+        10, 14, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128,
+    ];
+    const M3: [i8; 32] = [
+        3, 7, 11, 15, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, 3, 7,
+        11, 15, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128, -128,
+    ];
+
+    for lane in lanes.iter_mut() {
+        lane.resize(records, 0);
+    }
+    let masks = [M0, M1, M2, M3].map(|mask| unsafe { _mm256_loadu_si256(mask.as_ptr().cast()) });
+    let pack = _mm256_setr_epi32(0, 4, 0, 4, 0, 4, 0, 4);
+    let vector_records = records & !7;
+    let mut record = 0usize;
+    while record < vector_records {
+        let bytes = unsafe { input.as_ptr().add(record * 4) };
+        let interleaved = unsafe { _mm256_loadu_si256(bytes.cast()) };
+        for channel in 0..4 {
+            let separated = _mm256_shuffle_epi8(interleaved, masks[channel]);
+            let packed = _mm256_permutevar8x32_epi32(separated, pack);
+            let lane_out = unsafe { lanes[channel].as_mut_ptr().add(record).cast::<__m128i>() };
+            unsafe { _mm_storel_epi64(lane_out, _mm256_castsi256_si128(packed)) };
+        }
+        record += 8;
+    }
+    while record < records {
+        let source = unsafe { input.as_ptr().add(record * 4) };
+        for channel in 0..4 {
+            lanes[channel][record] = unsafe { *source.add(channel) };
+        }
+        record += 1;
+    }
 }
 
 fn split_u32_byte_planes(values: &[u32], lanes: &mut Vec<Vec<u8>>) -> Result<(), CodecError> {
@@ -681,10 +934,15 @@ fn split_u32_byte_planes(values: &[u32], lanes: &mut Vec<Vec<u8>>) -> Result<(),
         return Err(CodecError::LengthOverflow);
     }
     prepare_split_lanes(lanes, 4, values.len());
+    let [b0, b1, b2, b3, ..] = lanes.as_mut_slice() else {
+        unreachable!("four byte-plane buffers were prepared")
+    };
     for value in values {
-        for (index, lane) in lanes.iter_mut().take(4).enumerate() {
-            lane.push((value >> (index * 8)) as u8);
-        }
+        let [x0, x1, x2, x3] = value.to_le_bytes();
+        b0.push(x0);
+        b1.push(x1);
+        b2.push(x2);
+        b3.push(x3);
     }
     Ok(())
 }
@@ -692,48 +950,199 @@ fn split_u32_byte_planes(values: &[u32], lanes: &mut Vec<Vec<u8>>) -> Result<(),
 fn encode_lane(
     input: &[u8],
     workspace: &mut LzWorkspace,
-    allow_wide_hash: bool,
+    hash_bits: usize,
 ) -> Result<LaneData, CodecError> {
-    let mut best = LaneData {
+    if should_skip_lz_sample(input) {
+        return Ok(raw_lane_data(input));
+    }
+    let (token_count, literal_len) = lz_encode(input, workspace, hash_bits);
+    choose_lane_data(input, &workspace.tokens, token_count, literal_len)
+}
+
+fn encode_parallel_single_lane(
+    input: &[u8],
+    raw_total: usize,
+    worker_count: usize,
+    serial: &mut LzWorkspace,
+    parallel: &mut Vec<LzWorkspace>,
+) -> Result<LaneLz, CodecError> {
+    let block_count = input.len().div_ceil(LZ_BLOCK_BYTES);
+    let task_count = worker_count.min(block_count);
+    let blocks_per_task = block_count.div_ceil(task_count);
+    let task_count = block_count.div_ceil(blocks_per_task);
+    parallel.resize_with(task_count, LzWorkspace::default);
+    parallel.truncate(task_count);
+
+    parallel
+        .par_iter_mut()
+        .enumerate()
+        .for_each(|(task_index, workspace)| {
+            let first_block = task_index * blocks_per_task;
+            let end_block = (first_block + blocks_per_task).min(block_count);
+            let start = first_block * LZ_BLOCK_BYTES;
+            let end = (end_block * LZ_BLOCK_BYTES).min(input.len());
+            encode_lz_range(input, start, end, workspace, HASH_BITS_WIDE);
+        });
+
+    serial.block_tokens.clear();
+    serial.block_literals.clear();
+    for workspace in parallel.iter() {
+        serial
+            .block_tokens
+            .extend_from_slice(&workspace.block_tokens);
+        serial
+            .block_literals
+            .extend_from_slice(&workspace.block_literals);
+    }
+    serial.tokens.clear();
+    serial
+        .tokens
+        .reserve(serial.block_tokens.len() + serial.block_literals.len());
+    serial.tokens.extend_from_slice(&serial.block_tokens);
+    serial.tokens.extend_from_slice(&serial.block_literals);
+    let token_count = serial.block_tokens.len() / TOKEN_BYTES;
+    let literal_len = serial.block_literals.len();
+    let stored = choose_lane_data(input, &serial.tokens, token_count, literal_len)?;
+    LaneLz::from_lanes(vec![stored], raw_total)
+}
+
+fn encode_lz_range(
+    input: &[u8],
+    start: usize,
+    end: usize,
+    workspace: &mut LzWorkspace,
+    hash_bits: usize,
+) {
+    workspace.block_tokens.clear();
+    workspace.block_literals.clear();
+    let mut block_start = start;
+    while block_start < end {
+        let block_end = (block_start + LZ_BLOCK_BYTES).min(end);
+        let lookahead_end = (block_end + MAX_MATCH).min(input.len());
+        let history_start = block_start.saturating_sub(WINDOW_SIZE);
+        let context = &input[history_start..lookahead_end];
+        let history_len = block_start - history_start;
+        let target_len = block_end - block_start;
+        let (token_count, literal_len) =
+            lz_encode_window(context, history_len, target_len, workspace, hash_bits);
+        let token_bytes = token_count * TOKEN_BYTES;
+        workspace
+            .block_tokens
+            .extend_from_slice(&workspace.tokens[..token_bytes]);
+        workspace
+            .block_literals
+            .extend_from_slice(&workspace.tokens[token_bytes..token_bytes + literal_len]);
+        block_start = block_end;
+    }
+}
+
+fn rayon_worker_count() -> usize {
+    *RAYON_WORKERS.get_or_init(|| {
+        // The process-wide Rayon pool is persistent and uses work stealing.
+        // Reuse an embedding application's pool when it initialized Rayon first.
+        let _ = rayon::ThreadPoolBuilder::new().build_global();
+        rayon::current_num_threads()
+    })
+}
+
+fn should_skip_lz_sample(input: &[u8]) -> bool {
+    const MIN_BYTES: usize = 4096;
+    const SAMPLE_BYTES: usize = 32;
+    const SAMPLE_COUNT: usize = 64;
+    const GRAM_TABLE_SIZE: usize = 4096;
+    if input.len() < MIN_BYTES {
+        return false;
+    }
+
+    let mut byte_counts = [0u16; 256];
+    let mut grams = [0u32; GRAM_TABLE_SIZE];
+    let mut sample_bytes = 0usize;
+    let mut duplicate_grams = 0usize;
+    let max_start = input.len() - SAMPLE_BYTES;
+    for sample in 0..SAMPLE_COUNT {
+        let start = sample * max_start / (SAMPLE_COUNT - 1);
+        let bytes = &input[start..start + SAMPLE_BYTES];
+        for &byte in bytes {
+            byte_counts[byte as usize] += 1;
+        }
+        sample_bytes += bytes.len();
+        for gram in bytes.windows(3) {
+            let key = (u32::from(gram[0]) << 16) | (u32::from(gram[1]) << 8) | u32::from(gram[2]);
+            let stored_key = key + 1;
+            let mut slot = key.wrapping_mul(0x9e37_79b1) as usize & (GRAM_TABLE_SIZE - 1);
+            loop {
+                match grams[slot] {
+                    0 => {
+                        grams[slot] = stored_key;
+                        break;
+                    }
+                    existing if existing == stored_key => {
+                        duplicate_grams += 1;
+                        break;
+                    }
+                    _ => slot = (slot + 1) & (GRAM_TABLE_SIZE - 1),
+                }
+            }
+        }
+    }
+
+    let distinct_bytes = byte_counts.iter().filter(|&&count| count != 0).count();
+    let max_frequency = byte_counts.iter().copied().max().unwrap_or(0) as usize;
+    distinct_bytes >= 200 && max_frequency <= sample_bytes / 64 && duplicate_grams <= 8
+}
+
+fn raw_lane_data(input: &[u8]) -> LaneData {
+    LaneData {
         raw_len: input.len(),
         token_len: input.len(),
+        token_count: 0,
+        literal_len: 0,
         model: Vec::new(),
         payload: input.to_vec(),
         mode: MODE_RAW,
         entropy_method: METHOD_RAW,
-    };
-
-    let (method, model, payload) = rans::entropy_encode(input)?;
-    if method != METHOD_RAW && model.len() + payload.len() < best.payload.len() {
-        best = LaneData {
-            raw_len: input.len(),
-            token_len: input.len(),
-            model,
-            payload,
-            mode: MODE_ENTROPY,
-            entropy_method: method,
-        };
     }
+}
 
-    let hash_bits = if allow_wide_hash && method == METHOD_RAW {
-        HASH_BITS_WIDE
-    } else {
-        HASH_BITS_COMPACT
+fn choose_lane_data(
+    input: &[u8],
+    lz_stream: &[u8],
+    token_count: usize,
+    literal_len: usize,
+) -> Result<LaneData, CodecError> {
+    // lz_encode has already counted every literal byte while testing its
+    // sliding history window. A very low literal fraction means the 64 KiB
+    // window found strong repetition, so give the fixed-capacity Huffman path
+    // first refusal and skip rANS when that cheaper code shrinks the tokens.
+    let prefer_huffman = input.len() >= 4096 && literal_len <= input.len() / 8;
+    let Some((method, model, payload)) =
+        rans::entropy_encode_candidate_with_hint(lz_stream, prefer_huffman)?
+    else {
+        return Ok(raw_lane_data(input));
     };
-    let tokens = lz_encode(input, workspace, hash_bits);
-    let token_len = tokens.len();
-    let (method, model, payload) = rans::entropy_encode(tokens)?;
-    if model.len() + payload.len() < best.model.len() + best.payload.len() {
-        best = LaneData {
-            raw_len: input.len(),
-            token_len,
-            model,
-            payload,
-            mode: MODE_LZ_ENTROPY,
-            entropy_method: method,
-        };
+    if model.len() + payload.len() >= input.len() {
+        return Ok(raw_lane_data(input));
     }
-    Ok(best)
+    Ok(LaneData {
+        raw_len: input.len(),
+        token_len: lz_stream.len(),
+        token_count,
+        literal_len,
+        model,
+        payload,
+        mode: MODE_LZ_ENTROPY,
+        entropy_method: method,
+    })
+}
+
+#[cfg(feature = "wgpu")]
+fn encode_lane_from_lz(
+    input: &[u8],
+    lz_stream: &[u8],
+    token_count: usize,
+    literal_len: usize,
+) -> Result<LaneData, CodecError> {
+    choose_lane_data(input, lz_stream, token_count, literal_len)
 }
 
 #[derive(Debug, Default)]
@@ -742,20 +1151,41 @@ struct LzWorkspace {
     previous: Vec<u32>,
     touched_heads: Vec<u32>,
     tokens: Vec<u8>,
+    literal_bytes: Vec<u8>,
+    block_tokens: Vec<u8>,
+    block_literals: Vec<u8>,
 }
 
-fn lz_encode<'a>(input: &[u8], workspace: &'a mut LzWorkspace, hash_bits: usize) -> &'a [u8] {
+fn lz_encode(input: &[u8], workspace: &mut LzWorkspace, hash_bits: usize) -> (usize, usize) {
+    lz_encode_window(input, 0, input.len(), workspace, hash_bits)
+}
+
+fn lz_encode_window(
+    input: &[u8],
+    history_len: usize,
+    target_len: usize,
+    workspace: &mut LzWorkspace,
+    hash_bits: usize,
+) -> (usize, usize) {
     let LzWorkspace {
         heads,
         previous,
         touched_heads,
         tokens: output,
+        literal_bytes,
+        ..
     } = workspace;
+    let target_end = history_len + target_len;
+    debug_assert!(target_end <= input.len());
     output.clear();
-    output.reserve(input.len());
+    literal_bytes.clear();
+    output.reserve(target_len);
+    if target_len == 0 {
+        return (0, 0);
+    }
     if input.len() < 3 {
-        emit_literals(output, input);
-        return output;
+        emit_literals(output, literal_bytes, &input[history_len..target_end]);
+        return finish_token_stream(output, literal_bytes);
     }
     for hash in touched_heads.drain(..) {
         heads[hash as usize] = u32::MAX;
@@ -768,10 +1198,17 @@ fn lz_encode<'a>(input: &[u8], workspace: &'a mut LzWorkspace, hash_bits: usize)
         previous.resize(WINDOW_SIZE, u32::MAX);
     }
 
-    let mut index = 0usize;
-    let mut literal_start = 0usize;
+    for index in 0..history_len {
+        if index + 2 < input.len() {
+            let hash = hash_at(input, index, hash_bits);
+            insert_position(index, hash, heads, previous, touched_heads);
+        }
+    }
 
-    while index + 2 < input.len() {
+    let mut index = history_len;
+    let mut literal_start = history_len;
+
+    while index < target_end && index + 2 < input.len() {
         let hash = hash_at(input, index, hash_bits);
         let mut candidate = heads[hash];
         let mut best_len = 0usize;
@@ -787,12 +1224,7 @@ fn lz_encode<'a>(input: &[u8], workspace: &'a mut LzWorkspace, hash_bits: usize)
                 && input[candidate_index + 1] == input[index + 1]
                 && input[candidate_index + 2] == input[index + 2]
             {
-                let mut length = 3usize;
-                while index + length < input.len()
-                    && input[candidate_index + length] == input[index + length]
-                {
-                    length += 1;
-                }
+                let length = 3 + super::extend_match(input, candidate_index + 3, index + 3);
                 if length > best_len {
                     best_len = length;
                     best_distance = distance;
@@ -805,22 +1237,38 @@ fn lz_encode<'a>(input: &[u8], workspace: &'a mut LzWorkspace, hash_bits: usize)
             probes += 1;
         }
 
+        best_len = best_len.min(target_end - index);
         if best_len >= 3 {
-            emit_literals(output, &input[literal_start..index]);
+            emit_literals(output, literal_bytes, &input[literal_start..index]);
             emit_matches(output, best_len, best_distance);
+            let match_start = index;
             let end = index + best_len;
             while index < end {
-                insert_position(input, index, hash_bits, heads, previous, touched_heads);
+                if index + 2 < input.len() {
+                    let inserted_hash = if index == match_start {
+                        hash
+                    } else {
+                        hash_at(input, index, hash_bits)
+                    };
+                    insert_position(index, inserted_hash, heads, previous, touched_heads);
+                }
                 index += 1;
             }
             literal_start = index;
         } else {
-            insert_position(input, index, hash_bits, heads, previous, touched_heads);
+            insert_position(index, hash, heads, previous, touched_heads);
             index += 1;
         }
     }
-    emit_literals(output, &input[literal_start..]);
-    output
+    emit_literals(output, literal_bytes, &input[literal_start..target_end]);
+    finish_token_stream(output, literal_bytes)
+}
+
+fn finish_token_stream(output: &mut Vec<u8>, literal_bytes: &[u8]) -> (usize, usize) {
+    let token_count = output.len() / TOKEN_BYTES;
+    let literal_len = literal_bytes.len();
+    output.extend_from_slice(literal_bytes);
+    (token_count, literal_len)
 }
 
 fn hash_at(input: &[u8], index: usize, hash_bits: usize) -> usize {
@@ -829,17 +1277,12 @@ fn hash_at(input: &[u8], index: usize, hash_bits: usize) -> usize {
 }
 
 fn insert_position(
-    input: &[u8],
     index: usize,
-    hash_bits: usize,
+    hash: usize,
     heads: &mut [u32],
     previous: &mut [u32],
     touched_heads: &mut Vec<u32>,
 ) {
-    if index + 2 >= input.len() {
-        return;
-    }
-    let hash = hash_at(input, index, hash_bits);
     let slot = index % WINDOW_SIZE;
     if heads[hash] == u32::MAX {
         touched_heads.push(hash as u32);
@@ -848,11 +1291,12 @@ fn insert_position(
     heads[hash] = index as u32;
 }
 
-fn emit_literals(output: &mut Vec<u8>, mut literal: &[u8]) {
+fn emit_literals(output: &mut Vec<u8>, literal_bytes: &mut Vec<u8>, mut literal: &[u8]) {
     while !literal.is_empty() {
         let length = literal.len().min(128);
-        output.push((length - 1) as u8);
-        output.extend_from_slice(&literal[..length]);
+        let token = ((length - 1) as u32) << 24;
+        output.extend_from_slice(&token.to_le_bytes());
+        literal_bytes.extend_from_slice(&literal[..length]);
         literal = &literal[length..];
     }
 }
@@ -863,13 +1307,80 @@ fn emit_matches(output: &mut Vec<u8>, mut length: usize, distance: usize) {
         if length > MAX_MATCH && length - part < 3 {
             part = length - 3;
         }
-        output.push(0x80 | (part - 3) as u8);
-        output.extend_from_slice(&((distance - 1) as u16).to_le_bytes());
+        let token = 0x8000_0000 | (((part - 3) as u32) << 24) | (((distance - 1) as u32) << 8);
+        output.extend_from_slice(&token.to_le_bytes());
         length -= part;
     }
 }
 
-fn lz_decode(tokens: &[u8], output_len: usize) -> Result<Vec<u8>, CodecError> {
+fn lz_decode(
+    stream: &[u8],
+    token_count: usize,
+    literal_len: usize,
+    output_len: usize,
+) -> Result<Vec<u8>, CodecError> {
+    let token_bytes = token_count
+        .checked_mul(TOKEN_BYTES)
+        .ok_or(CodecError::LengthOverflow)?;
+    if token_bytes.checked_add(literal_len) != Some(stream.len()) {
+        return Err(CodecError::InvalidFormat(
+            "invalid fixed-width RNBW token stream",
+        ));
+    }
+    let mut output = Vec::with_capacity(output_len);
+    let mut literal_cursor = token_bytes;
+    for token_index in 0..token_count {
+        let at = token_index * TOKEN_BYTES;
+        let token =
+            u32::from_le_bytes([stream[at], stream[at + 1], stream[at + 2], stream[at + 3]]);
+        let length = ((token >> 24) & 0x7f) as usize;
+        if token & 0x8000_0000 == 0 {
+            let length = length + 1;
+            let end = literal_cursor
+                .checked_add(length)
+                .ok_or(CodecError::LengthOverflow)?;
+            if token & 0x00ff_ffff != 0
+                || end > stream.len()
+                || output
+                    .len()
+                    .checked_add(length)
+                    .is_none_or(|n| n > output_len)
+            {
+                return Err(CodecError::InvalidFormat("invalid RNBW literal token"));
+            }
+            output.extend_from_slice(&stream[literal_cursor..end]);
+            literal_cursor = end;
+        } else {
+            let length = length + 3;
+            let distance = (((token >> 8) & 0xffff) as usize) + 1;
+            if token & 0xff != 0
+                || distance > output.len()
+                || output
+                    .len()
+                    .checked_add(length)
+                    .is_none_or(|n| n > output_len)
+            {
+                return Err(CodecError::InvalidFormat("invalid RNBW match token"));
+            }
+            let start = output.len();
+            let mut copied = distance.min(length);
+            output.extend_from_within(start - distance..start - distance + copied);
+            while copied < length {
+                let amount = copied.min(length - copied);
+                output.extend_from_within(start..start + amount);
+                copied += amount;
+            }
+        }
+    }
+    if literal_cursor != stream.len() || output.len() != output_len {
+        return Err(CodecError::InvalidFormat(
+            "RNBW fixed token output length mismatch",
+        ));
+    }
+    Ok(output)
+}
+
+fn lz_decode_legacy(tokens: &[u8], output_len: usize) -> Result<Vec<u8>, CodecError> {
     let mut output = Vec::with_capacity(output_len);
     let mut cursor = 0usize;
     while cursor < tokens.len() {
@@ -945,6 +1456,48 @@ mod tests {
             parsed.decode_lanes().unwrap(),
             encoded.decode_lanes().unwrap()
         );
+        let descriptors = parse_image(encoded.as_bytes()).unwrap();
+        assert!(descriptors.iter().any(|lane| lane.mode == MODE_LZ_ENTROPY));
+        assert!(descriptors.iter().any(|lane| lane.mode == MODE_RAW));
+        assert!(
+            descriptors
+                .iter()
+                .filter(|lane| lane.mode == MODE_LZ_ENTROPY)
+                .all(|lane| matches!(lane.entropy_method, METHOD_RANS | METHOD_HUFFMAN))
+        );
+    }
+
+    #[test]
+    fn fixed_width_lane_tokens_roundtrip_overlap_and_reject_bad_fields() {
+        let mut stream = Vec::new();
+        stream.extend_from_slice(&0x0200_0000u32.to_le_bytes()); // 3 literals
+        stream.extend_from_slice(&0x8000_0200u32.to_le_bytes()); // length 3, distance 3
+        stream.extend_from_slice(b"abc");
+        assert_eq!(lz_decode(&stream, 2, 3, 6).unwrap(), b"abcabc");
+
+        let mut invalid_literal = Vec::new();
+        invalid_literal.extend_from_slice(&0x0200_0001u32.to_le_bytes());
+        invalid_literal.extend_from_slice(b"abc");
+        assert!(lz_decode(&invalid_literal, 1, 3, 3).is_err());
+
+        let mut invalid_match = Vec::new();
+        invalid_match.extend_from_slice(&0x8000_0100u32.to_le_bytes());
+        assert!(lz_decode(&invalid_match, 1, 0, 3).is_err());
+    }
+
+    #[test]
+    fn encoded_lane_uses_version_two_fixed_width_token_records() {
+        let input: Vec<u8> = (0..32_768).map(|index| (index % 61) as u8).collect();
+        let encoded = LaneLz::encode_interleaved(&input, 1).unwrap();
+        assert_eq!(read_u16(encoded.as_bytes(), 4).unwrap(), VERSION);
+        let descriptor = parse_image(encoded.as_bytes()).unwrap()[0];
+        assert_eq!(descriptor.mode, MODE_LZ_ENTROPY);
+        assert!(descriptor.token_count > 0);
+        assert_eq!(
+            descriptor.token_len,
+            descriptor.token_count * TOKEN_BYTES + descriptor.literal_len
+        );
+        assert_eq!(encoded.decode_lanes().unwrap()[0], input);
     }
 
     #[test]
@@ -972,6 +1525,28 @@ mod tests {
     }
 
     #[test]
+    fn single_raw_lane_decode_borrows_the_image_payload() {
+        let mut bytes = Vec::with_capacity(32_768);
+        let mut state = 0x9e37_79b9_7f4a_7c15u64;
+        for _ in 0..32_768 {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            bytes.push(state as u8);
+        }
+        let encoded = LaneLz::encode_interleaved(&bytes, 1).unwrap();
+        let decoded = encoded.decode_interleaved_cow().unwrap();
+        assert!(matches!(decoded, Cow::Borrowed(_)));
+        assert_eq!(decoded.as_ref(), bytes);
+        assert!(
+            encoded
+                .as_bytes()
+                .windows(decoded.len())
+                .any(|window| window.as_ptr() == decoded.as_ptr())
+        );
+    }
+
+    #[test]
     fn reusable_split_buffers_support_changing_lane_widths() {
         let mut encoder = LaneLzEncoder::default();
         let rgba: Vec<u8> = (0..4096).map(|value| value as u8).collect();
@@ -982,6 +1557,20 @@ mod tests {
         assert_eq!(second.decode_interleaved().unwrap(), rg);
         let third = encoder.encode_interleaved_parallel(&rgba, 4).unwrap();
         assert_eq!(third.decode_interleaved().unwrap(), rgba);
+    }
+
+    #[test]
+    fn four_lane_avx2_split_matches_scalar_for_all_vector_tails() {
+        for records in 0..=65 {
+            let input = (0..records * 4)
+                .map(|index| (index as u8).wrapping_mul(37).wrapping_add(11))
+                .collect::<Vec<_>>();
+            let mut expected = std::array::from_fn::<_, 4, _>(|_| Vec::new());
+            let mut actual = std::array::from_fn::<_, 4, _>(|_| Vec::new());
+            split_four_scalar(&input, &mut expected, records);
+            split_four_dispatch(&input, &mut actual, records);
+            assert_eq!(actual, expected, "record count {records}");
+        }
     }
 
     #[test]
@@ -1005,5 +1594,71 @@ mod tests {
             one_shot.as_bytes()
         );
         assert_eq!(one_shot.decode_lanes().unwrap(), lanes);
+    }
+
+    #[test]
+    fn single_lane_parallel_blocks_roundtrip_across_boundaries_without_density_loss() {
+        let mut serial = LaneLzEncoder::default();
+        let mut parallel = LaneLzEncoder::default();
+        for length in [65_537usize, 131_072, 262_147, 786_433] {
+            let input = (0..length)
+                .map(|index| ((index / 7 + index / 113) % 251) as u8)
+                .collect::<Vec<_>>();
+            let expected = serial.encode(&[&input]).unwrap();
+            let actual = parallel.encode_parallel(&[&input]).unwrap();
+            assert_eq!(actual.decode_lanes().unwrap()[0], input, "length={length}");
+            assert!(
+                actual.as_bytes().len() <= expected.as_bytes().len() + length / 100,
+                "parallel block overhead exceeded 1% at {length}: serial={}, parallel={}",
+                expected.as_bytes().len(),
+                actual.as_bytes().len()
+            );
+            assert_eq!(
+                parallel.encode_parallel(&[&input]).unwrap().as_bytes(),
+                actual.as_bytes(),
+                "parallel output must be deterministic at {length}"
+            );
+        }
+    }
+
+    #[test]
+    fn entropy_sample_skips_random_bytes_but_not_uniform_periodic_sequences() {
+        let mut state = 0x9e37_79b9_7f4a_7c15u64;
+        let random = (0..32_768)
+            .map(|_| {
+                state ^= state << 13;
+                state ^= state >> 7;
+                state ^= state << 17;
+                state as u8
+            })
+            .collect::<Vec<_>>();
+        let periodic = (0..32_768).map(|index| index as u8).collect::<Vec<_>>();
+        assert!(should_skip_lz_sample(&random));
+        assert!(!should_skip_lz_sample(&periodic));
+
+        let encoded = LaneLz::encode(&[&random]).unwrap();
+        let descriptor = parse_image(encoded.as_bytes()).unwrap()[0];
+        assert_eq!(descriptor.mode, MODE_RAW);
+        assert_eq!(encoded.decode_lanes().unwrap()[0], random);
+
+        let mut mixed = (0..1_048_576)
+            .map(|_| {
+                state ^= state << 13;
+                state ^= state >> 7;
+                state ^= state << 17;
+                state as u8
+            })
+            .collect::<Vec<_>>();
+        for (index, byte) in mixed[400_000..650_000].iter_mut().enumerate() {
+            *byte = index as u8;
+        }
+        assert!(!should_skip_lz_sample(&mixed));
+        let encoded = LaneLz::encode(&[&mixed]).unwrap();
+        assert_eq!(
+            parse_image(encoded.as_bytes()).unwrap()[0].mode,
+            MODE_LZ_ENTROPY
+        );
+        assert!(encoded.as_bytes().len() < mixed.len());
+        assert_eq!(encoded.decode_lanes().unwrap()[0], mixed);
     }
 }

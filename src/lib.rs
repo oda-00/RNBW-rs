@@ -11,8 +11,11 @@ use std::sync::OnceLock;
 
 pub mod lane_lz;
 mod rans;
+pub mod store;
 pub mod trnmap;
 
+#[cfg(feature = "wgpu")]
+pub use lane_lz::gpu::{LaneLzGpu, LaneLzRestarted};
 pub use lane_lz::{LaneLz, LaneLzEncoder};
 pub use trnmap::{TriWord, TrnMap, TrnMapError};
 
@@ -31,6 +34,7 @@ pub enum CodecError {
     Truncated,
     InvalidFormat(&'static str),
     LengthOverflow,
+    Gpu(String),
 }
 
 impl fmt::Display for CodecError {
@@ -45,6 +49,7 @@ impl fmt::Display for CodecError {
             Self::Truncated => f.write_str("truncated RNBW byte stream"),
             Self::InvalidFormat(reason) => write!(f, "invalid RNBW byte stream: {reason}"),
             Self::LengthOverflow => f.write_str("RNBW stream exceeds the 32-bit format limits"),
+            Self::Gpu(reason) => write!(f, "RNBW GPU operation failed: {reason}"),
         }
     }
 }
@@ -61,6 +66,14 @@ pub struct Rnbw {
 #[derive(Debug, Clone, Copy)]
 pub struct RnbwView<'a> {
     image: &'a [u8],
+}
+
+impl<'a> RnbwView<'a> {
+    /// Internal view for bytes validated when their owning store record was built.
+    #[inline]
+    pub(crate) fn from_validated_bytes(image: &'a [u8]) -> Self {
+        Self { image }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Default)]
@@ -978,23 +991,32 @@ fn prefix_mask(width: usize, depth: usize) -> u32 {
 }
 
 fn contains_image(image: &[u8], value: u32) -> bool {
+    match image[8] {
+        20 => contains_image_width::<20>(image, value),
+        32 => contains_image_width::<32>(image, value),
+        _ => contains_image_width::<0>(image, value),
+    }
+}
+
+#[inline]
+fn contains_image_width<const FIXED_WIDTH: u8>(image: &[u8], value: u32) -> bool {
     let key_count = read_u64_unchecked(image, 12) as usize;
     if key_count == 0 {
         return false;
     }
-    let width = image[8] as usize;
+    let width = if FIXED_WIDTH == 0 {
+        image[8] as usize
+    } else {
+        FIXED_WIDTH as usize
+    };
     if width < 32 && value >= (1u32 << width) {
         return false;
     }
     let depth = image[9] as usize;
     let complete = image[10] as usize;
     let leaves = read_u32_unchecked(image, 20) as usize;
-    let mut node = 0usize;
-    let mut level = 0usize;
-    while level < complete {
-        node = prefix_at_depth(value, width as u8, level + 1) as usize;
-        level += 1;
-    }
+    let mut node = prefix_at_depth(value, width as u8, complete) as usize;
+    let mut level = complete;
     while level < depth {
         let mask = mask_at(image, level, node);
         let digit = ((value >> (width - (level + 1) * 2)) & 3) as u8;
@@ -1296,6 +1318,7 @@ fn read_u64_unchecked(bytes: &[u8], at: usize) -> u64 {
 }
 
 type ScanKernel = unsafe fn(&[u8], usize, u32) -> bool;
+type MatchLenKernel = unsafe fn(&[u8], usize, usize) -> usize;
 
 #[derive(Clone, Copy)]
 struct Dispatch {
@@ -1303,12 +1326,29 @@ struct Dispatch {
     u8: Option<ScanKernel>,
     u16: Option<ScanKernel>,
     u32: Option<ScanKernel>,
+    match_len: MatchLenKernel,
 }
 
 static DISPATCH: OnceLock<Dispatch> = OnceLock::new();
 
 fn dispatch() -> &'static Dispatch {
     DISPATCH.get_or_init(detect_dispatch)
+}
+
+#[inline]
+pub(crate) fn scan_u16_candidates(values: &[u16], needle: u16) -> bool {
+    let bytes =
+        unsafe { std::slice::from_raw_parts(values.as_ptr().cast::<u8>(), values.len() * 2) };
+    match dispatch().u16 {
+        Some(kernel) => unsafe { kernel(bytes, values.len(), needle as u32) },
+        None => values.contains(&needle),
+    }
+}
+
+#[inline]
+pub(crate) fn extend_match(input: &[u8], candidate: usize, position: usize) -> usize {
+    debug_assert!(candidate < position);
+    unsafe { (dispatch().match_len)(input, candidate, position) }
 }
 
 fn detect_dispatch() -> Dispatch {
@@ -1320,6 +1360,7 @@ fn detect_dispatch() -> Dispatch {
                 u8: Some(x86_avx512::scan_u8),
                 u16: Some(x86_avx512::scan_u16),
                 u32: Some(x86_avx512::scan_u32),
+                match_len: x86_avx512::match_len,
             };
         }
         if std::is_x86_feature_detected!("avx2") {
@@ -1328,6 +1369,7 @@ fn detect_dispatch() -> Dispatch {
                 u8: Some(x86_avx2::scan_u8),
                 u16: Some(x86_avx2::scan_u16),
                 u32: Some(x86_avx2::scan_u32),
+                match_len: x86_avx2::match_len,
             };
         }
         if std::is_x86_feature_detected!("sse2") {
@@ -1336,6 +1378,7 @@ fn detect_dispatch() -> Dispatch {
                 u8: Some(x86_sse2::scan_u8),
                 u16: Some(x86_sse2::scan_u16),
                 u32: Some(x86_sse2::scan_u32),
+                match_len: x86_sse2::match_len,
             };
         }
     }
@@ -1346,6 +1389,7 @@ fn detect_dispatch() -> Dispatch {
             u8: Some(aarch64_neon::scan_u8),
             u16: Some(aarch64_neon::scan_u16),
             u32: Some(aarch64_neon::scan_u32),
+            match_len: aarch64_neon::match_len,
         };
     }
     Dispatch {
@@ -1353,12 +1397,57 @@ fn detect_dispatch() -> Dispatch {
         u8: None,
         u16: None,
         u32: None,
+        match_len: scalar_match_len,
     }
+}
+
+fn scalar_match_len(input: &[u8], candidate: usize, position: usize) -> usize {
+    let mut length = 0usize;
+    while position + length < input.len() && input[candidate + length] == input[position + length] {
+        length += 1;
+    }
+    length
 }
 
 #[cfg(target_arch = "x86_64")]
 mod x86_avx512 {
     use std::arch::x86_64::*;
+
+    #[target_feature(enable = "avx512f,avx512bw")]
+    pub unsafe fn match_len(bytes: &[u8], candidate: usize, position: usize) -> usize {
+        let limit = bytes.len() - position;
+        let mut length = 0usize;
+        while length + 64 <= limit {
+            let a = unsafe { _mm512_loadu_si512(bytes.as_ptr().add(candidate + length).cast()) };
+            let b = unsafe { _mm512_loadu_si512(bytes.as_ptr().add(position + length).cast()) };
+            let different = !_mm512_cmpeq_epi8_mask(a, b);
+            if different != 0 {
+                return length + different.trailing_zeros() as usize;
+            }
+            length += 64;
+        }
+        let remaining = limit - length;
+        if remaining != 0 && limit >= 64 {
+            let start = limit - 64;
+            let a = unsafe { _mm512_loadu_si512(bytes.as_ptr().add(candidate + start).cast()) };
+            let b = unsafe { _mm512_loadu_si512(bytes.as_ptr().add(position + start).cast()) };
+            let different = !_mm512_cmpeq_epi8_mask(a, b);
+            let valid = u64::MAX << (64 - remaining);
+            let different = different & valid;
+            if different != 0 {
+                return start + different.trailing_zeros() as usize;
+            }
+        } else if remaining != 0 {
+            let mut tail = 0usize;
+            while tail < remaining
+                && bytes[candidate + length + tail] == bytes[position + length + tail]
+            {
+                tail += 1;
+            }
+            return length + tail;
+        }
+        limit
+    }
 
     #[target_feature(enable = "avx512f,avx512bw")]
     pub unsafe fn scan_u8(bytes: &[u8], count: usize, target: u32) -> bool {
@@ -1422,6 +1511,43 @@ mod x86_avx2 {
     use std::arch::x86_64::*;
 
     #[target_feature(enable = "avx2")]
+    pub unsafe fn match_len(bytes: &[u8], candidate: usize, position: usize) -> usize {
+        let limit = bytes.len() - position;
+        let mut length = 0usize;
+        while length + 32 <= limit {
+            let a = unsafe { _mm256_loadu_si256(bytes.as_ptr().add(candidate + length).cast()) };
+            let b = unsafe { _mm256_loadu_si256(bytes.as_ptr().add(position + length).cast()) };
+            let equal = _mm256_movemask_epi8(_mm256_cmpeq_epi8(a, b)) as u32;
+            let different = !equal;
+            if different != 0 {
+                return length + different.trailing_zeros() as usize;
+            }
+            length += 32;
+        }
+        let remaining = limit - length;
+        if remaining != 0 && limit >= 32 {
+            let start = limit - 32;
+            let a = unsafe { _mm256_loadu_si256(bytes.as_ptr().add(candidate + start).cast()) };
+            let b = unsafe { _mm256_loadu_si256(bytes.as_ptr().add(position + start).cast()) };
+            let equal = _mm256_movemask_epi8(_mm256_cmpeq_epi8(a, b)) as u32;
+            let valid = u32::MAX << (32 - remaining);
+            let different = !equal & valid;
+            if different != 0 {
+                return start + different.trailing_zeros() as usize;
+            }
+        } else if remaining != 0 {
+            let mut tail = 0usize;
+            while tail < remaining
+                && bytes[candidate + length + tail] == bytes[position + length + tail]
+            {
+                tail += 1;
+            }
+            return length + tail;
+        }
+        limit
+    }
+
+    #[target_feature(enable = "avx2")]
     pub unsafe fn scan_u8(bytes: &[u8], count: usize, target: u32) -> bool {
         let needle = _mm256_set1_epi8(target as i8);
         let mut index = 0usize;
@@ -1483,6 +1609,43 @@ mod x86_sse2 {
     use std::arch::x86_64::*;
 
     #[target_feature(enable = "sse2")]
+    pub unsafe fn match_len(bytes: &[u8], candidate: usize, position: usize) -> usize {
+        let limit = bytes.len() - position;
+        let mut length = 0usize;
+        while length + 16 <= limit {
+            let a = unsafe { _mm_loadu_si128(bytes.as_ptr().add(candidate + length).cast()) };
+            let b = unsafe { _mm_loadu_si128(bytes.as_ptr().add(position + length).cast()) };
+            let equal = _mm_movemask_epi8(_mm_cmpeq_epi8(a, b)) as u32;
+            let different = !equal & 0xffff;
+            if different != 0 {
+                return length + different.trailing_zeros() as usize;
+            }
+            length += 16;
+        }
+        let remaining = limit - length;
+        if remaining != 0 && limit >= 16 {
+            let start = limit - 16;
+            let a = unsafe { _mm_loadu_si128(bytes.as_ptr().add(candidate + start).cast()) };
+            let b = unsafe { _mm_loadu_si128(bytes.as_ptr().add(position + start).cast()) };
+            let equal = _mm_movemask_epi8(_mm_cmpeq_epi8(a, b)) as u32;
+            let valid = 0xffffu32 << (16 - remaining);
+            let different = !equal & valid;
+            if different != 0 {
+                return start + different.trailing_zeros() as usize;
+            }
+        } else if remaining != 0 {
+            let mut tail = 0usize;
+            while tail < remaining
+                && bytes[candidate + length + tail] == bytes[position + length + tail]
+            {
+                tail += 1;
+            }
+            return length + tail;
+        }
+        limit
+    }
+
+    #[target_feature(enable = "sse2")]
     pub unsafe fn scan_u8(bytes: &[u8], count: usize, target: u32) -> bool {
         let needle = _mm_set1_epi8(target as i8);
         let mut index = 0usize;
@@ -1542,6 +1705,30 @@ mod x86_sse2 {
 #[cfg(all(target_arch = "aarch64", target_endian = "little"))]
 mod aarch64_neon {
     use std::arch::aarch64::*;
+
+    #[target_feature(enable = "neon")]
+    pub unsafe fn match_len(bytes: &[u8], candidate: usize, position: usize) -> usize {
+        let limit = bytes.len() - position;
+        let mut length = 0usize;
+        while length + 16 <= limit {
+            let a = unsafe { vld1q_u8(bytes.as_ptr().add(candidate + length)) };
+            let b = unsafe { vld1q_u8(bytes.as_ptr().add(position + length)) };
+            let equal = vceqq_u8(a, b);
+            let mut lanes = [0u8; 16];
+            unsafe { vst1q_u8(lanes.as_mut_ptr(), equal) };
+            if let Some(index) = lanes.iter().position(|&lane| lane == 0) {
+                return length + index;
+            }
+            length += 16;
+        }
+        let mut tail = 0usize;
+        while length + tail < limit
+            && bytes[candidate + length + tail] == bytes[position + length + tail]
+        {
+            tail += 1;
+        }
+        length + tail
+    }
 
     pub unsafe fn scan_u8(bytes: &[u8], count: usize, target: u32) -> bool {
         let needle = vdupq_n_u8(target as u8);
@@ -2000,6 +2187,48 @@ mod tests {
             for target in [decode(0), decode(count / 2), decode(count - 1), miss] {
                 let scalar = (0..count).any(|index| decode(index) == target);
                 assert_eq!(unsafe { kernel(&bytes, count, target) }, scalar);
+            }
+        }
+    }
+
+    #[test]
+    fn selected_match_length_kernel_matches_scalar_for_vector_tails() {
+        let mut seed = 0x243f_6a88_85a3_08d3u64;
+        for len in 2..=513 {
+            let mut bytes = vec![0u8; len];
+            for byte in &mut bytes {
+                seed ^= seed << 13;
+                seed ^= seed >> 7;
+                seed ^= seed << 17;
+                *byte = (seed >> 24) as u8;
+            }
+
+            // Exercise short tails, exact SIMD-width endings, long matches,
+            // and mismatches at each possible vector boundary.
+            for position in 1..len {
+                let candidate = position - 1;
+                let expected = scalar_match_len(&bytes, candidate, position);
+                assert_eq!(
+                    extend_match(&bytes, candidate, position),
+                    expected,
+                    "len={len}, candidate={candidate}, position={position}"
+                );
+            }
+
+            if len > 64 {
+                for distance in [1usize, 2, 3, 7, 15, 16, 31, 32, 63, 64] {
+                    if distance >= len {
+                        continue;
+                    }
+                    let position = distance;
+                    let candidate = 0;
+                    let expected = scalar_match_len(&bytes, candidate, position);
+                    assert_eq!(
+                        extend_match(&bytes, candidate, position),
+                        expected,
+                        "periodic len={len}, distance={distance}"
+                    );
+                }
             }
         }
     }
