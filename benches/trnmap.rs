@@ -242,7 +242,7 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             searches.bench_function("hierarchical-positive-unroll4", |b| {
                 b.iter(|| {
                     let mut sums = [0usize; 4];
-                    for starts in black_box(&indices).chunks_exact(4) {
+                    for starts in black_box(&indices).as_chunks::<4>().0 {
                         for lane in 0..4 {
                             sums[lane] =
                                 sums[lane].wrapping_add(map.find(CLASS_POSITIVE, starts[lane]));
@@ -254,7 +254,7 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             searches.bench_function("hierarchical-positive-unroll4-explicit", |b| {
                 b.iter(|| {
                     let mut sums = [0usize; 4];
-                    for starts in black_box(&indices).chunks_exact(4) {
+                    for starts in black_box(&indices).as_chunks::<4>().0 {
                         sums[0] = sums[0].wrapping_add(map.find(CLASS_POSITIVE, starts[0]));
                         sums[1] = sums[1].wrapping_add(map.find(CLASS_POSITIVE, starts[1]));
                         sums[2] = sums[2].wrapping_add(map.find(CLASS_POSITIVE, starts[2]));
@@ -266,7 +266,7 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             searches.bench_function("hierarchical-positive-unroll8-explicit", |b| {
                 b.iter(|| {
                     let mut sums = [0usize; 8];
-                    for starts in black_box(&indices).chunks_exact(8) {
+                    for starts in black_box(&indices).as_chunks::<8>().0 {
                         sums[0] = sums[0].wrapping_add(map.find(CLASS_POSITIVE, starts[0]));
                         sums[1] = sums[1].wrapping_add(map.find(CLASS_POSITIVE, starts[1]));
                         sums[2] = sums[2].wrapping_add(map.find(CLASS_POSITIVE, starts[2]));
@@ -282,7 +282,7 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             searches.bench_function("hierarchical-positive-unroll16-explicit", |b| {
                 b.iter(|| {
                     let mut sums = [0usize; 16];
-                    for starts in black_box(&indices).chunks_exact(16) {
+                    for starts in black_box(&indices).as_chunks::<16>().0 {
                         sums[0] = sums[0].wrapping_add(map.find(CLASS_POSITIVE, starts[0]));
                         sums[1] = sums[1].wrapping_add(map.find(CLASS_POSITIVE, starts[1]));
                         sums[2] = sums[2].wrapping_add(map.find(CLASS_POSITIVE, starts[2]));
@@ -306,7 +306,7 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             searches.bench_function("hierarchical-positive-unchecked-unroll16", |b| {
                 b.iter(|| {
                     let mut sums = [0usize; 16];
-                    for starts in black_box(&indices).chunks_exact(16) {
+                    for starts in black_box(&indices).as_chunks::<16>().0 {
                         // SAFETY: random_starts returns every start in `0..len`.
                         sums[0] = sums[0]
                             .wrapping_add(unsafe { map.find_unchecked(CLASS_POSITIVE, starts[0]) });
@@ -353,7 +353,7 @@ fn trnmap_benchmarks(c: &mut Criterion) {
             searches.bench_function("hierarchical-positive-unroll8", |b| {
                 b.iter(|| {
                     let mut sums = [0usize; 8];
-                    for starts in black_box(&indices).chunks_exact(8) {
+                    for starts in black_box(&indices).as_chunks::<8>().0 {
                         for lane in 0..8 {
                             sums[lane] =
                                 sums[lane].wrapping_add(map.find(CLASS_POSITIVE, starts[lane]));
